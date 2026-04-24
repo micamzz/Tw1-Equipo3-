@@ -25,5 +25,3 @@ hs_err_pid*
 # Reportes de codigo limpio y cobertura de pruebas
 .calidad-de-codigo/
 
-# Clase de configuración y conector con la base de datos.
-**/HibernateConfig.java
