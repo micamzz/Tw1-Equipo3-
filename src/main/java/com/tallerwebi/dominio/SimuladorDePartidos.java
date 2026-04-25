@@ -27,40 +27,46 @@ public class SimuladorDePartidos {
 
       double multiplicadorSegunMinutosJugados = obtenerMultiplicadorPorRol(jugador.getRolJugador());
 
-      int puntos = 0, rebotes = 0, asistencias = 0;
+      double factorTalento = jugador.getNivelTalento() / 100.0;
+
+      int puntosIniciales = 0, asistenciasIniciales = 0, rebotes = 0;
       int robos = random.nextInt(3);
       int bloqueos = random.nextInt(3);
       int perdidas = random.nextInt(4);
 
       switch (jugador.getPosicionJugador()) {
         case BASE:
-          puntos = random.nextInt(16) + 10;
-          asistencias = random.nextInt(8) + 4;
+          puntosIniciales = random.nextInt(16) + 10;
+          asistenciasIniciales = random.nextInt(8) + 4;
           rebotes = random.nextInt(5);
           break;
         case ALERO:
-          puntos = random.nextInt(21) + 10;
-          asistencias = random.nextInt(4) + 1;
+          puntosIniciales = random.nextInt(21) + 10;
+          asistenciasIniciales = random.nextInt(4) + 1;
           rebotes = random.nextInt(6) + 3;
           break;
         case PIVOT:
-          puntos = random.nextInt(15) + 8;
-          asistencias = random.nextInt(3);
+          puntosIniciales = random.nextInt(15) + 8;
+          asistenciasIniciales = random.nextInt(3);
           rebotes = random.nextInt(9) + 6;
           bloqueos = random.nextInt(4) + 1;
           break;
       }
 
-      puntos = (int) (puntos * multiplicadorSegunMinutosJugados);
+      int puntosFinales =
+          (int) (puntosIniciales * multiplicadorSegunMinutosJugados * factorTalento);
+      int asistenciasFinales =
+          (int) (asistenciasIniciales * multiplicadorSegunMinutosJugados * factorTalento);
       rebotes = (int) (rebotes * multiplicadorSegunMinutosJugados);
-      asistencias = (int) (asistencias * multiplicadorSegunMinutosJugados);
       robos = (int) (robos * multiplicadorSegunMinutosJugados);
       bloqueos = (int) (bloqueos * multiplicadorSegunMinutosJugados);
       perdidas = (int) (perdidas * multiplicadorSegunMinutosJugados);
 
+      puntosFinales += random.nextInt(4); // Factor suerte
+
       EstadisticaDePartidoDelJugador estadisticaPartidoActual =
           new EstadisticaDePartidoDelJugador(
-              numeroFecha, puntos, rebotes, asistencias, robos, bloqueos, perdidas);
+              numeroFecha, puntosFinales, rebotes, asistenciasFinales, robos, bloqueos, perdidas);
 
       jugador.registrarNuevaEstadisticaDePartido(estadisticaPartidoActual);
     }

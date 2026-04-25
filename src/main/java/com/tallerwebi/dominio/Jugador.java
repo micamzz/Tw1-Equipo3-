@@ -9,15 +9,21 @@ public class Jugador {
   private final String apellido;
   private final PosicionJugador posicionJugador;
   private final RolJugador rolJugador;
+  private final int nivelTalento;
 
   private final List<EstadisticaDePartidoDelJugador> estadisticasDePartidoDelJugador;
 
   public Jugador(
-      String nombre, String apellido, PosicionJugador posicionJugador, RolJugador rolJugador) {
+      String nombre,
+      String apellido,
+      PosicionJugador posicionJugador,
+      RolJugador rolJugador,
+      int nivelTalento) {
     this.nombre = nombre;
     this.apellido = apellido;
     this.posicionJugador = posicionJugador;
     this.rolJugador = rolJugador;
+    this.nivelTalento = nivelTalento;
     this.estadisticasDePartidoDelJugador = new ArrayList<>();
   }
 
@@ -49,6 +55,12 @@ public class Jugador {
         - (2 * (perdidasTotales / cantidadPartidosJugados));
   }
 
+  public void registrarNuevaEstadisticaDePartido(EstadisticaDePartidoDelJugador nuevaEstadistica) {
+    if (nuevaEstadistica != null) {
+      this.estadisticasDePartidoDelJugador.add(nuevaEstadistica);
+    }
+  }
+
   public String getNombre() {
     return this.nombre;
   }
@@ -65,13 +77,11 @@ public class Jugador {
     return this.rolJugador;
   }
 
-  public List<EstadisticaDePartidoDelJugador> getEstadisticasDePartidoDelJugador() {
-    return Collections.unmodifiableList(this.estadisticasDePartidoDelJugador);
+  public int getNivelTalento() {
+    return this.nivelTalento;
   }
 
-  public void registrarNuevaEstadisticaDePartido(EstadisticaDePartidoDelJugador nuevaEstadistica) {
-    if (nuevaEstadistica != null) {
-      this.estadisticasDePartidoDelJugador.add(nuevaEstadistica);
-    }
+  public List<EstadisticaDePartidoDelJugador> getEstadisticasDePartidoDelJugador() {
+    return Collections.unmodifiableList(this.estadisticasDePartidoDelJugador);
   }
 }

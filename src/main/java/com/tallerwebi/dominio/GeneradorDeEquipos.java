@@ -2,8 +2,11 @@ package com.tallerwebi.dominio;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class GeneradorDeEquipos {
+
+  private static final Random random = new Random();
 
   private static final String[] NOMBRE_EQUIPOS = {
     "Dragones", "Tiburones", "Halcones", "Lobos", "Titanes", "Cometas",
@@ -18,7 +21,16 @@ public class GeneradorDeEquipos {
     String nombre = nombreCompleto[0];
     String apellido = nombreCompleto[1];
 
-    return new Jugador(nombre, apellido, posicionJugador, rolJugador);
+    int talento = 0;
+    if (rolJugador == RolJugador.TITULAR) {
+      talento = random.nextInt(26) + 75;
+    } else if (rolJugador == RolJugador.SEXTO_HOMBRE) {
+      talento = random.nextInt(15) + 70;
+    } else {
+      talento = random.nextInt(20) + 55;
+    }
+
+    return new Jugador(nombre, apellido, posicionJugador, rolJugador, talento);
   }
 
   public static List<Equipo> crearTodosLosEquipos() {
