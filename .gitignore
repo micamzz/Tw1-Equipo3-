@@ -23,5 +23,5 @@ hs_err_pid*
 .vscode/
 
 # Reportes de codigo limpio y cobertura de pruebas
-# .calidad-de-codigo/
+.calidad-de-codigo/
 
