@@ -26,7 +26,6 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
       .add(Restrictions.eq("email", email))
       .add(Restrictions.eq("password", password))
       .uniqueResult();
-
     /* select *
     From tabla
     where

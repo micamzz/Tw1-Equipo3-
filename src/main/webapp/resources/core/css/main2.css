@@ -1,13 +1,13 @@
 
 * {
-box-sizing: border-box;
-margin:0;
+    box-sizing: border-box;
+    margin:0;
     padding: 0;
 }
 
 body{
     font-family: 'Inter', sans-serif;
-   font-size: 0.8em;
+    font-size: 0.8em;
 }
 
 /*BOTONES MAIN INDEX*/

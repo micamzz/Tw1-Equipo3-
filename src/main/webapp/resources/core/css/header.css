@@ -1,0 +1,28 @@
+a {
+    text-decoration: none;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    height: 60px;
+    background-color: rgb(241, 241, 241);
+}
+
+.logo {
+    color:#FF7A1A;
+    font-weight: 500;
+}
+
+.nav-links{
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    color:#FF7A1A;
+}
+
+.link:hover{
+    border-bottom: 1.5px solid #FF7A1A;
+}
