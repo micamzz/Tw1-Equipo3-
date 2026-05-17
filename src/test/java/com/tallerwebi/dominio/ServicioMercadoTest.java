@@ -15,7 +15,8 @@ public class ServicioMercadoTest {
         RepositorioJugador repositorioMock= mock(RepositorioJugador.class);
 
         Jugador jugador = new Jugador();
-        jugador.setNombre("Stephen Curry");
+        jugador.setNombre("Stephen");
+        jugador.setApellido("Curry");
         when(repositorioMock.buscarJugadores(null,"Curry")).thenReturn(Arrays.asList(jugador));
 
         ServicioMercado servicio = new ServicioMercadoImpl(repositorioMock);
@@ -24,5 +25,52 @@ public class ServicioMercadoTest {
         assertThat(resultado, not(empty()));
         assertThat(resultado.get(0).getNombre(),equalTo("Stephen Curry"));
 
+    }
+    @Test
+    public void queBuscarAleroDeveulvaJugadoresConPosicionAlero(){
+        RepositorioJugador repositorioMock= mock(RepositorioJugador.class);
+        Jugador jugador = new Jugador();
+        jugador.setNombre("LeBron");
+        jugador.setApellido("James");
+        jugador.setPosicion(Posicion.ALERO);
+        when(repositorioMock.buscarJugadores(Posicion.ALERO,null)).thenReturn(Arrays.asList(jugador));
+
+        ServicioMercado servicio = new ServicioMercadoImpl(repositorioMock);
+
+        List<Jugador> resultado = servicio.buscarAlero();
+        assertThat(resultado, not(empty()));
+        assertThat(resultado.get(0).getPosicion(),equalTo(Posicion.ALERO));
+    }
+
+    @Test
+    public void queBuscarPivotDevuelvaJugadoresConPosicionPivot(){
+        RepositorioJugador repositorioMock= mock(RepositorioJugador.class);
+        Jugador jugador = new Jugador();
+        jugador.setNombre("Nikola");
+        jugador.setApellido("Jokic");
+        jugador.setPosicion(Posicion.PIVOT);
+        when(repositorioMock.buscarJugadores(Posicion.PIVOT,null)).thenReturn(Arrays.asList(jugador));
+
+        ServicioMercado servicio = new ServicioMercadoImpl(repositorioMock);
+
+        List<Jugador> resultado = servicio.buscarPivot();
+        assertThat(resultado, not(empty()));
+        assertThat(resultado.get(0).getPosicion(),equalTo(Posicion.PIVOT));
+    }
+
+    @Test
+    public void queBuscarBaseDevuevlaJugadoresConPosicionBase(){
+        RepositorioJugador repositorioMock= mock(RepositorioJugador.class);
+        Jugador jugador = new Jugador();
+        jugador.setNombre("Stephen");
+        jugador.setApellido("Curry");
+        jugador.setPosicion(Posicion.BASE);
+        when(repositorioMock.buscarJugadores(Posicion.BASE,null)).thenReturn(Arrays.asList(jugador));
+
+        ServicioMercado servicio = new ServicioMercadoImpl(repositorioMock);
+
+        List<Jugador> resultado = servicio.buscarBase();
+        assertThat(resultado, not(empty()));
+        assertThat(resultado.get(0).getPosicion(),equalTo(Posicion.BASE));
     }
 }

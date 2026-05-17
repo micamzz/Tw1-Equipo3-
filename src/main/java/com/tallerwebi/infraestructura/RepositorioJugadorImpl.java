@@ -27,7 +27,9 @@ public class RepositorioJugadorImpl implements RepositorioJugador {
         criteria.add(Restrictions.eq("posicion", posicion));
     }
     if(nombre != null && !nombre.isEmpty()){
-        criteria.add(Restrictions.ilike("nombre","%"+ nombre + "%"));
+        criteria.add(Restrictions.or(Restrictions.ilike("nombre","%"+ nombre + "%"),
+                Restrictions.ilike("apellido", "%" + nombre + "%")
+        ));
     }
     return criteria.list();
     }

@@ -10,13 +10,13 @@ public class Jugador {
 
     private String nombre;
     private String apellido;
-    private String email;
     @Column(unique = true, nullable = false)
     private Integer dni;
-
+    private Integer precio;
     @Enumerated(EnumType.STRING)
     private Posicion posicion;
 
+    //Esto dsp lo sacas mica?
     @ManyToOne
     private Equipo equipo;
 
@@ -41,5 +41,13 @@ public class Jugador {
 
     public Posicion getPosicion() {
         return posicion;
+    }
+
+    public Integer getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(Integer precio) {
+        this.precio = precio;
     }
 }
