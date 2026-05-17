@@ -1,0 +1,269 @@
+<!DOCTYPE HTML>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Liga</title>
+
+    <!-- custom style -->
+    <link rel="stylesheet" th:href="@{/css/liga.css}" />
+
+    <!-- Link CSS al Header y Footer-->
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
+
+    <!-- Fuente INTER   -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+
+
+</head>
+
+<body>
+    <!--HEADER -->
+    <div th:replace="layout/header :: header"></div>
+
+    <!--PARTE PRINCIPAL DE LA PAGINA-->
+    <main>
+        <h1> Bienvenido</h1>
+        <div class="container-listas">
+            <section class="seccion-partidos">
+                <h2 class="titulo-seccion">Ultimos partidos</h2>
+                <ul class="partidos-lista">
+                    <li>
+                        <article class="card-partido">
+                            <div class="partido">
+                                <div class="equipo">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Los_Angeles_Lakers_logo.svg/960px-Los_Angeles_Lakers_logo.svg.png"
+                                        alt="Logo del equipo 1" class="logo-equipo">
+                                    <span class="nombre-equipo">Los Angeles Lakers</span>
+                                </div>
+                                <div class="resultado">
+                                    <span class="puntos-equipo1 puntos-ganador">102</span>
+                                    -
+                                    <span class="puntos-equipo2 puntos-perdedor">98</span>
+                                </div>
+                                <div class="equipo">
+                                    <img src="https://upload.wikimedia.org/wikipedia/en/thumb/8/8f/Boston_Celtics.svg/1280px-Boston_Celtics.svg.png?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=thumbnail"
+                                        alt="Logo del equipo 2" class="logo-equipo">
+                                    <span class="nombre-equipo">Boston Celtics</span>
+                                </div>
+                            </div>
+                            <button class="expand-btn">
+                                <svg fill="#eb5e28" class="arrow-img" viewBox="0 0 1024 1024"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                    <g id="SVGRepo_iconCarrier">
+                                        <path
+                                            d="M512.768 616.61l43.647 40.882c25.797 24.163 27.122 64.664 2.959 90.461-.408.436-.821.864-1.238 1.286l-3.646 3.404a64.015 64.015 0 01-15.43 9.88 64.144 64.144 0 01-27.691 5.666 64.144 64.144 0 01-27.439-6.781 63.198 63.198 0 01-2.678-1.428 63.537 63.537 0 01-12.883-9.577L21.767 332.094c-25.797-24.163-27.122-64.664-2.959-90.461s64.664-27.122 90.461-2.959L512.768 616.61l403.815-377.05c26.753-23.1 67.168-20.139 90.268 6.615s20.139 67.168-6.615 90.268l-442.1 412.796z">
+                                        </path>
+                                    </g>
+                                </svg>
+                            </button>
+                        </article>
+                    </li>
+                    <li>
+                        <article class="card-partido">
+                            <div class="partido">
+                                <div class="equipo">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Los_Angeles_Lakers_logo.svg/960px-Los_Angeles_Lakers_logo.svg.png"
+                                        alt="Logo del equipo 1" class="logo-equipo">
+                                    <span class="nombre-equipo">Los Angeles Lakers</span>
+                                </div>
+                                <div class="resultado">
+                                    <span class="puntos-equipo1 puntos-ganador">102</span>
+                                    -
+                                    <span class="puntos-equipo2 puntos-perdedor">98</span>
+                                </div>
+                                <div class="equipo">
+                                    <img src="https://upload.wikimedia.org/wikipedia/en/thumb/8/8f/Boston_Celtics.svg/1280px-Boston_Celtics.svg.png?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=thumbnail"
+                                        alt="Logo del equipo 2" class="logo-equipo">
+                                    <span class="nombre-equipo">Boston Celtics</span>
+                                </div>
+                            </div>
+                            <button class="expand-btn">
+                                <svg fill="#eb5e28" class="arrow-img" viewBox="0 0 1024 1024"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                    <g id="SVGRepo_iconCarrier">
+                                        <path
+                                            d="M512.768 616.61l43.647 40.882c25.797 24.163 27.122 64.664 2.959 90.461-.408.436-.821.864-1.238 1.286l-3.646 3.404a64.015 64.015 0 01-15.43 9.88 64.144 64.144 0 01-27.691 5.666 64.144 64.144 0 01-27.439-6.781 63.198 63.198 0 01-2.678-1.428 63.537 63.537 0 01-12.883-9.577L21.767 332.094c-25.797-24.163-27.122-64.664-2.959-90.461s64.664-27.122 90.461-2.959L512.768 616.61l403.815-377.05c26.753-23.1 67.168-20.139 90.268 6.615s20.139 67.168-6.615 90.268l-442.1 412.796z">
+                                        </path>
+                                    </g>
+                                </svg>
+                            </button>
+                        </article>
+                    </li>
+                    <li>
+                        <article class="card-partido">
+                            <div class="partido">
+                                <div class="equipo">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Los_Angeles_Lakers_logo.svg/960px-Los_Angeles_Lakers_logo.svg.png"
+                                        alt="Logo del equipo 1" class="logo-equipo">
+                                    <span class="nombre-equipo">Los Angeles Lakers</span>
+                                </div>
+                                <div class="resultado">
+                                    <span class="puntos-equipo1 puntos-ganador">102</span>
+                                    -
+                                    <span class="puntos-equipo2 puntos-perdedor">98</span>
+                                </div>
+                                <div class="equipo">
+                                    <img src="https://upload.wikimedia.org/wikipedia/en/thumb/8/8f/Boston_Celtics.svg/1280px-Boston_Celtics.svg.png?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=thumbnail"
+                                        alt="Logo del equipo 2" class="logo-equipo">
+                                    <span class="nombre-equipo">Boston Celtics</span>
+                                </div>
+                            </div>
+                            <button class="expand-btn">
+                                <svg fill="#eb5e28" class="arrow-img" viewBox="0 0 1024 1024"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                    <g id="SVGRepo_iconCarrier">
+                                        <path
+                                            d="M512.768 616.61l43.647 40.882c25.797 24.163 27.122 64.664 2.959 90.461-.408.436-.821.864-1.238 1.286l-3.646 3.404a64.015 64.015 0 01-15.43 9.88 64.144 64.144 0 01-27.691 5.666 64.144 64.144 0 01-27.439-6.781 63.198 63.198 0 01-2.678-1.428 63.537 63.537 0 01-12.883-9.577L21.767 332.094c-25.797-24.163-27.122-64.664-2.959-90.461s64.664-27.122 90.461-2.959L512.768 616.61l403.815-377.05c26.753-23.1 67.168-20.139 90.268 6.615s20.139 67.168-6.615 90.268l-442.1 412.796z">
+                                        </path>
+                                    </g>
+                                </svg>
+                            </button>
+                        </article>
+                    </li>
+                    <li>
+                        <article class="card-partido">
+                            <div class="partido">
+                                <div class="equipo">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Los_Angeles_Lakers_logo.svg/960px-Los_Angeles_Lakers_logo.svg.png"
+                                        alt="Logo del equipo 1" class="logo-equipo">
+                                    <span class="nombre-equipo">Los Angeles Lakers</span>
+                                </div>
+                                <div class="resultado">
+                                    <span class="puntos-equipo1 puntos-ganador">102</span>
+                                    -
+                                    <span class="puntos-equipo2 puntos-perdedor">98</span>
+                                </div>
+                                <div class="equipo">
+                                    <img src="https://upload.wikimedia.org/wikipedia/en/thumb/8/8f/Boston_Celtics.svg/1280px-Boston_Celtics.svg.png?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=thumbnail"
+                                        alt="Logo del equipo 2" class="logo-equipo">
+                                    <span class="nombre-equipo">Boston Celtics</span>
+                                </div>
+                            </div>
+                            <button class="expand-btn">
+                                <svg fill="#eb5e28" class="arrow-img" viewBox="0 0 1024 1024"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                    <g id="SVGRepo_iconCarrier">
+                                        <path
+                                            d="M512.768 616.61l43.647 40.882c25.797 24.163 27.122 64.664 2.959 90.461-.408.436-.821.864-1.238 1.286l-3.646 3.404a64.015 64.015 0 01-15.43 9.88 64.144 64.144 0 01-27.691 5.666 64.144 64.144 0 01-27.439-6.781 63.198 63.198 0 01-2.678-1.428 63.537 63.537 0 01-12.883-9.577L21.767 332.094c-25.797-24.163-27.122-64.664-2.959-90.461s64.664-27.122 90.461-2.959L512.768 616.61l403.815-377.05c26.753-23.1 67.168-20.139 90.268 6.615s20.139 67.168-6.615 90.268l-442.1 412.796z">
+                                        </path>
+                                    </g>
+                                </svg>
+                            </button>
+                        </article>
+                    </li>
+                </ul>
+            </section>
+
+            <section class="seccion-partidos">
+                <h2 class="titulo-seccion">Proximos partidos</h2>
+                <ul class="partidos-lista">
+                    <li>
+                        <div class="partido proximo-partido">
+                            <div class="equipo">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Los_Angeles_Lakers_logo.svg/960px-Los_Angeles_Lakers_logo.svg.png"
+                                    alt="Logo del equipo 1" class="logo-equipo">
+                                <span class="nombre-equipo">Los Angeles Lakers</span>
+                            </div>
+                            <div class="informacion-partido">
+                                <span class="horario">20:30</span>
+                                <span class="fecha">17/07</span>
+                                <span class="lugar">Staples Center, CA</span>
+                            </div>
+                            <div class="equipo">
+                                <img src="https://upload.wikimedia.org/wikipedia/en/thumb/8/8f/Boston_Celtics.svg/1280px-Boston_Celtics.svg.png?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=thumbnail"
+                                    alt="Logo del equipo 2" class="logo-equipo">
+                                <span class="nombre-equipo">Boston Celtics</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="partido proximo-partido">
+                            <div class="equipo">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Los_Angeles_Lakers_logo.svg/960px-Los_Angeles_Lakers_logo.svg.png"
+                                    alt="Logo del equipo 1" class="logo-equipo">
+                                <span class="nombre-equipo">Los Angeles Lakers</span>
+                            </div>
+                            <div class="informacion-partido">
+                                <span class="horario">20:30</span>
+                                <span class="fecha">17/07</span>
+                                <span class="lugar">Staples Center, CA</span>
+                            </div>
+                            <div class="equipo">
+                                <img src="https://upload.wikimedia.org/wikipedia/en/thumb/8/8f/Boston_Celtics.svg/1280px-Boston_Celtics.svg.png?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=thumbnail"
+                                    alt="Logo del equipo 2" class="logo-equipo">
+                                <span class="nombre-equipo">Boston Celtics</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="partido proximo-partido">
+                            <div class="equipo">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Los_Angeles_Lakers_logo.svg/960px-Los_Angeles_Lakers_logo.svg.png"
+                                    alt="Logo del equipo 1" class="logo-equipo">
+                                <span class="nombre-equipo">Los Angeles Lakers</span>
+                            </div>
+                            <div class="informacion-partido">
+                                <span class="horario">20:30</span>
+                                <span class="fecha">17/07</span>
+                                <span class="lugar">Staples Center, CA</span>
+                            </div>
+                            <div class="equipo">
+                                <img src="https://upload.wikimedia.org/wikipedia/en/thumb/8/8f/Boston_Celtics.svg/1280px-Boston_Celtics.svg.png?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=thumbnail"
+                                    alt="Logo del equipo 2" class="logo-equipo">
+                                <span class="nombre-equipo">Boston Celtics</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="partido proximo-partido">
+                            <div class="equipo">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Los_Angeles_Lakers_logo.svg/960px-Los_Angeles_Lakers_logo.svg.png"
+                                    alt="Logo del equipo 1" class="logo-equipo">
+                                <span class="nombre-equipo">Los Angeles Lakers</span>
+                            </div>
+                            <div class="informacion-partido">
+                                <span class="horario">20:30</span>
+                                <span class="fecha">17/07</span>
+                                <span class="lugar">Staples Center, CA</span>
+                            </div>
+                            <div class="equipo">
+                                <img src="https://upload.wikimedia.org/wikipedia/en/thumb/8/8f/Boston_Celtics.svg/1280px-Boston_Celtics.svg.png?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=thumbnail"
+                                    alt="Logo del equipo 2" class="logo-equipo">
+                                <span class="nombre-equipo">Boston Celtics</span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+        </div>
+
+
+
+        <!-- th:href="@{/VISTA}"-->
+
+
+
+
+    </main>
+
+
+    <!--FOOTER-->
+    <div th:replace="layout/footer :: footer"></div>
+
+
+</body>
+
+</html>
