@@ -21,13 +21,13 @@ ol {
 }
 
 body {
-  background-color: var(--color-fondo);
-  color: var(--color-texto);
   font-family: Arial, sans-serif;
-  padding: 0 2rem;
+  padding: 2rem;
 }
 
 main {
+  background-color: var(--color-fondo);
+  color: var(--color-texto);
   padding: 2rem 0;
 }
 
@@ -68,7 +68,6 @@ main {
   display: flex;
   align-items: center;
   gap: 1rem;
-  max-width: fit-content;
   background-color: var(--color-secundario);
 }
 
@@ -106,6 +105,118 @@ main {
   width: 20%;
 }
 
+.detalle-partido {
+  display: grid;
+  grid-template-rows: 0fr;
+  overflow: hidden;
+  opacity: 0;
+  margin-top: 0;
+  transition:
+    grid-template-rows 0.35s ease,
+    opacity 0.35s ease,
+    margin-top 0.35s ease;
+}
+
+.card-partido.is-expanded .detalle-partido {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  margin-top: 0.75rem;
+}
+
+.detalle-partido-contenido {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.detalle-equipo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.container-titulos {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.titulos-estadisticas {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.titulos-estadisticas-visitante {
+  transform: scaleX(-1);
+}
+
+.titulos-estadisticas-visitante > li {
+  transform: scaleX(-1);
+  text-align: center;
+}
+
+.titulos-estadisticas-visitante > li:first-child {
+  text-align: right;
+}
+
+.estadisticas-jugador-visitante {
+  transform: scaleX(-1);
+}
+.estadisticas-jugador-visitante > span {
+  transform: scaleX(-1);
+}
+.estadisticas-jugador-visitante > span:first-child {
+  text-align: right;
+}
+
+.lista-jugadores {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  font-size: small;
+  gap: 0.15rem;
+}
+
+.estadisticas-jugador {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.titulos-estadisticas > li {
+  display: block;
+  text-align: center;
+}
+.titulos-estadisticas > li:first-child {
+  text-align: left;
+}
+.estadisticas-jugador > span {
+  display: block;
+  text-align: center;
+}
+.estadisticas-jugador > span:first-child {
+  text-align: left;
+}
+.estadisticas-jugador > span:last-child {
+  color: var(--color-activo);
+}
+
+.equipo .nombre-equipo,
+.lista-jugadores .estadisticas-jugador span:first-child {
+  display: inline-block;
+  max-width: 160px;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+}
+
 .informacion-partido {
   display: flex;
   flex-direction: column;
@@ -139,4 +250,8 @@ main {
 
 .puntos-perdedor {
   color: rgba(255, 255, 255, 0.7);
+}
+
+.card-partido.is-expanded .arrow-img {
+  transform: rotate(180deg);
 }
