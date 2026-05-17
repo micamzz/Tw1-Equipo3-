@@ -50,4 +50,12 @@ public class Jugador {
     public void setPrecio(Integer precio) {
         this.precio = precio;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

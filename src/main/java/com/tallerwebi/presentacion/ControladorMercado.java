@@ -20,12 +20,28 @@ public class ControladorMercado {
     }
 
     @RequestMapping(path="/mercado", method = RequestMethod.GET)
-    public ModelAndView verMercado(@RequestParam (required=false) Posicion posicion,
+    public ModelAndView verMercado(@RequestParam (required=false) String posicion,
                                    @RequestParam(required = false) String nombre) {
         ModelMap modelo = new ModelMap();
-        modelo.put("jugadores", servicioMercado.obtenerJugadores(posicion,nombre));
+        if(nombre != null && nombre.isEmpty()) {
+            nombre=null;
+        }
+        if(posicion != null && posicion.isEmpty()) {
+            posicion=null;
+        }
+
+        Posicion posicionEnum=null;
+
+        if(posicion!= null){
+            posicionEnum = Posicion.valueOf(posicion);
+        }
+
+        modelo.put("jugadores", servicioMercado.obtenerJugadores(posicionEnum,nombre));
         modelo.put("posicion", posicion);
         modelo.put("nombre", nombre);
         return new ModelAndView("mercado", modelo);
+
     }
+
 }
+
