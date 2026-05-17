@@ -17,13 +17,13 @@ public class ServicioMercadoTest {
         Jugador jugador = new Jugador();
         jugador.setNombre("Stephen");
         jugador.setApellido("Curry");
-        when(repositorioMock.buscarJugadores(null,"Curry")).thenReturn(Arrays.asList(jugador));
+        when(repositorioMock.buscarJugadores(null,"Stephen")).thenReturn(Arrays.asList(jugador));
 
         ServicioMercado servicio = new ServicioMercadoImpl(repositorioMock);
 
-        List<Jugador> resultado = servicio.obtenerJugadores(null, "Curry");
+        List<Jugador> resultado = servicio.obtenerJugadores(null, "Stephen");
         assertThat(resultado, not(empty()));
-        assertThat(resultado.get(0).getNombre(),equalTo("Stephen Curry"));
+        assertThat(resultado.get(0).getNombre(),equalTo("Stephen"));
 
     }
     @Test
