@@ -21,13 +21,13 @@ ol {
 }
 
 body {
-  background-color: var(--color-fondo);
-  color: var(--color-texto);
   font-family: Arial, sans-serif;
   padding: 2rem;
 }
 
 main {
+  background-color: var(--color-fondo);
+  color: var(--color-texto);
   padding: 2rem 0;
 }
 
