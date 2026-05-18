@@ -1,6 +1,5 @@
 package com.tallerwebi.dominio;
 
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
