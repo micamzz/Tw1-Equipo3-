@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <!-- Link CSS al Header y Footer-->
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
+    <link rel="stylesheet" th:href="@{/css/equipo-style.css}">
+
+    <!-- Fuente INTER   -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet"/>
+</head>
+<body>
+<!--HEADER -->
+<div th:replace="layout/header :: header"></div>
+
+<main>
+    <h1> CREAR EQUIPO</h1>
+
+    <form th:action="@{/guardar-nombre-equipo}" th:object="${equipo}" method="POST">
+        <!-- el th:objet debe coincidir con el nombre de la variable
+        del modelMap del controlador.(que es la "llave")-->
+
+        <section class="contenedor-nombre-Equipo">
+            <label for="nombreEquipo"> Nombre del equipo:</label>
+            <input type="text" th:field="*{nombreEquipo}" id="nombreEquipo" placeholder="Nombre de tu equipo" required/>
+        </section>
+
+        <button type="submit" class="boton-equipo">
+            SIGUIENTE
+        </button>
+
+    </form>
+
+    <!--Select para elegir jugador ALERO -->
+
+
+    <!--Select para elegir jugador PIVOT -->
+
+
+</main>
+
+<!--FOOTER-->
+<div th:replace="layout/footer :: footer"></div>
+
+</body>
+</html>
