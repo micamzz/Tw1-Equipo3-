@@ -13,7 +13,8 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ControladorEquipo {
 
-    private final ServicioEquipo servicioEquipo;
+    private ServicioEquipo servicioEquipo;
+  
 
     public ControladorEquipo(ServicioEquipo servicioEquipo) {
         this.servicioEquipo = servicioEquipo;

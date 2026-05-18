@@ -12,6 +12,7 @@ import java.util.List;
 
 @Repository("repositorioJugador")
 public class RepositorioJugadorImpl implements RepositorioJugador {
+
     private SessionFactory sessionFactory;
 
     @Autowired
@@ -21,17 +22,17 @@ public class RepositorioJugadorImpl implements RepositorioJugador {
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<Jugador> buscarJugadores(Posicion posicion, String nombre){
-    org.hibernate.Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Jugador.class);
-    if(posicion != null){
-        criteria.add(Restrictions.eq("posicion", posicion));
-    }
-    if(nombre != null && !nombre.isEmpty()){
-        criteria.add(Restrictions.or(Restrictions.ilike("nombre","%"+ nombre + "%"),
-                Restrictions.ilike("apellido", "%" + nombre + "%")
-        ));
-    }
-    return criteria.list();
+    public List<Jugador> buscarJugadores(Posicion posicion, String nombre) {
+        org.hibernate.Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Jugador.class);
+        if (posicion != null) {
+            criteria.add(Restrictions.eq("posicion", posicion));
+        }
+        if (nombre != null && !nombre.isEmpty()) {
+            criteria.add(Restrictions.or(Restrictions.ilike("nombre", "%" + nombre + "%"),
+                    Restrictions.ilike("apellido", "%" + nombre + "%")
+            ));
+        }
+        return criteria.list();
     }
 
 }
