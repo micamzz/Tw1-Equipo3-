@@ -7,7 +7,6 @@ import javax.persistence.Id;
 
 
 @Entity
-
 public class Equipo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,3 +27,4 @@ public class Equipo {
         this.nombre = nombre;
     }
 }
+
