@@ -1,6 +1,5 @@
 package com.tallerwebi.dominio;
 
-import net.bytebuddy.asm.Advice;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,10 +8,28 @@ import javax.persistence.Id;
 
 
 @Entity
-
 public class Equipo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private String nombre;
+    private Long id;
+    private String nombreEquipo;
+
+    public Long getId() {
+        return id;
+    }
+
+/*   public void setId(Long id) {
+       this.id = id;
+    }
+
+    */
+
+    public String getNombreEquipo() {
+        return nombreEquipo;
+    }
+
+    public void setNombreEquipo(String nombreEquipo) {
+        this.nombreEquipo = nombreEquipo;
+    }
 }
+
