@@ -10,9 +10,9 @@ body{
 }
 
 .navbar-mercado{
-    background-color: #1f2324;
+    background: linear-gradient(192deg, black, transparent);
     padding: 22px 24px;
-    display:flex;
+    display: flex;
     align-items: center;
     gap: 16px;
 
@@ -31,11 +31,6 @@ body{
     margin: 10px auto;
     box-shadow: #41464b 1px 1px 1px;
 }
-.search-icon{
-    font-size: 14px;
-    color: rgba(255, 255, 255, 0.5);
-    padding-left: 18px;
-}
 
 .input-busqueda{
     background: transparent;
@@ -44,6 +39,7 @@ body{
     color: #fff;
     font-size: 14px;
     width: 100%;
+    padding-left: 15px;
 }
 .input-busqueda::placeholder{
     color: #e5dcdc;
@@ -66,16 +62,20 @@ body{
     gap: 12px;
     margin-bottom: 20px;
     padding-bottom: 16px;
-    border-bottom: 1px solid black ;
+    border-bottom: 1px solid #ff7a1a3b;
 }
 .filtro-label{
-    font-size: 13px;
+    font-size: 15px;
     color: #fff;
+    padding-left: 20px;
+    margin-right: 10px;
 }
 .filtro-select{
-    font-size: 13px;
-    padding: 6px 17px;
-    border-radius: 6px;
+    font-size: 15px;
+    padding: 7px 20px;
+    border-radius: 10px;
+    background: #d96715;
+    box-shadow: 0 2px 6px rgb(0 0 0 / 32%);
 }
 .jugadores-grid{
     display:grid;
@@ -84,12 +84,18 @@ body{
     padding: 10px;
 }
 .jugador-card{
-    background: white;
-    border: 1px solid black;
+    background: linear-gradient(146deg, #0c0c0c, #3a4a5e);
     border-radius: 12px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    box-shadow: 0 0 4px rgba(255, 122, 26, 0.6);
+    transition: transform 0.3s ease;
+    gap:10px;
+}
+.jugador-card:hover{
+    transform: scale(1.05);
+    box-shadow: 0 0 16px rgba(255, 122, 26, 0.9);
 }
 .jugador-avatar{
     width: 44px;
@@ -118,8 +124,8 @@ body{
 }
 .jugador-nombre{
     font-size: 14px;
-    font-weight: 500;
-    color: black;
+    font-weight: 600;
+    color: white;
     margin: 0 0 6px;
 }
 .posicion-nombre{
@@ -144,7 +150,7 @@ body{
 }
 .jugador-precio{
     font-size:13px;
-    color:#333;
+    color: #ffffff;
     margin:0 0 12px;
 }
 .btn-fichar{
@@ -152,9 +158,9 @@ body{
     font-size: 12px;
     padding: 7px;
     border-radius: 8px;
-    border: 1px solid #ccc;
+    border: 1px solid #f35936;
     background: transparent;
-    color: #333;
+    color: #ffffff;
     cursor: pointer;
     margin-top: auto;
 }

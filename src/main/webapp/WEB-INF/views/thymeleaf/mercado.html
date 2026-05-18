@@ -19,7 +19,6 @@
         <form class ="form-busqueda" th:action= "@{/mercado}" method="get">
             <input type="hidden" name="posicion" th:value="${posicion}"/>
             <div class="search-wrapper">
-                <span class="search-icon">&#128269</span>
                 <input type="text" name="nombre" th:value="${nombre}" placeholder="Buscar por nombre o apellido..." class="input-busqueda"/>
             </div>
         </form>
