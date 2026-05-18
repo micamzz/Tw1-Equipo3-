@@ -10,21 +10,25 @@ import javax.persistence.Id;
 public class Equipo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private String nombre;
+    private Long id;
+    private String nombreEquipo;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+/*   public void setId(Long id) {
+       this.id = id;
     }
-    public String getNombre() {
-        return nombre;
+
+    */
+
+    public String getNombreEquipo() {
+        return nombreEquipo;
     }
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+
+    public void setNombreEquipo(String nombreEquipo) {
+        this.nombreEquipo = nombreEquipo;
     }
 }
 
