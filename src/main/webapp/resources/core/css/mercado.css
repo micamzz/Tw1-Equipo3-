@@ -5,31 +5,36 @@
 }
 
 body{
-    background-color:#f5f5f5;
+    background-color:#1c1d1f;
     font-family: sans-serif;
 }
 
 .navbar-mercado{
-    background-color: #1a1a2e;
-    padding: 12px 24px;
+    background-color: #1f2324;
+    padding: 22px 24px;
     display:flex;
     align-items: center;
     gap: 16px;
+
 }
 .form-busqueda{
     flex:1;
 }
 .search-wrapper{
+    height: 50px;
     display:flex;
     align-items: center;
-    background: #FF7A1A;
-    border: 1px solid black;
-    border-radius: 8px;
+    background: #454545;
+    border-radius: 15px;
     gap: 8px;
+    max-width: 500px;
+    margin: 10px auto;
+    box-shadow: #41464b 1px 1px 1px;
 }
 .search-icon{
     font-size: 14px;
     color: rgba(255, 255, 255, 0.5);
+    padding-left: 18px;
 }
 
 .input-busqueda{
@@ -41,12 +46,12 @@ body{
     width: 100%;
 }
 .input-busqueda::placeholder{
-    color: white;
+    color: #e5dcdc;
 }
 
-.navbar-brand-text{
-    color:#fff;
-    font-weight: 500;
+.nav-brand-text{
+    color:#FF7A1A;
+    font-weight: 600;
     font-size: 15px;
     white-space: nowrap;
 }
@@ -65,16 +70,18 @@ body{
 }
 .filtro-label{
     font-size: 13px;
-    color: #666
+    color: #fff;
 }
 .filtro-select{
     font-size: 13px;
-    padding: 6px 10px;
+    padding: 6px 17px;
+    border-radius: 6px;
 }
 .jugadores-grid{
     display:grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap:16px
+    gap:10px;
+    padding: 10px;
 }
 .jugador-card{
     background: white;
@@ -82,4 +89,82 @@ body{
     border-radius: 12px;
     display: flex;
     flex-direction: column;
+    align-items: center;
+}
+.jugador-avatar{
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    font-size: 14px;
+    margin-bottom: 10px;
+    margin-top: 15px;
+}
+
+.avatar-base{
+    background: #FF7A1A;
+    color: #0C447C;
+}
+.avatar-alero{
+    background: pink;
+    color: black;
+}
+.avatar-pivot{
+    background: aqua;
+    color: blue;
+}
+.jugador-nombre{
+    font-size: 14px;
+    font-weight: 500;
+    color: black;
+    margin: 0 0 6px;
+}
+.posicion-nombre{
+    display:inline-block;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    width:fit-content;
+}
+.badge-base{
+    background: #FF7A1A;
+    color: white;
+}
+.badge-alero{
+    background: pink;
+    color: black;
+}
+.badge-pivot{
+    background: aqua;
+    color: blue;
+}
+.jugador-precio{
+    font-size:13px;
+    color:#333;
+    margin:0 0 12px;
+}
+.btn-fichar{
+    width: 100%;
+    font-size: 12px;
+    padding: 7px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    background: transparent;
+    color: #333;
+    cursor: pointer;
+    margin-top: auto;
+}
+.btn-fichar:hover{
+    background-color: #1a1a2e;
+    color:#fff;
+    border-color: #1a1a2e;
+}
+.sin-resultados{
+    color:#666;
+    font-size: 14px;
+    padding: 20px 0;
 }
