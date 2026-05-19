@@ -39,10 +39,7 @@
     </div>
     <div class="jugadores-grid">
         <div class="jugador-card" th:each="jugador:${jugadores}">
-            <div class="jugador-avatar" th:classappend="${jugador.posicion.name() == 'BASE' ? 'avatar-base':
-                                                    (jugador.posicion.name() == 'ALERO' ? 'avatar-alero' : 'avatar-pivot')}"
-                 th:text="${#strings.substring(jugador.nombre,0,1) + #strings.substring(jugador.apellido,0,1)}">
-            </div>
+            <img th:src="${jugador.foto}" th:alt="${jugador.nombre + ' ' + jugador.apellido}" class="jugador-avatar"/>
                 <p class="jugador-nombre" th:text="${jugador.nombre + ' ' + jugador.apellido}"> Nombre Apellido</p>
                 <span class="posicion-badge" th:classappend="${jugador.posicion.name() == 'BASE' ? 'badge-base':
                                                         (jugador.posicion.name() == 'ALERO' ? 'badge-alero' : 'badge-pivot')}"
