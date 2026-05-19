@@ -2,6 +2,7 @@ package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.Equipo;
 import com.tallerwebi.dominio.ServicioEquipo;
+import com.tallerwebi.dominio.ServicioMercado;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.servlet.ModelAndView;
@@ -16,6 +17,7 @@ public class ControladorEquipoTest {
 
     private ControladorEquipo controladorEquipo;
     private ServicioEquipo servicioEquipoMock;
+    private ServicioMercado servicioJugadorMock;
     private Equipo equipoMock;
 
 
@@ -23,7 +25,8 @@ public class ControladorEquipoTest {
     @BeforeEach
     public void inicializacion() {
         servicioEquipoMock = mock(ServicioEquipo.class);
-        controladorEquipo = new ControladorEquipo(servicioEquipoMock);
+        servicioJugadorMock = mock(ServicioMercado.class);
+        controladorEquipo = new ControladorEquipo(servicioEquipoMock, servicioJugadorMock);
         equipoMock = mock(Equipo.class);
     }
 

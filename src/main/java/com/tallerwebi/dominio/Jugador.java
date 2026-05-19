@@ -16,9 +16,6 @@ public class Jugador {
     @Enumerated(EnumType.STRING)
     private Posicion posicion;
 
-    //Esto dsp lo sacas mica?
-    @ManyToOne
-    private Equipo equipo;
 
     public String getApellido() {
         return apellido;
@@ -31,6 +28,7 @@ public class Jugador {
     public String getNombre() {
         return nombre;
     }
+
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
