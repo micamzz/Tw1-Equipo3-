@@ -17,9 +17,6 @@ public class Jugador {
     private Posicion posicion;
     private String foto;
 
-    //Esto dsp lo sacas mica?
-    @ManyToOne
-    private Equipo equipo;
 
     public String getApellido() {
         return apellido;
@@ -32,6 +29,7 @@ public class Jugador {
     public String getNombre() {
         return nombre;
     }
+
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }

@@ -2,7 +2,7 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Crear equipo</title>
 
     <!-- Link CSS al Header y Footer-->
     <link rel="stylesheet" th:href="@{/css/header.css}">
@@ -29,22 +29,20 @@
             <input type="text" th:field="*{nombreEquipo}" id="nombreEquipo" placeholder="Nombre de tu equipo" required/>
         </section>
 
-        <button type="submit" class="boton-equipo">
+        <button type="submit" class="boton-equipo" disabled>
             SIGUIENTE
         </button>
 
     </form>
-
-    <!--Select para elegir jugador ALERO -->
-
-
-    <!--Select para elegir jugador PIVOT -->
 
 
 </main>
 
 <!--FOOTER-->
 <div th:replace="layout/footer :: footer"></div>
+
+<!--JAVASCRIPT-->
+<script th:src="@{js/crearEquipo.js}"></script>
 
 </body>
 </html>

@@ -52,7 +52,6 @@ input[type="text"] {
     box-sizing: border-box;
 }
 
-
 /* Botón Siguiente */
 .boton-equipo {
     width: 100%;
@@ -67,4 +66,10 @@ input[type="text"] {
     cursor: pointer;
     text-transform: uppercase;
     letter-spacing: 0.05em;
+}
+
+/* Estilo si el boton no esta disponible,segun validacion de js*/
+.boton-equipo:disabled {
+    background-color: grey;
+    cursor: not-allowed;
 }

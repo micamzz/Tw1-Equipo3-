@@ -12,13 +12,18 @@ import static org.mockito.Mockito.when;
 
 public class ServicioEquipoTest {
 
-    private RepositorioEquipo repositorioEquipoMock;
     private ServicioEquipo servicioEquipo;
+    private RepositorioEquipo repositorioEquipoMock;
+    private RepositorioJugador repositorioJugadorMock;
+    private RepositorioEquipoJugador repositorioEquipoJugadorMock;
+    
 
     @BeforeEach
     public void inicializacion() {
         this.repositorioEquipoMock = mock(RepositorioEquipo.class);
-        this.servicioEquipo = new ServicioEquipoImpl(repositorioEquipoMock);
+        this.repositorioJugadorMock = mock(RepositorioJugador.class);
+        this.repositorioEquipoJugadorMock = mock(RepositorioEquipoJugador.class);
+        this.servicioEquipo = new ServicioEquipoImpl(repositorioEquipoMock, repositorioJugadorMock, repositorioEquipoJugadorMock);
 
     }
 

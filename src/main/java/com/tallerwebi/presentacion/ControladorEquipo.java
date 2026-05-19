@@ -1,7 +1,7 @@
 package com.tallerwebi.presentacion;
 
-import com.tallerwebi.dominio.Equipo;
-import com.tallerwebi.dominio.ServicioEquipo;
+import com.tallerwebi.dominio.*;
+import com.tallerwebi.dominio.excepcion.EquipoSinNombreException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -10,15 +10,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
+
 @Controller
 public class ControladorEquipo {
 
     private ServicioEquipo servicioEquipo;
-  
+    private ServicioMercado servicioJugador;
 
-    public ControladorEquipo(ServicioEquipo servicioEquipo) {
+    public ControladorEquipo(ServicioEquipo servicioEquipo, ServicioMercado servicioJugador) {
         this.servicioEquipo = servicioEquipo;
+        this.servicioJugador = servicioJugador;
     }
+
 
     // Muestra la vista html para crear un equipo
     @RequestMapping("/crear-equipo")
@@ -39,6 +43,9 @@ public class ControladorEquipo {
     @RequestMapping(value = "/guardar-nombre-equipo", method = RequestMethod.POST)
     public ModelAndView guardarNombreEquipo(@ModelAttribute Equipo equipoIngresado) {
 
+        if (equipoIngresado.getNombreEquipo() == null || equipoIngresado.getNombreEquipo().isBlank()) {
+            throw new EquipoSinNombreException("No se puede crear equipo con nombre vacio");
+        }
         // guarda el nombre que se ingreso en el input.
         Equipo equipoGuardado = servicioEquipo.guardarEquipo(equipoIngresado);
 
@@ -61,27 +68,49 @@ public class ControladorEquipo {
         }
         modelo.put("equipo", equipo);
 
+        List<Jugador> jugadoresBase = servicioJugador.buscarBase();
+        List<Jugador> jugadoresAlero = servicioJugador.buscarAlero();
+        List<Jugador> jugadoresPivot = servicioJugador.buscarPivot();
+
+        modelo.put("listadoBases", jugadoresBase);
+        modelo.put("listadoAleros", jugadoresAlero);
+        modelo.put("listadoPivots", jugadoresPivot);
 
         return new ModelAndView("seleccionar-jugadores", modelo);
     }
 
     // Guarda la seleccion de jugadores elegidos.
     @RequestMapping(value = "/guardar-equipo", method = RequestMethod.POST)
-    public ModelAndView guardarEquipoCompleto() {
+    public ModelAndView guardarEquipoCompleto(@RequestParam Long idEquipo,
+                                              @RequestParam Long baseTitular1, @RequestParam Long baseTitular2,
+                                              @RequestParam Long aleroTitular1, @RequestParam Long aleroTitular2,
+                                              @RequestParam Long pivotTitular, @RequestParam(required = false) Long baseSuplente1,
+                                              @RequestParam(required = false) Long baseSuplente2,
+                                              @RequestParam(required = false) Long aleroSuplente1, @RequestParam(required = false) Long aleroSuplente2,
+                                              @RequestParam(required = false) Long pivotSuplente) {
+
+        /*Los RequestParam tienen el false para que no sea obligatorio antes de enviar*/
+
+        servicioEquipo.guardarEquipoCompleto(idEquipo, baseTitular1, baseTitular2, aleroTitular1, aleroTitular2, pivotTitular, baseSuplente1, baseSuplente2, aleroSuplente1, aleroSuplente2, pivotSuplente
+        );
+
+        return new ModelAndView("redirect:/ver-equipo?id=" + idEquipo);
+    }
+
+    @RequestMapping("/ver-equipo")
+    public ModelAndView verEquipo(@RequestParam Long id) {
 
         ModelMap modelo = new ModelMap();
 
-   /* ACA LLAMAR A SERVICIOJUGADOR ?
-        PASAR AL MODELO KEY -LISTA BASES/ALEROS/PIVOTS PARA PODER LLAMARLOS DEL HTML
-        Y MOSTARLOS EN UN SELECT, NECESITO USAR  SERVICIOJUGADOR Q IMPLEMENTA LOS EMTODOS DE FILTRADO
-        dEBE LLAMAR A UN METODO BUSCARBASES(),ETC
-        */
+        Equipo equipo = servicioEquipo.buscarEquipoPorId(id);
 
+        List<EquipoJugador> listadoDeJugadoresAsociadosAlEquipo = servicioEquipo.buscarJugadoresDelEquipo(id);
 
-        // retornar index o ver equipo ?
-        return new ModelAndView("index", modelo);
+        modelo.put("equipo", equipo);
+        modelo.put("jugadoresEquipo", listadoDeJugadoresAsociadosAlEquipo);
+
+        return new ModelAndView("ver-equipo", modelo);
 
     }
-
 
 }
