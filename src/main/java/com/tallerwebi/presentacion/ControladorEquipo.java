@@ -18,7 +18,6 @@ public class ControladorEquipo {
     private ServicioEquipo servicioEquipo;
     private ServicioMercado servicioJugador;
 
-
     public ControladorEquipo(ServicioEquipo servicioEquipo, ServicioMercado servicioJugador) {
         this.servicioEquipo = servicioEquipo;
         this.servicioJugador = servicioJugador;
