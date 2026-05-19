@@ -104,8 +104,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <button class="expand-btn" type="button" aria-expanded="false"
-                                aria-label="Mostrar u ocultar estadísticas del partido">
+                            <button class="expand-btn" type="button">
                                 <svg fill="#eb5e28" class="arrow-img" viewBox="0 0 1024 1024"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -191,8 +190,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <button class="expand-btn" type="button" aria-expanded="false"
-                                aria-label="Mostrar u ocultar estadísticas del partido">
+                            <button class="expand-btn" type="button">
                                 <svg fill="#eb5e28" class="arrow-img" viewBox="0 0 1024 1024"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -278,8 +276,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <button class="expand-btn" type="button" aria-expanded="false"
-                                aria-label="Mostrar u ocultar estadísticas del partido">
+                            <button class="expand-btn" type="button">
                                 <svg fill="#eb5e28" class="arrow-img" viewBox="0 0 1024 1024"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -365,8 +362,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <button class="expand-btn" type="button" aria-expanded="false"
-                                aria-label="Mostrar u ocultar estadísticas del partido">
+                            <button class="expand-btn" type="button">
                                 <svg fill="#eb5e28" class="arrow-img" viewBox="0 0 1024 1024"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -477,11 +473,6 @@
         matchCards.forEach((card) => {
             card.addEventListener('click', () => {
                 const isExpanded = card.classList.toggle('is-expanded');
-                const button = card.querySelector('.expand-btn');
-
-                if (button) {
-                    button.setAttribute('aria-expanded', String(isExpanded));
-                }
             });
         });
     </script>
