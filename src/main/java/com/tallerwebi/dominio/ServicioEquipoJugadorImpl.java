@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.HashMap;
+import java.util.List;
 
 @Service
 @Transactional
@@ -24,10 +25,14 @@ public class ServicioEquipoJugadorImpl implements ServicioEquipoJugador {
 
     @Override
     public HashMap<Integer, Jugador> buscarJugadoresPorEquipoId(Long id) throws EquipoJugadorNoEncontradoException {
-        HashMap <Integer, Jugador> jugadoresPorEquipo = repositorioEquipoJugador.buscarJugadoresPorEquipoId(id);
+        List<EquipoJugador> jugadoresPorEquipo = repositorioEquipoJugador.buscarPorEquipoId(id);
         if (jugadoresPorEquipo == null) {
             throw new EquipoJugadorNoEncontradoException("No se encuentra el equipo");
         }
-        return jugadoresPorEquipo;
+        HashMap<Integer, Jugador> listaJugadores = new HashMap<>();
+            for (EquipoJugador jugador : jugadoresPorEquipo) {
+                listaJugadores.put(jugador.getNumeroOrden(), jugador.getJugador());
+            }
+        return listaJugadores;
     }
 }
