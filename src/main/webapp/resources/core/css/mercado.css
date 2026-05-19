@@ -10,13 +10,16 @@ body{
 }
 
 .navbar-mercado{
-    background: linear-gradient(192deg, black, transparent);
+    background: linear-gradient(167deg, black, transparent), url('https://upload.wikimedia.org/wikipedia/commons/7/7a/Basketball.png') no-repeat left center;
     padding: 22px 24px;
     display: flex;
     align-items: center;
     gap: 16px;
-
+    position: relative;
+    overflow: hidden;
+    background-size: auto, 190px;
 }
+
 .form-busqueda{
     flex:1;
 }
@@ -79,7 +82,7 @@ body{
 .jugadores-grid{
     display:grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 280px));
-    gap:10px;
+    gap:40px;
     padding: 10px;
     justify-content: center;
 }
@@ -105,21 +108,8 @@ body{
     object-position: center 15%;
     margin-bottom: 10px;
 }
-
-.avatar-base{
-    background: #FF7A1A;
-    color: #0C447C;
-}
-.avatar-alero{
-    background: pink;
-    color: black;
-}
-.avatar-pivot{
-    background: aqua;
-    color: blue;
-}
 .jugador-nombre{
-    font-size: 14px;
+    font-size: 20px;
     font-weight: 600;
     color: white;
     margin: 0 0 6px;
@@ -133,16 +123,19 @@ body{
     width:fit-content;
 }
 .badge-base{
-    background: #FF7A1A;
-    color: white;
+    color: #FF7A1A;
+    font-weight: 750;
+    font-size: 13px;
 }
 .badge-alero{
-    background: pink;
-    color: black;
+    color: #4ade80;
+    font-weight: 750;
+    font-size: 13px;
 }
 .badge-pivot{
-    background: aqua;
-    color: blue;
+    color: #60a5fa;
+    font-weight: 750;
+    font-size: 13px;
 }
 .jugador-precio{
     font-size:13px;
@@ -161,12 +154,31 @@ body{
     margin-top: auto;
 }
 .btn-fichar:hover{
-    background-color: #1a1a2e;
+    background-color: rgb(255 122 26 / 0.82);
     color:#fff;
-    border-color: #1a1a2e;
 }
 .sin-resultados{
     color:#666;
     font-size: 14px;
     padding: 20px 0;
+}
+.footer-mercado{
+    border-top:1px solid #ff7a1a3b;
+    margin-top:30px;
+    padding:20px;
+    text-align: center;
+}
+.footer-lista{
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap:8px 24px;
+    margin-bottom: 10px;
+    color: white;
+    font-size: 12px;
+}
+.footer-copy{
+    color:white;
+    font-size: 12px;
 }
