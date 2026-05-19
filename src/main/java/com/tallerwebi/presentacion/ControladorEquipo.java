@@ -1,6 +1,7 @@
 package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.*;
+import com.tallerwebi.dominio.excepcion.EquipoSinNombreException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -43,6 +44,9 @@ public class ControladorEquipo {
     @RequestMapping(value = "/guardar-nombre-equipo", method = RequestMethod.POST)
     public ModelAndView guardarNombreEquipo(@ModelAttribute Equipo equipoIngresado) {
 
+        if (equipoIngresado.getNombreEquipo() == null || equipoIngresado.getNombreEquipo().isBlank()) {
+            throw new EquipoSinNombreException("No se puede crear equipo con nombre vacio");
+        }
         // guarda el nombre que se ingreso en el input.
         Equipo equipoGuardado = servicioEquipo.guardarEquipo(equipoIngresado);
 

@@ -44,8 +44,8 @@
 
             <!-- BASE 1 -->
             <div class="fila-posicion">
-                <label class="etiqueta-posicion">Base</label>
-                <select name="baseTitular1">
+                <label class="etiqueta-posicion" for="baseTitular1">Base</label>
+                <select name="baseTitular1" id="baseTitular1">
                     <option value="">Seleccionar un jugador</option>
                     <!-- Lo que va entre ${} debe coincidir con el nombre
                     de la key del controlador-->
@@ -61,8 +61,8 @@
 
             <!-- BASE 2 -->
             <div class="fila-posicion">
-                <label class="etiqueta-posicion">Base</label>
-                <select name="baseTitular2">
+                <label class="etiqueta-posicion" for="baseTitular2">Base</label>
+                <select name="baseTitular2" id="baseTitular2">
                     <option value="">Seleccionar un jugador</option>
                     <option th:each="jugador : ${listadoBases}"
                             th:value="${jugador.id}"
@@ -75,8 +75,8 @@
 
             <!-- ALERO 1 -->
             <div class="fila-posicion">
-                <label class="etiqueta-posicion">Alero</label>
-                <select name="aleroTitular1">
+                <label class="etiqueta-posicion" for="aleroTitular1">Alero</label>
+                <select name="aleroTitular1" id="aleroTitular1">
                     <option value="">Seleccionar un jugador</option>
                     <option th:each="jugador : ${listadoAleros}"
                             th:value="${jugador.id}"
@@ -89,8 +89,8 @@
 
             <!-- ALERO 2 -->
             <div class="fila-posicion">
-                <label class="etiqueta-posicion">Alero</label>
-                <select name="aleroTitular2">
+                <label class="etiqueta-posicion" for="aleroTitular2">Alero</label>
+                <select name="aleroTitular2" id="aleroTitular2">
                     <option value="">Seleccionar un jugador</option>
                     <option th:each="jugador : ${listadoAleros}"
                             th:value="${jugador.id}"
@@ -101,13 +101,11 @@
                 </select>
             </div>
 
-
             <!-- PIVOT -->
             <div class="fila-posicion">
-                <label class="etiqueta-posicion">Pivot</label>
-                <select name="pivotTitular">
+                <label class="etiqueta-posicion" for="pivotTitular">Pivot</label>
+                <select name="pivotTitular" id="pivotTitular">
                     <option value="">Seleccionar un jugador</option>
-
                     <option th:each="jugador : ${listadoPivots}"
                             th:value="${jugador.id}"
                             th:text="${jugador.nombre} + ' '
@@ -119,7 +117,6 @@
 
         </section>
 
-
         <!-- JUGADORES SUPLENTES -->
         <section class="bloque-suplentes">
             <p class="subtitulo-bloque">Suplentes</p>
@@ -127,8 +124,8 @@
 
                 <!--BASE SUPLENTE 1-->
                 <div class="fila-posicion">
-                    <label class="etiqueta-posicion">Base</label>
-                    <select name="baseSuplente1">
+                    <label class="etiqueta-posicion" for="baseSuplente1">Base</label>
+                    <select name="baseSuplente1" id="baseSuplente1">
                         <option value="">Seleccionar un jugador</option>
                         <option th:each="jugador : ${listadoBases}"
                                 th:value="${jugador.id}"
@@ -141,8 +138,8 @@
 
                 <!--BASE SUPLENTE 2-->
                 <div class="fila-posicion">
-                    <label class="etiqueta-posicion">Base</label>
-                    <select name="baseSuplente2">
+                    <label class="etiqueta-posicion" for="baseSuplente2">Base</label>
+                    <select name="baseSuplente2" id="baseSuplente2">
                         <option value="">Seleccionar un jugador</option>
                         <option th:each="jugador : ${listadoBases}"
                                 th:value="${jugador.id}"
@@ -155,8 +152,8 @@
 
                 <!-- ALERO SUPLENTE 1-->
                 <div class="fila-posicion">
-                    <label class="etiqueta-posicion">Alero</label>
-                    <select name="aleroSuplente1">
+                    <label class="etiqueta-posicion" for="aleroSuplente1">Alero</label>
+                    <select name="aleroSuplente1" id="aleroSuplente1">
                         <option value="">Seleccionar un jugador</option>
                         <option th:each="jugador : ${listadoAleros}"
                                 th:value="${jugador.id}"
@@ -169,8 +166,8 @@
 
                 <!-- ALERO SUPLENTE 2-->
                 <div class="fila-posicion">
-                    <label class="etiqueta-posicion">Alero</label>
-                    <select name="aleroSuplente2">
+                    <label class="etiqueta-posicion" for="aleroSuplente2">Alero</label>
+                    <select name="aleroSuplente2" id="aleroSuplente2">
                         <option value="">Seleccionar un jugador</option>
                         <option th:each="jugador : ${listadoAleros}"
                                 th:value="${jugador.id}"
@@ -183,8 +180,8 @@
 
                 <!-- PIVOT-->
                 <div class="fila-posicion">
-                    <label class="etiqueta-posicion">Pivot</label>
-                    <select name="pivotSuplente">
+                    <label class="etiqueta-posicion" for="pivotSuplente">Pivot</label>
+                    <select name="pivotSuplente" id="pivotSuplente">
                         <option value="">Seleccionar un jugador</option>
 
                         <option th:each="jugador : ${listadoPivots}"
@@ -203,7 +200,6 @@
         <!--BOTON-->
         <button type="submit" class="boton-equipo2"> CREAR EQUIPO</button>
     </form>
-
 </main>
 
 <!--FOOTER-->

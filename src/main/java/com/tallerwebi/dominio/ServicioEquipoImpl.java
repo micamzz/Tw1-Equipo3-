@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -45,7 +46,6 @@ public class ServicioEquipoImpl implements ServicioEquipo {
 
     }
 
-
     @Override
     public Equipo buscarEquipoPorNombre(String nombre) throws EquipoNoEncontradoException {
 
@@ -84,13 +84,18 @@ public class ServicioEquipoImpl implements ServicioEquipo {
         guardarRelacionEntreEquipoYJugador(equipo, pivotSuplente, 10);
     }
 
+    @Override
+    public List<EquipoJugador> buscarJugadoresDelEquipo(Long idEquipo) {
+        return repositorioEquipoJugador.buscarPorEquipoId(idEquipo);
+    }
+
     /* Para crear un objeto de tipo EquipoJugador
      * como se tiene que usar muchas veces en el metodo GuardarEquipoCompleto, se hace el metodo para no repetir tanto codigo
      */
     private void guardarRelacionEntreEquipoYJugador(Equipo equipo, Long idJugador, Integer numeroOrden) {
 
-        /*Si un jugador es null , porq los suplentes pueden venir vacios corta el flujo
-        para evitar que se guarde como null, y continua llamando al siguiente metodo/
+        /*Si un jugador es null, porq los suplentes pueden venir vacios corta el flujo
+        para evitar que se guarde como null, y continuá lamando al siguiente metodo/
          */
         if (idJugador == null) {
             return;
