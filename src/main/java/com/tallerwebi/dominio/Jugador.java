@@ -15,6 +15,7 @@ public class Jugador {
     private Integer precio;
     @Enumerated(EnumType.STRING)
     private Posicion posicion;
+    private String foto;
 
 
     public String getApellido() {
@@ -55,5 +56,13 @@ public class Jugador {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
     }
 }
