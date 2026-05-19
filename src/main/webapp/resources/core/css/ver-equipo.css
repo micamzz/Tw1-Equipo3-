@@ -1,0 +1,68 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+main {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.titulo-equipo {
+    text-align: center;
+    margin-bottom: 1.5em;
+    color: #FF7A1A;
+    font-size: 2rem;
+}
+
+.contenedor-equipo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.875em;
+}
+
+.bloque-titulares,
+.bloque-suplentes {
+    border-radius: 16px;
+    padding: 1.875em;
+    border: 1px solid #e2e8f0;
+}
+
+.subtitulo-bloque {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #FF7A1A;
+    margin-bottom: 1.5em;
+    border-bottom: 2px solid #f8fafc;
+}
+
+.fila-jugador {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+
+.etiqueta-posicion {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #64748b;
+    min-width: 60px;
+}
+
+.nombre-jugador {
+    font-size: 0.95rem;
+    flex: 1;
+    padding: 0 10px;
+}
+
+
+

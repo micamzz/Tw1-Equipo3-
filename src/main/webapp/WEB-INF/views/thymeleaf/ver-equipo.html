@@ -18,17 +18,9 @@
 
 <main>
 
-    <h1 class="titulo-equipo">
-        Tu equipo:
-        <span th:text="${equipo.nombreEquipo}"></span>
-    </h1>
-
-    <p class="descripcion-equipo">
-        Estos son los jugadores que seleccionaste para tu equipo.
-    </p>
+    <h1 class="titulo-equipo" th:text="${equipo.nombreEquipo}"></h1>
 
     <div class="contenedor-equipo">
-
         <!-- TITULARES -->
         <section class="bloque-titulares">
             <p class="subtitulo-bloque">Titulares</p>
@@ -37,6 +29,9 @@
                  th:if="${equipoJugador.numeroOrden <= 5}"
                  class="fila-jugador">
 
+                <!-- Si el jugador guardado en el equipo es 1 o 2 devuelve base.
+                Si es 3 o 4 devuelve alero y si no pivot -->
+
                 <span class="etiqueta-posicion"
                       th:text="${equipoJugador.numeroOrden == 1 or equipoJugador.numeroOrden == 2} ? 'Base' :
                                 (${equipoJugador.numeroOrden == 3 or equipoJugador.numeroOrden == 4} ? 'Alero' : 'Pivot')">
@@ -44,10 +39,6 @@
 
                 <span class="nombre-jugador"
                       th:text="${equipoJugador.jugador.nombre} + ' ' + ${equipoJugador.jugador.apellido}">
-                </span>
-
-                <span class="precio-jugador"
-                      th:text="'$' + ${equipoJugador.jugador.precio}">
                 </span>
 
             </div>
@@ -68,10 +59,6 @@
 
                 <span class="nombre-jugador"
                       th:text="${equipoJugador.jugador.nombre} + ' ' + ${equipoJugador.jugador.apellido}">
-                </span>
-
-                <span class="precio-jugador"
-                      th:text="'$' + ${equipoJugador.jugador.precio}">
                 </span>
 
             </div>
