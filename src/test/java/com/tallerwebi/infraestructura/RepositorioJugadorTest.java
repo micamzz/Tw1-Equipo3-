@@ -72,4 +72,18 @@ public class RepositorioJugadorTest {
         List<Jugador> resultado = repositorioJugador.buscarJugadores(null, null);
         assertThat(resultado, hasSize(2));
     }
+    @Test
+    public void queBuscarJugadorPorIdDevuelvaElJugadorCorrecto(){
+        Jugador jugador = new Jugador();
+        jugador.setId(80L);
+        jugador.setNombre("Stephen Curry");
+
+        when(criteriaMock.uniqueResult()).thenReturn(jugador);
+
+        Jugador resultado = repositorioJugador.buscarJugadorPorId(80L);
+
+        assertThat(resultado, notNullValue());
+        assertThat(resultado.getId(), equalTo(80L));
+        assertThat(resultado.getNombre(), equalTo("Stephen Curry"));
+    }
 }
