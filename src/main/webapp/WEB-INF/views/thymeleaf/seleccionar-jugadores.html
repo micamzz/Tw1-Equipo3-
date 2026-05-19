@@ -1,0 +1,187 @@
+<!DOCTYPE HTML>
+
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <!-- Link CSS al Header y Footer-->
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
+
+    <link rel="stylesheet" th:href="@{/css/seleccionarJugadores.css}"/>
+
+    <!-- Fuente INTER   -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet"/>
+</head>
+<body>
+<!--HEADER -->
+<div th:replace="layout/header :: header"></div>
+
+
+<main>
+
+    <h1 class="titulo-equipo">
+        Elegí tus jugadores para el equipo
+        <span th:text="${equipo.nombreEquipo}"></span>
+    </h1>
+
+    <p class="descripcion-equipo">
+        Arma tu quinteto ideal seleccionando jugadores titulares y suplentes para
+        cada posición. Una vez completado el equipo,apreta <strong>CREAR EQUIPO</strong> para guardar tu formación.
+    </p>
+
+    <form th:action="@{/guardar-equipo}" method="POST" class="formulario-equipo">
+
+        <section class="bloque-titulares">
+
+            <p class="subtitulo-bloque">Titulares</p>
+
+            <!-- BASE 1 -->
+            <div class="fila-posicion">
+                <label class="etiqueta-posicion">Base</label>
+                <select>
+                    <option value="" disabled> Seleccione un jugador</option>
+                    <option value=""> Opcion 1</option>
+                    <option value=""> Opcion 2</option>
+                    <option value=""> Opcion 3</option>
+                    <option value=""> Opcion 4</option>
+                    <option value=""> Opcion 5</option>
+                </select>
+            </div>
+
+            <!-- BASE 2 -->
+            <div class="fila-posicion">
+                <label class="etiqueta-posicion">Base</label>
+                <select>
+                    <option value="" disabled> Seleccione un jugador</option>
+                    <option value=""> Opcion 1</option>
+                    <option value=""> Opcion 2</option>
+                    <option value=""> Opcion 3</option>
+                    <option value=""> Opcion 4</option>
+                    <option value=""> Opcion 5</option>
+                </select>
+            </div>
+
+            <!-- ALERO 1 -->
+            <div class="fila-posicion">
+                <label class="etiqueta-posicion">Alero</label>
+                <select>
+                    <option value="" disabled> Seleccione un alero</option>
+                    <option value=""> Opcion 1</option>
+                    <option value=""> Opcion 2</option>
+                    <option value=""> Opcion 3</option>
+                    <option value=""> Opcion 4</option>
+                    <option value=""> Opcion 5</option>
+                </select>
+            </div>
+
+            <!-- ALERO 2 -->
+            <div class="fila-posicion">
+                <label class="etiqueta-posicion">Alero</label>
+                <select>
+                    <option value="" disabled> Seleccione un alero</option>
+                    <option value=""> Opcion 1</option>
+                    <option value=""> Opcion 2</option>
+                    <option value=""> Opcion 3</option>
+                    <option value=""> Opcion 4</option>
+                    <option value=""> Opcion 5</option>
+                </select>
+            </div>
+
+
+            <!-- PIVOT -->
+            <div class="fila-posicion">
+                <label class="etiqueta-posicion">Pivot</label>
+                <select>
+                    <option value="" disabled> Seleccione un jugador</option>
+                    <option value=""> Opcion 1</option>
+                    <option value=""> Opcion 2</option>
+                    <option value=""> Opcion 3</option>
+                    <option value=""> Opcion 4</option>
+                    <option value=""> Opcion 5</option>
+
+                </select>
+            </div>
+
+        </section>
+
+
+        <!-- JUGADORES SUPLENTES -->
+
+
+        <section class="bloque-suplentes">
+            <p class="subtitulo-bloque">Suplentes</p>
+            <div class="lista-posiciones">
+
+                <!--BASE SUPLENTE 1-->
+                <div class="fila-posicion">
+                    <label class="etiqueta-posicion" for="base-suplente">Base</label>
+                    <select id="base-suplente" name="baseSuplente">
+                        <option value="" disabled>Seleccione un jugador</option>
+                        <option value="1">Opción 1</option>
+                        <option value="2">Opción 2</option>
+                        <option value="3">Opción 3</option>
+                    </select>
+                </div>
+
+                <!--BASE SUPLENTE 2-->
+                <div class="fila-posicion">
+                    <label class="etiqueta-posicion" for="base-suplente">Base</label>
+                    <select id="base-suplente2" name="baseSuplente2">
+                        <option value="" disabled>Seleccione un jugador</option>
+                        <option value="1">Opción 1</option>
+                        <option value="2">Opción 2</option>
+                        <option value="3">Opción 3</option>
+                    </select>
+                </div>
+
+                <!-- ALERO SUPLENTE 1-->
+                <div class="fila-posicion">
+                    <label class="etiqueta-posicion" for="alero-suplente">Alero</label>
+                    <select id="alero-suplente" name="aleroSuplente">
+                        <option value="" disabled>Seleccione un jugador</option>
+                        <option value="1">Opción 1</option>
+                        <option value="2">Opción 2</option>
+                        <option value="3">Opción 3</option>
+                    </select>
+                </div>
+
+                <!-- ALERO SUPLENTE 2-->
+                <div class="fila-posicion">
+                    <label class="etiqueta-posicion" for="alero-suplente">Alero</label>
+                    <select id="alero-suplente2" name="aleroSuplente2">
+                        <option value="" disabled>Seleccione un jugador</option>
+                        <option value="1">Opción 1</option>
+                        <option value="2">Opción 2</option>
+                        <option value="3">Opción 3</option>
+                    </select>
+                </div>
+
+
+                <!-- PIVOT-->
+                <div class="fila-posicion">
+                    <label class="etiqueta-posicion" for="pivot-suplente">Pivot</label>
+                    <select id="pivot-suplente" name="pivotSuplente">
+                        <option value="" disabled>Seleccione un jugador</option>
+                        <option value="1">Opción 1</option>
+                        <option value="2">Opción 2</option>
+                        <option value="3">Opción 3</option>
+                    </select>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!--BOTON-->
+        <button type="submit" class="boton-equipo2"> CREAR EQUIPO</button>
+    </form>
+
+</main>
+
+<!--FOOTER-->
+<div th:replace="layout/footer :: footer"></div>
+</body>
+</html>

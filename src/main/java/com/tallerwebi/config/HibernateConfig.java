@@ -1,13 +1,14 @@
 package com.tallerwebi.config;
 
-import java.util.Properties;
-import javax.sql.DataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import javax.sql.DataSource;
+import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
@@ -23,8 +24,8 @@ public class HibernateConfig {
    * dataSource.setPassword("");
    * return dataSource;
    * }
-   * 
-   * 
+   *
+   *
    * @Bean
    * public DataSource dataSource() {
    * DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -34,7 +35,7 @@ public class HibernateConfig {
    * dataSource.setPassword("1234");
    * return dataSource;
    * }
-   * 
+   *
    */
 
   /**

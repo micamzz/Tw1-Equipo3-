@@ -1,26 +1,19 @@
 
-* {
-box-sizing: border-box;
-margin:0;
-    padding: 0;
-}
-
-body{
+body {
     font-family: 'Inter', sans-serif;
-   font-size: 0.8em;
 }
 
 /*BOTONES MAIN INDEX*/
-.contenedor-botones{
+.contenedor-botones {
     display: flex;
     gap: 20px;
     justify-content: center;
     align-items: center;
-    margin-top:2.5em;
+    margin-top: 2.5em;
 }
 
 /* BOTONES */
-.contenedor-boton{
+.contenedor-boton {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -28,7 +21,7 @@ body{
     margin: 5em 0;
 }
 
-.boton-equipo{
+.boton-equipo {
     background-color: #ff7a00;
     color: white;
     text-decoration: none;
@@ -39,7 +32,7 @@ body{
 }
 
 /* HOVER */
-.boton-equipo:hover{
+.boton-equipo:hover {
     background-color: white;
-    color:#ff7a00;
+    color: #ff7a00;
 }

@@ -10,13 +10,52 @@ public class Jugador {
 
     private String nombre;
     private String apellido;
-    private String email;
     @Column(unique = true, nullable = false)
     private Integer dni;
-
+    private Integer precio;
     @Enumerated(EnumType.STRING)
     private Posicion posicion;
 
+    //Esto dsp lo sacas mica?
     @ManyToOne
     private Equipo equipo;
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setPosicion(Posicion posicion) {
+        this.posicion = posicion;
+    }
+
+    public Posicion getPosicion() {
+        return posicion;
+    }
+
+    public Integer getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(Integer precio) {
+        this.precio = precio;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }
