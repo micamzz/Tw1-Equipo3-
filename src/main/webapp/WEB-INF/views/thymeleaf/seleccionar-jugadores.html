@@ -34,6 +34,10 @@
 
     <form th:action="@{/guardar-equipo}" method="POST" class="formulario-equipo">
 
+        <!--Necesario para que se vincule con el Equipo
+        Si falta eso, tira error al crear el equipo -->
+        <input type="hidden" name="idEquipo" th:value="${equipo.id}">
+
         <section class="bloque-titulares">
 
             <p class="subtitulo-bloque">Titulares</p>
@@ -117,8 +121,6 @@
 
 
         <!-- JUGADORES SUPLENTES -->
-
-
         <section class="bloque-suplentes">
             <p class="subtitulo-bloque">Suplentes</p>
             <div class="lista-posiciones">
@@ -178,7 +180,6 @@
                         </option>
                     </select>
                 </div>
-
 
                 <!-- PIVOT-->
                 <div class="fila-posicion">

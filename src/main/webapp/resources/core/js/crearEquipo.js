@@ -4,9 +4,9 @@ const botonSiguiente = document.querySelector(".boton-equipo");
 
 nombreIngresadoInput.addEventListener("input", () => {
 
-    const textoIngresado = nombreIngresadoInput.valueOf().trim();
+    const textoIngresado = nombreIngresadoInput.value.trim();
 
-    if (textoIngresado < 4) {
+    if (textoIngresado.length < 4) {
         botonSiguiente.disabled = true;
     } else {
         botonSiguiente.disabled = false;
