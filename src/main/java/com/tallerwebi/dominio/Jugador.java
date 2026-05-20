@@ -12,11 +12,12 @@ public class Jugador {
     private String apellido;
     @Column(unique = true, nullable = false)
     private Integer dni;
-    private Integer precio;
+    private Integer precioActual;
     @Enumerated(EnumType.STRING)
     private Posicion posicion;
+    private Boolean lesionado;
 
-    //Esto dsp lo sacas mica?
+    // Esto dsp lo sacas mica?
     @ManyToOne
     private Equipo equipo;
 
@@ -31,6 +32,7 @@ public class Jugador {
     public String getNombre() {
         return nombre;
     }
+
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
@@ -44,11 +46,19 @@ public class Jugador {
     }
 
     public Integer getPrecio() {
-        return precio;
+        return precioActual;
     }
 
-    public void setPrecio(Integer precio) {
-        this.precio = precio;
+    public void setPrecio(Integer precioActual) {
+        this.precioActual = precioActual;
+    }
+
+    public void setLesionado(Boolean lesionado) {
+        this.lesionado = lesionado;
+    }
+
+    public Boolean getLesionado() {
+        return lesionado;
     }
 
     public Long getId() {
