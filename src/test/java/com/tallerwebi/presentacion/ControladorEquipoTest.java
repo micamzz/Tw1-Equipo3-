@@ -3,7 +3,10 @@ package com.tallerwebi.presentacion;
 import com.tallerwebi.dominio.Equipo;
 import com.tallerwebi.dominio.ServicioEquipo;
 import com.tallerwebi.dominio.ServicioMercado;
+import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
 import com.tallerwebi.dominio.excepcion.EquipoSinNombreException;
+import com.tallerwebi.dominio.excepcion.EquipoTitularSinCompletarException;
+import com.tallerwebi.dominio.excepcion.PresupuestoInsuficienteException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.servlet.ModelAndView;
@@ -14,7 +17,6 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalToIgnoringCase;
 import static org.hamcrest.Matchers.instanceOf;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -44,7 +46,7 @@ public class ControladorEquipoTest {
     5- SI NO CREO EL NOMBRE DEL EQUIPO  TE LLEVA A LA VISTA CREAR-EQUIPO(DONDE VA EL NOMBRE)
     6- VER EQUIPO TE LLEVA  A VISTA VER EQUIPO
     7- SELECCIONADO LOS JUGADORES, BOTON CREAR-EQUIPO TE LLEVA A UNA VISTA CON EL DETALLE DE TU EQUIPO.
-    8 -  SI SELECCIONA SOLO LOS TITULARES TE LLEVA A VER EQUIPO
+    8 -SI SELECCIONA SOLO LOS TITULARES TE LLEVA A VER EQUIPO
 
      */
 
@@ -62,7 +64,7 @@ public class ControladorEquipoTest {
 
 
     @Test
-    public void alApretarElBotonDeCrearNombreDebeRedirigirASeleccionarJugadores() {
+    public void alApretarElBotonDeCrearNombreDebeRedirigirASeleccionarJugadores() throws EquipoSinNombreException {
         // Preparacion
         when(equipoMock.getNombreEquipo()).thenReturn("PLM");
         when(equipoMock.getId()).thenReturn(1L);
@@ -77,18 +79,20 @@ public class ControladorEquipoTest {
     }
 
     @Test
-    public void guardarNombreDeEquipoVacioLanzaException() {
+    public void guardarNombreDeEquipoVacioLanzaException() throws EquipoSinNombreException {
         Equipo equipo = mock(Equipo.class);
 
         when(equipo.getNombreEquipo()).thenReturn("");
 
-        assertThrows(EquipoSinNombreException.class, () -> {
-            controladorEquipo.guardarNombreEquipo(equipo);
-        });
+        ModelAndView mav = controladorEquipo.guardarNombreEquipo(equipo);
+
+        assertThat(mav.getViewName(), equalToIgnoringCase("crear-equipo"));
+        assertThat(mav.getModel().get("error").toString(), equalToIgnoringCase("No se puede crear equipo con nombre vacio")
+        );
     }
 
     @Test
-    public void alRedirigirLaVistaConIdValidoDevuelveLaVistaSeleccionarJugadores() {
+    public void alRedirigirLaVistaConIdValidoDevuelveLaVistaSeleccionarJugadores() throws EquipoNoEncontradoException {
 
         // preparacion
         Long idEquipo = 1L;
@@ -103,11 +107,11 @@ public class ControladorEquipoTest {
 
 
     @Test
-    public void alRedirigirLaVistaConIdInvalidoRedireccionaACrearEquipo() {
+    public void alRedirigirLaVistaConIdInvalidoRedireccionaACrearEquipo() throws EquipoNoEncontradoException {
 
         // preparacion
         Long idEquipo = 1L;
-        when(servicioEquipoMock.buscarEquipoPorId(idEquipo)).thenReturn(null);
+        when(servicioEquipoMock.buscarEquipoPorId(1L)).thenThrow(EquipoNoEncontradoException.class);
 
         //ejecucion
         ModelAndView mav = controladorEquipo.seleccionarJugadores(idEquipo);
@@ -117,17 +121,23 @@ public class ControladorEquipoTest {
     }
 
     @Test
-    public void verEquipoDebeRetornarLaVistaVerEquipo() {
+    public void verEquipoDebeRetornarLaVistaVerEquipo() throws EquipoNoEncontradoException {
+        //preparacion
         Long idEquipo = 1L;
         when(servicioEquipoMock.buscarEquipoPorId(idEquipo)).thenReturn(equipoMock);
+
+        //ejecucion
         ModelAndView mav = controladorEquipo.verEquipo(idEquipo);
+
+        //verificacion
         assertThat(mav.getViewName(), equalToIgnoringCase("ver-equipo"));
     }
 
     @Test
-    public void guardarEquipoCompletoRedirigeAVerEquipo() {
-        Long idEquipo = 1L;
+    public void guardarEquipoCompletoRedirigeAVerEquipo() throws EquipoTitularSinCompletarException, EquipoNoEncontradoException, PresupuestoInsuficienteException {
 
+        //preparacion
+        Long idEquipo = 1L;
         List<Long> idsJugadores = new ArrayList<>();
 
         idsJugadores.add(1L);
@@ -142,14 +152,17 @@ public class ControladorEquipoTest {
         idsJugadores.add(9L);
         idsJugadores.add(10L);
 
+        //ejecuion
         ModelAndView mav = controladorEquipo.guardarEquipoCompleto(idEquipo, idsJugadores);
 
+        //verificacion
         assertThat(mav.getViewName(), equalToIgnoringCase("redirect:/ver-equipo?id=1"));
     }
 
 
     @Test
-    public void guardarEquipoSoloConTitularesDebeRedigirirAVerEquipo() {
+    public void guardarEquipoSoloConTitularesDebeRedigirirAVerEquipo() throws EquipoTitularSinCompletarException, EquipoNoEncontradoException, PresupuestoInsuficienteException {
+        //preparacion
         Long idEquipo = 1L;
         List<Long> idsJugadores = new ArrayList<>();
 
@@ -165,8 +178,10 @@ public class ControladorEquipoTest {
         idsJugadores.add(null);
         idsJugadores.add(null);
 
+        //ejecucion
         ModelAndView mav = controladorEquipo.guardarEquipoCompleto(idEquipo, idsJugadores);
 
+        // verificacion
         assertThat(mav.getViewName(), equalToIgnoringCase("redirect:/ver-equipo?id=1"));
     }
 }

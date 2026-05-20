@@ -12,7 +12,7 @@ import java.util.List;
 @Service
 @Transactional
 public class ServicioEquipoImpl implements ServicioEquipo {
-    
+
     private RepositorioEquipo repositorioEquipo;
     private RepositorioJugador repositorioJugador;
     private RepositorioEquipoJugador repositorioEquipoJugador;
@@ -58,7 +58,7 @@ public class ServicioEquipoImpl implements ServicioEquipo {
 
 
     @Override
-    public void guardarEquipoCompleto(Long idEquipo, List<Long> idsJugadores) throws EquipoTitularSinCompletarException, EquipoNoEncontradoException {
+    public void guardarEquipoCompleto(Long idEquipo, List<Long> idsJugadores) throws EquipoTitularSinCompletarException, PresupuestoInsuficienteException, EquipoNoEncontradoException {
 
         Equipo equipo = buscarEquipoPorId(idEquipo);
         validarTitular(idsJugadores);
@@ -89,7 +89,7 @@ public class ServicioEquipoImpl implements ServicioEquipo {
         repositorioEquipoJugador.guardarEquipoJugador(equipoJugador);
     }
 
-    private void validarTitular(List<Long> idsJugadores) {
+    private void validarTitular(List<Long> idsJugadores) throws EquipoTitularSinCompletarException {
 
         if (idsJugadores == null || idsJugadores.size() < 5) {
             throw new EquipoTitularSinCompletarException("Debes seleccionar los 5 jugadores titulares");
