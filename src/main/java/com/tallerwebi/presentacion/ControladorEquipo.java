@@ -67,6 +67,7 @@ public class ControladorEquipo {
         if (equipo == null) {
             return new ModelAndView("redirect:/crear-equipo");
         }
+
         modelo.put("equipo", equipo);
 
         List<Jugador> jugadoresBase = servicioJugador.buscarBase();
@@ -85,8 +86,7 @@ public class ControladorEquipo {
     public ModelAndView guardarEquipoCompleto(@RequestParam Long idEquipo,
                                               @RequestParam("idJugador") List<Long> idsJugadores) {
 
-        /*Los RequestParam tienen el false para que no sea obligatorio antes de enviar*/
-        
+
         servicioEquipo.guardarEquipoCompleto(idEquipo, idsJugadores);
 
         return new ModelAndView("redirect:/ver-equipo?id=" + idEquipo);
