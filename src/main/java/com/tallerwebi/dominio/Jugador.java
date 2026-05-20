@@ -12,6 +12,7 @@ public class Jugador {
     private String apellido;
     @Column(unique = true, nullable = false)
     private Integer dni;
+    private Integer precioBase;
     private Integer precioActual;
     @Enumerated(EnumType.STRING)
     private Posicion posicion;
@@ -45,11 +46,19 @@ public class Jugador {
         return posicion;
     }
 
-    public Integer getPrecio() {
+    public void setPrecioBase(Integer precioBase) {
+        this.precioBase = precioBase;
+    }
+
+    public Integer getPrecioBase() {
+        return precioBase;
+    }
+
+    public Integer getPrecioActual() {
         return precioActual;
     }
 
-    public void setPrecio(Integer precioActual) {
+    public void setPrecioActual(Integer precioActual) {
         this.precioActual = precioActual;
     }
 
