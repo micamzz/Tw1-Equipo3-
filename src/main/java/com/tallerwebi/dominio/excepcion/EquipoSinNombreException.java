@@ -1,6 +1,8 @@
 package com.tallerwebi.dominio.excepcion;
 
-public class EquipoSinNombreException extends RuntimeException {
+public class EquipoSinNombreException extends Exception {
+    private static final long serialVersionUID = 1L;
+
     public EquipoSinNombreException(String message) {
         super(message);
     }

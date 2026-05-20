@@ -62,15 +62,14 @@ public class ServicioEquipoTest {
 
     }
 
-
     @Test
-    public void alBuscarUnEquipoPorNombreDevuelveElEquipoCorrecto() {
+    public void alBuscarUnEquipoPorNombreDevuelveElEquipoCorrecto() throws EquipoNoEncontradoException {
         //preparacion
         Equipo equipoMock = mock(Equipo.class);
 
         when(repositorioEquipoMock.buscarEquipoPorNombre("NBA")).thenReturn(equipoMock);
 
-//    Ejecucion
+        //    Ejecucion
         Equipo equipoEncontrado = servicioEquipo.buscarEquipoPorNombre("NBA");
 
         // validacion
@@ -87,6 +86,6 @@ public class ServicioEquipoTest {
             servicioEquipo.buscarEquipoPorNombre(nombreNoEncontrado);
         });
     }
-    
+
 
 }
