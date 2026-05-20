@@ -1,7 +1,7 @@
 package com.tallerwebi.presentacion;
 
+import com.tallerwebi.dominio.Liga;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -9,7 +9,9 @@ import org.springframework.web.servlet.ModelAndView;
 public class ControladorLiga {
 
     @RequestMapping("/liga")
-    public ModelAndView irALiga(Model model) {
-        return new ModelAndView("liga");
+    public ModelAndView irALiga() {
+        ModelAndView modelAndView = new ModelAndView("liga");
+        modelAndView.addObject("liga", Liga.crearLigaDemo());
+        return modelAndView;
     }
 }

@@ -26,29 +26,38 @@
     <div th:replace="layout/header :: header"></div>
 
     <!--PARTE PRINCIPAL DE LA PAGINA-->
-    <main>
-        <h1>Bienvenido</h1>
+    <main class="main-liga">
+        <div>
+            <h1>Bienvenido a la liga</h1>
+            <p class="liga-descripcion">Resumen de la ultima fecha y el calendario inmediato.</p>
+        </div>
         <div class="container-listas">
             <section class="seccion-partidos">
                 <h2 class="titulo-seccion">Partidos de la ultima fecha</h2>
                 <ul class="partidos-lista">
-                    <li>
+                    <li th:each="partido : ${liga.historialPartidos}">
                         <article class="card-partido">
                             <div class="partido">
                                 <div class="equipo">
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Los_Angeles_Lakers_logo.svg/960px-Los_Angeles_Lakers_logo.svg.png"
-                                        alt="Logo del equipo 1" class="logo-equipo">
-                                    <span class="nombre-equipo">Los Angeles Lakers</span>
+                                    <span class="badge-equipo"
+                                        th:text="${#strings.substring(partido.equipoLocal.nombreEquipo, 0, 1)}">L</span>
+                                    <span class="nombre-equipo" th:text="${partido.equipoLocal.nombreEquipo}">Los
+                                        Angeles Lakers</span>
                                 </div>
                                 <div class="resultado">
-                                    <span class="puntos-equipo1 puntos-ganador">102</span>
+                                    <span
+                                        th:classappend="${partido.puntosLocal >= partido.puntosVisitante} ? ' puntos-ganador' : ' puntos-perdedor'"
+                                        th:text="${partido.puntosLocal}">102</span>
                                     -
-                                    <span class="puntos-equipo2 puntos-perdedor">98</span>
+                                    <span
+                                        th:classappend="${partido.puntosVisitante > partido.puntosLocal} ? ' puntos-ganador' : ' puntos-perdedor'"
+                                        th:text="${partido.puntosVisitante}">98</span>
                                 </div>
                                 <div class="equipo">
-                                    <img src="https://upload.wikimedia.org/wikipedia/en/thumb/8/8f/Boston_Celtics.svg/1280px-Boston_Celtics.svg.png?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=thumbnail"
-                                        alt="Logo del equipo 2" class="logo-equipo">
-                                    <span class="nombre-equipo">Boston Celtics</span>
+                                    <span class="badge-equipo"
+                                        th:text="${#strings.substring(partido.equipoVisitante.nombreEquipo, 0, 1)}">B</span>
+                                    <span class="nombre-equipo" th:text="${partido.equipoVisitante.nombreEquipo}">Boston
+                                        Celtics</span>
                                 </div>
                             </div>
                             <div class="detalle-partido">
@@ -63,84 +72,19 @@
                                             <li>PTS</li>
                                         </ul>
                                         <ul class="lista-jugadores">
-                                            <li class="estadisticas-jugador"><span>LeBron
-                                                    James</span><span>3</span><span>1</span><span>8</span><span>7</span><span>28</span>
-                                            </li>
-                                            <li class="estadisticas-jugador"><span>Anthony
-                                                    Davis</span><span>2</span><span>1</span><span>11</span><span>3</span><span>26</span>
-                                            </li>
-                                            <li class="estadisticas-jugador"><span>Austin
-                                                    Reaves</span><span>1</span><span>0</span><span>3</span><span>4</span><span>12</span>
-                                            </li>
-                                            <li class="estadisticas-jugador"><span>Rui
-                                                    Hachimura</span><span>1</span><span>0</span><span>5</span><span>2</span><span>10</span>
+                                            <li class="estadisticas-jugador"
+                                                th:each="rendimiento : ${partido.rendimientoEquipoLocal}">
+                                                <span th:text="${rendimiento.nombreCompleto}">LeBron James</span>
+                                                <span th:text="${rendimiento.perdidas}">3</span>
+                                                <span th:text="${rendimiento.robos}">1</span>
+                                                <span th:text="${rendimiento.rebotes}">8</span>
+                                                <span th:text="${rendimiento.asistencias}">7</span>
+                                                <span th:text="${rendimiento.puntos}">28</span>
                                             </li>
                                         </ul>
                                     </div>
                                     <div class="detalle-equipo">
                                         <ul class="titulos-estadisticas titulos-estadisticas-visitante">
-                                            <li>NOMBRE</li>
-                                            <li>PERD</li>
-                                            <li>ROB</li>
-                                            <li>REB</li>
-                                            <li>ASI</li>
-                                            <li>PTS</li>
-                                        </ul>
-                                        <ul class="lista-jugadores ">
-                                            <li class="estadisticas-jugador estadisticas-jugador-visitante"><span>Jayson
-                                                    Tatum</span><span>3</span><span>1</span><span>8</span><span>4</span><span>30</span>
-                                            </li>
-                                            <li class="estadisticas-jugador estadisticas-jugador-visitante"><span>Jaylen
-                                                    Brown</span><span>2</span><span>1</span><span>6</span><span>3</span><span>24</span>
-                                            </li>
-                                            <li class="estadisticas-jugador estadisticas-jugador-visitante"><span>Jrue
-                                                    Holiday</span><span>2</span><span>2</span><span>4</span><span>7</span><span>17</span>
-                                            </li>
-                                            <li class="estadisticas-jugador estadisticas-jugador-visitante">
-                                                <span>Derrick
-                                                    White</span><span>1</span><span>1</span><span>3</span><span>3</span><span>14</span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <button class="expand-btn" type="button">
-                                <svg fill="#eb5e28" class="arrow-img" viewBox="0 0 1024 1024"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                                    <g id="SVGRepo_iconCarrier">
-                                        <path
-                                            d="M512.768 616.61l43.647 40.882c25.797 24.163 27.122 64.664 2.959 90.461-.408.436-.821.864-1.238 1.286l-3.646 3.404a64.015 64.015 0 01-15.43 9.88 64.144 64.144 0 01-27.691 5.666 64.144 64.144 0 01-27.439-6.781 63.198 63.198 0 01-2.678-1.428 63.537 63.537 0 01-12.883-9.577L21.767 332.094c-25.797-24.163-27.122-64.664-2.959-90.461s64.664-27.122 90.461-2.959L512.768 616.61l403.815-377.05c26.753-23.1 67.168-20.139 90.268 6.615s20.139 67.168-6.615 90.268l-442.1 412.796z">
-                                        </path>
-                                    </g>
-                                </svg>
-                            </button>
-                        </article>
-                    </li>
-                    <li>
-                        <article class="card-partido">
-                            <div class="partido">
-                                <div class="equipo">
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Los_Angeles_Lakers_logo.svg/960px-Los_Angeles_Lakers_logo.svg.png"
-                                        alt="Logo del equipo 1" class="logo-equipo">
-                                    <span class="nombre-equipo">Los Angeles Lakers</span>
-                                </div>
-                                <div class="resultado">
-                                    <span class="puntos-equipo1 puntos-ganador">102</span>
-                                    -
-                                    <span class="puntos-equipo2 puntos-perdedor">98</span>
-                                </div>
-                                <div class="equipo">
-                                    <img src="https://upload.wikimedia.org/wikipedia/en/thumb/8/8f/Boston_Celtics.svg/1280px-Boston_Celtics.svg.png?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=thumbnail"
-                                        alt="Logo del equipo 2" class="logo-equipo">
-                                    <span class="nombre-equipo">Boston Celtics</span>
-                                </div>
-                            </div>
-                            <div class="detalle-partido">
-                                <div class="detalle-partido-contenido">
-                                    <div class="detalle-equipo">
-                                        <ul class="titulos-estadisticas">
                                             <li>NOMBRE</li>
                                             <li>PERD</li>
                                             <li>ROB</li>
@@ -149,214 +93,14 @@
                                             <li>PTS</li>
                                         </ul>
                                         <ul class="lista-jugadores">
-                                            <li class="estadisticas-jugador"><span>LeBron
-                                                    James</span><span>4</span><span>1</span><span>9</span><span>8</span><span>31</span>
-                                            </li>
-                                            <li class="estadisticas-jugador"><span>Anthony
-                                                    Davis</span><span>3</span><span>1</span><span>11</span><span>3</span><span>24</span>
-                                            </li>
-                                            <li class="estadisticas-jugador"><span>Austin
-                                                    Reaves</span><span>1</span><span>0</span><span>3</span><span>5</span><span>14</span>
-                                            </li>
-                                            <li class="estadisticas-jugador"><span>Rui
-                                                    Hachimura</span><span>1</span><span>0</span><span>5</span><span>2</span><span>11</span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="detalle-equipo">
-                                        <ul class="titulos-estadisticas titulos-estadisticas-visitante">
-                                            <li>NOMBRE</li>
-                                            <li>PERD</li>
-                                            <li>ROB</li>
-                                            <li>REB</li>
-                                            <li>ASI</li>
-                                            <li>PTS</li>
-                                        </ul>
-                                        <ul class="lista-jugadores ">
-                                            <li class="estadisticas-jugador estadisticas-jugador-visitante"><span>Jayson
-                                                    Tatum</span><span>3</span><span>1</span><span>9</span><span>5</span><span>33</span>
-                                            </li>
-                                            <li class="estadisticas-jugador estadisticas-jugador-visitante"><span>Jaylen
-                                                    Brown</span><span>2</span><span>1</span><span>6</span><span>3</span><span>21</span>
-                                            </li>
-                                            <li class="estadisticas-jugador estadisticas-jugador-visitante"><span>Jrue
-                                                    Holiday</span><span>2</span><span>2</span><span>4</span><span>7</span><span>19</span>
-                                            </li>
-                                            <li class="estadisticas-jugador estadisticas-jugador-visitante">
-                                                <span>Derrick
-                                                    White</span><span>1</span><span>1</span><span>3</span><span>3</span><span>13</span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <button class="expand-btn" type="button">
-                                <svg fill="#eb5e28" class="arrow-img" viewBox="0 0 1024 1024"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                                    <g id="SVGRepo_iconCarrier">
-                                        <path
-                                            d="M512.768 616.61l43.647 40.882c25.797 24.163 27.122 64.664 2.959 90.461-.408.436-.821.864-1.238 1.286l-3.646 3.404a64.015 64.015 0 01-15.43 9.88 64.144 64.144 0 01-27.691 5.666 64.144 64.144 0 01-27.439-6.781 63.198 63.198 0 01-2.678-1.428 63.537 63.537 0 01-12.883-9.577L21.767 332.094c-25.797-24.163-27.122-64.664-2.959-90.461s64.664-27.122 90.461-2.959L512.768 616.61l403.815-377.05c26.753-23.1 67.168-20.139 90.268 6.615s20.139 67.168-6.615 90.268l-442.1 412.796z">
-                                        </path>
-                                    </g>
-                                </svg>
-                            </button>
-                        </article>
-                    </li>
-                    <li>
-                        <article class="card-partido">
-                            <div class="partido">
-                                <div class="equipo">
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Los_Angeles_Lakers_logo.svg/960px-Los_Angeles_Lakers_logo.svg.png"
-                                        alt="Logo del equipo 1" class="logo-equipo">
-                                    <span class="nombre-equipo">Los Angeles Lakers</span>
-                                </div>
-                                <div class="resultado">
-                                    <span class="puntos-equipo1 puntos-ganador">102</span>
-                                    -
-                                    <span class="puntos-equipo2 puntos-perdedor">98</span>
-                                </div>
-                                <div class="equipo">
-                                    <img src="https://upload.wikimedia.org/wikipedia/en/thumb/8/8f/Boston_Celtics.svg/1280px-Boston_Celtics.svg.png?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=thumbnail"
-                                        alt="Logo del equipo 2" class="logo-equipo">
-                                    <span class="nombre-equipo">Boston Celtics</span>
-                                </div>
-                            </div>
-                            <div class="detalle-partido">
-                                <div class="detalle-partido-contenido">
-                                    <div class="detalle-equipo">
-                                        <ul class="titulos-estadisticas">
-                                            <li>NOMBRE</li>
-                                            <li>PERD</li>
-                                            <li>ROB</li>
-                                            <li>REB</li>
-                                            <li>ASI</li>
-                                            <li>PTS</li>
-                                        </ul>
-                                        <ul class="lista-jugadores">
-                                            <li class="estadisticas-jugador"><span>LeBron
-                                                    James</span><span>3</span><span>1</span><span>9</span><span>7</span><span>26</span>
-                                            </li>
-                                            <li class="estadisticas-jugador"><span>Anthony
-                                                    Davis</span><span>3</span><span>1</span><span>10</span><span>3</span><span>27</span>
-                                            </li>
-                                            <li class="estadisticas-jugador"><span>Austin
-                                                    Reaves</span><span>1</span><span>1</span><span>3</span><span>4</span><span>13</span>
-                                            </li>
-                                            <li class="estadisticas-jugador"><span>Rui
-                                                    Hachimura</span><span>1</span><span>0</span><span>5</span><span>2</span><span>9</span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="detalle-equipo">
-                                        <ul class="titulos-estadisticas titulos-estadisticas-visitante">
-                                            <li>NOMBRE</li>
-                                            <li>PERD</li>
-                                            <li>ROB</li>
-                                            <li>REB</li>
-                                            <li>ASI</li>
-                                            <li>PTS</li>
-                                        </ul>
-                                        <ul class="lista-jugadores ">
-                                            <li class="estadisticas-jugador estadisticas-jugador-visitante"><span>Jayson
-                                                    Tatum</span><span>3</span><span>1</span><span>8</span><span>4</span><span>28</span>
-                                            </li>
-                                            <li class="estadisticas-jugador estadisticas-jugador-visitante"><span>Jaylen
-                                                    Brown</span><span>2</span><span>1</span><span>7</span><span>3</span><span>23</span>
-                                            </li>
-                                            <li class="estadisticas-jugador estadisticas-jugador-visitante"><span>Jrue
-                                                    Holiday</span><span>2</span><span>2</span><span>4</span><span>6</span><span>16</span>
-                                            </li>
-                                            <li class="estadisticas-jugador estadisticas-jugador-visitante">
-                                                <span>Derrick
-                                                    White</span><span>1</span><span>1</span><span>4</span><span>4</span><span>12</span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <button class="expand-btn" type="button">
-                                <svg fill="#eb5e28" class="arrow-img" viewBox="0 0 1024 1024"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                                    <g id="SVGRepo_iconCarrier">
-                                        <path
-                                            d="M512.768 616.61l43.647 40.882c25.797 24.163 27.122 64.664 2.959 90.461-.408.436-.821.864-1.238 1.286l-3.646 3.404a64.015 64.015 0 01-15.43 9.88 64.144 64.144 0 01-27.691 5.666 64.144 64.144 0 01-27.439-6.781 63.198 63.198 0 01-2.678-1.428 63.537 63.537 0 01-12.883-9.577L21.767 332.094c-25.797-24.163-27.122-64.664-2.959-90.461s64.664-27.122 90.461-2.959L512.768 616.61l403.815-377.05c26.753-23.1 67.168-20.139 90.268 6.615s20.139 67.168-6.615 90.268l-442.1 412.796z">
-                                        </path>
-                                    </g>
-                                </svg>
-                            </button>
-                        </article>
-                    </li>
-                    <li>
-                        <article class="card-partido">
-                            <div class="partido">
-                                <div class="equipo">
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Los_Angeles_Lakers_logo.svg/960px-Los_Angeles_Lakers_logo.svg.png"
-                                        alt="Logo del equipo 1" class="logo-equipo">
-                                    <span class="nombre-equipo">Los Angeles Lakers</span>
-                                </div>
-                                <div class="resultado">
-                                    <span class="puntos-equipo1 puntos-ganador">102</span>
-                                    -
-                                    <span class="puntos-equipo2 puntos-perdedor">98</span>
-                                </div>
-                                <div class="equipo">
-                                    <img src="https://upload.wikimedia.org/wikipedia/en/thumb/8/8f/Boston_Celtics.svg/1280px-Boston_Celtics.svg.png?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=thumbnail"
-                                        alt="Logo del equipo 2" class="logo-equipo">
-                                    <span class="nombre-equipo">Boston Celtics</span>
-                                </div>
-                            </div>
-                            <div class="detalle-partido">
-                                <div class="detalle-partido-contenido">
-                                    <div class="detalle-equipo">
-                                        <ul class="titulos-estadisticas">
-                                            <li>NOMBRE</li>
-                                            <li>PERD</li>
-                                            <li>ROB</li>
-                                            <li>REB</li>
-                                            <li>ASI</li>
-                                            <li>PTS</li>
-                                        </ul>
-                                        <ul class="lista-jugadores">
-                                            <li class="estadisticas-jugador"><span>LeBron
-                                                    James</span><span>3</span><span>1</span><span>9</span><span>7</span><span>26</span>
-                                            </li>
-                                            <li class="estadisticas-jugador"><span>Anthony
-                                                    Davis</span><span>3</span><span>1</span><span>10</span><span>3</span><span>27</span>
-                                            </li>
-                                            <li class="estadisticas-jugador"><span>Austin
-                                                    Reaves</span><span>1</span><span>1</span><span>3</span><span>4</span><span>13</span>
-                                            </li>
-                                            <li class="estadisticas-jugador"><span>Rui
-                                                    Hachimura</span><span>1</span><span>0</span><span>5</span><span>2</span><span>9</span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="detalle-equipo">
-                                        <ul class="titulos-estadisticas titulos-estadisticas-visitante">
-                                            <li>NOMBRE</li>
-                                            <li>PERD</li>
-                                            <li>ROB</li>
-                                            <li>REB</li>
-                                            <li>ASI</li>
-                                            <li>PTS</li>
-                                        </ul>
-                                        <ul class="lista-jugadores ">
-                                            <li class="estadisticas-jugador estadisticas-jugador-visitante"><span>Jayson
-                                                    Tatum</span><span>3</span><span>1</span><span>8</span><span>4</span><span>28</span>
-                                            </li>
-                                            <li class="estadisticas-jugador estadisticas-jugador-visitante"><span>Jaylen
-                                                    Brown</span><span>2</span><span>1</span><span>7</span><span>3</span><span>23</span>
-                                            </li>
-                                            <li class="estadisticas-jugador estadisticas-jugador-visitante"><span>Jrue
-                                                    Holiday</span><span>2</span><span>2</span><span>4</span><span>6</span><span>16</span>
-                                            </li>
-                                            <li class="estadisticas-jugador estadisticas-jugador-visitante">
-                                                <span>Derrick
-                                                    White</span><span>1</span><span>1</span><span>4</span><span>4</span><span>12</span>
+                                            <li class="estadisticas-jugador estadisticas-jugador-visitante"
+                                                th:each="rendimiento : ${partido.rendimientoEquipoVisitante}">
+                                                <span th:text="${rendimiento.nombreCompleto}">Jayson Tatum</span>
+                                                <span th:text="${rendimiento.perdidas}">3</span>
+                                                <span th:text="${rendimiento.robos}">1</span>
+                                                <span th:text="${rendimiento.rebotes}">8</span>
+                                                <span th:text="${rendimiento.asistencias}">4</span>
+                                                <span th:text="${rendimiento.puntos}">30</span>
                                             </li>
                                         </ul>
                                     </div>
@@ -382,79 +126,26 @@
             <section class="seccion-partidos">
                 <h2 class="titulo-seccion">Proximos partidos</h2>
                 <ul class="partidos-lista">
-                    <li>
+                    <li th:each="partido : ${liga.proximosPartidos}">
                         <div class="partido proximo-partido">
                             <div class="equipo">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Los_Angeles_Lakers_logo.svg/960px-Los_Angeles_Lakers_logo.svg.png"
-                                    alt="Logo del equipo 1" class="logo-equipo">
-                                <span class="nombre-equipo">Los Angeles Lakers</span>
+                                <span class="badge-equipo"
+                                    th:text="${#strings.substring(partido.equipoLocal.nombreEquipo, 0, 1)}">L</span>
+                                <span class="nombre-equipo" th:text="${partido.equipoLocal.nombreEquipo}">Los Angeles
+                                    Lakers</span>
                             </div>
                             <div class="informacion-partido">
-                                <span class="horario">20:30</span>
-                                <span class="fecha">17/07</span>
-                                <span class="lugar">Staples Center, CA</span>
+                                <span class="horario" th:text="${partido.hora}">20:30</span>
+                                <span class="fecha"
+                                    th:text="${'Fecha ' + partido.numeroFecha + ' - ' + partido.fecha}">Fecha 18 -
+                                    27/05/2026</span>
+                                <span class="lugar" th:text="${partido.lugar}">Crypto.com Arena</span>
                             </div>
                             <div class="equipo">
-                                <img src="https://upload.wikimedia.org/wikipedia/en/thumb/8/8f/Boston_Celtics.svg/1280px-Boston_Celtics.svg.png?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=thumbnail"
-                                    alt="Logo del equipo 2" class="logo-equipo">
-                                <span class="nombre-equipo">Boston Celtics</span>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="partido proximo-partido">
-                            <div class="equipo">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Los_Angeles_Lakers_logo.svg/960px-Los_Angeles_Lakers_logo.svg.png"
-                                    alt="Logo del equipo 1" class="logo-equipo">
-                                <span class="nombre-equipo">Los Angeles Lakers</span>
-                            </div>
-                            <div class="informacion-partido">
-                                <span class="horario">20:30</span>
-                                <span class="fecha">17/07</span>
-                                <span class="lugar">Staples Center, CA</span>
-                            </div>
-                            <div class="equipo">
-                                <img src="https://upload.wikimedia.org/wikipedia/en/thumb/8/8f/Boston_Celtics.svg/1280px-Boston_Celtics.svg.png?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=thumbnail"
-                                    alt="Logo del equipo 2" class="logo-equipo">
-                                <span class="nombre-equipo">Boston Celtics</span>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="partido proximo-partido">
-                            <div class="equipo">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Los_Angeles_Lakers_logo.svg/960px-Los_Angeles_Lakers_logo.svg.png"
-                                    alt="Logo del equipo 1" class="logo-equipo">
-                                <span class="nombre-equipo">Los Angeles Lakers</span>
-                            </div>
-                            <div class="informacion-partido">
-                                <span class="horario">20:30</span>
-                                <span class="fecha">17/07</span>
-                                <span class="lugar">Staples Center, CA</span>
-                            </div>
-                            <div class="equipo">
-                                <img src="https://upload.wikimedia.org/wikipedia/en/thumb/8/8f/Boston_Celtics.svg/1280px-Boston_Celtics.svg.png?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=thumbnail"
-                                    alt="Logo del equipo 2" class="logo-equipo">
-                                <span class="nombre-equipo">Boston Celtics</span>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="partido proximo-partido">
-                            <div class="equipo">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Los_Angeles_Lakers_logo.svg/960px-Los_Angeles_Lakers_logo.svg.png"
-                                    alt="Logo del equipo 1" class="logo-equipo">
-                                <span class="nombre-equipo">Los Angeles Lakers</span>
-                            </div>
-                            <div class="informacion-partido">
-                                <span class="horario">20:30</span>
-                                <span class="fecha">17/07</span>
-                                <span class="lugar">Staples Center, CA</span>
-                            </div>
-                            <div class="equipo">
-                                <img src="https://upload.wikimedia.org/wikipedia/en/thumb/8/8f/Boston_Celtics.svg/1280px-Boston_Celtics.svg.png?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=thumbnail"
-                                    alt="Logo del equipo 2" class="logo-equipo">
-                                <span class="nombre-equipo">Boston Celtics</span>
+                                <span class="badge-equipo"
+                                    th:text="${#strings.substring(partido.equipoVisitante.nombreEquipo, 0, 1)}">N</span>
+                                <span class="nombre-equipo" th:text="${partido.equipoVisitante.nombreEquipo}">Denver
+                                    Nuggets</span>
                             </div>
                         </div>
                     </li>
@@ -472,7 +163,7 @@
 
         matchCards.forEach((card) => {
             card.addEventListener('click', () => {
-                const isExpanded = card.classList.toggle('is-expanded');
+                card.classList.toggle('is-expanded');
             });
         });
     </script>

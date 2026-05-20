@@ -28,7 +28,13 @@ body {
 main {
   background-color: var(--color-fondo);
   color: var(--color-texto);
-  padding: 2rem 0;
+}
+
+.main-liga {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2rem;
 }
 
 .container-listas {
@@ -52,6 +58,7 @@ main {
 .partidos-lista {
   display: flex;
   flex-direction: column;
+  align-items: stretch;
   gap: 1rem;
 }
 
@@ -61,7 +68,7 @@ main {
   flex-direction: column;
   padding: 0.5rem 1.5rem;
   border-radius: 8px;
-  max-width: fit-content;
+  width: 100%;
   background-color: var(--color-secundario);
   cursor: pointer;
 }
@@ -96,6 +103,20 @@ main {
 .logo-equipo {
   max-width: 80px;
   max-height: 80px;
+}
+
+.badge-equipo {
+  width: 80px;
+  height: 80px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #eb5e28, #c74c19);
+  color: var(--color-neutro);
+  font-size: 1.8rem;
+  font-weight: 800;
+  flex-shrink: 0;
 }
 
 .resultado {
