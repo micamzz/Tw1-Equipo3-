@@ -66,6 +66,7 @@ public class ControladorEquipo {
         if (equipo == null) {
             return new ModelAndView("redirect:/crear-equipo");
         }
+
         modelo.put("equipo", equipo);
 
         List<Jugador> jugadoresBase = servicioJugador.buscarBase();
@@ -82,17 +83,10 @@ public class ControladorEquipo {
     // Guarda la seleccion de jugadores elegidos.
     @RequestMapping(value = "/guardar-equipo", method = RequestMethod.POST)
     public ModelAndView guardarEquipoCompleto(@RequestParam Long idEquipo,
-                                              @RequestParam Long baseTitular1, @RequestParam Long baseTitular2,
-                                              @RequestParam Long aleroTitular1, @RequestParam Long aleroTitular2,
-                                              @RequestParam Long pivotTitular, @RequestParam(required = false) Long baseSuplente1,
-                                              @RequestParam(required = false) Long baseSuplente2,
-                                              @RequestParam(required = false) Long aleroSuplente1, @RequestParam(required = false) Long aleroSuplente2,
-                                              @RequestParam(required = false) Long pivotSuplente) {
+                                              @RequestParam("idJugador") List<Long> idsJugadores) {
 
-        /*Los RequestParam tienen el false para que no sea obligatorio antes de enviar*/
 
-        servicioEquipo.guardarEquipoCompleto(idEquipo, baseTitular1, baseTitular2, aleroTitular1, aleroTitular2, pivotTitular, baseSuplente1, baseSuplente2, aleroSuplente1, aleroSuplente2, pivotSuplente
-        );
+        servicioEquipo.guardarEquipoCompleto(idEquipo, idsJugadores);
 
         return new ModelAndView("redirect:/ver-equipo?id=" + idEquipo);
     }
