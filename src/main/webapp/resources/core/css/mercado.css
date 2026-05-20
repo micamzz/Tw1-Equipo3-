@@ -182,3 +182,19 @@ body{
     color:white;
     font-size: 12px;
 }
+.nav-links-mercado {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.nav-link-mercado {
+    color: #aaa;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.nav-link-mercado:hover {
+    color: #FF7A1A;
+    border-bottom: 1.5px solid #FF7A1A;
+}

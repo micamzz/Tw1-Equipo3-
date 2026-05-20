@@ -16,13 +16,17 @@
 </head>
 <body>
     <nav class="navbar-mercado">
+        <span class="nav-brand-text">UNLAM Basket</span>
         <form class ="form-busqueda" th:action= "@{/mercado}" method="get">
             <input type="hidden" name="posicion" th:value="${posicion}"/>
             <div class="search-wrapper">
                 <input type="text" name="nombre" th:value="${nombre}" placeholder="Buscar por nombre o apellido..." class="input-busqueda"/>
             </div>
         </form>
-        <span class="nav-brand-text">UNLAM Basket</span>
+        <nav class="nav-links-mercado">
+            <a th:href="@{/ver-equipo.html}" class="nav-link-mercado">Ver equipo</a>
+            <a th:href="@{/index}" class="nav-link-mercado">Mi perfil</a>
+        </nav>
     </nav>
 <main class="contenido-principal">
     <div class="filtros-section">
