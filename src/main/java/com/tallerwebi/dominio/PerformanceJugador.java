@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class PerformanceJugador {
@@ -11,8 +13,12 @@ public class PerformanceJugador {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "jugador_id")
     private Jugador jugador;
 
+    @ManyToOne
+    @JoinColumn(name = "partido_id")
     private Partido partido;
 
     private Integer minutosJugados;

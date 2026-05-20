@@ -6,6 +6,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Enumerated;
+import javax.persistence.EnumType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class JugadorPlantilla {
@@ -13,12 +17,19 @@ public class JugadorPlantilla {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "plantilla_usuario_id")
     private PlantillaUsuario plantillaUsuario;
 
+    @ManyToOne
+    @JoinColumn(name = "jugador_id")
     private Jugador jugador;
 
+    @ManyToOne
+    @JoinColumn(name = "ronda_id")
     private Ronda ronda;
 
+    @Enumerated(EnumType.STRING)
     private RolJugador rolJugador;
 
     private Boolean capitan;
