@@ -1,6 +1,7 @@
 package com.tallerwebi.dominio;
 
 import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
+import com.tallerwebi.dominio.excepcion.EquipoTitularSinCompletarException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -59,30 +60,40 @@ public class ServicioEquipoImpl implements ServicioEquipo {
 
     }
 
-    @Override
-    public void guardarEquipoCompleto(Long idEquipo, Long baseTitular1, Long baseTitular2, Long aleroTitular1, Long aleroTitular2, Long pivotTitular, Long baseSuplente1, Long baseSuplente2, Long aleroSuplente1, Long aleroSuplente2, Long pivotSuplente)
-            throws EquipoNoEncontradoException {
 
+    @Override
+    public void guardarEquipoCompleto(Long idEquipo, List<Long> idsJugadores) throws EquipoTitularSinCompletarException, EquipoNoEncontradoException {
         Equipo equipo = repositorioEquipo.buscarEquipoPorId(idEquipo);
 
         if (equipo == null) {
             throw new EquipoNoEncontradoException("No se encuentra el equipo con ese id");
         }
 
-        /* TITULARES */
-        guardarRelacionEntreEquipoYJugador(equipo, baseTitular1, 1);
-        guardarRelacionEntreEquipoYJugador(equipo, baseTitular2, 2);
-        guardarRelacionEntreEquipoYJugador(equipo, aleroTitular1, 3);
-        guardarRelacionEntreEquipoYJugador(equipo, aleroTitular2, 4);
-        guardarRelacionEntreEquipoYJugador(equipo, pivotTitular, 5);
+        validarTitular(idsJugadores);
 
-        /* SUPLENTES */
-        guardarRelacionEntreEquipoYJugador(equipo, baseSuplente1, 6);
-        guardarRelacionEntreEquipoYJugador(equipo, baseSuplente2, 7);
-        guardarRelacionEntreEquipoYJugador(equipo, aleroSuplente1, 8);
-        guardarRelacionEntreEquipoYJugador(equipo, aleroSuplente2, 9);
-        guardarRelacionEntreEquipoYJugador(equipo, pivotSuplente, 10);
+        for (int i = 0; i < idsJugadores.size(); i++) {
+            Long idJugador = idsJugadores.get(i);
+
+            if (idJugador != null) {
+                /*el i+1 es para el numero de orden*/
+                guardarRelacionEntreEquipoYJugador(equipo, idJugador, i + 1);
+            }
+        }
     }
+
+    private void validarTitular(List<Long> idsJugadores) {
+
+        if (idsJugadores == null || idsJugadores.size() < 5) {
+            throw new EquipoTitularSinCompletarException("Debes seleccionar los 5 jugadores titulares");
+        }
+
+        for (int i = 0; i < 5; i++) {
+            if (idsJugadores.get(i) == null) {
+                throw new EquipoTitularSinCompletarException("Debes seleccionar los 5 jugadores titulares");
+            }
+        }
+    }
+
 
     @Override
     public List<EquipoJugador> buscarJugadoresDelEquipo(Long idEquipo) {
@@ -92,8 +103,9 @@ public class ServicioEquipoImpl implements ServicioEquipo {
     /* Para crear un objeto de tipo EquipoJugador
      * como se tiene que usar muchas veces en el metodo GuardarEquipoCompleto, se hace el metodo para no repetir tanto codigo
      */
-    private void guardarRelacionEntreEquipoYJugador(Equipo equipo, Long idJugador, Integer numeroOrden) {
 
+
+    private void guardarRelacionEntreEquipoYJugador(Equipo equipo, Long idJugador, Integer numeroOrden) {
         /*Si un jugador es null, porq los suplentes pueden venir vacios corta el flujo
         para evitar que se guarde como null, y continuá lamando al siguiente metodo/
          */
@@ -102,13 +114,13 @@ public class ServicioEquipoImpl implements ServicioEquipo {
         }
 
         Jugador jugador = repositorioJugador.buscarJugadorPorId(idJugador);
-
         EquipoJugador equipoJugador = new EquipoJugador(equipo, jugador, numeroOrden);
-
         repositorioEquipoJugador.guardarEquipoJugador(equipoJugador);
-
     }
+
 }
+
+
 
 
 

@@ -8,6 +8,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalToIgnoringCase;
 import static org.hamcrest.Matchers.instanceOf;
@@ -40,9 +43,8 @@ public class ControladorEquipoTest {
     4- SI SE CREO EL NOMBRE DEL EQUIPO CORRECTAMENTE(ID VALIDO) TE LLEVA A SELECCIONAR JUGADORES.
     5- SI NO CREO EL NOMBRE DEL EQUIPO  TE LLEVA A LA VISTA CREAR-EQUIPO(DONDE VA EL NOMBRE)
     6- VER EQUIPO TE LLEVA  A VISTA VER EQUIPO
-    7- G
     7- SELECCIONADO LOS JUGADORES, BOTON CREAR-EQUIPO TE LLEVA A UNA VISTA CON EL DETALLE DE TU EQUIPO.
-
+    8 -  SI SELECCIONA SOLO LOS TITULARES TE LLEVA A VER EQUIPO
 
      */
 
@@ -125,14 +127,48 @@ public class ControladorEquipoTest {
     @Test
     public void guardarEquipoCompletoRedirigeAVerEquipo() {
         Long idEquipo = 1L;
-        ModelAndView mav = controladorEquipo.guardarEquipoCompleto(idEquipo, 1L,
-                2L, 3L, 4L, 5L,
-                null, null, null, null, null);
+
+        List<Long> idsJugadores = new ArrayList<>();
+
+        idsJugadores.add(1L);
+        idsJugadores.add(2L);
+        idsJugadores.add(3L);
+        idsJugadores.add(4L);
+        idsJugadores.add(5L);
+        /* SUPLENTES*/
+        idsJugadores.add(6L);
+        idsJugadores.add(7L);
+        idsJugadores.add(8L);
+        idsJugadores.add(9L);
+        idsJugadores.add(10L);
+
+        ModelAndView mav = controladorEquipo.guardarEquipoCompleto(idEquipo, idsJugadores);
 
         assertThat(mav.getViewName(), equalToIgnoringCase("redirect:/ver-equipo?id=1"));
     }
-    
 
+
+    @Test
+    public void guardarEquipoSoloConTitularesDebeRedigirirAVerEquipo() {
+        Long idEquipo = 1L;
+        List<Long> idsJugadores = new ArrayList<>();
+
+        idsJugadores.add(1L);
+        idsJugadores.add(2L);
+        idsJugadores.add(3L);
+        idsJugadores.add(4L);
+        idsJugadores.add(5L);
+        /* SUPLENTES*/
+        idsJugadores.add(null);
+        idsJugadores.add(null);
+        idsJugadores.add(null);
+        idsJugadores.add(null);
+        idsJugadores.add(null);
+
+        ModelAndView mav = controladorEquipo.guardarEquipoCompleto(idEquipo, idsJugadores);
+
+        assertThat(mav.getViewName(), equalToIgnoringCase("redirect:/ver-equipo?id=1"));
+    }
 }
 
 
