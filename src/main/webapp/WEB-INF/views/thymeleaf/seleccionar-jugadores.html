@@ -117,6 +117,20 @@
 
         </section>
 
+        <section class="bloque-capitan">
+
+            <p class="subtitulo-bloque">Capitán</p>
+
+            <div class="fila-posicion">
+                <label class="etiqueta-posicion" for="capitan">Elegí el capitán</label>
+                <select name="idCapitan" id="capitan" required>
+                    <option value="">Primero seleccioná los titulares</option>
+                </select>
+            </div>
+
+        </section>
+
+
         <!-- JUGADORES SUPLENTES -->
         <section class="bloque-suplentes">
             <p class="subtitulo-bloque">Suplentes</p>
@@ -204,6 +218,38 @@
 
 <!--FOOTER-->
 <div th:replace="layout/footer :: footer"></div>
+
+<script>
+    const idsSelectsTitulares = [
+        'baseTitular1',
+        'baseTitular2',
+        'aleroTitular1',
+        'aleroTitular2',
+        'pivotTitular'
+    ];
+
+    const selectCapitan = document.getElementById('capitan');
+
+    function actualizarOpcionesCapitan() {
+        selectCapitan.innerHTML = '<option value="">Seleccionar capitán</option>';
+
+        idsSelectsTitulares.forEach(function (idSelect) {
+            const selectTitular = document.getElementById(idSelect);
+            const opcionSeleccionada = selectTitular.options[selectTitular.selectedIndex];
+
+            if (opcionSeleccionada && opcionSeleccionada.value !== '') {
+                const optionCapitan = document.createElement('option');
+                optionCapitan.value = opcionSeleccionada.value;
+                optionCapitan.text = opcionSeleccionada.text;
+                selectCapitan.appendChild(optionCapitan);
+            }
+        });
+    }
+
+    idsSelectsTitulares.forEach(function (idSelect) {
+        document.getElementById(idSelect).addEventListener('change', actualizarOpcionesCapitan);
+    });
+</script>
 
 </body>
 </html>

@@ -40,6 +40,9 @@
                 <span class="nombre-jugador"
                       th:text="${equipoJugador.jugador.nombre} + ' ' + ${equipoJugador.jugador.apellido}">
                 </span>
+                <span th:if="${equipoJugador.capitan}" class="etiqueta-capitan">
+                      Capitán
+                </span>
 
             </div>
         </section>

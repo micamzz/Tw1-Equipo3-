@@ -83,10 +83,11 @@ public class ControladorEquipo {
     // Guarda la seleccion de jugadores elegidos.
     @RequestMapping(value = "/guardar-equipo", method = RequestMethod.POST)
     public ModelAndView guardarEquipoCompleto(@RequestParam Long idEquipo,
-                                              @RequestParam("idJugador") List<Long> idsJugadores) {
+                                              @RequestParam("idJugador") List<Long> idsJugadores
+                                             ,@RequestParam Long idCapitan){
 
 
-        servicioEquipo.guardarEquipoCompleto(idEquipo, idsJugadores);
+        servicioEquipo.guardarEquipoCompleto(idEquipo, idsJugadores,idCapitan);
 
         return new ModelAndView("redirect:/ver-equipo?id=" + idEquipo);
     }

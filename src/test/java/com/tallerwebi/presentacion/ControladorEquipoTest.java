@@ -142,7 +142,9 @@ public class ControladorEquipoTest {
         idsJugadores.add(9L);
         idsJugadores.add(10L);
 
-        ModelAndView mav = controladorEquipo.guardarEquipoCompleto(idEquipo, idsJugadores);
+        Long idCapitan = 1L;
+
+        ModelAndView mav = controladorEquipo.guardarEquipoCompleto(idEquipo, idsJugadores,idCapitan);
 
         assertThat(mav.getViewName(), equalToIgnoringCase("redirect:/ver-equipo?id=1"));
     }
@@ -165,7 +167,9 @@ public class ControladorEquipoTest {
         idsJugadores.add(null);
         idsJugadores.add(null);
 
-        ModelAndView mav = controladorEquipo.guardarEquipoCompleto(idEquipo, idsJugadores);
+        Long idCapitan = 1L;
+
+        ModelAndView mav = controladorEquipo.guardarEquipoCompleto(idEquipo, idsJugadores,idCapitan);
 
         assertThat(mav.getViewName(), equalToIgnoringCase("redirect:/ver-equipo?id=1"));
     }

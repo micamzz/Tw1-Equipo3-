@@ -1,5 +1,6 @@
 package com.tallerwebi.dominio;
 
+import com.tallerwebi.dominio.excepcion.CapitanNoEsTitularException;
 import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
 import com.tallerwebi.dominio.excepcion.EquipoTitularSinCompletarException;
 import com.tallerwebi.dominio.excepcion.PresupuestoInsuficienteException;
@@ -58,10 +59,11 @@ public class ServicioEquipoImpl implements ServicioEquipo {
 
 
     @Override
-    public void guardarEquipoCompleto(Long idEquipo, List<Long> idsJugadores) throws EquipoTitularSinCompletarException, EquipoNoEncontradoException {
+    public void guardarEquipoCompleto(Long idEquipo, List<Long> idsJugadores,Long idCapitan) throws EquipoTitularSinCompletarException, EquipoNoEncontradoException {
 
         Equipo equipo = buscarEquipoPorId(idEquipo);
         validarTitular(idsJugadores);
+        validarCapitan(idsJugadores, idCapitan);
 
         for (int i = 0; i < idsJugadores.size(); i++) {
             Long idJugador = idsJugadores.get(i);
@@ -71,7 +73,7 @@ public class ServicioEquipoImpl implements ServicioEquipo {
                 Jugador jugador = repositorioJugador.buscarJugadorPorId(idJugador);
 
                 siElPresupuestoEsMenorLanzaExcepcion(equipo, jugador);
-                guardarRelacionEntreEquipoYJugador(equipo, jugador, i + 1);
+                guardarRelacionEntreEquipoYJugador(equipo, jugador, i + 1, idCapitan);
             }
         }
     }
@@ -84,8 +86,9 @@ public class ServicioEquipoImpl implements ServicioEquipo {
         }
     }
 
-    private void guardarRelacionEntreEquipoYJugador(Equipo equipo, Jugador jugador, Integer numeroOrden) {
+    private void guardarRelacionEntreEquipoYJugador(Equipo equipo, Jugador jugador, Integer numeroOrden,Long idCapitan) {
         EquipoJugador equipoJugador = new EquipoJugador(equipo, jugador, numeroOrden);
+        equipoJugador.setCapitan(jugador.getId().equals(idCapitan));
         repositorioEquipoJugador.guardarEquipoJugador(equipoJugador);
     }
 
@@ -101,6 +104,12 @@ public class ServicioEquipoImpl implements ServicioEquipo {
             }
         }
     }
+    private void validarCapitan(List<Long> idsJugadores, Long idCapitan) {
+        if (idCapitan == null || !idsJugadores.subList(0, 5).contains(idCapitan)) {
+            throw new CapitanNoEsTitularException("El capitán debe ser uno de los jugadores titulares");
+        }
+    }
+
 
 
 }

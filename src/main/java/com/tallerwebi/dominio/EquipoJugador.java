@@ -18,6 +18,7 @@ public class EquipoJugador {
     //numeroOrden es el valor que le voy a asignar para saber si es titular (1 a 5), suplente (6 a 10) y 6to (6) para luego calcular los puntos del equipo.
     private Integer numeroOrden;
 
+    private Boolean capitan = false;
 
     public EquipoJugador() {
     }
@@ -56,5 +57,13 @@ public class EquipoJugador {
 
     public void setNumeroOrden(Integer numeroOrden) {
         this.numeroOrden = numeroOrden;
+    }
+
+    public Boolean getCapitan() {
+        return capitan;
+    }
+
+    public void setCapitan(Boolean capitan) {
+        this.capitan = capitan;
     }
 }

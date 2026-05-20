@@ -1,13 +1,20 @@
 package com.tallerwebi.dominio;
 
+import com.tallerwebi.dominio.excepcion.CapitanNoEsTitularException;
 import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import org.mockito.ArgumentCaptor;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class ServicioEquipoTest {
 
@@ -87,6 +94,111 @@ public class ServicioEquipoTest {
             servicioEquipo.buscarEquipoPorNombre(nombreNoEncontrado);
         });
     }
-    
+
+    private Jugador jugadorConId(Long id, Posicion posicion, Integer precio) {
+        Jugador jugador = new Jugador();
+        jugador.setId(id);
+        jugador.setPosicion(posicion);
+        jugador.setPrecio(precio);
+        return jugador;
+    }
+
+    @Test
+    public void alTenerUnEquipoConJugadoresYUnCapitanQueElCapitanSeIdentifiqueConExito() {
+        // El jugador con id=1L es el capitán, está entre los titulares
+        Equipo equipo = new Equipo();
+        equipo.setId(1L);
+
+        Jugador jugador1 = jugadorConId(1L, Posicion.BASE, 100000);
+        Jugador jugador2 = jugadorConId(2L, Posicion.BASE, 100000);
+        Jugador jugador3 = jugadorConId(3L, Posicion.ALERO, 100000);
+        Jugador jugador4 = jugadorConId(4L, Posicion.ALERO, 100000);
+        Jugador jugador5 = jugadorConId(5L, Posicion.PIVOT, 100000);
+
+        when(repositorioEquipoMock.buscarEquipoPorId(1L)).thenReturn(equipo);
+        when(repositorioJugadorMock.buscarJugadorPorId(1L)).thenReturn(jugador1);
+        when(repositorioJugadorMock.buscarJugadorPorId(2L)).thenReturn(jugador2);
+        when(repositorioJugadorMock.buscarJugadorPorId(3L)).thenReturn(jugador3);
+        when(repositorioJugadorMock.buscarJugadorPorId(4L)).thenReturn(jugador4);
+        when(repositorioJugadorMock.buscarJugadorPorId(5L)).thenReturn(jugador5);
+
+        List<Long> titulares = Arrays.asList(1L, 2L, 3L, 4L, 5L);
+        Long idCapitan = 1L;
+
+        servicioEquipo.guardarEquipoCompleto(1L, titulares, idCapitan);
+
+        var captor = org.mockito.ArgumentCaptor.forClass(EquipoJugador.class);
+        verify(repositorioEquipoJugadorMock, times(5)).guardarEquipoJugador(captor.capture());
+
+        List<EquipoJugador> jugadoresGuardados = captor.getAllValues();
+        EquipoJugador capitanGuardado = jugadoresGuardados.get(0);
+
+        assertTrue(capitanGuardado.getCapitan());
+    }
+
+    @Test
+    public void alContarElNumeroDeCapitanesExistentesEsDeSolo1() {
+        Equipo equipo = new Equipo();
+        equipo.setId(1L);
+
+        Jugador j1 = jugadorConId(1L, Posicion.BASE, 100000);
+        Jugador j2 = jugadorConId(2L, Posicion.BASE, 100000);
+        Jugador j3 = jugadorConId(3L, Posicion.ALERO, 100000);
+        Jugador j4 = jugadorConId(4L, Posicion.ALERO, 100000);
+        Jugador j5 = jugadorConId(5L, Posicion.PIVOT, 100000);
+
+        when(repositorioEquipoMock.buscarEquipoPorId(1L)).thenReturn(equipo);
+        when(repositorioJugadorMock.buscarJugadorPorId(1L)).thenReturn(j1);
+        when(repositorioJugadorMock.buscarJugadorPorId(2L)).thenReturn(j2);
+        when(repositorioJugadorMock.buscarJugadorPorId(3L)).thenReturn(j3);
+        when(repositorioJugadorMock.buscarJugadorPorId(4L)).thenReturn(j4);
+        when(repositorioJugadorMock.buscarJugadorPorId(5L)).thenReturn(j5);
+
+        List<Long> titulares = Arrays.asList(1L, 2L, 3L, 4L, 5L);
+        servicioEquipo.guardarEquipoCompleto(1L, titulares, 3L);
+
+
+        ArgumentCaptor<EquipoJugador> captor = ArgumentCaptor.forClass(EquipoJugador.class);
+        verify(repositorioEquipoJugadorMock, times(5)).guardarEquipoJugador(captor.capture());
+        Integer cantidadCapitanes = 0;
+
+        for (EquipoJugador equipoJugador : captor.getAllValues()) {
+            if (equipoJugador.getCapitan()) {
+                cantidadCapitanes++;
+            }
+        }
+        assertEquals(1, cantidadCapitanes);
+    }
+
+    @Test
+    public void siElCapitanNoEstaEntreLosItularesLanzaExcepcion() {
+        Equipo equipo = new Equipo();
+        equipo.setId(1L);
+
+        when(repositorioEquipoMock.buscarEquipoPorId(1L)).thenReturn(equipo);
+
+        List<Long> titulares = Arrays.asList(1L, 2L, 3L, 4L, 5L);
+        Long idCapitanQueNoExiste = 99L;
+
+        assertThrows(CapitanNoEsTitularException.class, () ->
+                servicioEquipo.guardarEquipoCompleto(1L, titulares, idCapitanQueNoExiste)
+        );
+    }
+
+    @Test
+    public void siNoSeEligeCapitanLanzaExcepcion() {
+        Equipo equipo = new Equipo();
+        equipo.setId(1L);
+
+        when(repositorioEquipoMock.buscarEquipoPorId(1L)).thenReturn(equipo);
+
+        List<Long> titulares = Arrays.asList(1L, 2L, 3L, 4L, 5L);
+        Long idCapitan = null;
+
+        assertThrows(CapitanNoEsTitularException.class, () ->
+                servicioEquipo.guardarEquipoCompleto(1L, titulares, idCapitan)
+        );
+    }
+
 
 }
