@@ -1,0 +1,79 @@
+<!DOCTYPE HTML>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ver Equipo</title>
+
+    <!-- Link CSS al Header y Footer-->
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
+    <link rel="stylesheet" th:href="@{/css/ver-equipo.css}">
+
+    <!-- Fuente INTER   -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+</head>
+<body>
+<!--HEADER -->
+<div th:replace="layout/header :: header"></div>
+
+<main>
+
+    <h1 class="titulo-equipo" th:text="${equipo.nombreEquipo}"></h1>
+
+    <div class="contenedor-equipo">
+        <!-- TITULARES -->
+        <section class="bloque-titulares">
+            <p class="subtitulo-bloque">Titulares</p>
+
+            <div th:each="equipoJugador : ${jugadoresEquipo}"
+                 th:if="${equipoJugador.numeroOrden <= 5}"
+                 class="fila-jugador">
+
+                <!-- Si el jugador guardado en el equipo es 1 o 2 devuelve base.
+                Si es 3 o 4 devuelve alero y si no pivot -->
+
+                <span class="etiqueta-posicion"
+                      th:text="${equipoJugador.numeroOrden == 1 or equipoJugador.numeroOrden == 2} ? 'Base' :
+                                (${equipoJugador.numeroOrden == 3 or equipoJugador.numeroOrden == 4} ? 'Alero' : 'Pivot')">
+                </span>
+
+                <span class="nombre-jugador"
+                      th:text="${equipoJugador.jugador.nombre} + ' ' + ${equipoJugador.jugador.apellido}">
+                </span>
+
+            </div>
+        </section>
+
+        <!-- SUPLENTES -->
+        <section class="bloque-suplentes">
+            <p class="subtitulo-bloque">Suplentes</p>
+
+            <div th:each="equipoJugador : ${jugadoresEquipo}"
+                 th:if="${equipoJugador.numeroOrden >= 6}"
+                 class="fila-jugador">
+
+                <span class="etiqueta-posicion"
+                      th:text="${equipoJugador.numeroOrden == 6 or equipoJugador.numeroOrden == 7} ? 'Base' :
+                                (${equipoJugador.numeroOrden == 8 or equipoJugador.numeroOrden == 9} ? 'Alero' : 'Pivot')">
+                </span>
+
+                <span class="nombre-jugador"
+                      th:text="${equipoJugador.jugador.nombre} + ' ' + ${equipoJugador.jugador.apellido}">
+                </span>
+            </div>
+
+            <!--Si no hay jugadores suplentes elegidos que muestre un msj-->
+            <p th:if="${jugadoresEquipo.size() <= 5}" class="sin-suplentes">
+                No agregaste ningún jugador suplente
+            </p>
+        </section>
+
+    </div>
+
+</main>
+
+<!--FOOTER-->
+<div th:replace="layout/footer :: footer"></div>
+
+</body>
+</html>

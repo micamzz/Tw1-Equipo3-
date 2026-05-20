@@ -1,7 +1,10 @@
 package com.tallerwebi.presentacion;
 
-import com.tallerwebi.dominio.Equipo;
-import com.tallerwebi.dominio.ServicioEquipo;
+import com.tallerwebi.dominio.*;
+import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
+import com.tallerwebi.dominio.excepcion.EquipoSinNombreException;
+import com.tallerwebi.dominio.excepcion.EquipoTitularSinCompletarException;
+import com.tallerwebi.dominio.excepcion.PresupuestoInsuficienteException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -10,15 +13,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
+
 @Controller
 public class ControladorEquipo {
 
     private ServicioEquipo servicioEquipo;
-  
+    private ServicioMercado servicioJugador;
 
-    public ControladorEquipo(ServicioEquipo servicioEquipo) {
+    public ControladorEquipo(ServicioEquipo servicioEquipo, ServicioMercado servicioJugador) {
         this.servicioEquipo = servicioEquipo;
+        this.servicioJugador = servicioJugador;
     }
+
 
     // Muestra la vista html para crear un equipo
     @RequestMapping("/crear-equipo")
@@ -37,50 +44,85 @@ public class ControladorEquipo {
 
     // Guarda el nombre del equipo en el servicio
     @RequestMapping(value = "/guardar-nombre-equipo", method = RequestMethod.POST)
-    public ModelAndView guardarNombreEquipo(@ModelAttribute Equipo equipoIngresado) {
+    public ModelAndView guardarNombreEquipo(@ModelAttribute Equipo equipoIngresado) throws EquipoSinNombreException {
 
-        // guarda el nombre que se ingreso en el input.
-        Equipo equipoGuardado = servicioEquipo.guardarEquipo(equipoIngresado);
+        try {
+            if (equipoIngresado.getNombreEquipo() == null || equipoIngresado.getNombreEquipo().isBlank()) {
+                throw new EquipoSinNombreException("No se puede crear equipo con nombre vacio");
+            }
 
-        // redirige al segundo paso que es seleccionar jugadores
-        return new ModelAndView("redirect:/seleccionar-jugadores?id=" + equipoGuardado.getId());
+            Equipo equipoGuardado = servicioEquipo.guardarEquipo(equipoIngresado);
+            return new ModelAndView("redirect:/seleccionar-jugadores?id=" + equipoGuardado.getId());
+
+        } catch (EquipoSinNombreException e) {
+            ModelMap modelo = new ModelMap();
+            modelo.put("equipo", new Equipo());
+            modelo.put("error", e.getMessage());
+            return new ModelAndView("crear-equipo", modelo);
+        }
     }
 
 
     // Vista con el form para que seleccione a los jugadores.
     // El request recibe por parametro el id que es obtenido del metodo anterior
     @RequestMapping("/seleccionar-jugadores")
-    public ModelAndView seleccionarJugadores(@RequestParam Long id) {
+    public ModelAndView seleccionarJugadores(@RequestParam Long id) throws EquipoNoEncontradoException {
 
-        ModelMap modelo = new ModelMap();
+        try {
+            ModelMap modelo = new ModelMap();
 
-        Equipo equipo = servicioEquipo.buscarEquipoPorId(id);
+            Equipo equipo = servicioEquipo.buscarEquipoPorId(id);
+            modelo.put("equipo", equipo);
 
-        if (equipo == null) {
+            List<Jugador> jugadoresBase = servicioJugador.buscarBase();
+            List<Jugador> jugadoresAlero = servicioJugador.buscarAlero();
+            List<Jugador> jugadoresPivot = servicioJugador.buscarPivot();
+
+            modelo.put("listadoBases", jugadoresBase);
+            modelo.put("listadoAleros", jugadoresAlero);
+            modelo.put("listadoPivots", jugadoresPivot);
+
+            return new ModelAndView("seleccionar-jugadores", modelo);
+
+        } catch (EquipoNoEncontradoException e) {
             return new ModelAndView("redirect:/crear-equipo");
         }
-        modelo.put("equipo", equipo);
-
-
-        return new ModelAndView("seleccionar-jugadores", modelo);
     }
+
 
     // Guarda la seleccion de jugadores elegidos.
     @RequestMapping(value = "/guardar-equipo", method = RequestMethod.POST)
-    public ModelAndView guardarEquipoCompleto() {
+    public ModelAndView guardarEquipoCompleto(@RequestParam Long idEquipo,
+                                              @RequestParam("idJugador") List<Long> idsJugadores) throws EquipoTitularSinCompletarException, EquipoNoEncontradoException, PresupuestoInsuficienteException {
+        try {
+            servicioEquipo.guardarEquipoCompleto(idEquipo, idsJugadores);
+            return new ModelAndView("redirect:/ver-equipo?id=" + idEquipo);
 
-        ModelMap modelo = new ModelMap();
+        } catch (EquipoTitularSinCompletarException | PresupuestoInsuficienteException e) {
+            return new ModelAndView("redirect:/seleccionar-jugadores?id=" + idEquipo);
 
-   /* ACA LLAMAR A SERVICIOJUGADOR ?
-        PASAR AL MODELO KEY -LISTA BASES/ALEROS/PIVOTS PARA PODER LLAMARLOS DEL HTML
-        Y MOSTARLOS EN UN SELECT, NECESITO USAR  SERVICIOJUGADOR Q IMPLEMENTA LOS EMTODOS DE FILTRADO
-        dEBE LLAMAR A UN METODO BUSCARBASES(),ETC
-        */
+        } catch (EquipoNoEncontradoException e) {
+            return new ModelAndView("redirect:/crear-equipo");
+        }
+    }
 
+    @RequestMapping("/ver-equipo")
+    public ModelAndView verEquipo(@RequestParam Long id) throws EquipoNoEncontradoException {
 
-        // retornar index o ver equipo ?
-        return new ModelAndView("index", modelo);
+        try {
+            ModelMap modelo = new ModelMap();
 
+            Equipo equipo = servicioEquipo.buscarEquipoPorId(id);
+            List<EquipoJugador> listadoDeJugadoresAsociadosAlEquipo = servicioEquipo.buscarJugadoresDelEquipo(id);
+
+            modelo.put("equipo", equipo);
+            modelo.put("jugadoresEquipo", listadoDeJugadoresAsociadosAlEquipo);
+
+            return new ModelAndView("ver-equipo", modelo);
+
+        } catch (EquipoNoEncontradoException e) {
+            return new ModelAndView("redirect:/crear-equipo");
+        }
     }
 
 

@@ -35,4 +35,11 @@ public class RepositorioJugadorImpl implements RepositorioJugador {
         return criteria.list();
     }
 
+    @Override
+    public Jugador buscarJugadorPorId(long id) {
+        org.hibernate.Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Jugador.class);
+        criteria.add(Restrictions.eq("id", id));
+        return (Jugador) criteria.uniqueResult();
+    }
+
 }

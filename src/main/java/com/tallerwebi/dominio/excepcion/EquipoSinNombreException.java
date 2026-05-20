@@ -1,10 +1,9 @@
 package com.tallerwebi.dominio.excepcion;
 
-public class EquipoNoEncontradoException extends Exception {
-
+public class EquipoSinNombreException extends Exception {
     private static final long serialVersionUID = 1L;
 
-    public EquipoNoEncontradoException(String message) {
+    public EquipoSinNombreException(String message) {
         super(message);
     }
 }
