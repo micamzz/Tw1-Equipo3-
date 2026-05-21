@@ -49,14 +49,14 @@ public class ServicioLigaImpl implements ServicioLiga {
     }
 
     private List<RendimientoJugador> mapJugadoresToRendimientos(List<Jugador> jugadores, int startInclusive,
-            int endExclusive) {
+            int endInclusive) {
         List<RendimientoJugador> rendimientos = new ArrayList<>();
         if (jugadores == null || jugadores.isEmpty()) {
             return rendimientos;
         }
 
         int size = jugadores.size();
-        for (int i = startInclusive; i <= endExclusive; i++) {
+        for (int i = startInclusive; i <= endInclusive; i++) {
             Jugador j = jugadores.get(i % size);
             String nombreCompleto = j.getNombre() + " " + j.getApellido();
 
