@@ -37,8 +37,4 @@ body {
     cursor: pointer;
 }
 
-/* HOVER */
-.boton-equipo:hover {
-    background-color: white;
-    color: #ff7a00;
-}
+
