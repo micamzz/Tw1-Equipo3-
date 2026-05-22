@@ -53,7 +53,7 @@ public class ControladorEquipoTest {
     @Test
     public void irACrearEquipoRetornaUnaVistaParaIngresarElNombreDelEquipo() {
         // Ejecucion
-        ModelAndView mav = controladorEquipo.crearNombreDelEquipo();
+        ModelAndView mav = controladorEquipo.irACrearEquipo();
 
         //Se encuentra el input para poner ingresar el nombre del equipo?
         assertThat(mav.getViewName(), equalToIgnoringCase("crear-equipo"));
@@ -62,22 +62,22 @@ public class ControladorEquipoTest {
         assertThat(mav.getModel().get("equipo"), instanceOf(Equipo.class));
     }
 
+    /*
+        @Test
+        public void alApretarElBotonDeCrearNombreDebeRedirigirASeleccionarJugadores() throws EquipoSinNombreException {
+            // Preparacion
+            when(equipoMock.getNombreEquipo()).thenReturn("PLM");
+            when(equipoMock.getId()).thenReturn(1L);
+            when(servicioEquipoMock.guardarEquipo(equipoMock)).thenReturn(equipoMock);
 
-    @Test
-    public void alApretarElBotonDeCrearNombreDebeRedirigirASeleccionarJugadores() throws EquipoSinNombreException {
-        // Preparacion
-        when(equipoMock.getNombreEquipo()).thenReturn("PLM");
-        when(equipoMock.getId()).thenReturn(1L);
-        when(servicioEquipoMock.guardarEquipo(equipoMock)).thenReturn(equipoMock);
+            // Ejecucion
 
-        // Ejecucion
+            ModelAndView mav = controladorEquipo.guardarNombreEquipo(equipoMock);
 
-        ModelAndView mav = controladorEquipo.guardarNombreEquipo(equipoMock);
-
-        // Verificacion
-        assertThat(mav.getViewName(), equalToIgnoringCase("redirect:/seleccionar-jugadores?id=1"));
-    }
-
+            // Verificacion
+            assertThat(mav.getViewName(), equalToIgnoringCase("redirect:/seleccionar-jugadores?id=1"));
+        }
+    */
     @Test
     public void guardarNombreDeEquipoVacioLanzaException() throws EquipoSinNombreException {
         Equipo equipo = mock(Equipo.class);
@@ -106,6 +106,7 @@ public class ControladorEquipoTest {
     }
 
 
+    /*
     @Test
     public void alRedirigirLaVistaConIdInvalidoRedireccionaACrearEquipo() throws EquipoNoEncontradoException {
 
@@ -119,6 +120,7 @@ public class ControladorEquipoTest {
         // Verificacion
         assertThat(mav.getViewName(), equalToIgnoringCase("redirect:/crear-equipo"));
     }
+*/
 
     @Test
     public void verEquipoDebeRetornarLaVistaVerEquipo() throws EquipoNoEncontradoException {

@@ -29,12 +29,12 @@ public class ControladorEquipo {
 
     // Muestra la vista html para crear un equipo
     @RequestMapping("/crear-equipo")
-    public ModelAndView crearNombreDelEquipo() {
+    public ModelAndView irACrearEquipo() {
         ModelMap modelo = new ModelMap();
 
         /* Agregar verificacion que si el usuario ya tiene un equipo creado lo redirija a
         ver equipo */
-
+        // TORNEO LLAMAR AL TORNEO.buscarTorneoActual();
         // Se crea un objeto vacio que luego se va a rellenar con los datos del form.
         modelo.put("equipo", new Equipo());
 
@@ -43,7 +43,7 @@ public class ControladorEquipo {
 
 
     // Guarda el nombre del equipo en el servicio
-    @RequestMapping(value = "/guardar-nombre-equipo", method = RequestMethod.POST)
+    @RequestMapping(value = "/guardarEquipo", method = RequestMethod.POST)
     public ModelAndView guardarNombreEquipo(@ModelAttribute Equipo equipoIngresado) throws EquipoSinNombreException {
 
         try {
@@ -52,7 +52,7 @@ public class ControladorEquipo {
             }
 
             Equipo equipoGuardado = servicioEquipo.guardarEquipo(equipoIngresado);
-            return new ModelAndView("redirect:/seleccionar-jugadores?id=" + equipoGuardado.getId());
+            return new ModelAndView("redirect:/seleccionar-jugadores?id=" + "equipo=" + equipoGuardado.getId());
 
         } catch (EquipoSinNombreException e) {
             ModelMap modelo = new ModelMap();
@@ -61,7 +61,6 @@ public class ControladorEquipo {
             return new ModelAndView("crear-equipo", modelo);
         }
     }
-
 
     // Vista con el form para que seleccione a los jugadores.
     // El request recibe por parametro el id que es obtenido del metodo anterior
