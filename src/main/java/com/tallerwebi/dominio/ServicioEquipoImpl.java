@@ -3,6 +3,7 @@ package com.tallerwebi.dominio;
 import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
 import com.tallerwebi.dominio.excepcion.EquipoTitularSinCompletarException;
 import com.tallerwebi.dominio.excepcion.PresupuestoInsuficienteException;
+import com.tallerwebi.dominio.excepcion.elJugadorYaExisteEnElEquipoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,7 @@ public class ServicioEquipoImpl implements ServicioEquipo {
     private RepositorioEquipo repositorioEquipo;
     private RepositorioJugador repositorioJugador;
     private RepositorioEquipoJugador repositorioEquipoJugador;
+    private static final Double PRESUPUESTO_INICIAL = 2000000D;
 
 
     @Autowired
@@ -29,6 +31,7 @@ public class ServicioEquipoImpl implements ServicioEquipo {
 
     @Override
     public Equipo guardarEquipo(Equipo equipo) {
+        equipo.setPresupuesto(PRESUPUESTO_INICIAL); // Presupuesto inicial para cada equipo
         repositorioEquipo.guardarEquipo(equipo);
         return equipo;/* Devuelve Equipo porq necesito recuperar el ID en el controlador  */
     }
@@ -52,30 +55,80 @@ public class ServicioEquipoImpl implements ServicioEquipo {
     }
 
     @Override
+    public void agregarJugadorAlEquipo(Long idEquipo, Long idJugador) throws EquipoNoEncontradoException, PresupuestoInsuficienteException, elJugadorYaExisteEnElEquipoException {
+
+        Equipo equipo = buscarEquipoPorId(idEquipo);
+
+        Jugador jugador = repositorioJugador.buscarJugadorPorId(idJugador);
+
+        /* Verifica si el jugador ya está asociado al equipo*/
+        validarSiElJugadorYaFueElegido(idEquipo, idJugador);
+
+        // Verifica que el presupuesto alcanze
+        siElPresupuestoEsMenorLanzaExcepcion(equipo, jugador);
+
+        // Llama al método que guarda la relación en el repositorioEquipoJugador
+        guardarRelacionEntreEquipoYJugador(equipo, jugador);
+    }
+
+    @Override
+    public void eliminarJugadorDelEquipo(Long idEquipo, Long idJugador) throws EquipoNoEncontradoException {
+
+        Equipo equipo = buscarEquipoPorId(idEquipo);
+    /* cuando el método tenga la excepcion llamar al repo
+    repositorioJugador.buscarJugadorPorId(idJugador);
+ */
+        EquipoJugador equipoJugador = repositorioEquipoJugador.buscarEquipoYJugadorAsociado(idEquipo, idJugador);
+
+        if (equipoJugador != null) {
+            equipo.setPresupuesto(equipo.getPresupuesto() + equipoJugador.getJugador().getPrecio());
+            /* cuando tenga a jugador puedo hace jugador.getprecio()*/
+            repositorioEquipoJugador.eliminarEquipoJugador(equipoJugador);
+        }
+    }
+
+
+    /*DEVUELVE UNA LISTA CON TODOS LOS Jugadores QUE ESTAN ASOCIADOS AL EQUIPO*/
+    @Override
     public List<EquipoJugador> buscarJugadoresDelEquipo(Long idEquipo) {
         return repositorioEquipoJugador.buscarPorEquipoId(idEquipo);
     }
 
 
     @Override
-    public void guardarEquipoCompleto(Long idEquipo, List<Long> idsJugadores) throws EquipoTitularSinCompletarException, PresupuestoInsuficienteException, EquipoNoEncontradoException {
+    public void guardarEquipoCompleto(Long idEquipo, List<Long> idsJugadores) throws EquipoTitularSinCompletarException, EquipoNoEncontradoException, PresupuestoInsuficienteException {
 
+    }
+    /*
+    @Override
+    public void guardarEquipoCompleto(Long idEquipo, List<Long> idsJugadores) throws EquipoTitularSinCompletarException, PresupuestoInsuficienteException, EquipoNoEncontradoException {
         Equipo equipo = buscarEquipoPorId(idEquipo);
         validarTitular(idsJugadores);
-
         for (int i = 0; i < idsJugadores.size(); i++) {
             Long idJugador = idsJugadores.get(i);
-
             if (idJugador != null) {
-                /*el i+1 es para el numero de orden*/
+               *el i+1 es para el numero de orden
                 Jugador jugador = repositorioJugador.buscarJugadorPorId(idJugador);
-
                 siElPresupuestoEsMenorLanzaExcepcion(equipo, jugador);
                 guardarRelacionEntreEquipoYJugador(equipo, jugador, i + 1);
             }
         }
     }
+  /*
 
+
+    /*  GUARDA AL EQUIPO Y AL JUGADOR EN EQUIPOJUGADOR LLAMANDO AL REPOSITORIO */
+
+    private void guardarRelacionEntreEquipoYJugador(Equipo equipo, Jugador jugador) {
+        EquipoJugador equipoJugador = new EquipoJugador();
+
+        equipoJugador.setEquipo(equipo);
+        equipoJugador.setJugador(jugador);
+
+        repositorioEquipoJugador.guardarEquipoJugador(equipoJugador);
+    }
+
+    /* SI EL SALDO DEL EQUIPO ES MENOR AL VALOR DEL JUGADOR EXCEPCION, NO PUEDE COMPRARLO.*/
     private void siElPresupuestoEsMenorLanzaExcepcion(Equipo equipo, Jugador jugador) throws PresupuestoInsuficienteException {
         if (equipo.getPresupuesto() < jugador.getPrecio()) {
             throw new PresupuestoInsuficienteException("Presupuesto insuficiente");
@@ -84,10 +137,6 @@ public class ServicioEquipoImpl implements ServicioEquipo {
         }
     }
 
-    private void guardarRelacionEntreEquipoYJugador(Equipo equipo, Jugador jugador, Integer numeroOrden) {
-        EquipoJugador equipoJugador = new EquipoJugador(equipo, jugador, numeroOrden);
-        repositorioEquipoJugador.guardarEquipoJugador(equipoJugador);
-    }
 
     private void validarTitular(List<Long> idsJugadores) throws EquipoTitularSinCompletarException {
 
@@ -102,6 +151,15 @@ public class ServicioEquipoImpl implements ServicioEquipo {
         }
     }
 
+    /* SI EL JUGADOR YA ESTA ASOCIADO AL EQUIPO HAY UNA EXCEPCION*/
+    private void validarSiElJugadorYaFueElegido(Long idEquipo, Long idJugador) throws elJugadorYaExisteEnElEquipoException {
+
+        EquipoJugador equipoJugador = repositorioEquipoJugador.buscarEquipoYJugadorAsociado(idEquipo, idJugador);
+
+        if (equipoJugador != null) {
+            throw new elJugadorYaExisteEnElEquipoException("El jugador ya esta fichado en el equipo");
+        }
+    }
 
 }
 
