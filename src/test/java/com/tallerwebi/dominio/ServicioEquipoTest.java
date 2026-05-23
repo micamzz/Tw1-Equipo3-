@@ -95,8 +95,9 @@ public class ServicioEquipoTest {
     }
 
     /* Se agrega un jugador correctamente, no esta registrado y el presupuesto alcanza*/
+
     @Test
-    public void cuandoSeAgregaUnJugadorAlEquipoSeAgregaCorrectamente() throws elJugadorYaExisteEnElEquipoException, EquipoNoEncontradoException, PresupuestoInsuficienteException {
+    public void cuandoSeAgregaUnJugadorAlEquipoSeAgregaCorrectamente() throws elJugadorYaExisteEnElEquipoException, EquipoNoEncontradoException, PresupuestoInsuficienteException, elJugadorYaExisteEnElEquipoException, PresupuestoInsuficienteException {
 
         //preparacion se necesita a equipoMock que esta inicializado en el before
         Long idEquipo = 3L;
@@ -115,7 +116,7 @@ public class ServicioEquipoTest {
         when(jugadormock.getPrecio()).thenReturn(150000);
 
 //        Ejecucion
-        servicioEquipo.agregarJugadorAlEquipo(idEquipo, idJugador);
+        servicioEquipo.agregarJugadorAlEquipo(idEquipo, idJugador, 1);
 
 //        Verificacion
         verify(repositorioEquipoJugadorMock, times(1)).guardarEquipoJugador(any(EquipoJugador.class));
@@ -143,10 +144,11 @@ public class ServicioEquipoTest {
         when(jugadormock.getPrecio()).thenReturn(150000);
 
 //        ejecucion y Verificacion
-      /*  assertThrows(UsuarioExistente.class, () -> this.servicioLogin.registrar(usuario));
-       verify(this.repositorioUsuarioMock, times(0)).guardar(usuario);
-       */
-        assertThrows(elJugadorYaExisteEnElEquipoException.class, () -> servicioEquipo.agregarJugadorAlEquipo(idEquipo, idJugador));
+        /*
+        assertThrows(UsuarioExistente.class, () -> this.servicioLogin.registrar(usuario));
+        verify(this.repositorioUsuarioMock, times(0)).guardar(usuario);
+*/
+        assertThrows(elJugadorYaExisteEnElEquipoException.class, () -> servicioEquipo.agregarJugadorAlEquipo(idEquipo, idJugador, 1));
     }
 
     @Test
@@ -169,7 +171,7 @@ public class ServicioEquipoTest {
         when(jugadormock.getPrecio()).thenReturn(2000001);
 
         //Ejecucion y  Verificacion
-        assertThrows(PresupuestoInsuficienteException.class, () -> servicioEquipo.agregarJugadorAlEquipo(idEquipo, idJugador));
+        assertThrows(PresupuestoInsuficienteException.class, () -> servicioEquipo.agregarJugadorAlEquipo(idEquipo, idJugador, 1));
     }
 
 

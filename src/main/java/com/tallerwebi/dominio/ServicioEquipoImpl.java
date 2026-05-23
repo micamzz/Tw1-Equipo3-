@@ -55,7 +55,7 @@ public class ServicioEquipoImpl implements ServicioEquipo {
     }
 
     @Override
-    public void agregarJugadorAlEquipo(Long idEquipo, Long idJugador) throws EquipoNoEncontradoException, PresupuestoInsuficienteException, elJugadorYaExisteEnElEquipoException {
+    public void agregarJugadorAlEquipo(Long idEquipo, Long idJugador, Integer numeroDeOrden) throws EquipoNoEncontradoException, PresupuestoInsuficienteException, elJugadorYaExisteEnElEquipoException {
 
         Equipo equipo = buscarEquipoPorId(idEquipo);
 
@@ -68,8 +68,9 @@ public class ServicioEquipoImpl implements ServicioEquipo {
         siElPresupuestoEsMenorLanzaExcepcion(equipo, jugador);
 
         // Llama al método que guarda la relación en el repositorioEquipoJugador
-        guardarRelacionEntreEquipoYJugador(equipo, jugador);
+        guardarRelacionEntreEquipoYJugador(equipo, jugador, numeroDeOrden);
     }
+    
 
     @Override
     public void eliminarJugadorDelEquipo(Long idEquipo, Long idJugador) throws EquipoNoEncontradoException {
@@ -119,11 +120,12 @@ public class ServicioEquipoImpl implements ServicioEquipo {
 
     /*  GUARDA AL EQUIPO Y AL JUGADOR EN EQUIPOJUGADOR LLAMANDO AL REPOSITORIO */
 
-    private void guardarRelacionEntreEquipoYJugador(Equipo equipo, Jugador jugador) {
+    private void guardarRelacionEntreEquipoYJugador(Equipo equipo, Jugador jugador, Integer numeroDeOrden) {
         EquipoJugador equipoJugador = new EquipoJugador();
 
         equipoJugador.setEquipo(equipo);
         equipoJugador.setJugador(jugador);
+        equipoJugador.setNumeroOrden(numeroDeOrden);
 
         repositorioEquipoJugador.guardarEquipoJugador(equipoJugador);
     }
