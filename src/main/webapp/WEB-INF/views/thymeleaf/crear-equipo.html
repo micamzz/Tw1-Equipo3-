@@ -20,13 +20,16 @@
 <main>
     <h1> CREAR EQUIPO</h1>
 
-    <form th:action="@{/guardar-nombre-equipo}" th:object="${equipo}" method="POST">
+    <!--guarda el nombre del equipo-->
+    <form th:action="@{/guardarEquipo}" th:object="${equipo}" method="POST">
         <!-- el th:objet debe coincidir con el nombre de la variable
         del modelMap del controlador.(que es la "llave")-->
 
         <section class="contenedor-nombre-Equipo">
             <label for="nombreEquipo"> Nombre del equipo:</label>
             <input type="text" th:field="*{nombreEquipo}" id="nombreEquipo" placeholder="Nombre de tu equipo" required/>
+            <!--Mensaje de error de la excepcion-->
+            <p th:if="${error}" th:text="${error}" style="color:red;"></p>
         </section>
 
         <button type="submit" class="boton-equipo" disabled>
