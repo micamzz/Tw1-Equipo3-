@@ -1,31 +1,28 @@
-
 footer {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    background-color: rgb(241, 241, 241);
-
+    margin-top: 3em;
+    background-color: #1c1d1f;
+    color: #ffffff;
 }
 
-.integrantes {
-    display: flex;
-    justify-content: flex-end;
+.footer-equipo {
+    border-top: 1px solid #ff7a1a3b;
+    margin-top: 30px;
+    padding: 20px;
+    text-align: center;
+    font-size: 0.9em;
 }
 
-.lista-integrantes {
-    padding: 0 2rem;
+.footer-lista {
     list-style: none;
     display: flex;
-    flex-direction: column;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 0.5rem 2rem;
-    margin-top: 2em;
+    gap: 8px 24px;
+    margin-bottom: 10px;
+    color: white;
 }
 
-
-.titulo-materia {
-    text-align: center;
-    font-size: 0.8em;
+.footer-copy {
+    color: white;
+    font-size: 12px;
 }
-
