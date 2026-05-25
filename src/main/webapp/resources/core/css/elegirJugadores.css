@@ -67,7 +67,8 @@ body {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
-    border-right: 1px solid var(--gris);
+    border: 1px solid var(--gris);
+    border-radius: 10px;
     overflow-y: auto;
 }
 
@@ -137,7 +138,7 @@ body {
     flex-shrink: 0;
 }
 
-/* ==================== SLOT GENÉRICO ==================== */
+/* SLOT GENÉRICO  */
 .ranura-absoluta {
     position: absolute;
     width: 20%;
@@ -259,6 +260,9 @@ body {
     color: #e74c3c;
     margin-top: 2px;
     display: none;
+    background: inherit;
+    border: none;
+    font-size: 0.85em;
 }
 
 .ranura-absoluta.tiene-jugador .ranura-quitar {
@@ -296,12 +300,13 @@ body {
     right: 20%;
 }
 
-/* ==================== LISTA JUGADORES ==================== */
+/* LISTADO DE JUGADORES  */
 .panel-lista {
     display: flex;
     flex-direction: column;
     background: var(--fondo);
-    border-right: 1px solid var(--gris);
+    border: 1px solid var(--gris);
+    border-radius: 10px;
     overflow: hidden;
 }
 
@@ -346,20 +351,6 @@ body {
     opacity: 0.4;
     cursor: not-allowed;
 }
-
-/*.envoltorio-buscar {
-    position: relative;
-}
-
-.envoltorio-buscar .icono-lupa {
-    position: absolute;
-    left: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--texto-tenue);
-    font-size: 1rem;
-    pointer-events: none;
-}*/
 
 .placeholder-lista {
     display: flex;
@@ -496,6 +487,7 @@ body {
         flex-shrink: 0;*/
 }
 
+/*BOTON FICHAR*/
 .btn-fichar {
     background: var(--naranja);
     color: #fff;
@@ -513,47 +505,6 @@ body {
     transform: scale(0.95);
 }
 
-
-.pie-panel-seleccionados {
-    margin-top: auto;
-    padding-top: 0.75rem;
-    border-top: 1px solid var(--gris);
-}
-
-.btn-enviar {
-    width: 100%;
-    background: var(--verde);
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    padding: 13px;
-    font-size: 0.95rem;
-    font-weight: 700;
-    cursor: pointer;
-    letter-spacing: 0.5px;
-    transition: opacity 0.2s, transform 0.1s;
-}
-
-.btn-enviar:disabled {
-    opacity: 0.3;
-    cursor: not-allowed;
-}
-
-.btn-enviar:not(:disabled):active {
-    transform: scale(0.98);
-}
-
-.creditos-restantes {
-    text-align: center;
-    font-size: 0.75rem;
-    color: var(--texto-tenue);
-    margin-top: 6px;
-}
-
-.creditos-restantes span {
-    color: var(--naranja);
-    font-weight: 700;
-}
 
 .alerta-error {
     background: rgba(192, 57, 43, 0.15);
@@ -580,14 +531,32 @@ body {
 }
 
 /* MENSAJE DE ERROR*/
-
 .alerta-error {
-    background: rgba(192, 57, 43, 0.15);
-    border: 1px solid #c0392b;
+    background: inherit;
     color: #e74c3c;
-    border-radius: 8px;
     padding: 10px 14px;
     font-size: 0.82rem;
+    width: 45%;
+}
+
+/* BOTON CONFIRMAR*/
+.form-confirmar {
+    padding: 0 2em;
+    display: flex;
+    justify-content: center;
+    margin-top: 2em;
+}
+
+.boton-confirmar {
     margin-top: 10px;
-    width: 35%;
+    background-color: #f06829;
+    color: white;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }

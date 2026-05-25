@@ -29,7 +29,7 @@
         </h1>
         <!-- <p class="descripcion-equipo">
              Arma tu quinteto ideal seleccionando jugadores titulares y suplentes para
-             cada posición. Una vez completado el equipo,apretá <strong>CREAR EQUIPO</strong> para guardar tu formación.
+             cada posición. Una vez completado el equipo, apretá <strong>CREAR EQUIPO</strong> para guardar tu formación.
          </p>-->
     </section>
 
@@ -71,7 +71,7 @@
                 <!-- Titulares -->
                 <!--BASE 1-->
                 <div class="ranura-absoluta" id="ranura-base1" data-orden="1"
-                     th:with="ej=${#lists.isEmpty(equipoJugadores) ? null : equipoJugadores.?[numeroOrden == 1].isEmpty() ? null : equipoJugadores.?[numeroOrden == 1][0]}"
+                     th:with="ej=${base1}"
                      th:onclick="${ej != null} ? '' : 'activarRanura(\'ranura-base1\', \'BASE\', \'Guardia\', false)'"
                      th:classappend="${ej != null} ? 'tiene-jugador' : ''">
 
@@ -88,12 +88,20 @@
                     <div class="ranura-etiqueta-puesto">BASE</div>
                     <div class="ranura-nombre"
                          th:text="${ej != null} ? ${ej.jugador.nombre + ' ' + ej.jugador.apellido} : ''"></div>
-                    <div class="ranura-quitar" th:if="${ej != null}">Eliminar</div>
+
+                    <!--BOTON ELIMINAR QUE TE LLEVA AL ACTION DEL CONTROLADOR QUE ELIMINA AL JUGADOR-->
+                    <form th:if="${ej != null}" th:action="@{/eliminar-jugador}" method="post"
+                          onclick="event.stopPropagation()">
+                        <input type="hidden" name="idEquipo" th:value="${equipo.id}">
+                        <input type="hidden" name="idJugador" th:value="${ej.jugador.id}">
+                        <button type="submit" class="ranura-quitar">Eliminar</button>
+                    </form>
+
                 </div>
 
                 <!-- BASE 2 -->
                 <div class="ranura-absoluta" id="ranura-base2" data-orden="2"
-                     th:with="ej=${equipoJugadores.?[numeroOrden == 2].isEmpty() ? null : equipoJugadores.?[numeroOrden == 2][0]}"
+                     th:with="ej=${base2}"
                      th:onclick="${ej != null} ? '' : 'activarRanura(\'ranura-base2\', \'BASE\', \'Guardia\', false)'"
                      th:classappend="${ej != null} ? 'tiene-jugador' : ''">
                     <div class="ranura-icono" th:if="${ej == null}">+</div>
@@ -107,12 +115,20 @@
                     <div class="ranura-etiqueta-puesto">BASE</div>
                     <div class="ranura-nombre"
                          th:text="${ej != null} ? ${ej.jugador.nombre + ' ' + ej.jugador.apellido} : ''"></div>
-                    <div class="ranura-quitar" th:if="${ej != null}">Eliminar</div>
+
+                    <!--BOTON ELIMINAR QUE TE LLEVA AL ACTION DEL CONTROLADOR QUE ELIMINA AL JUGADOR-->
+                    <form th:if="${ej != null}" th:action="@{/eliminar-jugador}" method="post"
+                          onclick="event.stopPropagation()">
+                        <input type="hidden" name="idEquipo" th:value="${equipo.id}">
+                        <input type="hidden" name="idJugador" th:value="${ej.jugador.id}">
+                        <button type="submit" class="ranura-quitar">Eliminar</button>
+                    </form>
+
                 </div>
 
                 <!-- ALERO 1 -->
                 <div class="ranura-absoluta" id="ranura-alero1" data-orden="3"
-                     th:with="ej=${equipoJugadores.?[numeroOrden == 3].isEmpty() ? null : equipoJugadores.?[numeroOrden == 3][0]}"
+                     th:with="ej=${alero1}"
                      th:onclick="${ej != null} ? '' : 'activarRanura(\'ranura-alero1\', \'ALERO\', \'Delantero\', false)'"
                      th:classappend="${ej != null} ? 'tiene-jugador' : ''">
                     <div class="ranura-icono" th:if="${ej == null}">+</div>
@@ -126,12 +142,20 @@
                     <div class="ranura-etiqueta-puesto">ALERO</div>
                     <div class="ranura-nombre"
                          th:text="${ej != null} ? ${ej.jugador.nombre + ' ' + ej.jugador.apellido} : ''"></div>
-                    <div class="ranura-quitar" th:if="${ej != null}">Eliminar</div>
+
+                    <!--BOTON ELIMINAR QUE TE LLEVA AL ACTION DEL CONTROLADOR QUE ELIMINA AL JUGADOR-->
+                    <form th:if="${ej != null}" th:action="@{/eliminar-jugador}" method="post"
+                          onclick="event.stopPropagation()">
+                        <input type="hidden" name="idEquipo" th:value="${equipo.id}">
+                        <input type="hidden" name="idJugador" th:value="${ej.jugador.id}">
+                        <button type="submit" class="ranura-quitar">Eliminar</button>
+                    </form>
+
                 </div>
 
                 <!-- ALERO 2 -->
                 <div class="ranura-absoluta" id="ranura-alero2" data-orden="4"
-                     th:with="ej=${equipoJugadores.?[numeroOrden == 4].isEmpty() ? null : equipoJugadores.?[numeroOrden == 4][0]}"
+                     th:with="ej=${alero2}"
                      th:onclick="${ej != null} ? '' : 'activarRanura(\'ranura-alero2\', \'ALERO\', \'Delantero\', false)'"
                      th:classappend="${ej != null} ? 'tiene-jugador' : ''">
                     <div class="ranura-icono" th:if="${ej == null}">+</div>
@@ -145,12 +169,20 @@
                     <div class="ranura-etiqueta-puesto">ALERO</div>
                     <div class="ranura-nombre"
                          th:text="${ej != null} ? ${ej.jugador.nombre + ' ' + ej.jugador.apellido} : ''"></div>
-                    <div class="ranura-quitar" th:if="${ej != null}">Eliminar</div>
+
+                    <!--BOTON ELIMINAR QUE TE LLEVA AL ACTION DEL CONTROLADOR QUE ELIMINA AL JUGADOR-->
+                    <form th:if="${ej != null}" th:action="@{/eliminar-jugador}" method="post"
+                          onclick="event.stopPropagation()">
+                        <input type="hidden" name="idEquipo" th:value="${equipo.id}">
+                        <input type="hidden" name="idJugador" th:value="${ej.jugador.id}">
+                        <button type="submit" class="ranura-quitar">Eliminar</button>
+                    </form>
+
                 </div>
 
                 <!-- PIVOT -->
                 <div class="ranura-absoluta" id="ranura-pivot" data-orden="5"
-                     th:with="ej=${equipoJugadores.?[numeroOrden == 5].isEmpty() ? null : equipoJugadores.?[numeroOrden == 5][0]}"
+                     th:with="ej=${pivot}"
                      th:onclick="${ej != null} ? '' : 'activarRanura(\'ranura-pivot\', \'PIVOT\', \'Centro\', false)'"
                      th:classappend="${ej != null} ? 'tiene-jugador' : ''">
                     <div class="ranura-icono" th:if="${ej == null}">+</div>
@@ -164,7 +196,14 @@
                     <div class="ranura-etiqueta-puesto">PIVOT</div>
                     <div class="ranura-nombre"
                          th:text="${ej != null} ? ${ej.jugador.nombre + ' ' + ej.jugador.apellido} : ''"></div>
-                    <div class="ranura-quitar" th:if="${ej != null}">Eliminar</div>
+
+                    <!--BOTON ELIMINAR QUE TE LLEVA AL ACTION DEL CONTROLADOR QUE ELIMINA AL JUGADOR-->
+                    <form th:if="${ej != null}" th:action="@{/eliminar-jugador}" method="post"
+                          onclick="event.stopPropagation()">
+                        <input type="hidden" name="idEquipo" th:value="${equipo.id}">
+                        <input type="hidden" name="idJugador" th:value="${ej.jugador.id}">
+                        <button type="submit" class="ranura-quitar">Eliminar</button>
+                    </form>
                 </div>
 
             </div> <!--fin div titulares-->
@@ -176,7 +215,7 @@
 
                 <!-- SUPLENTE PIVOT -->
                 <div class="ranura-suplente" id="suplente-pivot" data-orden="6"
-                     th:with="ej=${equipoJugadores.?[numeroOrden == 6].isEmpty() ? null : equipoJugadores.?[numeroOrden == 6][0]}"
+                     th:with="ej=${supPivot}"
                      th:onclick="${ej != null} ? '' : 'activarRanura(\'suplente-pivot\', \'PIVOT\', \'Pivot\', true)'"
                      th:classappend="${ej != null} ? 'tiene-jugador' : ''">
                     <div class="ranura-icono" th:if="${ej == null}">+</div>
@@ -190,12 +229,19 @@
                     <div class="ranura-etiqueta-puesto">PIVOT</div>
                     <div class="ranura-nombre"
                          th:text="${ej != null} ? ${ej.jugador.nombre + ' ' + ej.jugador.apellido} : ''"></div>
-                    <div class="ranura-quitar" th:if="${ej != null}">✕</div>
+
+                    <!--BOTON ELIMINAR QUE TE LLEVA AL ACTION DEL CONTROLADOR QUE ELIMINA AL JUGADOR-->
+                    <form th:if="${ej != null}" th:action="@{/eliminar-jugador}" method="post"
+                          onclick="event.stopPropagation()">
+                        <input type="hidden" name="idEquipo" th:value="${equipo.id}">
+                        <input type="hidden" name="idJugador" th:value="${ej.jugador.id}">
+                        <button type="submit" class="ranura-quitar">Eliminar</button>
+                    </form>
                 </div>
 
                 <!-- SUPLENTE ALERO 1 -->
                 <div class="ranura-suplente" id="suplente-alero1" data-orden="7"
-                     th:with="ej=${equipoJugadores.?[numeroOrden == 7].isEmpty() ? null : equipoJugadores.?[numeroOrden == 7][0]}"
+                     th:with="ej=${supAlero1}"
                      th:onclick="${ej != null} ? '' : 'activarRanura(\'suplente-alero1\', \'ALERO\', \'Alero\', true)'"
                      th:classappend="${ej != null} ? 'tiene-jugador' : ''">
                     <div class="ranura-icono" th:if="${ej == null}">+</div>
@@ -209,12 +255,21 @@
                     <div class="ranura-etiqueta-puesto">ALERO</div>
                     <div class="ranura-nombre"
                          th:text="${ej != null} ? ${ej.jugador.nombre + ' ' + ej.jugador.apellido} : ''"></div>
-                    <div class="ranura-quitar" th:if="${ej != null}">Eliminar</div>
+
+                    <!--BOTON ELIMINAR QUE TE LLEVA AL ACTION DEL CONTROLADOR QUE ELIMINA AL JUGADOR-->
+                    <form th:if="${ej != null}" th:action="@{/eliminar-jugador}" method="post"
+                          onclick="event.stopPropagation()">
+                        <input type="hidden" name="idEquipo" th:value="${equipo.id}">
+                        <input type="hidden" name="idJugador" th:value="${ej.jugador.id}">
+                        <button type="submit" class="ranura-quitar">Eliminar</button>
+                    </form>
+
+
                 </div>
 
                 <!-- SUPLENTE ALERO 2 -->
                 <div class="ranura-suplente" id="suplente-alero2" data-orden="8"
-                     th:with="ej=${equipoJugadores.?[numeroOrden == 8].isEmpty() ? null : equipoJugadores.?[numeroOrden == 8][0]}"
+                     th:with="ej=${supAlero2}"
                      th:onclick="${ej != null} ? '' : 'activarRanura(\'suplente-alero2\', \'ALERO\', \'Alero\', true)'"
                      th:classappend="${ej != null} ? 'tiene-jugador' : ''">
                     <div class="ranura-icono" th:if="${ej == null}">+</div>
@@ -228,12 +283,20 @@
                     <div class="ranura-etiqueta-puesto">ALERO</div>
                     <div class="ranura-nombre"
                          th:text="${ej != null} ? ${ej.jugador.nombre + ' ' + ej.jugador.apellido} : ''"></div>
-                    <div class="ranura-quitar" th:if="${ej != null}">Eliminar</div>
+
+                    <!--BOTON ELIMINAR QUE TE LLEVA AL ACTION DEL CONTROLADOR QUE ELIMINA AL JUGADOR-->
+                    <form th:if="${ej != null}" th:action="@{/eliminar-jugador}" method="post"
+                          onclick="event.stopPropagation()">
+                        <input type="hidden" name="idEquipo" th:value="${equipo.id}">
+                        <input type="hidden" name="idJugador" th:value="${ej.jugador.id}">
+                        <button type="submit" class="ranura-quitar">Eliminar</button>
+                    </form>
+
                 </div>
 
                 <!-- SUPLENTE BASE 1 -->
                 <div class="ranura-suplente" id="suplente-base1" data-orden="9"
-                     th:with="ej=${equipoJugadores.?[numeroOrden == 9].isEmpty() ? null : equipoJugadores.?[numeroOrden == 9][0]}"
+                     th:with="ej=${supBase1}"
                      th:onclick="${ej != null} ? '' : 'activarRanura(\'suplente-base1\', \'BASE\', \'Base\', true)'"
                      th:classappend="${ej != null} ? 'tiene-jugador' : ''">
                     <div class="ranura-icono" th:if="${ej == null}">+</div>
@@ -247,12 +310,20 @@
                     <div class="ranura-etiqueta-puesto">BASE</div>
                     <div class="ranura-nombre"
                          th:text="${ej != null} ? ${ej.jugador.nombre + ' ' + ej.jugador.apellido} : ''"></div>
-                    <div class="ranura-quitar" th:if="${ej != null}">Eliminar</div>
+
+                    <!--BOTON ELIMINAR QUE TE LLEVA AL ACTION DEL CONTROLADOR QUE ELIMINA AL JUGADOR-->
+                    <form th:if="${ej != null}" th:action="@{/eliminar-jugador}" method="post"
+                          onclick="event.stopPropagation()">
+                        <input type="hidden" name="idEquipo" th:value="${equipo.id}">
+                        <input type="hidden" name="idJugador" th:value="${ej.jugador.id}">
+                        <button type="submit" class="ranura-quitar">Eliminar</button>
+                    </form>
+
                 </div>
 
                 <!-- SUPLENTE BASE 2 -->
                 <div class="ranura-suplente" id="suplente-base2" data-orden="10"
-                     th:with="ej=${equipoJugadores.?[numeroOrden == 10].isEmpty() ? null : equipoJugadores.?[numeroOrden == 10][0]}"
+                     th:with="ej=${supBase2}"
                      th:onclick="${ej != null} ? '' : 'activarRanura(\'suplente-base2\', \'BASE\', \'Base\', true)'"
                      th:classappend="${ej != null} ? 'tiene-jugador' : ''">
                     <div class="ranura-icono" th:if="${ej == null}">+</div>
@@ -266,9 +337,15 @@
                     <div class="ranura-etiqueta-puesto">BASE</div>
                     <div class="ranura-nombre"
                          th:text="${ej != null} ? ${ej.jugador.nombre + ' ' + ej.jugador.apellido} : ''"></div>
-                    <div class="ranura-quitar" th:if="${ej != null}">Eliminar</div>
-                </div>
 
+                    <!--BOTON ELIMINAR QUE TE LLEVA AL ACTION DEL CONTROLADOR QUE ELIMINA AL JUGADOR-->
+                    <form th:if="${ej != null}" th:action="@{/eliminar-jugador}" method="post"
+                          onclick="event.stopPropagation()">
+                        <input type="hidden" name="idEquipo" th:value="${equipo.id}">
+                        <input type="hidden" name="idJugador" th:value="${ej.jugador.id}">
+                        <button type="submit" class="ranura-quitar">Eliminar</button>
+                    </form>
+                </div>
             </div> <!--fin div suplentes-->
 
         </div> <!--Fin div panel cancha-->
@@ -282,6 +359,7 @@
                 </div>
                 <div class="envoltorio-buscar">
                     <!--    <span class="icono-lupa">&#x1F50D;</span>-->
+                    <label for="campoBuscar"></label>
                     <input type="text" class="campo-buscar" id="campoBuscar"
                            placeholder="Buscar jugador...">
                 </div>
@@ -387,15 +465,13 @@
             </div>
         </div>
 
-
-        <div class="pie-panel-seleccionados">
-            <button>CONFIRMAR EQUIPO
-            </button>
-            <!-- <div class="creditos-restantes">
-                 Créditos usados: <span id="txt-creditos-usados">0.0</span> / 221
-             </div>-->
-        </div>
     </section>
+
+    <!-- Boton confirmar equipo-->
+    <form th:action="@{/confirmar-equipo}" method="post" class="form-confirmar">
+        <input type="hidden" name="idEquipo" th:value="${equipo.id}">
+        <button type="submit" class="boton-confirmar">CONFIRMAR EQUIPO</button>
+    </form>
 
 
 </main>
