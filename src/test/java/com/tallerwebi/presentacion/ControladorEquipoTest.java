@@ -2,17 +2,13 @@ package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.Equipo;
 import com.tallerwebi.dominio.ServicioEquipo;
+import com.tallerwebi.dominio.ServicioEquipoJugador;
 import com.tallerwebi.dominio.ServicioMercado;
 import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
 import com.tallerwebi.dominio.excepcion.EquipoSinNombreException;
-import com.tallerwebi.dominio.excepcion.EquipoTitularSinCompletarException;
-import com.tallerwebi.dominio.excepcion.PresupuestoInsuficienteException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalToIgnoringCase;
@@ -25,6 +21,7 @@ public class ControladorEquipoTest {
     private ControladorEquipo controladorEquipo;
     private ServicioEquipo servicioEquipoMock;
     private ServicioMercado servicioJugadorMock;
+    private ServicioEquipoJugador servicioEquipoJugadorMock;
     private Equipo equipoMock;
 
 
@@ -33,7 +30,9 @@ public class ControladorEquipoTest {
     public void inicializacion() {
         servicioEquipoMock = mock(ServicioEquipo.class);
         servicioJugadorMock = mock(ServicioMercado.class);
-        controladorEquipo = new ControladorEquipo(servicioEquipoMock, servicioJugadorMock);
+        servicioEquipoJugadorMock = mock(ServicioEquipoJugador.class);
+
+        controladorEquipo = new ControladorEquipo(servicioEquipoMock, servicioJugadorMock, servicioEquipoJugadorMock);
         equipoMock = mock(Equipo.class);
     }
 
@@ -62,22 +61,22 @@ public class ControladorEquipoTest {
         assertThat(mav.getModel().get("equipo"), instanceOf(Equipo.class));
     }
 
-    /*
-        @Test
-        public void alApretarElBotonDeCrearNombreDebeRedirigirASeleccionarJugadores() throws EquipoSinNombreException {
-            // Preparacion
-            when(equipoMock.getNombreEquipo()).thenReturn("PLM");
-            when(equipoMock.getId()).thenReturn(1L);
-            when(servicioEquipoMock.guardarEquipo(equipoMock)).thenReturn(equipoMock);
 
-            // Ejecucion
+    @Test
+    public void alApretarElBotonDeCrearNombreDebeRedirigirASeleccionarJugadores() throws EquipoSinNombreException {
+        // Preparacion
+        when(equipoMock.getNombreEquipo()).thenReturn("PLM");
+        when(equipoMock.getId()).thenReturn(1L);
+        when(servicioEquipoMock.guardarEquipo(equipoMock)).thenReturn(equipoMock);
 
-            ModelAndView mav = controladorEquipo.guardarNombreEquipo(equipoMock);
+        // Ejecucion
 
-            // Verificacion
-            assertThat(mav.getViewName(), equalToIgnoringCase("redirect:/seleccionar-jugadores?id=1"));
-        }
-    */
+        ModelAndView mav = controladorEquipo.guardarNombreEquipo(equipoMock);
+
+        // Verificacion
+        assertThat(mav.getViewName(), equalToIgnoringCase("redirect:/seleccionar-jugadores?id=1"));
+    }
+
     @Test
     public void guardarNombreDeEquipoVacioLanzaException() throws EquipoSinNombreException {
         Equipo equipo = mock(Equipo.class);
@@ -87,9 +86,10 @@ public class ControladorEquipoTest {
         ModelAndView mav = controladorEquipo.guardarNombreEquipo(equipo);
 
         assertThat(mav.getViewName(), equalToIgnoringCase("crear-equipo"));
-        assertThat(mav.getModel().get("error").toString(), equalToIgnoringCase("No se puede crear equipo con nombre vacio")
+        assertThat(mav.getModel().get("error").toString(), equalToIgnoringCase("El nombre del equipo no puede estar vacio")
         );
     }
+
 
     @Test
     public void alRedirigirLaVistaConIdValidoDevuelveLaVistaSeleccionarJugadores() throws EquipoNoEncontradoException {
@@ -99,14 +99,13 @@ public class ControladorEquipoTest {
         when(servicioEquipoMock.buscarEquipoPorId(idEquipo)).thenReturn(equipoMock);
 
         //ejecucion
-        ModelAndView mav = controladorEquipo.seleccionarJugadores(idEquipo);
+        ModelAndView mav = controladorEquipo.seleccionarJugadores(idEquipo, null);
 
         // Verificacion
-        assertThat(mav.getViewName(), equalToIgnoringCase("seleccionar-jugadores"));
+        assertThat(mav.getViewName(), equalToIgnoringCase("seleccionar-jugadores2"));
     }
 
 
-    /*
     @Test
     public void alRedirigirLaVistaConIdInvalidoRedireccionaACrearEquipo() throws EquipoNoEncontradoException {
 
@@ -115,12 +114,11 @@ public class ControladorEquipoTest {
         when(servicioEquipoMock.buscarEquipoPorId(1L)).thenThrow(EquipoNoEncontradoException.class);
 
         //ejecucion
-        ModelAndView mav = controladorEquipo.seleccionarJugadores(idEquipo);
+        ModelAndView mav = controladorEquipo.seleccionarJugadores(idEquipo, null);
 
         // Verificacion
-        assertThat(mav.getViewName(), equalToIgnoringCase("redirect:/crear-equipo"));
+        assertThat(mav.getViewName(), equalToIgnoringCase("redirect:/home"));
     }
-*/
 
     @Test
     public void verEquipoDebeRetornarLaVistaVerEquipo() throws EquipoNoEncontradoException {
@@ -135,6 +133,7 @@ public class ControladorEquipoTest {
         assertThat(mav.getViewName(), equalToIgnoringCase("ver-equipo"));
     }
 
+    /*
     @Test
     public void guardarEquipoCompletoRedirigeAVerEquipo() throws EquipoTitularSinCompletarException, EquipoNoEncontradoException, PresupuestoInsuficienteException {
 
@@ -147,17 +146,16 @@ public class ControladorEquipoTest {
         idsJugadores.add(3L);
         idsJugadores.add(4L);
         idsJugadores.add(5L);
-        /* SUPLENTES*/
+        /* SUPLENTES
         idsJugadores.add(6L);
         idsJugadores.add(7L);
         idsJugadores.add(8L);
         idsJugadores.add(9L);
         idsJugadores.add(10L);
 
-        //ejecuion
+        ejecuion
         ModelAndView mav = controladorEquipo.guardarEquipoCompleto(idEquipo, idsJugadores);
-
-        //verificacion
+        erificacion
         assertThat(mav.getViewName(), equalToIgnoringCase("redirect:/ver-equipo?id=1"));
     }
 
@@ -173,7 +171,7 @@ public class ControladorEquipoTest {
         idsJugadores.add(3L);
         idsJugadores.add(4L);
         idsJugadores.add(5L);
-        /* SUPLENTES*/
+        /* SUPLENTES
         idsJugadores.add(null);
         idsJugadores.add(null);
         idsJugadores.add(null);
@@ -186,6 +184,9 @@ public class ControladorEquipoTest {
         // verificacion
         assertThat(mav.getViewName(), equalToIgnoringCase("redirect:/ver-equipo?id=1"));
     }
+
+
+     */
 }
 
 

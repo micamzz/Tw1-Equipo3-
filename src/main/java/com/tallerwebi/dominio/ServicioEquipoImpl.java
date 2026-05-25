@@ -14,10 +14,10 @@ import java.util.List;
 @Transactional
 public class ServicioEquipoImpl implements ServicioEquipo {
 
-    private RepositorioEquipo repositorioEquipo;
-    private RepositorioJugador repositorioJugador;
-    private RepositorioEquipoJugador repositorioEquipoJugador;
-    private static final Double PRESUPUESTO_INICIAL = 2000000D;
+    private final RepositorioEquipo repositorioEquipo;
+    private final RepositorioJugador repositorioJugador;
+    private final RepositorioEquipoJugador repositorioEquipoJugador;
+    private static final Double PRESUPUESTO_INICIAL = 850000D;
 
 
     @Autowired
@@ -40,7 +40,7 @@ public class ServicioEquipoImpl implements ServicioEquipo {
     public Equipo buscarEquipoPorId(Long id) throws EquipoNoEncontradoException {
         Equipo equipo = repositorioEquipo.buscarEquipoPorId(id);
         if (equipo == null) {
-            throw new EquipoNoEncontradoException("No se encuentra el equipo asociado a ese id");
+            throw new EquipoNoEncontradoException();
         }
         return equipo;
     }
@@ -49,7 +49,7 @@ public class ServicioEquipoImpl implements ServicioEquipo {
     public Equipo buscarEquipoPorNombre(String nombre) throws EquipoNoEncontradoException {
         Equipo equipo = repositorioEquipo.buscarEquipoPorNombre(nombre);
         if (equipo == null) {
-            throw new EquipoNoEncontradoException("No se encuentra el equipo con ese nombre");
+            throw new EquipoNoEncontradoException();
         }
         return equipo;
     }
@@ -70,7 +70,7 @@ public class ServicioEquipoImpl implements ServicioEquipo {
         // Llama al método que guarda la relación en el repositorioEquipoJugador
         guardarRelacionEntreEquipoYJugador(equipo, jugador, numeroDeOrden);
     }
-    
+
 
     @Override
     public void eliminarJugadorDelEquipo(Long idEquipo, Long idJugador) throws EquipoNoEncontradoException {
@@ -96,10 +96,7 @@ public class ServicioEquipoImpl implements ServicioEquipo {
     }
 
 
-    @Override
-    public void guardarEquipoCompleto(Long idEquipo, List<Long> idsJugadores) throws EquipoTitularSinCompletarException, EquipoNoEncontradoException, PresupuestoInsuficienteException {
 
-    }
     /*
     @Override
     public void guardarEquipoCompleto(Long idEquipo, List<Long> idsJugadores) throws EquipoTitularSinCompletarException, PresupuestoInsuficienteException, EquipoNoEncontradoException {
@@ -143,12 +140,12 @@ public class ServicioEquipoImpl implements ServicioEquipo {
     private void validarTitular(List<Long> idsJugadores) throws EquipoTitularSinCompletarException {
 
         if (idsJugadores == null || idsJugadores.size() < 5) {
-            throw new EquipoTitularSinCompletarException("Debes seleccionar los 5 jugadores titulares");
+            throw new EquipoTitularSinCompletarException();
         }
 
         for (int i = 0; i < 5; i++) {
             if (idsJugadores.get(i) == null) {
-                throw new EquipoTitularSinCompletarException("Debes seleccionar los 5 jugadores titulares");
+                throw new EquipoTitularSinCompletarException();
             }
         }
     }

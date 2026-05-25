@@ -140,7 +140,7 @@ public class ServicioEquipoTest {
         when(repositorioEquipoJugadorMock.buscarEquipoYJugadorAsociado(idEquipo, idJugador)).thenReturn(equipoJugadorMock);
 
         //valores para verificar si el presuesto alcanza
-        when(equipoMock.getPresupuesto()).thenReturn(2000000D);
+        when(equipoMock.getPresupuesto()).thenReturn(850000D);
         when(jugadormock.getPrecio()).thenReturn(150000);
 
 //        ejecucion y Verificacion
@@ -167,8 +167,8 @@ public class ServicioEquipoTest {
         when(repositorioEquipoJugadorMock.buscarEquipoYJugadorAsociado(idEquipo, idJugador)).thenReturn(null);
 
         //valores para verificar si el presuesto alcanza
-        when(equipoMock.getPresupuesto()).thenReturn(2000000D);
-        when(jugadormock.getPrecio()).thenReturn(2000001);
+        when(equipoMock.getPresupuesto()).thenReturn(850000D);
+        when(jugadormock.getPrecio()).thenReturn(850001);
 
         //Ejecucion y  Verificacion
         assertThrows(PresupuestoInsuficienteException.class, () -> servicioEquipo.agregarJugadorAlEquipo(idEquipo, idJugador, 1));
