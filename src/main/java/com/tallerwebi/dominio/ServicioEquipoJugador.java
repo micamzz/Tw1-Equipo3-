@@ -1,14 +1,16 @@
 package com.tallerwebi.dominio;
 
 import com.tallerwebi.dominio.excepcion.EquipoJugadorNoEncontradoException;
-import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
 
 import java.util.HashMap;
+import java.util.List;
 
 public interface ServicioEquipoJugador {
 
-    EquipoJugador guardarEquipoJugador (EquipoJugador equipoJugador);
+    EquipoJugador guardarEquipoJugador(EquipoJugador equipoJugador);
 
-    HashMap <Integer,Jugador> buscarJugadoresPorEquipoId(Long id) throws EquipoJugadorNoEncontradoException;
+    EquipoJugador buscarJugadorPorNumeroDeOrden(List<EquipoJugador> jugadores, Integer orden);
+
+    HashMap<Integer, Jugador> buscarJugadoresPorEquipoId(Long id) throws EquipoJugadorNoEncontradoException;
 
 }
