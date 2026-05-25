@@ -28,7 +28,6 @@ document.getElementById("campoBuscar").addEventListener("input", function (e) {
 });
 
 function activarRanura(idRanura, puesto) {
-
     const ranura = document.getElementById(idRanura);
     // si la ranura ya tiene jugador (clase ocupada), salir
     if (ranura.classList.contains("ranura-ocupada")) return;
@@ -57,6 +56,12 @@ function activarRanura(idRanura, puesto) {
     document.getElementById("scrollJugadores").style.display = "block";
 
     document.querySelectorAll(".tarjeta-jugador").forEach(card => {
+
+        if (puesto === "TODOS") {
+            card.classList.remove("oculto");
+            return;
+        }
+
         if (card.dataset.puesto === puesto) {
             card.classList.remove("oculto");
         } else {

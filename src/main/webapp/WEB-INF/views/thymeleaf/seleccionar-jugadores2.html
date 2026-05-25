@@ -52,7 +52,7 @@
                 <!-- CAPITAN NRO ORDEN 11-->
                 <div class="ranura-suplente" id="capitan" data-orden="11"
                      th:with="ej=${capitan}"
-                     th:onclick="${ej != null} ? '' : 'activarRanura(\'suplente-pivot\', \'PIVOT\', \'Pivot\', true)'"
+                     th:onclick="${ej != null} ? '' : 'activarRanura(\'capitan\', \'TODOS\')'"
                      th:classappend="${ej != null} ? 'tiene-jugador' : ''">
                     <div class="ranura-icono" th:if="${ej == null}">+</div>
                     <img class="ranura-foto"
@@ -75,7 +75,7 @@
                 <!--SEXTO HOMBRE Nro ORDEN 12 -->
                 <div class="ranura-suplente" id="sextoHombre" data-orden="12"
                      th:with="ej=${sextoHombre}"
-                     th:onclick="${ej != null} ? '' : 'activarRanura(\'suplente-pivot\', \'PIVOT\', \'Pivot\', true)'"
+                     th:onclick="${ej != null} ? '' : 'activarRanura(\'sextoHombre\', \'TODOS\')'"
                      th:classappend="${ej != null} ? 'tiene-jugador' : ''">
                     <div class="ranura-icono" th:if="${ej == null}">+</div>
                     <img class="ranura-foto"
@@ -526,6 +526,6 @@
 <div th:replace="layout/footer :: footer"></div>
 
 <!-- JAVASCRITP-->
-<script th:src="@{js/seleccionarJugadores2.js}"></script>
+<script th:src="@{/js/seleccionarJugadores2.js}"></script>
 </body>
 </html>
