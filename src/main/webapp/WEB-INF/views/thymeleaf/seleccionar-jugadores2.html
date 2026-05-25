@@ -46,6 +46,55 @@
                 <p th:if="${error}" th:text="${error}" class="alerta-error"></p>
             </div>
 
+            <!-- CAPITAN + SEXTO HOMBRE-->
+            <div class="seccion-titulo">Capitan y Sexto Hombre</div>
+            <div class="contenedor-capitan">
+                <!-- CAPITAN NRO ORDEN 11-->
+                <div class="ranura-suplente" id="capitan" data-orden="11"
+                     th:with="ej=${capitan}"
+                     th:onclick="${ej != null} ? '' : 'activarRanura(\'suplente-pivot\', \'PIVOT\', \'Pivot\', true)'"
+                     th:classappend="${ej != null} ? 'tiene-jugador' : ''">
+                    <div class="ranura-icono" th:if="${ej == null}">+</div>
+                    <img class="ranura-foto"
+                         th:if="${ej != null and ej.jugador.foto != null and !#strings.isEmpty(ej.jugador.foto)}"
+                         th:src="${ej.jugador.foto}" alt="">
+
+                    <div class="ranura-etiqueta-puesto">CAPITAN</div>
+                    <div class="ranura-nombre"
+                         th:text="${ej != null} ? ${ej.jugador.nombre + ' ' + ej.jugador.apellido} : ''"></div>
+
+                    <!--BOTON ELIMINAR QUE TE LLEVA AL ACTION DEL CONTROLADOR QUE ELIMINA AL JUGADOR-->
+                    <form th:if="${ej != null}" th:action="@{/eliminar-jugador}" method="post"
+                          onclick="event.stopPropagation()">
+                        <input type="hidden" name="idEquipo" th:value="${equipo.id}">
+                        <input type="hidden" name="idJugador" th:value="${ej.jugador.id}">
+                        <button type="submit" class="ranura-quitar">Eliminar</button>
+                    </form>
+                </div>
+
+                <!--SEXTO HOMBRE Nro ORDEN 12 -->
+                <div class="ranura-suplente" id="sextoHombre" data-orden="12"
+                     th:with="ej=${sextoHombre}"
+                     th:onclick="${ej != null} ? '' : 'activarRanura(\'suplente-pivot\', \'PIVOT\', \'Pivot\', true)'"
+                     th:classappend="${ej != null} ? 'tiene-jugador' : ''">
+                    <div class="ranura-icono" th:if="${ej == null}">+</div>
+                    <img class="ranura-foto"
+                         th:if="${ej != null and ej.jugador.foto != null and !#strings.isEmpty(ej.jugador.foto)}"
+                         th:src="${ej.jugador.foto}" alt="">
+                    <div class="ranura-etiqueta-puesto">SEXTO HOMBRE</div>
+                    <div class="ranura-nombre"
+                         th:text="${ej != null} ? ${ej.jugador.nombre + ' ' + ej.jugador.apellido} : ''"></div>
+
+                    <!--BOTON ELIMINAR QUE TE LLEVA AL ACTION DEL CONTROLADOR QUE ELIMINA AL JUGADOR-->
+                    <form th:if="${ej != null}" th:action="@{/eliminar-jugador}" method="post"
+                          onclick="event.stopPropagation()">
+                        <input type="hidden" name="idEquipo" th:value="${equipo.id}">
+                        <input type="hidden" name="idJugador" th:value="${ej.jugador.id}">
+                        <button type="submit" class="ranura-quitar">Eliminar</button>
+                    </form>
+                </div>
+
+            </div> <!--fin div CAPITAN + SEXTO HOMBRE -->
 
             <div class="seccion-titulo"> Titulares</div>
 
@@ -205,14 +254,11 @@
                         <button type="submit" class="ranura-quitar">Eliminar</button>
                     </form>
                 </div>
-
             </div> <!--fin div titulares-->
 
             <!-- SUPLENTES -->
             <div class="seccion-titulo">Suplentes</div>
-
             <div class="contenedor-suplentes">
-
                 <!-- SUPLENTE PIVOT -->
                 <div class="ranura-suplente" id="suplente-pivot" data-orden="6"
                      th:with="ej=${supPivot}"

@@ -560,3 +560,9 @@ body {
     text-transform: uppercase;
     letter-spacing: 0.05em;
 }
+
+.contenedor-capitan {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1em;
+}
