@@ -1,5 +1,5 @@
 let numeroOrdenSeleccionado = null;
-let puestoActivoActual = null;
+
 
 document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("scrollJugadores").style.display = "none";
@@ -32,7 +32,6 @@ function activarRanura(idRanura, puesto) {
     // si la ranura ya tiene jugador (clase ocupada), salir
     if (ranura.classList.contains("ranura-ocupada")) return;
 
-    puestoActivoActual = puesto;
     /*  Limpiar el buscador cada vez que cambias de posición */
     document.getElementById("campoBuscar").value = "";
 

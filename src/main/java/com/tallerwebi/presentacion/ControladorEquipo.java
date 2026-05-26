@@ -1,10 +1,7 @@
 package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.*;
-import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
-import com.tallerwebi.dominio.excepcion.EquipoSinNombreException;
-import com.tallerwebi.dominio.excepcion.PresupuestoInsuficienteException;
-import com.tallerwebi.dominio.excepcion.elJugadorYaExisteEnElEquipoException;
+import com.tallerwebi.dominio.excepcion.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -98,12 +95,16 @@ public class ControladorEquipo {
             modelo.put("supAlero2", servicioEquipoJugador.buscarJugadorPorNumeroDeOrden(jugadoresDelEquipo, 8));
             modelo.put("supBase1", servicioEquipoJugador.buscarJugadorPorNumeroDeOrden(jugadoresDelEquipo, 9));
             modelo.put("supBase2", servicioEquipoJugador.buscarJugadorPorNumeroDeOrden(jugadoresDelEquipo, 10));
+            /*CAPITAN*/
+            modelo.put("capitan", servicioEquipoJugador.buscarJugadorPorNumeroDeOrden(jugadoresDelEquipo, 11));
+            /*SEXTO HOMBRE*/
+            modelo.put("sextoHombre", servicioEquipoJugador.buscarJugadorPorNumeroDeOrden(jugadoresDelEquipo, 12));
 
             if (error != null) {
                 modelo.put("error", error);
             }
 
-            return new ModelAndView("seleccionar-jugadores2", modelo);
+            return new ModelAndView("seleccionar-jugadores", modelo);
 
         } catch (EquipoNoEncontradoException e) {
             return new ModelAndView("redirect:/home");
@@ -128,25 +129,17 @@ public class ControladorEquipo {
         return new ModelAndView("redirect:/seleccionar-jugadores?id=" + idEquipo);
     }
 
-    // Guarda la seleccion de jugadores elegidos.
 
-    /*
-    @RequestMapping(value = "/guardar-equipo", method = RequestMethod.POST)
-    public ModelAndView guardarEquipoCompleto(@RequestParam Long idEquipo,
-                                              @RequestParam("idJugador") List<Long> idsJugadores) throws EquipoTitularSinCompletarException, EquipoNoEncontradoException, PresupuestoInsuficienteException {
+    @RequestMapping(value = "/confirmar-equipo", method = RequestMethod.POST)
+    public ModelAndView confirmarEquipoCompleto(@RequestParam Long idEquipo) throws EquipoSinCompletarException {
+
         try {
-            servicioEquipo.guardarEquipoCompleto(idEquipo, idsJugadores);
+            servicioEquipo.validarEquipoCompleto(idEquipo);
             return new ModelAndView("redirect:/ver-equipo?id=" + idEquipo);
-
-        } catch (EquipoTitularSinCompletarException | PresupuestoInsuficienteException e) {
-            return new ModelAndView("redirect:/seleccionar-jugadores?id=" + idEquipo);
-
-        } catch (EquipoNoEncontradoException e) {
-            return new ModelAndView("redirect:/crear-equipo");
+        } catch (EquipoSinCompletarException e) {
+            return new ModelAndView("redirect:/seleccionar-jugadores?id=" + idEquipo + "&error=" + e.getMessage());
         }
     }
-
-   */
 
     @RequestMapping("/ver-equipo")
     public ModelAndView verEquipo(@RequestParam Long id) {
