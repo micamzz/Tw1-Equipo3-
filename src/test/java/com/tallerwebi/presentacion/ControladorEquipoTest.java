@@ -86,7 +86,7 @@ public class ControladorEquipoTest {
         ModelAndView mav = controladorEquipo.guardarNombreEquipo(equipo);
 
         assertThat(mav.getViewName(), equalToIgnoringCase("crear-equipo"));
-        assertThat(mav.getModel().get("error").toString(), equalToIgnoringCase("El nombre del equipo no puede estar vacio")
+        assertThat(mav.getModel().get("error").toString(), equalToIgnoringCase("El nombre del equipo no puede estar vacío")
         );
     }
 
@@ -102,7 +102,7 @@ public class ControladorEquipoTest {
         ModelAndView mav = controladorEquipo.seleccionarJugadores(idEquipo, null);
 
         // Verificacion
-        assertThat(mav.getViewName(), equalToIgnoringCase("seleccionar-jugadores2"));
+        assertThat(mav.getViewName(), equalToIgnoringCase("seleccionar-jugadores"));
     }
 
 

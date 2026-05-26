@@ -1,7 +1,7 @@
 package com.tallerwebi.dominio;
 
 import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
-import com.tallerwebi.dominio.excepcion.EquipoTitularSinCompletarException;
+import com.tallerwebi.dominio.excepcion.EquipoSinCompletarException;
 import com.tallerwebi.dominio.excepcion.PresupuestoInsuficienteException;
 import com.tallerwebi.dominio.excepcion.elJugadorYaExisteEnElEquipoException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,9 @@ public class ServicioEquipoImpl implements ServicioEquipo {
     private final RepositorioEquipo repositorioEquipo;
     private final RepositorioJugador repositorioJugador;
     private final RepositorioEquipoJugador repositorioEquipoJugador;
-    private static final Double PRESUPUESTO_INICIAL = 850000D;
+    private static final Double PRESUPUESTO_INICIAL = 2000000D;
+    private static final Integer NUMERO_ORDEN_CAPITAN = 11;
+    private static final Integer NUMERO_ORDEN_SEXTO_HOMBRE = 12;
 
 
     @Autowired
@@ -52,6 +54,16 @@ public class ServicioEquipoImpl implements ServicioEquipo {
             throw new EquipoNoEncontradoException();
         }
         return equipo;
+    }
+
+    @Override
+    public void validarEquipoCompleto(Long idEquipo) throws EquipoSinCompletarException {
+
+        List<EquipoJugador> listadoDeJugadores = buscarJugadoresDelEquipo(idEquipo);
+
+        if (listadoDeJugadores == null || listadoDeJugadores.size() < 12) {
+            throw new EquipoSinCompletarException("El equipo debe estar completo para poder confirmarlo ");
+        }
     }
 
     @Override
@@ -97,23 +109,6 @@ public class ServicioEquipoImpl implements ServicioEquipo {
 
 
 
-    /*
-    @Override
-    public void guardarEquipoCompleto(Long idEquipo, List<Long> idsJugadores) throws EquipoTitularSinCompletarException, PresupuestoInsuficienteException, EquipoNoEncontradoException {
-        Equipo equipo = buscarEquipoPorId(idEquipo);
-        validarTitular(idsJugadores);
-        for (int i = 0; i < idsJugadores.size(); i++) {
-            Long idJugador = idsJugadores.get(i);
-            if (idJugador != null) {
-               *el i+1 es para el numero de orden
-                Jugador jugador = repositorioJugador.buscarJugadorPorId(idJugador);
-                siElPresupuestoEsMenorLanzaExcepcion(equipo, jugador);
-                guardarRelacionEntreEquipoYJugador(equipo, jugador, i + 1);
-            }
-        }
-    }
-  /*
-
 
     /*  GUARDA AL EQUIPO Y AL JUGADOR EN EQUIPOJUGADOR LLAMANDO AL REPOSITORIO */
 
@@ -123,6 +118,14 @@ public class ServicioEquipoImpl implements ServicioEquipo {
         equipoJugador.setEquipo(equipo);
         equipoJugador.setJugador(jugador);
         equipoJugador.setNumeroOrden(numeroDeOrden);
+
+        if (numeroDeOrden.equals(NUMERO_ORDEN_CAPITAN)) {
+            equipoJugador.setEsCapitan(true);
+        }
+
+        if (numeroDeOrden.equals(NUMERO_ORDEN_SEXTO_HOMBRE)) {
+            equipoJugador.setEsCapitan(true);
+        }
 
         repositorioEquipoJugador.guardarEquipoJugador(equipoJugador);
     }
@@ -137,22 +140,8 @@ public class ServicioEquipoImpl implements ServicioEquipo {
     }
 
 
-    private void validarTitular(List<Long> idsJugadores) throws EquipoTitularSinCompletarException {
-
-        if (idsJugadores == null || idsJugadores.size() < 5) {
-            throw new EquipoTitularSinCompletarException();
-        }
-
-        for (int i = 0; i < 5; i++) {
-            if (idsJugadores.get(i) == null) {
-                throw new EquipoTitularSinCompletarException();
-            }
-        }
-    }
-
     /* SI EL JUGADOR YA ESTA ASOCIADO AL EQUIPO HAY UNA EXCEPCION*/
     private void validarSiElJugadorYaFueElegido(Long idEquipo, Long idJugador) throws elJugadorYaExisteEnElEquipoException {
-
         EquipoJugador equipoJugador = repositorioEquipoJugador.buscarEquipoYJugadorAsociado(idEquipo, idJugador);
 
         if (equipoJugador != null) {
