@@ -23,6 +23,7 @@ public class RepositorioEquipoJugadorImpl implements RepositorioEquipoJugador {
         sessionFactory.getCurrentSession().save(equipoJugador);
     }
 
+
     @Override
     public List<EquipoJugador> buscarPorEquipoId(Long id) {
         String hql =
@@ -37,5 +38,24 @@ public class RepositorioEquipoJugadorImpl implements RepositorioEquipoJugador {
 
     }
 
+    @Override
+    public EquipoJugador buscarEquipoYJugadorAsociado(Long idEquipo, Long idJugador) {
+        String hql = "FROM EquipoJugador ej " +
+                "WHERE ej.equipo.id = :idEquipo " +
+                "AND ej.jugador.id = :idJugador";
+
+        return sessionFactory
+                .getCurrentSession()
+                .createQuery(hql, EquipoJugador.class)
+                .setParameter("idEquipo", idEquipo)
+                .setParameter("idJugador", idJugador)
+                .uniqueResult();
+    }
+
+    @Override
+    public void eliminarEquipoJugador(EquipoJugador equipoJugador) {
+        sessionFactory.getCurrentSession().delete(equipoJugador);
+    }
+    
 
 }

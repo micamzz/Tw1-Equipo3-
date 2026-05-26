@@ -1,6 +1,5 @@
 package com.tallerwebi.dominio;
 
-import java.util.HashMap;
 import java.util.List;
 
 public interface RepositorioEquipoJugador {
@@ -8,5 +7,9 @@ public interface RepositorioEquipoJugador {
     void guardarEquipoJugador(EquipoJugador equipoJugador);
 
     List<EquipoJugador> buscarPorEquipoId(Long id);
+
+    EquipoJugador buscarEquipoYJugadorAsociado(Long idEquipo, Long idJugador);
+
+    void eliminarEquipoJugador(EquipoJugador equipoJugador);
 
 }

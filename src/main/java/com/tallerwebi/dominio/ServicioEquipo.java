@@ -1,12 +1,17 @@
 package com.tallerwebi.dominio;
 
 import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
-import com.tallerwebi.dominio.excepcion.EquipoTitularSinCompletarException;
+import com.tallerwebi.dominio.excepcion.EquipoSinCompletarException;
 import com.tallerwebi.dominio.excepcion.PresupuestoInsuficienteException;
+import com.tallerwebi.dominio.excepcion.elJugadorYaExisteEnElEquipoException;
 
 import java.util.List;
 
 public interface ServicioEquipo {
+
+    void agregarJugadorAlEquipo(Long idEquipo, Long idJugador, Integer numeroDeOrden) throws EquipoNoEncontradoException, PresupuestoInsuficienteException, elJugadorYaExisteEnElEquipoException;
+
+    void eliminarJugadorDelEquipo(Long idEquipo, Long idJugador) throws EquipoNoEncontradoException;
 
     Equipo guardarEquipo(Equipo equipo);
 
@@ -14,8 +19,7 @@ public interface ServicioEquipo {
 
     Equipo buscarEquipoPorNombre(String nombre) throws EquipoNoEncontradoException;
 
-    /* Guarda el id del equipo y el Id de los Jugadores*/
-    void guardarEquipoCompleto(Long idEquipo, List<Long> idsJugadores) throws EquipoTitularSinCompletarException, EquipoNoEncontradoException, PresupuestoInsuficienteException;
+    void validarEquipoCompleto(Long idEquipo) throws EquipoSinCompletarException;
 
     List<EquipoJugador> buscarJugadoresDelEquipo(Long idEquipo);
 }

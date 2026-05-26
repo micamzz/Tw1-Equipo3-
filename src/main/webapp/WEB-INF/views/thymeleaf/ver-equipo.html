@@ -21,6 +21,37 @@
     <h1 class="titulo-equipo" th:text="${equipo.nombreEquipo}"></h1>
 
     <div class="contenedor-equipo">
+
+        <section class="bloque-titulares">
+            <p class="subtitulo-bloque">CAPITAN</p>
+
+            <div th:each="equipoJugador : ${jugadoresEquipo}"
+                 th:if="${equipoJugador.numeroOrden == 11}"
+                 class="fila-jugador">
+
+                <span class="nombre-jugador"
+                      th:text="${equipoJugador.jugador.nombre} + ' ' + ${equipoJugador.jugador.apellido}">
+                </span>
+
+            </div>
+        </section>
+
+        <!-- SEXTO HOMBRE -->
+        <section class="bloque-titulares">
+            <p class="subtitulo-bloque">SEXTO HOMBRE</p>
+
+            <div th:each="equipoJugador : ${jugadoresEquipo}"
+                 th:if="${equipoJugador.numeroOrden == 12}"
+                 class="fila-jugador">
+
+                <span class="nombre-jugador"
+                      th:text="${equipoJugador.jugador.nombre} + ' ' + ${equipoJugador.jugador.apellido}">
+                </span>
+
+            </div>
+        </section>
+
+
         <!-- TITULARES -->
         <section class="bloque-titulares">
             <p class="subtitulo-bloque">Titulares</p>
@@ -49,7 +80,7 @@
             <p class="subtitulo-bloque">Suplentes</p>
 
             <div th:each="equipoJugador : ${jugadoresEquipo}"
-                 th:if="${equipoJugador.numeroOrden >= 6}"
+                 th:if="${equipoJugador.numeroOrden >= 6 and equipoJugador.numeroOrden <= 10}"
                  class="fila-jugador">
 
                 <span class="etiqueta-posicion"
