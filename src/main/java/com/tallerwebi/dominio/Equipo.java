@@ -13,9 +13,11 @@ public class Equipo {
     private Long id;
     private String nombreEquipo;
     private Double presupuesto;
+    // private Torneo torneo;
+    // private Usuario usu;
+
 
     public Equipo() {
-        this.presupuesto = 2000000D;
     }
 
     public Long getId() {

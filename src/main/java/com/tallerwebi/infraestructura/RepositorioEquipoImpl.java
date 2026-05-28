@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class RepositorioEquipoImpl implements RepositorioEquipo {
 
-    private SessionFactory sessionFactory;
+    private final SessionFactory sessionFactory;
 
     @Autowired
     public RepositorioEquipoImpl(SessionFactory sessionFactory) {
