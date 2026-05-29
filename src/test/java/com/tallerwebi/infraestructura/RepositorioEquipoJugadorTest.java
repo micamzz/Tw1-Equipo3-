@@ -74,7 +74,9 @@ public class RepositorioEquipoJugadorTest {
         // Verificación
         assertThat(equipoJugadorBuscado, notNullValue());
         assertThat(equipoJugadorBuscado.getEquipo().getId(), equalTo(equipo.getId()));
-        assertThat(equipoJugadorBuscado.getJugador().getId(), equalTo(equipo.getId()));
+        assertThat(equipoJugadorBuscado.getJugador().getId(), equalTo(jugador1.getId()));
+
+        /* preguntar sobre este test */
     }
 
 
