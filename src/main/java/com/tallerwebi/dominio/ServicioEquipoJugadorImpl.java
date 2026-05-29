@@ -1,6 +1,5 @@
 package com.tallerwebi.dominio;
 
-import com.tallerwebi.dominio.excepcion.EquipoJugadorNoEncontradoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,14 +36,13 @@ public class ServicioEquipoJugadorImpl implements ServicioEquipoJugador {
 
 
     @Override
-    public HashMap<Integer, Jugador> buscarJugadoresPorEquipoId(Long id) throws EquipoJugadorNoEncontradoException {
+    public HashMap<Integer, EquipoJugador> buscarJugadoresPorEquipoId(Long id) {
         List<EquipoJugador> jugadoresPorEquipo = repositorioEquipoJugador.buscarPorEquipoId(id);
-        if (jugadoresPorEquipo == null) {
-            throw new EquipoJugadorNoEncontradoException("No se encuentra el equipo");
-        }
-        HashMap<Integer, Jugador> listaJugadores = new HashMap<>();
+
+        HashMap<Integer, EquipoJugador> listaJugadores = new HashMap<>();
+
         for (EquipoJugador jugador : jugadoresPorEquipo) {
-            listaJugadores.put(jugador.getNumeroOrden(), jugador.getJugador());
+            listaJugadores.put(jugador.getNumeroOrden(), jugador);
         }
         return listaJugadores;
     }

@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
+import java.util.HashMap;
 
 @Service
 @Transactional
@@ -17,6 +17,7 @@ public class ServicioEquipoImpl implements ServicioEquipo {
     private final RepositorioEquipo repositorioEquipo;
     private final RepositorioJugador repositorioJugador;
     private final RepositorioEquipoJugador repositorioEquipoJugador;
+    private final ServicioEquipoJugador servicioEquipoJugador;
     private static final Double PRESUPUESTO_INICIAL = 2000000D;
     private static final Integer NUMERO_ORDEN_CAPITAN = 11;
     private static final Integer NUMERO_ORDEN_SEXTO_HOMBRE = 12;
@@ -24,10 +25,11 @@ public class ServicioEquipoImpl implements ServicioEquipo {
 
     @Autowired
     public ServicioEquipoImpl(RepositorioEquipo repositorioEquipo, RepositorioJugador repositorioJugador,
-                              RepositorioEquipoJugador repositorioEquipoJugador) {
+                              RepositorioEquipoJugador repositorioEquipoJugador, ServicioEquipoJugador servicioEquipoJugador) {
         this.repositorioEquipo = repositorioEquipo;
         this.repositorioJugador = repositorioJugador;
         this.repositorioEquipoJugador = repositorioEquipoJugador;
+        this.servicioEquipoJugador = servicioEquipoJugador;
     }
 
 
@@ -56,15 +58,18 @@ public class ServicioEquipoImpl implements ServicioEquipo {
         return equipo;
     }
 
+
     @Override
-    public void validarEquipoCompleto(Long idEquipo) throws EquipoSinCompletarException {
+    public void validarEquipoCompleto(Long idEquipo)
+            throws EquipoSinCompletarException {
+        HashMap<Integer, EquipoJugador> listadoDeJugadores = servicioEquipoJugador.buscarJugadoresPorEquipoId(idEquipo);
 
-        List<EquipoJugador> listadoDeJugadores = buscarJugadoresDelEquipo(idEquipo);
-
-        if (listadoDeJugadores == null || listadoDeJugadores.size() < 12) {
-            throw new EquipoSinCompletarException("El equipo debe estar completo para poder confirmarlo ");
+        if (listadoDeJugadores.size() < 12) {
+            throw new EquipoSinCompletarException("El equipo debe estar completo para poder confirmarlo");
         }
+
     }
+
 
     @Override
     public void agregarJugadorAlEquipo(Long idEquipo, Long idJugador, Integer numeroDeOrden) throws EquipoNoEncontradoException, PresupuestoInsuficienteException, elJugadorYaExisteEnElEquipoException {
@@ -101,15 +106,6 @@ public class ServicioEquipoImpl implements ServicioEquipo {
     }
 
 
-    /*DEVUELVE UNA LISTA CON TODOS LOS Jugadores QUE ESTAN ASOCIADOS AL EQUIPO*/
-    @Override
-    public List<EquipoJugador> buscarJugadoresDelEquipo(Long idEquipo) {
-        return repositorioEquipoJugador.buscarPorEquipoId(idEquipo);
-    }
-
-
-
-
     /*  GUARDA AL EQUIPO Y AL JUGADOR EN EQUIPOJUGADOR LLAMANDO AL REPOSITORIO */
 
     private void guardarRelacionEntreEquipoYJugador(Equipo equipo, Jugador jugador, Integer numeroDeOrden) {
@@ -119,12 +115,16 @@ public class ServicioEquipoImpl implements ServicioEquipo {
         equipoJugador.setJugador(jugador);
         equipoJugador.setNumeroOrden(numeroDeOrden);
 
+        if (numeroDeOrden <= 10 && numeroDeOrden >= 6) {
+            equipoJugador.setEsSuplente(true);
+        }
+
         if (numeroDeOrden.equals(NUMERO_ORDEN_CAPITAN)) {
             equipoJugador.setEsCapitan(true);
         }
 
         if (numeroDeOrden.equals(NUMERO_ORDEN_SEXTO_HOMBRE)) {
-            equipoJugador.setEsCapitan(true);
+            equipoJugador.setEsSextoHombre(true);
         }
 
         repositorioEquipoJugador.guardarEquipoJugador(equipoJugador);
