@@ -5,8 +5,6 @@ import com.tallerwebi.dominio.excepcion.EquipoSinCompletarException;
 import com.tallerwebi.dominio.excepcion.PresupuestoInsuficienteException;
 import com.tallerwebi.dominio.excepcion.elJugadorYaExisteEnElEquipoException;
 
-import java.util.List;
-
 public interface ServicioEquipo {
 
     void agregarJugadorAlEquipo(Long idEquipo, Long idJugador, Integer numeroDeOrden) throws EquipoNoEncontradoException, PresupuestoInsuficienteException, elJugadorYaExisteEnElEquipoException;
@@ -21,5 +19,4 @@ public interface ServicioEquipo {
 
     void validarEquipoCompleto(Long idEquipo) throws EquipoSinCompletarException;
 
-    List<EquipoJugador> buscarJugadoresDelEquipo(Long idEquipo);
 }

@@ -65,4 +65,12 @@ public class Jugador {
     public void setFoto(String foto) {
         this.foto = foto;
     }
+
+    public Integer getDni() {
+        return dni;
+    }
+
+    public void setDni(Integer dni) {
+        this.dni = dni;
+    }
 }
