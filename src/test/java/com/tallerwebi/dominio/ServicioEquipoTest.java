@@ -16,6 +16,7 @@ public class ServicioEquipoTest {
     private RepositorioEquipo repositorioEquipoMock;
     private RepositorioJugador repositorioJugadorMock;
     private RepositorioEquipoJugador repositorioEquipoJugadorMock;
+    private ServicioEquipoJugador servicioEquipoJugadorMock;
     private Equipo equipoMock;
 
     /*
@@ -33,8 +34,9 @@ public class ServicioEquipoTest {
         this.repositorioEquipoMock = mock(RepositorioEquipo.class);
         this.repositorioJugadorMock = mock(RepositorioJugador.class);
         this.repositorioEquipoJugadorMock = mock(RepositorioEquipoJugador.class);
-        this.servicioEquipo = new ServicioEquipoImpl(repositorioEquipoMock, repositorioJugadorMock, repositorioEquipoJugadorMock);
+        this.servicioEquipoJugadorMock = mock(ServicioEquipoJugador.class);
         this.equipoMock = mock(Equipo.class);
+        this.servicioEquipo = new ServicioEquipoImpl(repositorioEquipoMock, repositorioJugadorMock, repositorioEquipoJugadorMock, servicioEquipoJugadorMock);
 
     }
 

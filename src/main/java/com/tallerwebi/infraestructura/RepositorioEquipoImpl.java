@@ -3,6 +3,7 @@ package com.tallerwebi.infraestructura;
 import com.tallerwebi.dominio.Equipo;
 import com.tallerwebi.dominio.RepositorioEquipo;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -13,6 +14,7 @@ public class RepositorioEquipoImpl implements RepositorioEquipo {
 
     @Autowired
     public RepositorioEquipoImpl(SessionFactory sessionFactory) {
+
         this.sessionFactory = sessionFactory;
     }
 
@@ -25,18 +27,21 @@ public class RepositorioEquipoImpl implements RepositorioEquipo {
     @Override
     public Equipo buscarEquipoPorId(Long id) {
 
-        return sessionFactory.getCurrentSession().get(Equipo.class, id);
+        return (Equipo) sessionFactory.getCurrentSession()
+                .createCriteria(Equipo.class)
+                .add(Restrictions.eq("id", id))
+                .uniqueResult();
+         /* select *
+    From Equipo
+    where id=
+     */
     }
 
     @Override
     public Equipo buscarEquipoPorNombre(String nombre) {
-        String hql =
-                "FROM Equipo e WHERE e.nombreEquipo = :nombre";
-
-        return sessionFactory
-                .getCurrentSession()
-                .createQuery(hql, Equipo.class)
-                .setParameter("nombre", nombre)
+        return (Equipo) sessionFactory.getCurrentSession()
+                .createCriteria(Equipo.class)
+                .add(Restrictions.eq("nombreEquipo", nombre))
                 .uniqueResult();
     }
 }

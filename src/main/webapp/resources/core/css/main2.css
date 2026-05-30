@@ -9,6 +9,15 @@ body {
     font-family: 'Inter', sans-serif;
 }
 
+main {
+    height: 75vh;
+}
+
+h1 {
+    margin-top: 2em;
+    text-align: center;
+}
+
 /*BOTONES MAIN INDEX*/
 .contenedor-botones {
     display: flex;

@@ -19,11 +19,13 @@ public class EquipoJugador {
     private Integer numeroOrden;
     private Boolean esCapitan;
     private Boolean esSextoHombre;
+    private Boolean esSuplente;
 
 
     public EquipoJugador() {
         this.esCapitan = false;
         this.esSextoHombre = false;
+        this.esSuplente = false;
     }
 
     public EquipoJugador(Equipo equipo, Jugador jugador, Integer numeroOrden) {
@@ -75,4 +77,13 @@ public class EquipoJugador {
     public void setEsSextoHombre(Boolean esSextoHombre) {
         this.esSextoHombre = esSextoHombre;
     }
+
+    public Boolean getEsSuplente() {
+        return esSuplente;
+    }
+
+    public void setEsSuplente(Boolean esSuplente) {
+        this.esSuplente = esSuplente;
+    }
 }
+
