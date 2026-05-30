@@ -1,27 +1,27 @@
 footer {
-    background: #111;
-    color: #fff;
-    font-family: 'Inter', sans-serif;
-    border-top: 1px solid rgba(255, 107, 0, 0.23);
+  background: #111;
+  color: #fff;
+  font-family: "Inter", sans-serif;
+  border-top: 1px solid rgba(255, 107, 0, 0.23);
 }
 
 .footer-equipo {
-    padding: 20px;
-    text-align: center;
-    font-size: 0.85rem;
+  padding: 20px;
+  text-align: center;
+  font-size: 0.85rem;
 }
 
 .footer-lista {
-    list-style: none;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 8px 24px;
-    margin-bottom: 10px;
-    color: #888;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 24px;
+  margin-bottom: 10px;
+  color: #888;
 }
 
 .footer-copy {
-    color: #888;
-    font-size: 0.75rem;
+  color: #888;
+  font-size: 0.75rem;
 }

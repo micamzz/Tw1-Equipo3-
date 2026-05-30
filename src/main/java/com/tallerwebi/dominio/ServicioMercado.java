@@ -11,6 +11,5 @@ public interface ServicioMercado {
 
     List<Jugador> buscarBase();
 
-    List<Jugador> obtenerJugadoresPorPosicion(Posicion posicion);
 
 }

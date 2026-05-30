@@ -134,7 +134,7 @@ public class ControladorEquipo {
 
 
     @RequestMapping(value = "/confirmar-equipo", method = RequestMethod.POST)
-    public ModelAndView confirmarEquipoCompleto(@RequestParam Long idEquipo) throws EquipoSinCompletarException {
+    public ModelAndView confirmarEquipoCompleto(@RequestParam Long idEquipo) {
 
         try {
             servicioEquipo.validarEquipoCompleto(idEquipo);
