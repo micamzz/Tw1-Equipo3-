@@ -8,9 +8,7 @@
     <!-- Link CSS al Header y Footer-->
     <link rel="stylesheet" th:href="@{/css/header.css}">
     <link rel="stylesheet" th:href="@{/css/footer.css}">
-
-
-    <link rel="stylesheet" th:href="@{/css/elegirJugadores.css}"/>
+    <link rel="stylesheet" th:href="@{/css/seleccionar-jugadores.css}"/>
     <!-- Fuente INTER   -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
           rel="stylesheet"/>
@@ -82,10 +80,6 @@
                     <img class="ranura-foto"
                          th:if="${ej != null and ej.jugador.foto != null and !#strings.isEmpty(ej.jugador.foto)}"
                          th:src="${ej.jugador.foto}" alt="">
-                    <div class="foto-jugador-placeholder"
-                         th:if="${ej != null and (ej.jugador.foto == null or #strings.isEmpty(ej.jugador.foto))}">
-                        &#x1F464;
-                    </div>
 
                     <div class="ranura-etiqueta-puesto">BASE</div>
                     <div class="ranura-nombre"
@@ -110,10 +104,6 @@
                     <img class="ranura-foto"
                          th:if="${ej != null and ej.jugador.foto != null and !#strings.isEmpty(ej.jugador.foto)}"
                          th:src="${ej.jugador.foto}" alt="">
-                    <div class="foto-jugador-placeholder"
-                         th:if="${ej != null and (ej.jugador.foto == null or #strings.isEmpty(ej.jugador.foto))}">
-                        &#x1F464;
-                    </div>
                     <div class="ranura-etiqueta-puesto">BASE</div>
                     <div class="ranura-nombre"
                          th:text="${ej != null} ? ${ej.jugador.nombre + ' ' + ej.jugador.apellido} : ''"></div>
@@ -137,10 +127,7 @@
                     <img class="ranura-foto"
                          th:if="${ej != null and ej.jugador.foto != null and !#strings.isEmpty(ej.jugador.foto)}"
                          th:src="${ej.jugador.foto}" alt="">
-                    <div class="foto-jugador-placeholder"
-                         th:if="${ej != null and (ej.jugador.foto == null or #strings.isEmpty(ej.jugador.foto))}">
-                        &#x1F464;
-                    </div>
+
                     <div class="ranura-etiqueta-puesto">ALERO</div>
                     <div class="ranura-nombre"
                          th:text="${ej != null} ? ${ej.jugador.nombre + ' ' + ej.jugador.apellido} : ''"></div>
@@ -164,10 +151,7 @@
                     <img class="ranura-foto"
                          th:if="${ej != null and ej.jugador.foto != null and !#strings.isEmpty(ej.jugador.foto)}"
                          th:src="${ej.jugador.foto}" alt="">
-                    <div class="foto-jugador-placeholder"
-                         th:if="${ej != null and (ej.jugador.foto == null or #strings.isEmpty(ej.jugador.foto))}">
-                        &#x1F464;
-                    </div>
+
                     <div class="ranura-etiqueta-puesto">ALERO</div>
                     <div class="ranura-nombre"
                          th:text="${ej != null} ? ${ej.jugador.nombre + ' ' + ej.jugador.apellido} : ''"></div>
@@ -191,10 +175,7 @@
                     <img class="ranura-foto"
                          th:if="${ej != null and ej.jugador.foto != null and !#strings.isEmpty(ej.jugador.foto)}"
                          th:src="${ej.jugador.foto}" alt="">
-                    <div class="foto-jugador-placeholder"
-                         th:if="${ej != null and (ej.jugador.foto == null or #strings.isEmpty(ej.jugador.foto))}">
-                        &#x1F464;
-                    </div>
+
                     <div class="ranura-etiqueta-puesto">PIVOT</div>
                     <div class="ranura-nombre"
                          th:text="${ej != null} ? ${ej.jugador.nombre + ' ' + ej.jugador.apellido} : ''"></div>
@@ -221,10 +202,7 @@
                     <img class="ranura-foto"
                          th:if="${ej != null and ej.jugador.foto != null and !#strings.isEmpty(ej.jugador.foto)}"
                          th:src="${ej.jugador.foto}" alt="">
-                    <div class="foto-jugador-placeholder"
-                         th:if="${ej != null and (ej.jugador.foto == null or #strings.isEmpty(ej.jugador.foto))}">
-                        &#x1F464;
-                    </div>
+
                     <div class="ranura-etiqueta-puesto">PIVOT</div>
                     <div class="ranura-nombre"
                          th:text="${ej != null} ? ${ej.jugador.nombre + ' ' + ej.jugador.apellido} : ''"></div>
@@ -247,10 +225,7 @@
                     <img class="ranura-foto"
                          th:if="${ej != null and ej.jugador.foto != null and !#strings.isEmpty(ej.jugador.foto)}"
                          th:src="${ej.jugador.foto}" alt="">
-                    <div class="foto-jugador-placeholder"
-                         th:if="${ej != null and (ej.jugador.foto == null or #strings.isEmpty(ej.jugador.foto))}">
-                        &#x1F464;
-                    </div>
+
                     <div class="ranura-etiqueta-puesto">ALERO</div>
                     <div class="ranura-nombre"
                          th:text="${ej != null} ? ${ej.jugador.nombre + ' ' + ej.jugador.apellido} : ''"></div>
@@ -275,10 +250,7 @@
                     <img class="ranura-foto"
                          th:if="${ej != null and ej.jugador.foto != null and !#strings.isEmpty(ej.jugador.foto)}"
                          th:src="${ej.jugador.foto}" alt="">
-                    <div class="foto-jugador-placeholder"
-                         th:if="${ej != null and (ej.jugador.foto == null or #strings.isEmpty(ej.jugador.foto))}">
-                        &#x1F464;
-                    </div>
+
                     <div class="ranura-etiqueta-puesto">ALERO</div>
                     <div class="ranura-nombre"
                          th:text="${ej != null} ? ${ej.jugador.nombre + ' ' + ej.jugador.apellido} : ''"></div>
@@ -302,10 +274,7 @@
                     <img class="ranura-foto"
                          th:if="${ej != null and ej.jugador.foto != null and !#strings.isEmpty(ej.jugador.foto)}"
                          th:src="${ej.jugador.foto}" alt="">
-                    <div class="foto-jugador-placeholder"
-                         th:if="${ej != null and (ej.jugador.foto == null or #strings.isEmpty(ej.jugador.foto))}">
-                        &#x1F464;
-                    </div>
+
                     <div class="ranura-etiqueta-puesto">BASE</div>
                     <div class="ranura-nombre"
                          th:text="${ej != null} ? ${ej.jugador.nombre + ' ' + ej.jugador.apellido} : ''"></div>
@@ -329,10 +298,7 @@
                     <img class="ranura-foto"
                          th:if="${ej != null and ej.jugador.foto != null and !#strings.isEmpty(ej.jugador.foto)}"
                          th:src="${ej.jugador.foto}" alt="">
-                    <div class="foto-jugador-placeholder"
-                         th:if="${ej != null and (ej.jugador.foto == null or #strings.isEmpty(ej.jugador.foto))}">
-                        &#x1F464;
-                    </div>
+
                     <div class="ranura-etiqueta-puesto">BASE</div>
                     <div class="ranura-nombre"
                          th:text="${ej != null} ? ${ej.jugador.nombre + ' ' + ej.jugador.apellido} : ''"></div>
@@ -463,9 +429,7 @@
                          class="foto-jugador"
                          th:src="${jugador.foto}"
                          th:alt="${jugador.nombre}">
-                    <div class="foto-jugador-placeholder"
-                         th:if="${jugador.foto == null or #strings.isEmpty(jugador.foto)}">&#x1F464;
-                    </div>
+
                     <div class="info-jugador">
                         <div class="nombre-jugador" th:text="${jugador.nombre + ' ' + jugador.apellido}">Nombre</div>
                     </div>
@@ -493,9 +457,7 @@
                          class="foto-jugador"
                          th:src="${jugador.foto}"
                          th:alt="${jugador.nombre}">
-                    <div class="foto-jugador-placeholder"
-                         th:if="${jugador.foto == null or #strings.isEmpty(jugador.foto)}">&#x1F464;
-                    </div>
+
                     <div class="info-jugador">
                         <div class="nombre-jugador" th:text="${jugador.nombre + ' ' + jugador.apellido}">Nombre</div>
                     </div>
@@ -529,6 +491,6 @@
 <div th:replace="layout/footer :: footer"></div>
 
 <!-- JAVASCRITP-->
-<script th:src="@{/js/seleccionarJugadores2.js}"></script>
+<script th:src="@{/js/seleccionarJugadores.js}"></script>
 </body>
 </html>

@@ -7,7 +7,7 @@
     <!-- Link CSS al Header y Footer-->
     <link rel="stylesheet" th:href="@{/css/header.css}">
     <link rel="stylesheet" th:href="@{/css/footer.css}">
-    <link rel="stylesheet" th:href="@{/css/equipo-style.css}">
+    <link rel="stylesheet" th:href="@{/css/crear-equipo.css}">
 
     <!-- Fuente INTER   -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
@@ -18,26 +18,31 @@
 <div th:replace="layout/header :: header"></div>
 
 <main>
-    <h1> CREAR EQUIPO</h1>
 
-    <!--guarda el nombre del equipo-->
-    <form th:action="@{/guardarEquipo}" th:object="${equipo}" method="POST">
-        <!-- el th:objet debe coincidir con el nombre de la variable
-        del modelMap del controlador.(que es la "llave")-->
 
-        <section class="contenedor-nombre-Equipo">
-            <label for="nombreEquipo"> Nombre del equipo:</label>
-            <input type="text" th:field="*{nombreEquipo}" id="nombreEquipo" placeholder="Nombre de tu equipo" required/>
-            <!--Mensaje de error de la excepcion-->
-            <p th:if="${error}" th:text="${error}" style="color:red;"></p>
-        </section>
+    <section class="contenedor-form-equipo">
+        <h1> CREAR EQUIPO</h1>
 
-        <button type="submit" class="boton-equipo" disabled>
-            SIGUIENTE
-        </button>
+        <h3> Torneo vigente : </h3>
+        <!--guarda el nombre del equipo-->
+        <form th:action="@{/guardarEquipo}" th:object="${equipo}" method="POST">
+            <!-- el th:objet debe coincidir con el nombre de la variable
+            del modelMap del controlador.(que es la "llave")-->
 
-    </form>
+            <section class="contenedor-nombre-Equipo">
+                <label for="nombreEquipo"> Ingrese el nombre: </label>
+                <input type="text" th:field="*{nombreEquipo}" id="nombreEquipo" placeholder="Nombre de tu equipo"
+                       required/>
+                <!--Mensaje de error de la excepcion-->
+                <p th:if="${error}" th:text="${error}" style="color:red;"></p>
+            </section>
 
+            <button type="submit" class="boton-equipo" disabled>
+                SIGUIENTE
+            </button>
+
+        </form>
+    </section>
 
 </main>
 
