@@ -48,6 +48,7 @@ public class ServicioLigaImpl implements ServicioLiga {
         return liga;
     }
 
+
     private List<RendimientoJugador> mapJugadoresToRendimientos(List<Jugador> jugadores, int startInclusive,
             int endExclusive) {
         List<RendimientoJugador> rendimientos = new ArrayList<>();

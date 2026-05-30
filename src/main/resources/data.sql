@@ -15,3 +15,20 @@ VALUES ('Luka', 'Doncic', 'BASE', 120000, 1, 'https://cdn.nba.com/headshots/nba/
        ('Anthony', 'Davis', 'PIVOT', 165000, 12, 'https://cdn.nba.com/headshots/nba/latest/1040x760/203076.png', '6''10" (2.08m)', '253lb (115kg)', 'USA', 31, 'March 11, 1993', '2012 R1 Pick 1', 12),
        ('Bam', 'Adebayo', 'PIVOT', 120000, 13, 'https://cdn.nba.com/headshots/nba/latest/1040x760/1628389.png', '6''9" (2.06m)', '255lb (116kg)', 'USA', 27, 'July 18, 1997', '2017 R1 Pick 14', 7),
        ('Karl-Anthony', 'Towns', 'PIVOT', 130000, 14, 'https://cdn.nba.com/headshots/nba/latest/1040x760/1626157.png', '7''0" (2.13m)', '270lb (122kg)', 'USA', 29, 'November 15, 1995', '2015 R1 Pick 1', 9);
+
+INSERT INTO RendimientoJugador(jugador_id, puntos, rebotes, asistencias, robos, bloqueos, perdidas)
+VALUES
+    (1, 28, 8, 9, 1, 0, 4),
+    (2, 25, 7, 8, 1, 1, 3),
+    (3, 27, 7, 5, 1, 1, 2),
+    (4, 26, 13, 9, 1, 1, 3),
+    (5, 34, 11, 5, 1, 2, 3),
+    (6, 26, 5, 6, 1, 0, 2),
+    (7, 24, 4, 7, 1, 0, 3),
+    (8, 20, 5, 8, 1, 0, 3),
+    (9, 26, 8, 5, 1, 1, 2),
+    (10, 22, 6, 3, 2, 1, 1),
+    (11, 21, 5, 5, 2, 1, 2),
+    (12, 24, 12, 3, 1, 2, 2),
+    (13, 19, 10, 3, 1, 1, 2),
+    (14, 21, 8, 4, 1, 1, 2);
