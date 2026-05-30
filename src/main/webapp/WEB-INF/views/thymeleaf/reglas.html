@@ -2,22 +2,19 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Ver Equipo</title>
-
-    <!-- Link CSS al Header y Footer-->
+    <title>Reglas</title>
     <link rel="stylesheet" th:href="@{/css/header.css}">
     <link rel="stylesheet" th:href="@{/css/footer.css}">
     <link rel="stylesheet" th:href="@{/css/reglas.css}">
-
-    <!-- Fuente INTER   -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
 </head>
 <body>
-<!--HEADER -->
+
 <div th:replace="layout/header :: header"></div>
 
 <main>
-    <!-- ── ENCABEZADO ──── -->
+
+    <!-- ENCABEZADO -->
     <section class="titulo-subtitulo">
         <h1 class="titulo-equipo"><span>UNLAM</span> BASKET</h1>
         <p class="descripcion-equipo">
@@ -26,84 +23,51 @@
         </p>
     </section>
 
-    <!-- ── INFORMACIÓN GENERAL ────────────────────── -->
+    <!-- INFORMACIÓN GENERAL -->
     <div class="seccion-titulo">Información general</div>
 
-    <!-- ── CREACIÓN DE EQUIPO ──────────────────────── -->
     <div class="grilla-reglas">
 
         <!-- Registro -->
         <div class="panel-regla">
-            <div class="panel-encabezado">
-                <div>
-                    <div class="panel-titulo">Registro y armado</div>
-                    <div class="panel-subtitulo">Pasos iniciales</div>
-                </div>
-            </div>
+            <div class="panel-titulo">Registro y armado</div>
+            <div class="panel-subtitulo">Pasos iniciales</div>
             <hr class="separador-panel">
-            <ul style="font-size:0.83rem; color:var(--texto-tenue); line-height:1.7; padding-left:1.2em;">
+            <ul style="font-size:0.83rem; color:#888; line-height:1.7; padding-left:1.2em;">
                 <li>Registrate y creá tu cuenta.</li>
-                <li>Cada usuario puede tener <strong style="color:var(--texto);">un solo equipo</strong>.</li>
-                <li>Elegí un nombre para tu Equipo.</li>
+                <li>Cada usuario puede tener <strong style="color:#fff;">un solo equipo</strong>.</li>
+                <li>Elegí un nombre para tu equipo.</li>
                 <li>Seleccioná 12 jugadores dentro del presupuesto.</li>
             </ul>
         </div>
 
-        <!-- Posiciones -->
-        <div class="panel-regla">
-            <div class="panel-encabezado">
-                <div>
-                    <div class="panel-titulo">Posiciones requeridas</div>
-                    <div class="panel-subtitulo">10 jugadores en total</div>
-                </div>
-            </div>
-            <hr class="separador-panel">
-            <div class="contenedor-chips">
-                <div class="chip-posicion">
-                    Pívots
-                    <span class="chip-cantidad">×2</span>
-                </div>
-                <div class="chip-posicion">
-                    Aleros
-                    <span class="chip-cantidad">×4</span>
-                </div>
-                <div class="chip-posicion">
-                    Bases
-                    <span class="chip-cantidad">×4</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="grilla-reglas">
-
         <!-- Presupuesto -->
         <div class="panel-regla">
-            <div class="panel-encabezado">
-                <div>
-                    <div class="panel-titulo">Presupuesto inicial</div>
-                    <div class="panel-subtitulo">Para fichar tu equipo</div>
-                </div>
-            </div>
+            <div class="panel-titulo">Presupuesto inicial</div>
+            <div class="panel-subtitulo">Para fichar tu equipo</div>
             <hr class="separador-panel">
             <div class="caja-estadistica">
                 <div class="etiqueta">Saldo disponible</div>
                 <div class="valor naranja">$2.000.000</div>
             </div>
-            </p>
         </div>
+
     </div>
 
-
-    <!-- ── ROLES ESPECIALES ────────────────────────── -->
-    <div class="seccion-titulo">Roles especiales</div>
+    <!-- Posiciones -->
     <div class="grilla-reglas columna-unica">
         <div class="panel-regla">
-            <div class="panel-encabezado">
-                <div>
-                    <div class="panel-titulo">Designaciones clave</div>
-                    <div class="panel-subtitulo">Además del plantel, debés elegir</div>
-                </div>
+            <div class="panel-titulo">Posiciones requeridas</div>
+            <div class="panel-subtitulo">12 jugadores en total</div>
+            <hr class="separador-panel">
+            <div class="contenedor-chips">
+                <div class="chip-posicion">Pívots <span class="chip-cantidad">×2</span></div>
+                <div class="chip-posicion">Aleros <span class="chip-cantidad">×4</span></div>
+                <div class="chip-posicion">Bases <span class="chip-cantidad">×4</span></div>
             </div>
+
+            <div class="panel-titulo" style="margin-top: 0.75rem;">Designaciones clave</div>
+            <div class="panel-subtitulo">Además del plantel, debés elegir</div>
             <hr class="separador-panel">
             <ul class="lista-roles">
                 <li>
@@ -122,59 +86,38 @@
         </div>
     </div>
 
-    <!-- ── SISTEMA DE PUNTUACIÓN ───────────────────── -->
+    <!-- SISTEMA DE PUNTUACIÓN -->
     <div class="seccion-titulo">Sistema de puntuación</div>
+
     <div class="grilla-reglas columna-unica">
         <div class="panel-regla">
-            <div class="panel-encabezado">
-                <div>
-                    <div class="panel-titulo">Estadísticas computadas</div>
-                    <div class="panel-subtitulo">Calculadas sobre el rendimiento real de cada jornada</div>
-                </div>
-            </div>
+            <div class="panel-titulo">Estadísticas computadas</div>
+            <div class="panel-subtitulo">Calculadas sobre el rendimiento real de cada jornada</div>
             <hr class="separador-panel">
             <ul class="lista-estadisticas">
-                <li>
-                    <span class="etiqueta-estadistica">Puntos anotados</span>
-                    <span class="insignia-suma">+ pts</span>
+                <li><span class="etiqueta-estadistica">Puntos anotados</span> <span class="insignia-suma">+ pts</span>
                 </li>
-                <li>
-                    <span class="etiqueta-estadistica">Rebotes</span>
-                    <span class="insignia-suma">+ pts</span>
+                <li><span class="etiqueta-estadistica">Rebotes</span> <span class="insignia-suma">+ pts</span></li>
+                <li><span class="etiqueta-estadistica">Asistencias</span> <span class="insignia-suma">+ pts</span></li>
+                <li><span class="etiqueta-estadistica">Robos</span> <span class="insignia-suma">+ pts</span></li>
+                <li><span class="etiqueta-estadistica">Tapones</span> <span class="insignia-suma">+ pts</span></li>
+                <li><span class="etiqueta-estadistica">Minutos jugados</span> <span class="insignia-suma">+ pts</span>
                 </li>
-                <li>
-                    <span class="etiqueta-estadistica">Asistencias</span>
-                    <span class="insignia-suma">+ pts</span>
-                </li>
-                <li>
-                    <span class="etiqueta-estadistica">Robos</span>
-                    <span class="insignia-suma">+ pts</span>
-                </li>
-                <li>
-                    <span class="etiqueta-estadistica">Tapones</span>
-                    <span class="insignia-suma">+ pts</span>
-                </li>
-                <li>
-                    <span class="etiqueta-estadistica">Minutos jugados</span>
-                    <span class="insignia-suma">+ pts</span>
-                </li>
-                <li>
-                    <span class="etiqueta-estadistica">Pérdidas de balón</span>
-                    <span class="insignia-resta">− pts</span>
-                </li>
+                <li><span class="etiqueta-estadistica">Pérdidas de balón</span> <span
+                        class="insignia-resta">− pts</span></li>
             </ul>
         </div>
     </div>
 
-
-    <!-- ── BOTÓN CTA ───────────────────────────────── -->
+    <!-- BOTÓN -->
+    <!--
     <div class="contenedor-cta">
         <a th:href="@{/crear-equipo}" class="boton-confirmar">¡Crear mi equipo!</a>
     </div>
+    -->
 
 </main>
 
-<!--FOOTER-->
 <div th:replace="layout/footer :: footer"></div>
 
 </body>
