@@ -1,71 +1,71 @@
 let numeroOrdenSeleccionado = null;
-
+let puestoActivo = null;
 
 document.addEventListener("DOMContentLoaded", function () {
-  document.getElementById("scrollJugadores").style.display = "none";
-  document.getElementById("placeholder-lista").style.display = "flex";
+    document.getElementById("scrollJugadores").style.display = "none";
+    document.getElementById("placeholder-lista").style.display = "flex";
 
-  document.querySelectorAll(".tarjeta-jugador").forEach(card => {
-    card.classList.add("oculto");
-  });
+    document.querySelectorAll(".tarjeta-jugador").forEach(card => {
+        console.log("card puesto:", card.dataset.puesto);
+        card.classList.add("oculto");
+    });
 });
 
-
 document.getElementById("campoBuscar").addEventListener("input", function (e) {
-  const busqueda = e.target.value.toLowerCase().trim();
+    const busqueda = e.target.value.toLowerCase().trim();
 
-  document.querySelectorAll(".tarjeta-jugador").forEach(card => {
-    const nombre = card.dataset.nombre.toLowerCase();
-    const coincideNombre = nombre.includes(busqueda);
+    document.querySelectorAll(".tarjeta-jugador").forEach(card => {
+        const nombre = card.dataset.nombre.toLowerCase();
+        const coincideNombre = nombre.includes(busqueda);
+        const coincidePuesto = puestoActivo === "TODOS" || card.dataset.puesto === puestoActivo;
 
-    /*  Solo mostramos si coincide el puesto Y el nombre */
-    if (coincideNombre) {
-      card.classList.remove("oculto");
-    } else {
-      card.classList.add("oculto");
-    }
-  });
+        if (coincideNombre && coincidePuesto) {
+            card.classList.remove("oculto");
+        } else {
+            card.classList.add("oculto");
+        }
+    });
 });
 
 // eslint-disable-next-line no-unused-vars
 function activarRanura(idRanura, puesto) {
-  const ranura = document.getElementById(idRanura);
-  // si la ranura ya tiene jugador (clase ocupada), salir
-  if (ranura.classList.contains("ranura-ocupada")) return;
+    console.log("puesto:", puesto);
+    const ranura = document.getElementById(idRanura);
 
-  /*  Limpiar el buscador cada vez que cambias de posición */
-  document.getElementById("campoBuscar").value = "";
+    if (ranura.classList.contains("ranura-ocupada")) return;
 
-  //para el numero de orden asociado a cada puesto
-  numeroOrdenSeleccionado = parseInt(ranura.dataset.orden);
+    puestoActivo = puesto; // ← guardar el puesto activo
 
-  document.querySelectorAll(".numero-orden").forEach(input => {
-    input.value = numeroOrdenSeleccionado;
-  });
+    document.getElementById("campoBuscar").value = "";
 
-  document.querySelectorAll(".ranura-absoluta, .ranura-suplente").forEach(s => {
-    s.classList.remove("activa-ahora");
-  });
+    numeroOrdenSeleccionado = parseInt(ranura.dataset.orden);
 
-  const ranuraClickeada = document.getElementById(idRanura);
-  if (ranuraClickeada) {
-    ranuraClickeada.classList.add("activa-ahora");
-  }
+    document.querySelectorAll(".numero-orden").forEach(input => {
+        input.value = numeroOrdenSeleccionado;
+    });
 
-  document.getElementById("placeholder-lista").style.display = "none";
-  document.getElementById("scrollJugadores").style.display = "block";
+    document.querySelectorAll(".ranura-absoluta, .ranura-suplente").forEach(s => {
+        s.classList.remove("activa-ahora");
+    });
 
-  document.querySelectorAll(".tarjeta-jugador").forEach(card => {
-
-    if (puesto === "TODOS") {
-      card.classList.remove("oculto");
-      return;
+    const ranuraClickeada = document.getElementById(idRanura);
+    if (ranuraClickeada) {
+        ranuraClickeada.classList.add("activa-ahora");
     }
 
-    if (card.dataset.puesto === puesto) {
-      card.classList.remove("oculto");
-    } else {
-      card.classList.add("oculto");
-    }
-  });
+    document.getElementById("placeholder-lista").style.display = "none";
+    document.getElementById("scrollJugadores").style.display = "block";
+
+    document.querySelectorAll(".tarjeta-jugador").forEach(card => {
+        if (puesto === "TODOS") {
+            card.classList.remove("oculto");
+            return;
+        }
+
+        if (card.dataset.puesto === puesto) {
+            card.classList.remove("oculto");
+        } else {
+            card.classList.add("oculto");
+        }
+    });
 }

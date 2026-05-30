@@ -483,6 +483,31 @@
                     </form>
                 </div>
 
+                <!--TODOS LOS JUGADORES PARA CAPITAN Y SEXTO HOMBRE-->
+                <div th:each="jugador : ${listadoTodosLosJugadores}"
+                     class="tarjeta-jugador oculto"
+                     th:attr="data-id=${jugador.id},
+           data-nombre=${jugador.nombre + ' ' + jugador.apellido},
+           data-puesto='TODOS',
+           data-precio=${jugador.precio},
+           data-foto=${jugador.foto != null ? jugador.foto : ''}">
+                    <img th:if="${jugador.foto != null and !#strings.isEmpty(jugador.foto)}"
+                         class="foto-jugador"
+                         th:src="${jugador.foto}"
+                         th:alt="${jugador.nombre}">
+                    <div class="info-jugador">
+                        <div class="nombre-jugador" th:text="${jugador.nombre + ' ' + jugador.apellido}">Nombre</div>
+                        <div class="puesto-jugador" th:text="${jugador.getPosicion()}"></div>
+                    </div>
+                    <div class="precio-jugador" th:text="${jugador.precio}">0</div>
+                    <form th:action="@{/agregar-jugador}" method="post">
+                        <input type="hidden" name="idEquipo" th:value="${equipo.id}">
+                        <input type="hidden" name="idJugador" th:value="${jugador.id}">
+                        <input type="hidden" name="numeroDeOrden" class="numero-orden">
+                        <button type="submit" class="btn-fichar">FICHAR</button>
+                    </form>
+                </div>
+
             </div>
         </div>
 
