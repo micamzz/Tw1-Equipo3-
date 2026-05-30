@@ -46,7 +46,6 @@
                 <p th:if="${error}" th:text="${error}" class="alerta-error"></p>
             </div>
 
-
             <div class="seccion-titulo"> Titulares</div>
 
             <div class="contenedor-cancha">
@@ -372,13 +371,24 @@
                 <div class="cabecera-lista-top">
                     <div class="titulo-lista" id="titulo-lista">Jugadores disponibles</div>
                 </div>
-                <div class="envoltorio-buscar">
-                    <!--    <span class="icono-lupa">&#x1F50D;</span>-->
+
+                <div class="filtros-busqueda">
+                    <!--SELECT PARA POSICIONES
+                    <select class="campo-buscar select-posicion" id="selectPosicion">
+                        <option value="">Todas las posiciones</option>
+                        <option value="BASE">Base</option>
+                        <option value="ALERO">Alero</option>
+                        <option value="PIVOT">Pivot</option>
+                    </select>
+                    -->
+                    <!--INPUT BUSCADOR-->
                     <label for="campoBuscar"></label>
                     <input type="text" class="campo-buscar" id="campoBuscar"
                            placeholder="Buscar jugador...">
-                </div>
-            </div>
+
+                </div> <!--FIN filtro busqueda-->
+
+            </div> <!--Fin div cabezera-lista-->
 
             <div class="placeholder-lista" id="placeholder-lista">
                 <div class="icono">&#x1F3C0;</div>
@@ -399,11 +409,9 @@
                          class="foto-jugador"
                          th:src="${jugador.foto}"
                          th:alt="${jugador.nombre}">
-                    <div class="foto-jugador-placeholder"
-                         th:if="${jugador.foto == null or #strings.isEmpty(jugador.foto)}">&#x1F464;
-                    </div>
                     <div class="info-jugador">
                         <div class="nombre-jugador" th:text="${jugador.nombre + ' ' + jugador.apellido}">Nombre</div>
+                        <div class="puesto-jugador puesto-base " th:text="${jugador.getPosicion()}"></div>
                     </div>
                     <div class="precio-jugador" th:text="${jugador.precio}">0
                     </div>
@@ -432,6 +440,7 @@
 
                     <div class="info-jugador">
                         <div class="nombre-jugador" th:text="${jugador.nombre + ' ' + jugador.apellido}">Nombre</div>
+                        <div class="puesto-jugador puesto-alero" th:text="${jugador.getPosicion()}"></div>
                     </div>
                     <div class="precio-jugador" th:text="${jugador.precio}">
                     </div>
@@ -460,6 +469,7 @@
 
                     <div class="info-jugador">
                         <div class="nombre-jugador" th:text="${jugador.nombre + ' ' + jugador.apellido}">Nombre</div>
+                        <div class="puesto-jugador  puesto-pivot" th:text="${jugador.getPosicion()}"></div>
                     </div>
                     <div class="precio-jugador" th:text="${jugador.precio}">0
                     </div>
