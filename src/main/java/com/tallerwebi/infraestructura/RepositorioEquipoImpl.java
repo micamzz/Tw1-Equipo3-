@@ -44,5 +44,7 @@ public class RepositorioEquipoImpl implements RepositorioEquipo {
                 .add(Restrictions.eq("nombreEquipo", nombre))
                 .uniqueResult();
     }
+
+
 }
 

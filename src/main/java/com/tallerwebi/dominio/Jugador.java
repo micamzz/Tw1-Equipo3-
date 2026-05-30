@@ -12,7 +12,7 @@ public class Jugador {
     private String apellido;
     @Column(unique = true, nullable = false)
     private Integer dni;
-    private Integer precio;
+    private Double precio;
     @Enumerated(EnumType.STRING)
     private Posicion posicion;
     private String foto;
@@ -42,11 +42,11 @@ public class Jugador {
         return posicion;
     }
 
-    public Integer getPrecio() {
+    public Double getPrecio() {
         return precio;
     }
 
-    public void setPrecio(Integer precio) {
+    public void setPrecio(Double precio) {
         this.precio = precio;
     }
 

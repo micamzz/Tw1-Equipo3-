@@ -38,4 +38,10 @@ public class ServicioMercadoImpl implements ServicioMercado {
     public List<Jugador> buscarBase() {
         return repositorioJugador.buscarJugadores(Posicion.BASE, null);
     }
+
+    @Override
+    public List<Jugador> obtenerJugadoresPorPosicion(Posicion posicion) {
+        return repositorioJugador.buscarJugadoresPorPosicion(posicion);
+    }
+
 }

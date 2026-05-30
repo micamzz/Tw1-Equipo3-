@@ -58,7 +58,6 @@ public class RepositorioEquipoJugadorTest {
         Equipo equipo = new Equipo();
         Jugador jugador1 = new Jugador();
         jugador1.setDni(38662);
-
         this.sessionFactory.getCurrentSession().save(equipo);
         this.sessionFactory.getCurrentSession().save(jugador1);
 
@@ -75,8 +74,6 @@ public class RepositorioEquipoJugadorTest {
         assertThat(equipoJugadorBuscado, notNullValue());
         assertThat(equipoJugadorBuscado.getEquipo().getId(), equalTo(equipo.getId()));
         assertThat(equipoJugadorBuscado.getJugador().getId(), equalTo(jugador1.getId()));
-
-        /* preguntar sobre este test */
     }
 
 

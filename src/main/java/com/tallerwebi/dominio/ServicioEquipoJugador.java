@@ -7,9 +7,9 @@ public interface ServicioEquipoJugador {
 
     EquipoJugador guardarEquipoJugador(EquipoJugador equipoJugador);
 
-    EquipoJugador buscarJugadorPorNumeroDeOrden(List<EquipoJugador> jugadores, Integer orden);
-
     HashMap<Integer, EquipoJugador> buscarJugadoresPorEquipoId(Long id);
 
-    /* List<EquipoJugador> buscarJugadoresDelEquipo(Long idEquipo);*/
+    List<Jugador> obtenerJugadoresDisponiblesPorPosicion(Long idEquipo, Posicion posicion);
+
+    List<Jugador> obtenerJugadoresDisponibles(Long idEquipo);
 }
