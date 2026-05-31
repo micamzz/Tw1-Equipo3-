@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear Torneo</title>
+
+</head>
+<body>
+
+<h1>Crear Torneo</h1>
+
+<form th:action="@{/admin/torneo/guardar}"
+      th:object="${torneo}"
+      method="post">
+
+    <div>
+        <label>Nombre del torneo</label>
+        <input type="text" th:field="*{nombreTorneo}">
+    </div>
+
+    <div>
+        <label>Fecha Inicio</label>
+        <input type="date" th:field="*{fechaInicio}">
+    </div>
+
+    <div>
+        <label>Fecha Fin</label>
+        <input type="date" th:field="*{fechaFin}">
+    </div>
+
+
+    <input type="submit" value="Guardar">
+
+</form>
+
+</body>
+</html>

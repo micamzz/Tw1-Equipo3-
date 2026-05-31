@@ -17,6 +17,7 @@ public class ServicioEquipoTest {
     private RepositorioJugador repositorioJugadorMock;
     private RepositorioEquipoJugador repositorioEquipoJugadorMock;
     private Equipo equipoMock;
+    private RepositorioTorneo repositorioTorneoMock;
 
     /*
     1- Buscar un equipo por ID devuelve el correcto
@@ -33,7 +34,8 @@ public class ServicioEquipoTest {
         this.repositorioEquipoMock = mock(RepositorioEquipo.class);
         this.repositorioJugadorMock = mock(RepositorioJugador.class);
         this.repositorioEquipoJugadorMock = mock(RepositorioEquipoJugador.class);
-        this.servicioEquipo = new ServicioEquipoImpl(repositorioEquipoMock, repositorioJugadorMock, repositorioEquipoJugadorMock);
+        this.repositorioTorneoMock = mock(RepositorioTorneo.class);
+        this.servicioEquipo = new ServicioEquipoImpl(repositorioEquipoMock, repositorioJugadorMock, repositorioEquipoJugadorMock, repositorioTorneoMock);
         this.equipoMock = mock(Equipo.class);
 
     }

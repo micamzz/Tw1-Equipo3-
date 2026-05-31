@@ -17,6 +17,7 @@ public class ServicioEquipoImpl implements ServicioEquipo {
     private final RepositorioEquipo repositorioEquipo;
     private final RepositorioJugador repositorioJugador;
     private final RepositorioEquipoJugador repositorioEquipoJugador;
+    private final RepositorioTorneo repositorioTorneo;
     private static final Double PRESUPUESTO_INICIAL = 2000000D;
     private static final Integer NUMERO_ORDEN_CAPITAN = 11;
     private static final Integer NUMERO_ORDEN_SEXTO_HOMBRE = 12;
@@ -24,16 +25,19 @@ public class ServicioEquipoImpl implements ServicioEquipo {
 
     @Autowired
     public ServicioEquipoImpl(RepositorioEquipo repositorioEquipo, RepositorioJugador repositorioJugador,
-                              RepositorioEquipoJugador repositorioEquipoJugador) {
+                              RepositorioEquipoJugador repositorioEquipoJugador, RepositorioTorneo repositorioTorneo) {
         this.repositorioEquipo = repositorioEquipo;
         this.repositorioJugador = repositorioJugador;
         this.repositorioEquipoJugador = repositorioEquipoJugador;
+        this.repositorioTorneo = repositorioTorneo;
     }
 
 
     @Override
     public Equipo guardarEquipo(Equipo equipo) {
         equipo.setPresupuesto(PRESUPUESTO_INICIAL); // Presupuesto inicial para cada equipo
+        TorneoVirtual torneoVirtualActual = repositorioTorneo.buscarTorneoVirtualActual();
+        equipo.setTorneo(torneoVirtualActual);
         repositorioEquipo.guardarEquipo(equipo);
         return equipo;/* Devuelve Equipo porq necesito recuperar el ID en el controlador  */
     }

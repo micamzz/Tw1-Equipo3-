@@ -1,19 +1,23 @@
 package com.tallerwebi.dominio;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.persistence.*;
 import java.time.LocalDate;
 
-
-public class Torneo {
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class Torneo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String nombreTorneo;
-    private LocalDate fechaInicio;
-    private LocalDate fechaFin;
-    private EstadoTorneo estadoTorneo;
+    protected Long id;
+    protected String nombreTorneo;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    protected LocalDate fechaInicio;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    protected LocalDate fechaFin;
+    @Enumerated(EnumType.STRING)
+    protected EstadoTorneo estadoTorneo;
 
     public Torneo() {
     }
@@ -25,15 +29,12 @@ public class Torneo {
     public String getNombreTorneo() {
         return nombreTorneo;
     }
-
     public void setNombreTorneo(String nombreTorneo) {
         this.nombreTorneo = nombreTorneo;
     }
-
     public LocalDate getFechaInicio() {
         return fechaInicio;
     }
-
     public void setFechaInicio(LocalDate fechaInicio) {
         this.fechaInicio = fechaInicio;
     }

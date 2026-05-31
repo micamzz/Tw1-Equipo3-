@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html lang="es" >
+<head>
+    <meta charset="UTF-8">
+    <title>Torneo</title>
+
+    <!-- Link CSS al Header y Footer-->
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
+    <link rel="stylesheet" th:href="@{/css/equipo-style.css}">
+
+    <!-- Fuente INTER   -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet"/>
+</head>
+<body>
+<!--HEADER
+<div th:replace="layout/header :: header"></div>
+-->
+<main>
+    <h1> TORNEO ACTUAL </h1>
+
+    <p th:if="${torneo != null}">
+        Nombre:
+        <span th:text="${torneo.nombreTorneo}"></span>
+    </p>
+
+    <p th:if="${torneo == null}">
+        No hay torneo activo.
+    </p>
+
+
+</main>
+
+<!--FOOTER
+<div th:replace="layout/footer :: footer"></div>
+
+JAVASCRIPT
+<script th:src="@{js/crearEquipo.js}"></script>
+-->
+</body>
+</html>

@@ -1,9 +1,6 @@
 package com.tallerwebi.dominio;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 
 @Entity
@@ -13,7 +10,9 @@ public class Equipo {
     private Long id;
     private String nombreEquipo;
     private Double presupuesto;
-    // private Torneo torneo;
+
+    @ManyToOne
+    private TorneoVirtual torneo;
     // private Usuario usu;
 
 
@@ -42,6 +41,14 @@ public class Equipo {
 
     public void setPresupuesto(Double presupuesto) {
         this.presupuesto = presupuesto;
+    }
+
+    public TorneoVirtual getTorneo() {
+        return torneo;
+    }
+
+    public void setTorneo(TorneoVirtual torneo) {
+        this.torneo = torneo;
     }
 }
 
