@@ -74,15 +74,17 @@ public class ControladorEquipo {
             Equipo equipo = servicioEquipo.buscarEquipoPorId(id);
             modelo.put("equipo", equipo);
 
-            List<Jugador> jugadoresBase = servicioJugador.buscarBase();
-            List<Jugador> jugadoresAlero = servicioJugador.buscarAlero();
-            List<Jugador> jugadoresPivot = servicioJugador.buscarPivot();
+            List<Jugador> jugadoresBase = servicioEquipoJugador.obtenerJugadoresDisponiblesPorPosicion(id, Posicion.BASE);
+            List<Jugador> jugadoresAlero = servicioEquipoJugador.obtenerJugadoresDisponiblesPorPosicion(id, Posicion.ALERO);
+            List<Jugador> jugadoresPivot = servicioEquipoJugador.obtenerJugadoresDisponiblesPorPosicion(id, Posicion.PIVOT);
+            List<Jugador> todosLosJugadores = servicioEquipoJugador.obtenerJugadoresDisponibles(id);
 
             HashMap<Integer, EquipoJugador> jugadoresDelEquipoPorOrden = servicioEquipoJugador.buscarJugadoresPorEquipoId(id);
 
             modelo.put("listadoBases", jugadoresBase);
             modelo.put("listadoAleros", jugadoresAlero);
             modelo.put("listadoPivots", jugadoresPivot);
+            modelo.put("listadoTodosLosJugadores", todosLosJugadores);/*Para capitan y sexto hombre*/
 
 
             modelo.put("base1", jugadoresDelEquipoPorOrden.get(1));
@@ -132,7 +134,7 @@ public class ControladorEquipo {
 
 
     @RequestMapping(value = "/confirmar-equipo", method = RequestMethod.POST)
-    public ModelAndView confirmarEquipoCompleto(@RequestParam Long idEquipo) throws EquipoSinCompletarException {
+    public ModelAndView confirmarEquipoCompleto(@RequestParam Long idEquipo) {
 
         try {
             servicioEquipo.validarEquipoCompleto(idEquipo);
@@ -145,7 +147,6 @@ public class ControladorEquipo {
     @RequestMapping("/ver-equipo")
     public ModelAndView verEquipo(@RequestParam Long id) {
 
-      
         try {
             ModelMap modelo = new ModelMap();
 

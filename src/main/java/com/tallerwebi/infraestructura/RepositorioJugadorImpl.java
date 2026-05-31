@@ -13,7 +13,7 @@ import java.util.List;
 @Repository("repositorioJugador")
 public class RepositorioJugadorImpl implements RepositorioJugador {
 
-    private SessionFactory sessionFactory;
+    private final SessionFactory sessionFactory;
 
     @Autowired
     public RepositorioJugadorImpl(SessionFactory sessionFactory) {
@@ -42,4 +42,21 @@ public class RepositorioJugadorImpl implements RepositorioJugador {
         return (Jugador) criteria.uniqueResult();
     }
 
+    @Override
+    public List<Jugador> buscarJugadoresPorPosicion(Posicion posicion) {
+        return (List<Jugador>) sessionFactory.getCurrentSession()
+                .createCriteria(Jugador.class)
+                .add(Restrictions.eq("posicion", posicion))
+                .list();
+    }
+
+    @Override
+    public List<Jugador> buscarTodosLosJugadores() {
+        return (List<Jugador>) sessionFactory.getCurrentSession()
+                .createCriteria(Jugador.class)
+                .list();
+    }
+
+
 }
+

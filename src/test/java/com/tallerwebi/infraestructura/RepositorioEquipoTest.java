@@ -57,7 +57,7 @@ public class RepositorioEquipoTest {
     @Transactional
     @Rollback
     public void buscarEquipoPorNombreDevuelveUnEquipo() {
-        // preparacion
+        // preparación
         Equipo equipo1 = new Equipo();
         equipo1.setNombreEquipo("CABJ12");
         Equipo equipo2 = new Equipo();
@@ -69,10 +69,10 @@ public class RepositorioEquipoTest {
         this.sessionFactory.getCurrentSession().save(equipo2);
         this.sessionFactory.getCurrentSession().save(equipo3);
 
-        // ejecucion
+        // ejecución
         Equipo equipoBuscado = repositorioEquipo.buscarEquipoPorNombre("PLM2026");
 
-        // verificacion
+        // verificación
         assertThat(equipoBuscado, notNullValue());
         assertThat(equipoBuscado.getNombreEquipo(), equalToIgnoringCase("PLM2026"));
         assertThat(equipoBuscado.getId(), equalTo(equipo2.getId()));
@@ -82,7 +82,7 @@ public class RepositorioEquipoTest {
     @Transactional
     @Rollback
     public void buscarEquipoPorIdDevuelveUnEquipo() {
-        // preparacion
+        // preparación
 
         Equipo equipo1 = new Equipo();
         Equipo equipo2 = new Equipo();
@@ -92,7 +92,7 @@ public class RepositorioEquipoTest {
         this.sessionFactory.getCurrentSession().save(equipo2);
         this.sessionFactory.getCurrentSession().save(equipo3);
 
-        // ejecucion
+        // ejecución
         Equipo equipoBuscado = repositorioEquipo.buscarEquipoPorId(equipo3.getId());
 
         assertThat(equipoBuscado, notNullValue());
@@ -103,13 +103,13 @@ public class RepositorioEquipoTest {
     @Transactional
     @Rollback
     public void buscarEquipoPorIdInexistenteDevuelveNull() {
-        // preparacion
+        // preparación
         when(sessionMock.get(Equipo.class, 1L)).thenReturn(null);
 
-        // ejecucion
+        // ejecución
         Equipo equipoObtenido = repositorioEquipo.buscarEquipoPorId(1L);
 
-        // verficacion
+        // verification
         assertThat(equipoObtenido, equalTo(null));
     }*/
 
@@ -117,7 +117,7 @@ public class RepositorioEquipoTest {
     @Transactional
     @Rollback
     public void buscarEquipoPorNombreInexistenteDevuelveNull() {
-        // preparacion
+        // preparación
         Equipo equipo1 = new Equipo();
         equipo1.setNombreEquipo("CABJ12");
         Equipo equipo2 = new Equipo();
@@ -129,10 +129,10 @@ public class RepositorioEquipoTest {
         this.sessionFactory.getCurrentSession().save(equipo2);
         this.sessionFactory.getCurrentSession().save(equipo3);
 
-        // ejecucion
+        // ejecución
         Equipo equipoBuscado = repositorioEquipo.buscarEquipoPorNombre("KeLocura");
 
-        // verificacion
+        // verificación
         assertNull(equipoBuscado);
     }
 
@@ -140,7 +140,7 @@ public class RepositorioEquipoTest {
     @Transactional
     @Rollback
     public void buscarEquipoPorIDInexistenteDevuelveNull() {
-        // preparacion
+        // preparación
         Equipo equipo1 = new Equipo();
         Equipo equipo2 = new Equipo();
         Equipo equipo3 = new Equipo();
@@ -149,12 +149,14 @@ public class RepositorioEquipoTest {
         this.sessionFactory.getCurrentSession().save(equipo2);
         this.sessionFactory.getCurrentSession().save(equipo3);
 
-        // ejecucion
+        // ejecución
         Equipo equipoBuscado = repositorioEquipo.buscarEquipoPorId(2323L);
 
-        // verificacion
+        // verificación
         assertNull(equipoBuscado);
     }
+
+
 }
 
 

@@ -1,106 +1,220 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Ver Equipo</title>
 
-    <!-- Link CSS al Header y Footer-->
-    <link rel="stylesheet" th:href="@{/css/header.css}">
-    <link rel="stylesheet" th:href="@{/css/footer.css}">
-    <link rel="stylesheet" th:href="@{/css/ver-equipo.css}">
+    <link rel="stylesheet" th:href="@{/css/header.css}" />
+    <link rel="stylesheet" th:href="@{/css/footer.css}" />
+    <link rel="stylesheet" th:href="@{/css/ver-equipo.css}" />
 
-    <!-- Fuente INTER   -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
-</head>
-<body>
-<!--HEADER -->
-<div th:replace="layout/header :: header"></div>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- HEADER -->
+    <div th:replace="layout/header :: header"></div>
 
-<main>
+    <main>
+      <h1 class="titulo-equipo" th:text="${equipo.nombreEquipo}"></h1>
+      <div class="contenedor-equipo">
+        <!-- COLUMNA IZQUIERDA -->
+        <div class="contenedor-cancha">
+          <div class="superficie-cancha"></div>
+          <svg
+            class="svg-cancha"
+            viewBox="0 0 100 100"
+            preserveAspectRatio="none"
+            fill="none"
+            stroke="rgba(255,255,255,0.25)"
+            stroke-width="0.5"
+          >
+            <rect x="5" y="5" width="90" height="90" />
+            <line x1="5" y1="50" x2="95" y2="50" />
+            <circle cx="50" cy="50" r="12" />
+            <rect x="25" y="5" width="50" height="20" />
+            <rect x="25" y="75" width="50" height="20" />
+            <rect x="35" y="5" width="30" height="10" />
+            <rect x="35" y="85" width="30" height="10" />
+          </svg>
 
-    <h1 class="titulo-equipo" th:text="${equipo.nombreEquipo}"></h1>
+          <div
+            th:each="ej : ${jugadoresEquipo}"
+            th:if="${ej.numeroOrden == 5}"
+            id="ranura-pivot"
+            class="ranura-absoluta"
+          >
+            <span class="ranura-etiqueta-puesto">Pivot</span>
+            <img
+              class="ranura-foto"
+              th:src="${ej.jugador.foto}"
+              th:alt="${ej.jugador.nombre}"
+            />
+            <span
+              class="ranura-nombre"
+              th:text="${ej.jugador.nombre} + ' ' + ${ej.jugador.apellido}"
+            ></span>
+          </div>
 
-    <div class="contenedor-equipo">
+          <div
+            th:each="ej : ${jugadoresEquipo}"
+            th:if="${ej.numeroOrden == 3}"
+            id="ranura-alero1"
+            class="ranura-absoluta"
+          >
+            <span class="ranura-etiqueta-puesto">Alero</span>
+            <img
+              class="ranura-foto"
+              th:src="${ej.jugador.foto}"
+              th:alt="${ej.jugador.nombre}"
+            />
+            <span
+              class="ranura-nombre"
+              th:text="${ej.jugador.nombre} + ' ' + ${ej.jugador.apellido}"
+            ></span>
+          </div>
 
-        <section class="bloque-titulares">
-            <p class="subtitulo-bloque">CAPITAN</p>
+          <div
+            th:each="ej : ${jugadoresEquipo}"
+            th:if="${ej.numeroOrden == 4}"
+            id="ranura-alero2"
+            class="ranura-absoluta"
+          >
+            <span class="ranura-etiqueta-puesto">Alero</span>
+            <img
+              class="ranura-foto"
+              th:src="${ej.jugador.foto}"
+              th:alt="${ej.jugador.nombre}"
+            />
+            <span
+              class="ranura-nombre"
+              th:text="${ej.jugador.nombre} + ' ' + ${ej.jugador.apellido}"
+            ></span>
+          </div>
 
-            <div th:each="equipoJugador : ${jugadoresEquipo}"
-                 th:if="${equipoJugador.numeroOrden == 11}"
-                 class="fila-jugador">
+          <div
+            th:each="ej : ${jugadoresEquipo}"
+            th:if="${ej.numeroOrden == 1}"
+            id="ranura-base1"
+            class="ranura-absoluta"
+          >
+            <span class="ranura-etiqueta-puesto">Base</span>
+            <img
+              class="ranura-foto"
+              th:src="${ej.jugador.foto}"
+              th:alt="${ej.jugador.nombre}"
+            />
+            <span
+              class="ranura-nombre"
+              th:text="${ej.jugador.nombre} + ' ' + ${ej.jugador.apellido}"
+            ></span>
+          </div>
 
-                <span class="nombre-jugador"
-                      th:text="${equipoJugador.jugador.nombre} + ' ' + ${equipoJugador.jugador.apellido}">
-                </span>
+          <div
+            th:each="ej : ${jugadoresEquipo}"
+            th:if="${ej.numeroOrden == 2}"
+            id="ranura-base2"
+            class="ranura-absoluta"
+          >
+            <span class="ranura-etiqueta-puesto">Base</span>
+            <img
+              class="ranura-foto"
+              th:src="${ej.jugador.foto}"
+              th:alt="${ej.jugador.nombre}"
+            />
+            <span
+              class="ranura-nombre"
+              th:text="${ej.jugador.nombre} + ' ' + ${ej.jugador.apellido}"
+            ></span>
+          </div>
+        </div>
 
+        <!-- COLUMNA DERECHA -->
+        <div class="columna-info">
+          <!-- CAPITÁN + SEXTO HOMBRE -->
+          <div>
+            <p class="seccion-titulo">CAPITAN Y SEXTO HOMBRE</p>
+            <div class="contenedor-especiales">
+              <div
+                th:each="ej : ${jugadoresEquipo}"
+                th:if="${ej.numeroOrden == 11}"
+                class="tarjeta-jugador-sm"
+              >
+                <span class="ranura-etiqueta-puesto">Capitán</span>
+                <img
+                  class="ranura-foto"
+                  th:src="${ej.jugador.foto}"
+                  th:alt="${ej.jugador.nombre}"
+                />
+                <span
+                  class="ranura-nombre"
+                  th:text="${ej.jugador.nombre} + ' ' + ${ej.jugador.apellido}"
+                ></span>
+              </div>
+              <div
+                th:each="ej : ${jugadoresEquipo}"
+                th:if="${ej.numeroOrden == 12}"
+                class="tarjeta-jugador-sm"
+              >
+                <span class="ranura-etiqueta-puesto">Sexto hombre</span>
+                <img
+                  class="ranura-foto"
+                  th:src="${ej.jugador.foto}"
+                  th:alt="${ej.jugador.nombre}"
+                />
+                <span
+                  class="ranura-nombre"
+                  th:text="${ej.jugador.nombre} + ' ' + ${ej.jugador.apellido}"
+                ></span>
+              </div>
             </div>
-        </section>
+          </div>
 
-        <!-- SEXTO HOMBRE -->
-        <section class="bloque-titulares">
-            <p class="subtitulo-bloque">SEXTO HOMBRE</p>
-
-            <div th:each="equipoJugador : ${jugadoresEquipo}"
-                 th:if="${equipoJugador.numeroOrden == 12}"
-                 class="fila-jugador">
-
-                <span class="nombre-jugador"
-                      th:text="${equipoJugador.jugador.nombre} + ' ' + ${equipoJugador.jugador.apellido}">
-                </span>
-
+          <!-- SUPLENTES -->
+          <div>
+            <p class="seccion-titulo">Suplentes</p>
+            <div class="contenedor-suplentes">
+              <div
+                th:each="ej : ${jugadoresEquipo}"
+                th:if="${ej.numeroOrden >= 6 and ej.numeroOrden <= 10}"
+                class="tarjeta-jugador-sm"
+              >
+                <span
+                  class="ranura-etiqueta-puesto"
+                  th:text="${ej.numeroOrden == 6 or ej.numeroOrden == 7} ? 'Base' :
+                                        (${ej.numeroOrden == 8 or ej.numeroOrden == 9} ? 'Alero' : 'Pivot')"
+                ></span>
+                <img
+                  class="ranura-foto"
+                  th:src="${ej.jugador.foto}"
+                  th:alt="${ej.jugador.nombre}"
+                />
+                <span
+                  class="ranura-nombre"
+                  th:text="${ej.jugador.nombre} + ' ' + ${ej.jugador.apellido}"
+                ></span>
+              </div>
             </div>
-        </section>
+          </div>
 
+          <!-- BOTÓN -->
+          <div class="contenedor-cta">
+            <a
+              th:href="@{/seleccionar-jugadores(id=${equipo.id})}"
+              class="boton-gestionar"
+            >
+              Gestionar equipo
+            </a>
+          </div>
+        </div>
+        <!-- fin columna-info -->
+      </div>
+      <!-- fin contenedor-equipo -->
+    </main>
 
-        <!-- TITULARES -->
-        <section class="bloque-titulares">
-            <p class="subtitulo-bloque">Titulares</p>
-
-            <div th:each="equipoJugador : ${jugadoresEquipo}"
-                 th:if="${equipoJugador.numeroOrden <= 5}"
-                 class="fila-jugador">
-
-                <!-- Si el jugador guardado en el equipo es 1 o 2 devuelve base.
-                Si es 3 o 4 devuelve alero y si no pivot -->
-
-                <span class="etiqueta-posicion"
-                      th:text="${equipoJugador.numeroOrden == 1 or equipoJugador.numeroOrden == 2} ? 'Base' :
-                                (${equipoJugador.numeroOrden == 3 or equipoJugador.numeroOrden == 4} ? 'Alero' : 'Pivot')">
-                </span>
-
-                <span class="nombre-jugador"
-                      th:text="${equipoJugador.jugador.nombre} + ' ' + ${equipoJugador.jugador.apellido}">
-                </span>
-
-            </div>
-        </section>
-
-        <!-- SUPLENTES -->
-        <section class="bloque-suplentes">
-            <p class="subtitulo-bloque">Suplentes</p>
-
-            <div th:each="equipoJugador : ${jugadoresEquipo}"
-                 th:if="${equipoJugador.numeroOrden >= 6 and equipoJugador.numeroOrden <= 10}"
-                 class="fila-jugador">
-
-                <span class="etiqueta-posicion"
-                      th:text="${equipoJugador.numeroOrden == 6 or equipoJugador.numeroOrden == 7} ? 'Base' :
-                                (${equipoJugador.numeroOrden == 8 or equipoJugador.numeroOrden == 9} ? 'Alero' : 'Pivot')">
-                </span>
-
-                <span class="nombre-jugador"
-                      th:text="${equipoJugador.jugador.nombre} + ' ' + ${equipoJugador.jugador.apellido}">
-                </span>
-            </div>
-
-        </section>
-
-    </div>
-
-</main>
-
-<!--FOOTER-->
-<div th:replace="layout/footer :: footer"></div>
-
-</body>
+    <!-- FOOTER -->
+    <div th:replace="layout/footer :: footer"></div>
+  </body>
 </html>

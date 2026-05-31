@@ -1,61 +1,64 @@
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-body{
-    background-color:#1c1d1f;
-    font-family: sans-serif;
+body {
+  background-color: #1c1d1f;
+  font-family: sans-serif;
 }
 
-.navbar-mercado{
-    background: linear-gradient(167deg, black, transparent), url('https://upload.wikimedia.org/wikipedia/commons/7/7a/Basketball.png') no-repeat left center;
-    padding: 22px 24px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    position: relative;
-    overflow: hidden;
-    background-size: auto, 190px;
+.navbar-mercado {
+  background:
+    linear-gradient(167deg, black, transparent),
+    url("https://upload.wikimedia.org/wikipedia/commons/7/7a/Basketball.png")
+      no-repeat left center;
+  padding: 22px 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+  overflow: hidden;
+  background-size: auto, 190px;
 }
 
-.form-busqueda{
-    flex:1;
+.form-busqueda {
+  flex: 1;
 }
-.search-wrapper{
-    height: 50px;
-    display:flex;
-    align-items: center;
-    background: #454545;
-    border-radius: 15px;
-    gap: 8px;
-    max-width: 500px;
-    margin: 10px auto;
-    box-shadow: #41464b 1px 1px 1px;
-}
-
-.input-busqueda{
-    background: transparent;
-    border: none;
-    outline: none;
-    font-size: 14px;
-    width: 100%;
-    padding-left: 15px;
-}
-.input-busqueda::placeholder{
-    color: #e5dcdc;
+.search-wrapper {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  background: #454545;
+  border-radius: 15px;
+  gap: 8px;
+  max-width: 500px;
+  margin: 10px auto;
+  box-shadow: #41464b 1px 1px 1px;
 }
 
-.nav-brand-text{
-    color:#FF7A1A;
-    font-weight: 600;
-    font-size: 15px;
-    white-space: nowrap;
+.input-busqueda {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  width: 100%;
+  padding-left: 15px;
+}
+.input-busqueda::placeholder {
+  color: #e5dcdc;
 }
 
-.contenido-principal{
-    padding: 20px 24px;
+.nav-brand-text {
+  color: #ff7a1a;
+  font-weight: 600;
+  font-size: 15px;
+  white-space: nowrap;
+}
+
+.contenido-principal {
+  padding: 20px 24px;
 }
 
 .filtros-section{

@@ -7,4 +7,5 @@ public interface RepositorioEquipo {
     Equipo buscarEquipoPorId(Long id);
 
     Equipo buscarEquipoPorNombre(String nombre);
+
 }
