@@ -36,9 +36,7 @@ public class ServicioEquipoTest {
         this.repositorioEquipoJugadorMock = mock(RepositorioEquipoJugador.class);
         this.repositorioTorneoMock = mock(RepositorioTorneo.class);
         this.servicioEquipo = new ServicioEquipoImpl(repositorioEquipoMock, repositorioJugadorMock, repositorioEquipoJugadorMock, repositorioTorneoMock);
-        this.equipoMock = mock(Equipo.class);
-
-
+        this.equipoMock = new Equipo();
     }
 
 
@@ -105,7 +103,9 @@ public class ServicioEquipoTest {
         //preparacion se necesita a equipoMock que esta inicializado en el before
         Long idEquipo = 3L;
         Long idJugador = 4L;
-        Jugador jugadormock = mock(Jugador.class);
+        Jugador jugadormock = new Jugador();
+        jugadormock.setPrecio(150000.0);
+        equipoMock.setPresupuesto(2000000D);
 
         // metodo buscarEquipoPorId
         when(repositorioEquipoMock.buscarEquipoPorId(idEquipo)).thenReturn(equipoMock);
@@ -113,10 +113,6 @@ public class ServicioEquipoTest {
         when(repositorioJugadorMock.buscarJugadorPorId(idJugador)).thenReturn(jugadormock);
         // metodo de equipoyjugador asociados para el metodo validarSiElJugadorYaFueElegido
         when(repositorioEquipoJugadorMock.buscarEquipoYJugadorAsociado(idEquipo, idJugador)).thenReturn(null);
-
-        //valores para verificar si el presuesto alcanza
-        when(equipoMock.getPresupuesto()).thenReturn(2000000D);
-        when(jugadormock.getPrecio()).thenReturn(150000.0);
 
 //        Ejecucion
         servicioEquipo.agregarJugadorAlEquipo(idEquipo, idJugador, 1);
@@ -131,7 +127,9 @@ public class ServicioEquipoTest {
         //preparacion se necesita a equipoMock que esta inicializado en el before
         Long idEquipo = 3L;
         Long idJugador = 4L;
-        Jugador jugadormock = mock(Jugador.class);
+        Jugador jugadormock = new Jugador();
+        jugadormock.setPrecio(150000.0);
+        equipoMock.setPresupuesto(850000D);
 
         // metodo buscarEquipoPorId
         when(repositorioEquipoMock.buscarEquipoPorId(idEquipo)).thenReturn(equipoMock);
@@ -139,12 +137,8 @@ public class ServicioEquipoTest {
         when(repositorioJugadorMock.buscarJugadorPorId(idJugador)).thenReturn(jugadormock);
         // metodo de equipoyjugador asociados para el metodo validarSiElJugadorYaFueElegido
 
-        EquipoJugador equipoJugadorMock = mock(EquipoJugador.class);
-        when(repositorioEquipoJugadorMock.buscarEquipoYJugadorAsociado(idEquipo, idJugador)).thenReturn(equipoJugadorMock);
-
-        //valores para verificar si el presuesto alcanza
-        when(equipoMock.getPresupuesto()).thenReturn(850000D);
-        when(jugadormock.getPrecio()).thenReturn(150000.0);
+        EquipoJugador equipoJugadorFake = new EquipoJugador();
+        when(repositorioEquipoJugadorMock.buscarEquipoYJugadorAsociado(idEquipo, idJugador)).thenReturn(equipoJugadorFake);
 
 //        ejecucion y Verificacion
         /*
@@ -160,7 +154,9 @@ public class ServicioEquipoTest {
         //preparacion se necesita a equipoMock que esta inicializado en el before
         Long idEquipo = 3L;
         Long idJugador = 4L;
-        Jugador jugadormock = mock(Jugador.class);
+        Jugador jugadormock = new Jugador();
+        jugadormock.setPrecio(850001.0);
+        equipoMock.setPresupuesto(850000D);
 
         // metodo buscarEquipoPorId
         when(repositorioEquipoMock.buscarEquipoPorId(idEquipo)).thenReturn(equipoMock);
@@ -168,10 +164,6 @@ public class ServicioEquipoTest {
         when(repositorioJugadorMock.buscarJugadorPorId(idJugador)).thenReturn(jugadormock);
         // metodo de equipoyjugador asociados para el metodo validarSiElJugadorYaFueElegido
         when(repositorioEquipoJugadorMock.buscarEquipoYJugadorAsociado(idEquipo, idJugador)).thenReturn(null);
-
-        //valores para verificar si el presuesto alcanza
-        when(equipoMock.getPresupuesto()).thenReturn(850000D);
-        when(jugadormock.getPrecio()).thenReturn(850001.0);
 
         //Ejecucion y  Verificacion
         assertThrows(PresupuestoInsuficienteException.class, () -> servicioEquipo.agregarJugadorAlEquipo(idEquipo, idJugador, 1));
