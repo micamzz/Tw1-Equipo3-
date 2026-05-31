@@ -49,7 +49,7 @@ public class ControladorEquipo {
 
         try {
             if (equipoIngresado.getNombreEquipo() == null || equipoIngresado.getNombreEquipo().isBlank()) {
-                throw new EquipoSinNombreException();
+                throw new EquipoSinNombreException("El nombre del equipo no puede estar vacío");
             }
 
             Equipo equipoGuardado = servicioEquipo.guardarEquipo(equipoIngresado);
