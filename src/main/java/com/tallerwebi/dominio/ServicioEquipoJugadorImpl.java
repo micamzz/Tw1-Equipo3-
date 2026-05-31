@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -11,27 +12,18 @@ import java.util.List;
 @Transactional
 public class ServicioEquipoJugadorImpl implements ServicioEquipoJugador {
     private final RepositorioEquipoJugador repositorioEquipoJugador;
+    private final RepositorioJugador repositorioJugador;
 
     @Autowired
-    public ServicioEquipoJugadorImpl(RepositorioEquipoJugador repositorioEquipoJugador) {
+    public ServicioEquipoJugadorImpl(RepositorioEquipoJugador repositorioEquipoJugador, RepositorioJugador repositorioJugador) {
         this.repositorioEquipoJugador = repositorioEquipoJugador;
+        this.repositorioJugador = repositorioJugador;
     }
 
     @Override
     public EquipoJugador guardarEquipoJugador(EquipoJugador equipoJugador) {
         repositorioEquipoJugador.guardarEquipoJugador(equipoJugador);
         return equipoJugador;
-    }
-
-    @Override
-    public EquipoJugador buscarJugadorPorNumeroDeOrden(List<EquipoJugador> jugadores, Integer orden) {
-        for (EquipoJugador juga : jugadores) {
-
-            if (juga.getNumeroOrden().equals(orden)) {
-                return juga;
-            }
-        }
-        return null;
     }
 
 
@@ -46,4 +38,43 @@ public class ServicioEquipoJugadorImpl implements ServicioEquipoJugador {
         }
         return listaJugadores;
     }
+
+    @Override
+    public List<Jugador> obtenerJugadoresDisponiblesPorPosicion(Long idEquipo, Posicion posicion) {
+        List<Jugador> jugadoresPorPosicion = repositorioJugador.buscarJugadoresPorPosicion(posicion);
+        return obtenerJugadoresFiltrados(idEquipo, jugadoresPorPosicion);
+    }
+
+    @Override
+    public List<Jugador> obtenerJugadoresDisponibles(Long idEquipo) {
+        List<Jugador> listadoTodosLosJugadores = repositorioJugador.buscarTodosLosJugadores();
+        return obtenerJugadoresFiltrados(idEquipo, listadoTodosLosJugadores);
+    }
+
+
+    private List<Jugador> obtenerJugadoresFiltrados(Long idEquipo, List<Jugador> listado) {
+        List<EquipoJugador> jugadoresDelEquipo = repositorioEquipoJugador.buscarPorEquipoId(idEquipo);
+
+        List<Jugador> jugadoresDisponibles = new ArrayList<>();
+
+        for (Jugador jugador : listado) {
+            Boolean estaSeleccionado = false;
+
+            for (EquipoJugador equipoJugador : jugadoresDelEquipo) {
+                if (equipoJugador.getJugador().getId().equals(jugador.getId())) {
+                    estaSeleccionado = true;
+                    break;
+                }
+            }
+            if (!estaSeleccionado) {
+                jugadoresDisponibles.add(jugador);
+            }
+        }
+        return jugadoresDisponibles;
+    }
+
 }
+
+
+
+

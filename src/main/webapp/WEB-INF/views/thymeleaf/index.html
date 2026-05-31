@@ -1,9 +1,11 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
 
     <title>INDEX PROYECTO</title>
 
@@ -12,46 +14,40 @@
          integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     -->
 
-
     <!-- Link CSS al Header y Footer-->
-    <link rel="stylesheet" th:href="@{/css/header.css}">
-    <link rel="stylesheet" th:href="@{/css/footer.css}">
-    <link rel="stylesheet" th:href="@{/css/main2.css}"/>
+    <link rel="stylesheet" th:href="@{/css/header.css}" />
+    <link rel="stylesheet" th:href="@{/css/footer.css}" />
+    <link rel="stylesheet" th:href="@{/css/main2.css}" />
 
     <!-- Fuente INTER   -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-          rel="stylesheet"/>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
 
+  <body>
+    <!--HEADER -->
+    <div th:replace="layout/header :: header"></div>
 
-</head>
+    <!--PARTE PRINCIPAL DE LA PAGINA-->
+    <main>
+      <h1>Bienvenido</h1>
 
-<body>
-<!--HEADER -->
-<div th:replace="layout/header :: header"></div>
+      <!--    BOTONES -->
 
-<!--PARTE PRINCIPAL DE LA PAGINA-->
-<main>
-    <h1> Bienvenido</h1>
+      <!-- th:href="@{/VISTA}"-->
 
-    <!--    BOTONES -->
-
-    <!-- th:href="@{/VISTA}"-->
-
-    <section class="contenedor-boton">
+      <section class="contenedor-boton">
         <a th:href="@{/crear-equipo}" class="boton-equipo">CREAR EQUIPO</a>
 
         <!-- <a th:href="@{/ver-equipo}" class="boton-equipo">VER EQUIPO</a>-->
 
         <!--   <a class="boton-equipo">VER ESTADISTICAS</a>-->
-    </section>
+      </section>
+    </main>
 
-
-</main>
-
-
-<!--FOOTER-->
-<div th:replace="layout/footer :: footer"></div>
-
-
-</body>
+    <!--FOOTER-->
+    <div th:replace="layout/footer :: footer"></div>
+  </body>
 </html>

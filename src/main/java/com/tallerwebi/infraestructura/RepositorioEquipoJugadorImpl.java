@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public class RepositorioEquipoJugadorImpl implements RepositorioEquipoJugador {
 
-    private SessionFactory sessionFactory;
+    private final SessionFactory sessionFactory;
 
     @Autowired
     public RepositorioEquipoJugadorImpl(SessionFactory sessionFactory) {
