@@ -32,15 +32,6 @@ body {
     margin-top: 2em;
 }
 
-.descripcion-equipo {
-    font-size: 1rem;
-    text-align: center;
-    max-width: 37.5em;
-    margin: 0 auto 2.5em auto;
-    line-height: 1.6;
-
-}
-
 .nombreEquipoStyle {
     text-align: center;
     font-size: 1.3rem;
@@ -50,8 +41,7 @@ body {
     margin-bottom: 2em;
 }
 
-/* CANCHA */
-
+/* LAYOUT */
 #formularioEquipo {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -72,7 +62,7 @@ body {
     overflow-y: auto;
 }
 
-/* VISUALIZACION DE PRESUPUESTO*/
+/* PRESUPUESTO */
 .caja-estadistica {
     padding: 10px 14px;
 }
@@ -93,7 +83,7 @@ body {
     color: var(--naranja);
 }
 
-/* ---- SECCIÓN TITULARES ---- */
+/* SECCIÓN TITULO */
 .seccion-titulo {
     font-size: 0.62rem;
     font-weight: 700;
@@ -105,11 +95,11 @@ body {
     flex-shrink: 0;
 }
 
+/* CANCHA */
 .contenedor-cancha {
     position: relative;
     width: 100%;
     height: 420px;
-    /*    background: #1a3a1a;*/
     border-radius: 12px;
     overflow: hidden;
     border: 2px solid #e37f4f;
@@ -120,7 +110,6 @@ body {
     position: absolute;
     inset: 0;
     background: linear-gradient(180deg, #da9d5f 0%, #9e6b38 100%);
-    background-size: 100% 100%;
 }
 
 .svg-cancha {
@@ -130,7 +119,7 @@ body {
     height: 100%;
 }
 
-/* ---- SUPLENTES ---- */
+/* GRILLAS */
 .contenedor-suplentes {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -138,11 +127,15 @@ body {
     flex-shrink: 0;
 }
 
-/* SLOT GENÉRICO  */
-.ranura-absoluta {
-    position: absolute;
-    width: 20%;
-    height: 40%;
+.contenedor-capitan {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1em;
+}
+
+/* RANURAS — base compartida */
+.ranura-absoluta,
+.ranura-suplente {
     border-radius: 10px;
     display: flex;
     flex-direction: column;
@@ -150,8 +143,14 @@ body {
     justify-content: center;
     cursor: pointer;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-    padding: 6px;
     text-align: center;
+}
+
+.ranura-absoluta {
+    position: absolute;
+    width: 20%;
+    height: 40%;
+    padding: 6px;
     background: rgba(255, 255, 255, 0.08);
     border: 2px dashed rgba(255, 255, 255, 0.25);
 }
@@ -162,28 +161,8 @@ body {
     border-color: var(--naranja);
 }
 
-.ranura-absoluta.tiene-jugador {
-    background: rgba(0, 0, 0, 0.55);
-    border: 2px solid rgba(255, 255, 255, 0.15);
-}
-
-.ranura-absoluta.activa-ahora {
-    border: 2px solid var(--naranja);
-    background: rgba(255, 107, 0, 0.15);
-    box-shadow: 0 0 16px rgba(255, 107, 0, 0.3);
-}
-
-/* Ranura suplente (en grid) */
 .ranura-suplente {
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
     padding: 8px 4px;
-    text-align: center;
     background: rgba(255, 255, 255, 0.06);
     border: 2px dashed rgba(255, 255, 255, 0.2);
     min-height: 96px;
@@ -195,17 +174,20 @@ body {
     border-color: var(--naranja);
 }
 
+.ranura-absoluta.tiene-jugador,
 .ranura-suplente.tiene-jugador {
     background: rgba(0, 0, 0, 0.55);
-    border: 2px solid rgba(255, 255, 255, 0.12);
+    border: 2px solid rgba(255, 255, 255, 0.15);
 }
 
+.ranura-absoluta.activa-ahora,
 .ranura-suplente.activa-ahora {
     border: 2px solid var(--naranja);
     background: rgba(255, 107, 0, 0.15);
-    box-shadow: 0 0 14px rgba(255, 107, 0, 0.3);
+    box-shadow: 0 0 15px rgba(255, 107, 0, 0.3);
 }
 
+/* Contenido de ranura */
 .ranura-icono {
     font-size: 1.3rem;
     margin-bottom: 4px;
@@ -222,22 +204,6 @@ body {
     display: none;
 }
 
-.ranura-absoluta.tiene-jugador .ranura-icono {
-    display: none;
-}
-
-.ranura-absoluta.tiene-jugador .ranura-foto {
-    display: block;
-}
-
-.ranura-suplente.tiene-jugador .ranura-icono {
-    display: none;
-}
-
-.ranura-suplente.tiene-jugador .ranura-foto {
-    display: block;
-}
-
 .ranura-etiqueta-puesto {
     font-size: 0.55rem;
     font-weight: 700;
@@ -246,15 +212,6 @@ body {
     color: rgba(255, 255, 255, 0.5);
     margin-bottom: 2px;
 }
-
-/*
-.ranura-nombre {
-    max-width: 76px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-*/
 
 .ranura-quitar {
     color: #e74c3c;
@@ -265,10 +222,14 @@ body {
     font-size: 0.85em;
 }
 
-.ranura-absoluta.tiene-jugador .ranura-quitar {
-    display: block;
+.ranura-absoluta.tiene-jugador .ranura-icono,
+.ranura-suplente.tiene-jugador .ranura-icono {
+    display: none;
 }
 
+.ranura-absoluta.tiene-jugador .ranura-foto,
+.ranura-suplente.tiene-jugador .ranura-foto,
+.ranura-absoluta.tiene-jugador .ranura-quitar,
 .ranura-suplente.tiene-jugador .ranura-quitar {
     display: block;
 }
@@ -300,7 +261,7 @@ body {
     right: 20%;
 }
 
-/* LISTADO DE JUGADORES  */
+/* PANEL LISTA */
 .panel-lista {
     display: flex;
     flex-direction: column;
@@ -374,25 +335,39 @@ body {
 }
 
 .scroll-jugadores {
-    /*  flex: 1;
-      overflow-y: auto;*/
     padding: 0.75rem;
     display: flex;
     flex-direction: column;
     gap: 0.8em;
 }
 
-.scroll-jugadores::-webkit-scrollbar {
+/* Scrollbar compartido */
+.scroll-jugadores::-webkit-scrollbar,
+.panel-cancha::-webkit-scrollbar {
     width: 4px;
 }
 
-.scroll-jugadores::-webkit-scrollbar-track {
+.scroll-jugadores::-webkit-scrollbar-track,
+.panel-cancha::-webkit-scrollbar-track {
     background: transparent;
 }
 
-.scroll-jugadores::-webkit-scrollbar-thumb {
+.scroll-jugadores::-webkit-scrollbar-thumb,
+.panel-cancha::-webkit-scrollbar-thumb {
     background: var(--gris2);
     border-radius: 2px;
+}
+
+/* TARJETAS */
+@keyframes entradaDesliz {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .tarjeta-jugador {
@@ -407,17 +382,6 @@ body {
     transition: border-color 0.15s, background 0.15s, transform 0.15s;
     animation: entradaDesliz 0.25s ease forwards;
     opacity: 0;
-}
-
-@keyframes entradaDesliz {
-    from {
-        opacity: 0;
-        transform: translateY(8px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
 }
 
 .tarjeta-jugador:hover {
@@ -441,7 +405,6 @@ body {
     border-radius: 50%;
     object-fit: cover;
     background: var(--gris);
-    display: block;
     border: 2px solid var(--gris2);
     flex-shrink: 0;
 }
@@ -465,29 +428,12 @@ body {
     min-width: 0;
 }
 
-/*.nombre-jugador {
-      font-size: 0.9rem;
-      font-weight: 700;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      color: #fff;
-}*/
-
-.equipo-jugador {
-    color: var(--texto-tenue);
-    margin-top: 1px;
-}
-
 .precio-jugador {
     font-size: 0.95rem;
     font-weight: 700;
     color: var(--naranja);
-    /*    white-space: nowrap;
-        flex-shrink: 0;*/
 }
 
-/*BOTON FICHAR*/
 .btn-fichar {
     background: var(--naranja);
     color: #fff;
@@ -505,41 +451,14 @@ body {
     transform: scale(0.95);
 }
 
-
 .alerta-error {
-    background: rgba(192, 57, 43, 0.15);
-    border: 1px solid #c0392b;
-    color: #e74c3c;
-    border-radius: 8px;
-    padding: 10px 14px;
-    font-size: 0.82rem;
-    margin-top: 10px;
-}
-
-/* Scrollbar panel-cancha */
-.panel-cancha::-webkit-scrollbar {
-    width: 4px;
-}
-
-.panel-cancha::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.panel-cancha::-webkit-scrollbar-thumb {
-    background: var(--gris2);
-    border-radius: 2px;
-}
-
-/* MENSAJE DE ERROR*/
-.alerta-error {
-    background: inherit;
     color: #e74c3c;
     padding: 10px 14px;
     font-size: 0.82rem;
     width: 45%;
 }
 
-/* BOTON CONFIRMAR*/
+/* CONFIRMAR */
 .form-confirmar {
     padding: 0 2em;
     display: flex;
@@ -559,10 +478,4 @@ body {
     cursor: pointer;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-}
-
-.contenedor-capitan {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1em;
 }

@@ -3,6 +3,7 @@ package com.tallerwebi.infraestructura;
 import com.tallerwebi.dominio.EquipoJugador;
 import com.tallerwebi.dominio.RepositorioEquipoJugador;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -40,15 +41,15 @@ public class RepositorioEquipoJugadorImpl implements RepositorioEquipoJugador {
 
     @Override
     public EquipoJugador buscarEquipoYJugadorAsociado(Long idEquipo, Long idJugador) {
-        String hql = "FROM EquipoJugador ej " +
-                "WHERE ej.equipo.id = :idEquipo " +
-                "AND ej.jugador.id = :idJugador";
 
-        return sessionFactory
-                .getCurrentSession()
-                .createQuery(hql, EquipoJugador.class)
-                .setParameter("idEquipo", idEquipo)
-                .setParameter("idJugador", idJugador)
+        return (EquipoJugador) sessionFactory.getCurrentSession()
+                .createCriteria(EquipoJugador.class)
+                /*el primer string tiene que coinicidr con el nombre del atributo de la clase*/
+                .createAlias("equipo", "equi")
+                .createAlias("jugador", "juga")
+                /*usa el alias y lo demas tiene q coinicidr con el atributo de esa clase*/
+                .add(Restrictions.eq("equi.id", idEquipo))
+                .add(Restrictions.eq("juga.id", idJugador))
                 .uniqueResult();
     }
 
@@ -56,6 +57,6 @@ public class RepositorioEquipoJugadorImpl implements RepositorioEquipoJugador {
     public void eliminarEquipoJugador(EquipoJugador equipoJugador) {
         sessionFactory.getCurrentSession().delete(equipoJugador);
     }
-    
+
 
 }
