@@ -1,6 +1,9 @@
 package com.tallerwebi.dominio;
 
-import com.tallerwebi.dominio.excepcion.*;
+import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
+import com.tallerwebi.dominio.excepcion.EquipoSinCompletarException;
+import com.tallerwebi.dominio.excepcion.PresupuestoInsuficienteException;
+import com.tallerwebi.dominio.excepcion.elJugadorYaExisteEnElEquipoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +25,7 @@ public class ServicioEquipoImpl implements ServicioEquipo {
 
     @Autowired
     public ServicioEquipoImpl(RepositorioEquipo repositorioEquipo, RepositorioJugador repositorioJugador,
-                              RepositorioEquipoJugador repositorioEquipoJugador, RepositorioTorneo repositorioTorneo) {
+                              RepositorioEquipoJugador repositorioEquipoJugador) {
         this.repositorioEquipo = repositorioEquipo;
         this.repositorioJugador = repositorioJugador;
         this.repositorioEquipoJugador = repositorioEquipoJugador;
@@ -31,7 +34,7 @@ public class ServicioEquipoImpl implements ServicioEquipo {
 
 
     @Override
-    public Equipo guardarEquipo(Equipo equipo) throws TorneoVirtualActualNoEncontradoException {
+    public Equipo guardarEquipo(Equipo equipo) {
         equipo.setPresupuesto(PRESUPUESTO_INICIAL); // Presupuesto inicial para cada equipo
         TorneoVirtual torneoVirtualActual = repositorioTorneo.buscarTorneoVirtualActual();
 
@@ -154,9 +157,6 @@ public class ServicioEquipoImpl implements ServicioEquipo {
             throw new elJugadorYaExisteEnElEquipoException("El jugador ya esta fichado en el equipo");
         }
     }
-
-
-
 
 }
 

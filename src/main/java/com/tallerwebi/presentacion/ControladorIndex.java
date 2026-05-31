@@ -7,8 +7,15 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ControladorIndex {
 
-  @RequestMapping("/index")
-  public ModelAndView irAlIndex() {
-    return new ModelAndView("index");
-  }
+    @RequestMapping("/index")
+    public ModelAndView irAlIndex() {
+        return new ModelAndView("index");
+    }
+
+
+    @RequestMapping("/reglas")
+    public ModelAndView iraReglas() {
+        return new ModelAndView("reglas");
+    }
+
 }

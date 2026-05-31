@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -77,28 +78,28 @@ public class ControladorEquipo {
             List<Jugador> jugadoresAlero = servicioJugador.buscarAlero();
             List<Jugador> jugadoresPivot = servicioJugador.buscarPivot();
 
-            List<EquipoJugador> jugadoresDelEquipo = servicioEquipo.buscarJugadoresDelEquipo(id);
+            HashMap<Integer, EquipoJugador> jugadoresDelEquipoPorOrden = servicioEquipoJugador.buscarJugadoresPorEquipoId(id);
 
             modelo.put("listadoBases", jugadoresBase);
             modelo.put("listadoAleros", jugadoresAlero);
             modelo.put("listadoPivots", jugadoresPivot);
-            modelo.put("equipoJugadores", jugadoresDelEquipo);
 
-            modelo.put("base1", servicioEquipoJugador.buscarJugadorPorNumeroDeOrden(jugadoresDelEquipo, 1));
-            modelo.put("base2", servicioEquipoJugador.buscarJugadorPorNumeroDeOrden(jugadoresDelEquipo, 2));
-            modelo.put("alero1", servicioEquipoJugador.buscarJugadorPorNumeroDeOrden(jugadoresDelEquipo, 3));
-            modelo.put("alero2", servicioEquipoJugador.buscarJugadorPorNumeroDeOrden(jugadoresDelEquipo, 4));
-            modelo.put("pivot", servicioEquipoJugador.buscarJugadorPorNumeroDeOrden(jugadoresDelEquipo, 5));
 
-            modelo.put("supPivot", servicioEquipoJugador.buscarJugadorPorNumeroDeOrden(jugadoresDelEquipo, 6));
-            modelo.put("supAlero1", servicioEquipoJugador.buscarJugadorPorNumeroDeOrden(jugadoresDelEquipo, 7));
-            modelo.put("supAlero2", servicioEquipoJugador.buscarJugadorPorNumeroDeOrden(jugadoresDelEquipo, 8));
-            modelo.put("supBase1", servicioEquipoJugador.buscarJugadorPorNumeroDeOrden(jugadoresDelEquipo, 9));
-            modelo.put("supBase2", servicioEquipoJugador.buscarJugadorPorNumeroDeOrden(jugadoresDelEquipo, 10));
-            /*CAPITAN*/
-            modelo.put("capitan", servicioEquipoJugador.buscarJugadorPorNumeroDeOrden(jugadoresDelEquipo, 11));
-            /*SEXTO HOMBRE*/
-            modelo.put("sextoHombre", servicioEquipoJugador.buscarJugadorPorNumeroDeOrden(jugadoresDelEquipo, 12));
+            modelo.put("base1", jugadoresDelEquipoPorOrden.get(1));
+            modelo.put("base2", jugadoresDelEquipoPorOrden.get(2));
+            modelo.put("alero1", jugadoresDelEquipoPorOrden.get(3));
+            modelo.put("alero2", jugadoresDelEquipoPorOrden.get(4));
+            modelo.put("pivot", jugadoresDelEquipoPorOrden.get(5));
+            modelo.put("supPivot", jugadoresDelEquipoPorOrden.get(6));
+            modelo.put("supAlero1", jugadoresDelEquipoPorOrden.get(7));
+            modelo.put("supAlero2", jugadoresDelEquipoPorOrden.get(8));
+            modelo.put("supBase1", jugadoresDelEquipoPorOrden.get(9));
+            modelo.put("supBase2", jugadoresDelEquipoPorOrden.get(10));
+
+            /*CAPITAN NUMERO 11*/
+            modelo.put("capitan", jugadoresDelEquipoPorOrden.get(11));
+            /*SEXTO HOMBRE NUMERO 12*/
+            modelo.put("sextoHombre", jugadoresDelEquipoPorOrden.get(12));
 
             if (error != null) {
                 modelo.put("error", error);
@@ -144,21 +145,22 @@ public class ControladorEquipo {
     @RequestMapping("/ver-equipo")
     public ModelAndView verEquipo(@RequestParam Long id) {
 
+      
         try {
             ModelMap modelo = new ModelMap();
 
             Equipo equipo = servicioEquipo.buscarEquipoPorId(id);
-            List<EquipoJugador> listadoDeJugadoresAsociadosAlEquipo = servicioEquipo.buscarJugadoresDelEquipo(id);
+            HashMap<Integer, EquipoJugador> listadoDeJugadoresAsociadosAlEquipo = servicioEquipoJugador.buscarJugadoresPorEquipoId(id);
 
             modelo.put("equipo", equipo);
-            modelo.put("jugadoresEquipo", listadoDeJugadoresAsociadosAlEquipo);
+            modelo.put("jugadoresEquipo", listadoDeJugadoresAsociadosAlEquipo.values());
 
             return new ModelAndView("ver-equipo", modelo);
 
         } catch (EquipoNoEncontradoException e) {
             return new ModelAndView("redirect:/crear-equipo");
+
         }
+
     }
-
-
 }

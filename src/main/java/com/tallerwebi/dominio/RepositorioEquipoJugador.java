@@ -12,4 +12,5 @@ public interface RepositorioEquipoJugador {
 
     void eliminarEquipoJugador(EquipoJugador equipoJugador);
 
+
 }
