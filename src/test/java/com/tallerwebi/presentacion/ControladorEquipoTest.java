@@ -5,6 +5,7 @@ import com.tallerwebi.dominio.ServicioEquipo;
 import com.tallerwebi.dominio.ServicioEquipoJugador;
 import com.tallerwebi.dominio.ServicioMercado;
 import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
+import com.tallerwebi.dominio.excepcion.TorneoVirtualActualNoEncontradoException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.servlet.ModelAndView;
@@ -30,7 +31,7 @@ public class ControladorEquipoTest {
         ServicioEquipoJugador servicioEquipoJugadorMock = mock(ServicioEquipoJugador.class);
 
         controladorEquipo = new ControladorEquipo(servicioEquipoMock, servicioJugadorMock, servicioEquipoJugadorMock);
-        equipoMock = mock(Equipo.class);
+        equipoMock = new Equipo();
     }
 
     /*
@@ -58,10 +59,10 @@ public class ControladorEquipoTest {
 
 
     @Test
-    public void alApretarElBotonDeCrearNombreDebeRedirigirASeleccionarJugadores() {
+    public void alApretarElBotonDeCrearNombreDebeRedirigirASeleccionarJugadores() throws TorneoVirtualActualNoEncontradoException {
         // Preparacion
-        when(equipoMock.getNombreEquipo()).thenReturn("PLM");
-        when(equipoMock.getId()).thenReturn(1L);
+        equipoMock.setNombreEquipo("PLM");
+        equipoMock.setId(1L);
         when(servicioEquipoMock.guardarEquipo(equipoMock)).thenReturn(equipoMock);
 
         // Ejecucion
@@ -74,9 +75,8 @@ public class ControladorEquipoTest {
 
     @Test
     public void guardarNombreDeEquipoVacioLanzaException() {
-        Equipo equipo = mock(Equipo.class);
-
-        when(equipo.getNombreEquipo()).thenReturn("");
+        Equipo equipo = new Equipo();
+        equipo.setNombreEquipo("");
 
         ModelAndView mav = controladorEquipo.guardarNombreEquipo(equipo);
 

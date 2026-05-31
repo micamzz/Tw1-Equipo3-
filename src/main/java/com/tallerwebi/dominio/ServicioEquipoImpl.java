@@ -1,14 +1,11 @@
 package com.tallerwebi.dominio;
 
-import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
-import com.tallerwebi.dominio.excepcion.EquipoSinCompletarException;
-import com.tallerwebi.dominio.excepcion.PresupuestoInsuficienteException;
-import com.tallerwebi.dominio.excepcion.elJugadorYaExisteEnElEquipoException;
+import com.tallerwebi.dominio.excepcion.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.HashMap;
+import java.util.List;
 
 @Service
 @Transactional
@@ -17,7 +14,7 @@ public class ServicioEquipoImpl implements ServicioEquipo {
     private final RepositorioEquipo repositorioEquipo;
     private final RepositorioJugador repositorioJugador;
     private final RepositorioEquipoJugador repositorioEquipoJugador;
-    private final ServicioEquipoJugador servicioEquipoJugador;
+    private final RepositorioTorneo repositorioTorneo;
     private static final Double PRESUPUESTO_INICIAL = 2000000D;
     private static final Integer NUMERO_ORDEN_CAPITAN = 11;
     private static final Integer NUMERO_ORDEN_SEXTO_HOMBRE = 12;
@@ -25,17 +22,24 @@ public class ServicioEquipoImpl implements ServicioEquipo {
 
     @Autowired
     public ServicioEquipoImpl(RepositorioEquipo repositorioEquipo, RepositorioJugador repositorioJugador,
-                              RepositorioEquipoJugador repositorioEquipoJugador, ServicioEquipoJugador servicioEquipoJugador) {
+                              RepositorioEquipoJugador repositorioEquipoJugador, RepositorioTorneo repositorioTorneo) {
         this.repositorioEquipo = repositorioEquipo;
         this.repositorioJugador = repositorioJugador;
         this.repositorioEquipoJugador = repositorioEquipoJugador;
-        this.servicioEquipoJugador = servicioEquipoJugador;
+        this.repositorioTorneo = repositorioTorneo;
     }
 
 
     @Override
-    public Equipo guardarEquipo(Equipo equipo) {
+    public Equipo guardarEquipo(Equipo equipo) throws TorneoVirtualActualNoEncontradoException {
         equipo.setPresupuesto(PRESUPUESTO_INICIAL); // Presupuesto inicial para cada equipo
+        TorneoVirtual torneoVirtualActual = repositorioTorneo.buscarTorneoVirtualActual();
+
+        if(torneoVirtualActual == null) {
+            throw new TorneoVirtualActualNoEncontradoException("No hay ningun torneo en curso");
+        }
+
+        equipo.setTorneo(torneoVirtualActual);
         repositorioEquipo.guardarEquipo(equipo);
         return equipo;/* Devuelve Equipo porq necesito recuperar el ID en el controlador  */
     }
@@ -58,16 +62,14 @@ public class ServicioEquipoImpl implements ServicioEquipo {
         return equipo;
     }
 
-
     @Override
-    public void validarEquipoCompleto(Long idEquipo)
-            throws EquipoSinCompletarException {
-        HashMap<Integer, EquipoJugador> listadoDeJugadores = servicioEquipoJugador.buscarJugadoresPorEquipoId(idEquipo);
+    public void validarEquipoCompleto(Long idEquipo) throws EquipoSinCompletarException {
 
-        if (listadoDeJugadores.size() < 12) {
-            throw new EquipoSinCompletarException("El equipo debe estar completo para poder confirmarlo");
+        List<EquipoJugador> listadoDeJugadores = buscarJugadoresDelEquipo(idEquipo);
+
+        if (listadoDeJugadores == null || listadoDeJugadores.size() < 12) {
+            throw new EquipoSinCompletarException("El equipo debe estar completo para poder confirmarlo ");
         }
-
     }
 
     @Override
@@ -105,6 +107,15 @@ public class ServicioEquipoImpl implements ServicioEquipo {
     }
 
 
+    /*DEVUELVE UNA LISTA CON TODOS LOS Jugadores QUE ESTAN ASOCIADOS AL EQUIPO*/
+    @Override
+    public List<EquipoJugador> buscarJugadoresDelEquipo(Long idEquipo) {
+        return repositorioEquipoJugador.buscarPorEquipoId(idEquipo);
+    }
+
+
+
+
     /*  GUARDA AL EQUIPO Y AL JUGADOR EN EQUIPOJUGADOR LLAMANDO AL REPOSITORIO */
 
     private void guardarRelacionEntreEquipoYJugador(Equipo equipo, Jugador jugador, Integer numeroDeOrden) {
@@ -114,16 +125,12 @@ public class ServicioEquipoImpl implements ServicioEquipo {
         equipoJugador.setJugador(jugador);
         equipoJugador.setNumeroOrden(numeroDeOrden);
 
-        if (numeroDeOrden <= 10 && numeroDeOrden >= 6) {
-            equipoJugador.setEsSuplente(true);
-        }
-
         if (numeroDeOrden.equals(NUMERO_ORDEN_CAPITAN)) {
             equipoJugador.setEsCapitan(true);
         }
 
         if (numeroDeOrden.equals(NUMERO_ORDEN_SEXTO_HOMBRE)) {
-            equipoJugador.setEsSextoHombre(true);
+            equipoJugador.setEsCapitan(true);
         }
 
         repositorioEquipoJugador.guardarEquipoJugador(equipoJugador);

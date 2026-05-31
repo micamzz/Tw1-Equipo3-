@@ -49,16 +49,16 @@ public class ControladorEquipo {
 
         try {
             if (equipoIngresado.getNombreEquipo() == null || equipoIngresado.getNombreEquipo().isBlank()) {
-                throw new EquipoSinNombreException();
+                throw new EquipoSinNombreException("El nombre del equipo no puede estar vacío");
             }
 
             Equipo equipoGuardado = servicioEquipo.guardarEquipo(equipoIngresado);
             return new ModelAndView("redirect:/seleccionar-jugadores?id=" + equipoGuardado.getId());
 
-        } catch (EquipoSinNombreException e) {
+        } catch (EquipoSinNombreException | TorneoVirtualActualNoEncontradoException e) {
             ModelMap modelo = new ModelMap();
             modelo.put("equipo", new Equipo());
-            modelo.put("error", "El nombre del equipo no puede estar vacío");
+            modelo.put("error", e.getMessage());
             return new ModelAndView("crear-equipo", modelo);
         }
     }
