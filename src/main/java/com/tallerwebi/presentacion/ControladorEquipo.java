@@ -54,10 +54,10 @@ public class ControladorEquipo {
             Equipo equipoGuardado = servicioEquipo.guardarEquipo(equipoIngresado);
             return new ModelAndView("redirect:/seleccionar-jugadores?id=" + equipoGuardado.getId());
 
-        } catch (EquipoSinNombreException e) {
+        } catch (EquipoSinNombreException | TorneoVirtualActualNoEncontradoException e) {
             ModelMap modelo = new ModelMap();
             modelo.put("equipo", new Equipo());
-            modelo.put("error", "El nombre del equipo no puede estar vacío");
+            modelo.put("error", e.getMessage());
             return new ModelAndView("crear-equipo", modelo);
         }
     }

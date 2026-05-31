@@ -1,9 +1,6 @@
 package com.tallerwebi.dominio;
 
-import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
-import com.tallerwebi.dominio.excepcion.EquipoSinCompletarException;
-import com.tallerwebi.dominio.excepcion.PresupuestoInsuficienteException;
-import com.tallerwebi.dominio.excepcion.elJugadorYaExisteEnElEquipoException;
+import com.tallerwebi.dominio.excepcion.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,9 +31,14 @@ public class ServicioEquipoImpl implements ServicioEquipo {
 
 
     @Override
-    public Equipo guardarEquipo(Equipo equipo) {
+    public Equipo guardarEquipo(Equipo equipo) throws TorneoVirtualActualNoEncontradoException {
         equipo.setPresupuesto(PRESUPUESTO_INICIAL); // Presupuesto inicial para cada equipo
         TorneoVirtual torneoVirtualActual = repositorioTorneo.buscarTorneoVirtualActual();
+
+        if(torneoVirtualActual == null) {
+            throw new TorneoVirtualActualNoEncontradoException("No hay ningun torneo en curso");
+        }
+
         equipo.setTorneo(torneoVirtualActual);
         repositorioEquipo.guardarEquipo(equipo);
         return equipo;/* Devuelve Equipo porq necesito recuperar el ID en el controlador  */
@@ -152,6 +154,9 @@ public class ServicioEquipoImpl implements ServicioEquipo {
             throw new elJugadorYaExisteEnElEquipoException("El jugador ya esta fichado en el equipo");
         }
     }
+
+
+
 
 }
 

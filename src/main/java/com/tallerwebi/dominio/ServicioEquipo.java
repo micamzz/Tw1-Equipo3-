@@ -1,9 +1,6 @@
 package com.tallerwebi.dominio;
 
-import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
-import com.tallerwebi.dominio.excepcion.EquipoSinCompletarException;
-import com.tallerwebi.dominio.excepcion.PresupuestoInsuficienteException;
-import com.tallerwebi.dominio.excepcion.elJugadorYaExisteEnElEquipoException;
+import com.tallerwebi.dominio.excepcion.*;
 
 import java.util.List;
 
@@ -13,7 +10,7 @@ public interface ServicioEquipo {
 
     void eliminarJugadorDelEquipo(Long idEquipo, Long idJugador) throws EquipoNoEncontradoException;
 
-    Equipo guardarEquipo(Equipo equipo);
+    Equipo guardarEquipo(Equipo equipo) throws TorneoVirtualActualNoEncontradoException;
 
     Equipo buscarEquipoPorId(Long id) throws EquipoNoEncontradoException;
 
