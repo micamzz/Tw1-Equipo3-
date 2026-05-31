@@ -1,13 +1,11 @@
 package com.tallerwebi.dominio;
 
-import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
-import com.tallerwebi.dominio.excepcion.EquipoSinCompletarException;
-import com.tallerwebi.dominio.excepcion.PresupuestoInsuficienteException;
-import com.tallerwebi.dominio.excepcion.elJugadorYaExisteEnElEquipoException;
+import com.tallerwebi.dominio.excepcion.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -20,6 +18,7 @@ public class ServicioEquipoTest {
     private RepositorioJugador repositorioJugadorMock;
     private RepositorioEquipoJugador repositorioEquipoJugadorMock;
     private ServicioEquipoJugador servicioEquipoJugadorMock;
+    private RepositorioTorneo repositorioTorneoMock;
     private Equipo equipoMock;
 
     /*
@@ -41,7 +40,7 @@ public class ServicioEquipoTest {
         this.repositorioEquipoMock = mock(RepositorioEquipo.class);
         this.repositorioJugadorMock = mock(RepositorioJugador.class);
         this.repositorioEquipoJugadorMock = mock(RepositorioEquipoJugador.class);
-        RepositorioTorneo repositorioTorneoMock = mock(RepositorioTorneo.class);
+        this.repositorioTorneoMock = mock(RepositorioTorneo.class);
         this.servicioEquipoJugadorMock = mock(ServicioEquipoJugador.class);
         this.equipoMock = mock(Equipo.class);
         this.servicioEquipo = new ServicioEquipoImpl(repositorioEquipoMock, repositorioJugadorMock, repositorioEquipoJugadorMock, repositorioTorneoMock);
@@ -335,7 +334,32 @@ public class ServicioEquipoTest {
 
         /*Ejecución y validación */
         assertThrows(EquipoSinCompletarException.class, () -> servicioEquipo.validarEquipoCompleto(idEquipo));
+    }
 
+    @Test
+    public void alGuardarUnEquipoSeAsignaPresupuestoYTorneo() throws TorneoVirtualActualNoEncontradoException {
+        // preparación
+        Equipo equipo = new Equipo();
+        TorneoVirtual torneoMock = mock(TorneoVirtual.class);
+        when(repositorioTorneoMock.buscarTorneoVirtualActual()).thenReturn(torneoMock);
+
+        // ejecución
+        Equipo resultado = servicioEquipo.guardarEquipo(equipo);
+
+        // verificación
+        assertEquals(2000000D, resultado.getPresupuesto());
+        assertEquals(torneoMock, resultado.getTorneo());
+        verify(repositorioEquipoMock, times(1)).guardarEquipo(equipo);
+    }
+
+    @Test
+    public void alGuardarUnEquipoSinTorneoLanzaExcepcion() {
+        // preparación
+        Equipo equipo = new Equipo();
+        when(repositorioTorneoMock.buscarTorneoVirtualActual()).thenReturn(null);
+
+        // ejecución y verificación
+        assertThrows(TorneoVirtualActualNoEncontradoException.class, () -> servicioEquipo.guardarEquipo(equipo));
     }
 
 }

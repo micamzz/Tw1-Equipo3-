@@ -5,6 +5,7 @@ import com.tallerwebi.dominio.ServicioEquipo;
 import com.tallerwebi.dominio.ServicioEquipoJugador;
 import com.tallerwebi.dominio.ServicioMercado;
 import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
+import com.tallerwebi.dominio.excepcion.TorneoVirtualActualNoEncontradoException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.servlet.ModelAndView;
@@ -58,7 +59,7 @@ public class ControladorEquipoTest {
 
 
     @Test
-    public void alApretarElBotonDeCrearNombreDebeRedirigirASeleccionarJugadores() {
+    public void alApretarElBotonDeCrearNombreDebeRedirigirASeleccionarJugadores() throws TorneoVirtualActualNoEncontradoException {
         // Preparacion
         when(equipoMock.getNombreEquipo()).thenReturn("PLM");
         when(equipoMock.getId()).thenReturn(1L);
