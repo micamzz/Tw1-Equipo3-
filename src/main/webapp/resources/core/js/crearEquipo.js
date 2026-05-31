@@ -3,7 +3,6 @@ const botonSiguiente = document.querySelector(".boton-equipo");
 
 /* Para que el boton SIGUIENTE se active solo al completar el input */
 nombreIngresadoInput.addEventListener("input", () => {
-
   const textoIngresado = nombreIngresadoInput.value.trim();
 
   if (textoIngresado.length < 4) {

@@ -70,7 +70,6 @@ public class ServicioEquipoImpl implements ServicioEquipo {
 
     }
 
-
     @Override
     public void agregarJugadorAlEquipo(Long idEquipo, Long idJugador, Integer numeroDeOrden) throws EquipoNoEncontradoException, PresupuestoInsuficienteException, elJugadorYaExisteEnElEquipoException {
 

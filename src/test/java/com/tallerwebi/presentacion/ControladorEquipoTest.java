@@ -5,7 +5,6 @@ import com.tallerwebi.dominio.ServicioEquipo;
 import com.tallerwebi.dominio.ServicioEquipoJugador;
 import com.tallerwebi.dominio.ServicioMercado;
 import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
-import com.tallerwebi.dominio.excepcion.EquipoSinNombreException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.servlet.ModelAndView;
@@ -20,8 +19,6 @@ public class ControladorEquipoTest {
 
     private ControladorEquipo controladorEquipo;
     private ServicioEquipo servicioEquipoMock;
-    private ServicioMercado servicioJugadorMock;
-    private ServicioEquipoJugador servicioEquipoJugadorMock;
     private Equipo equipoMock;
 
 
@@ -29,8 +26,8 @@ public class ControladorEquipoTest {
     @BeforeEach
     public void inicializacion() {
         servicioEquipoMock = mock(ServicioEquipo.class);
-        servicioJugadorMock = mock(ServicioMercado.class);
-        servicioEquipoJugadorMock = mock(ServicioEquipoJugador.class);
+        ServicioMercado servicioJugadorMock = mock(ServicioMercado.class);
+        ServicioEquipoJugador servicioEquipoJugadorMock = mock(ServicioEquipoJugador.class);
 
         controladorEquipo = new ControladorEquipo(servicioEquipoMock, servicioJugadorMock, servicioEquipoJugadorMock);
         equipoMock = mock(Equipo.class);
@@ -61,7 +58,7 @@ public class ControladorEquipoTest {
 
 
     @Test
-    public void alApretarElBotonDeCrearNombreDebeRedirigirASeleccionarJugadores() throws EquipoSinNombreException {
+    public void alApretarElBotonDeCrearNombreDebeRedirigirASeleccionarJugadores() {
         // Preparacion
         when(equipoMock.getNombreEquipo()).thenReturn("PLM");
         when(equipoMock.getId()).thenReturn(1L);
@@ -76,7 +73,7 @@ public class ControladorEquipoTest {
     }
 
     @Test
-    public void guardarNombreDeEquipoVacioLanzaException() throws EquipoSinNombreException {
+    public void guardarNombreDeEquipoVacioLanzaException() {
         Equipo equipo = mock(Equipo.class);
 
         when(equipo.getNombreEquipo()).thenReturn("");
