@@ -29,7 +29,8 @@ public class RendimientoJugador {
         this.rebotes = rebotes;
         this.asistencias = asistencias;
         this.puntos = puntos;
-        // nombreCompleto se ignora, no hace falta guardarlo
+        this.nombreCompleto = nombreCompleto;
+
     }
 
     public Long getId() {
