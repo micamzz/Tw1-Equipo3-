@@ -1,9 +1,6 @@
 package com.tallerwebi.dominio;
 
-import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
-import com.tallerwebi.dominio.excepcion.EquipoSinCompletarException;
-import com.tallerwebi.dominio.excepcion.PresupuestoInsuficienteException;
-import com.tallerwebi.dominio.excepcion.elJugadorYaExisteEnElEquipoException;
+import com.tallerwebi.dominio.excepcion.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +22,7 @@ public class ServicioEquipoImpl implements ServicioEquipo {
 
     @Autowired
     public ServicioEquipoImpl(RepositorioEquipo repositorioEquipo, RepositorioJugador repositorioJugador,
-                              RepositorioEquipoJugador repositorioEquipoJugador) {
+                              RepositorioEquipoJugador repositorioEquipoJugador, RepositorioTorneo repositorioTorneo) {
         this.repositorioEquipo = repositorioEquipo;
         this.repositorioJugador = repositorioJugador;
         this.repositorioEquipoJugador = repositorioEquipoJugador;
@@ -34,7 +31,7 @@ public class ServicioEquipoImpl implements ServicioEquipo {
 
 
     @Override
-    public Equipo guardarEquipo(Equipo equipo) {
+    public Equipo guardarEquipo(Equipo equipo) throws TorneoVirtualActualNoEncontradoException {
         equipo.setPresupuesto(PRESUPUESTO_INICIAL); // Presupuesto inicial para cada equipo
         TorneoVirtual torneoVirtualActual = repositorioTorneo.buscarTorneoVirtualActual();
 
