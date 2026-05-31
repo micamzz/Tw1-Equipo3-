@@ -42,22 +42,11 @@ public class ServicioEquipoJugadorImpl implements ServicioEquipoJugador {
     @Override
     public List<Jugador> obtenerJugadoresDisponiblesPorPosicion(Long idEquipo, Posicion posicion) {
         List<Jugador> jugadoresPorPosicion = repositorioJugador.buscarJugadoresPorPosicion(posicion);
-        return obtenerJugadoresFiltrados(idEquipo, jugadoresPorPosicion);
-    }
-
-    @Override
-    public List<Jugador> obtenerJugadoresDisponibles(Long idEquipo) {
-        List<Jugador> listadoTodosLosJugadores = repositorioJugador.buscarTodosLosJugadores();
-        return obtenerJugadoresFiltrados(idEquipo, listadoTodosLosJugadores);
-    }
-
-
-    private List<Jugador> obtenerJugadoresFiltrados(Long idEquipo, List<Jugador> listado) {
         List<EquipoJugador> jugadoresDelEquipo = repositorioEquipoJugador.buscarPorEquipoId(idEquipo);
 
         List<Jugador> jugadoresDisponibles = new ArrayList<>();
 
-        for (Jugador jugador : listado) {
+        for (Jugador jugador : jugadoresPorPosicion) {
             Boolean estaSeleccionado = false;
 
             for (EquipoJugador equipoJugador : jugadoresDelEquipo) {
@@ -72,8 +61,9 @@ public class ServicioEquipoJugadorImpl implements ServicioEquipoJugador {
         }
         return jugadoresDisponibles;
     }
-
 }
+
+
 
 
 

@@ -77,16 +77,13 @@ public class ControladorEquipo {
             List<Jugador> jugadoresBase = servicioEquipoJugador.obtenerJugadoresDisponiblesPorPosicion(id, Posicion.BASE);
             List<Jugador> jugadoresAlero = servicioEquipoJugador.obtenerJugadoresDisponiblesPorPosicion(id, Posicion.ALERO);
             List<Jugador> jugadoresPivot = servicioEquipoJugador.obtenerJugadoresDisponiblesPorPosicion(id, Posicion.PIVOT);
-            List<Jugador> todosLosJugadores = servicioEquipoJugador.obtenerJugadoresDisponibles(id);
 
             HashMap<Integer, EquipoJugador> jugadoresDelEquipoPorOrden = servicioEquipoJugador.buscarJugadoresPorEquipoId(id);
 
             modelo.put("listadoBases", jugadoresBase);
             modelo.put("listadoAleros", jugadoresAlero);
             modelo.put("listadoPivots", jugadoresPivot);
-            modelo.put("listadoTodosLosJugadores", todosLosJugadores);/*Para capitan y sexto hombre*/
-
-
+            
             modelo.put("base1", jugadoresDelEquipoPorOrden.get(1));
             modelo.put("base2", jugadoresDelEquipoPorOrden.get(2));
             modelo.put("alero1", jugadoresDelEquipoPorOrden.get(3));
