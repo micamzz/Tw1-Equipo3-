@@ -16,8 +16,7 @@ public abstract class Torneo {
     protected LocalDate fechaInicio;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     protected LocalDate fechaFin;
-    @Enumerated(EnumType.STRING)
-    protected EstadoTorneo estadoTorneo;
+
 
     public Torneo() {
     }
@@ -29,25 +28,40 @@ public abstract class Torneo {
     public String getNombreTorneo() {
         return nombreTorneo;
     }
+
     public void setNombreTorneo(String nombreTorneo) {
         this.nombreTorneo = nombreTorneo;
     }
+
     public LocalDate getFechaInicio() {
         return fechaInicio;
     }
+
     public void setFechaInicio(LocalDate fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
+
     public LocalDate getFechaFin() {
         return fechaFin;
     }
+
     public void setFechaFin(LocalDate fechaFin) {
         this.fechaFin = fechaFin;
     }
+
+    @Transient //parametro calculado, no se guarda en la BBDD
     public EstadoTorneo getEstadoTorneo() {
-        return estadoTorneo;
-    }
-    public void setEstadoTorneo(EstadoTorneo estadoTorneo) {
-        this.estadoTorneo = estadoTorneo;
+        LocalDate hoy = LocalDate.now();
+
+        if (hoy.isBefore(fechaInicio)) {
+            return EstadoTorneo.POR_INICIAR;
+        }
+
+        if (hoy.isAfter(fechaFin)) {
+            return EstadoTorneo.FINALIZADO;
+        }
+
+        return EstadoTorneo.EN_CURSO;
+
     }
 }

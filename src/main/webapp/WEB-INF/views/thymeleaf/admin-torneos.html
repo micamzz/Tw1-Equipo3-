@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Torneos</title>
+</head>
+<body>
+
+<h1>Administración de Torneos</h1>
+
+<a th:href="@{/admin/torneo/crear}">
+    Crear torneo
+</a>
+
+<table border="1">
+
+    <tr>
+        <th>Nombre</th>
+        <th>Inicio</th>
+        <th>Fin</th>
+        <th>Estado</th>
+    </tr>
+
+    <tr th:each="torneo : ${torneos}">
+        <td th:text="${torneo.nombreTorneo}"></td>
+        <td th:text="${torneo.fechaInicio}"></td>
+        <td th:text="${torneo.fechaFin}"></td>
+        <td th:text="${torneo.estadoTorneo}"></td>
+    </tr>
+
+</table>
+
+</body>
+</html>

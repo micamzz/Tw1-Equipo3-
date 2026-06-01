@@ -1,9 +1,6 @@
 package com.tallerwebi.presentacion;
 
-import com.tallerwebi.dominio.Equipo;
-import com.tallerwebi.dominio.ServicioEquipo;
-import com.tallerwebi.dominio.ServicioEquipoJugador;
-import com.tallerwebi.dominio.ServicioMercado;
+import com.tallerwebi.dominio.*;
 import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
 import com.tallerwebi.dominio.excepcion.TorneoVirtualActualNoEncontradoException;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,8 +26,8 @@ public class ControladorEquipoTest {
         servicioEquipoMock = mock(ServicioEquipo.class);
         ServicioMercado servicioJugadorMock = mock(ServicioMercado.class);
         ServicioEquipoJugador servicioEquipoJugadorMock = mock(ServicioEquipoJugador.class);
-
-        controladorEquipo = new ControladorEquipo(servicioEquipoMock, servicioJugadorMock, servicioEquipoJugadorMock);
+        ServicioTorneo servicioTorneo = mock(ServicioTorneo.class);
+        controladorEquipo = new ControladorEquipo(servicioEquipoMock, servicioJugadorMock, servicioEquipoJugadorMock, servicioTorneo);
         equipoMock = new Equipo();
     }
 

@@ -2,12 +2,14 @@ package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.ServicioTorneo;
 import com.tallerwebi.dominio.TorneoVirtual;
+import com.tallerwebi.dominio.excepcion.FechaIncoherenteException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -42,7 +44,7 @@ public class ControladorTorneo {
 
     @PostMapping("/admin/torneo/guardar")
     public ModelAndView guardarTorneo(
-            @ModelAttribute("torneo") TorneoVirtual torneo) {
+            @ModelAttribute("torneo") TorneoVirtual torneo) throws FechaIncoherenteException {
 
         System.out.println("ENTRO AL POST");
         System.out.println("Nombre: " + torneo.getNombreTorneo());
@@ -51,6 +53,22 @@ public class ControladorTorneo {
 
         servicioTorneo.crearTorneo(torneo);
         return new ModelAndView("redirect:/torneo");
+    }
+
+    @PostMapping("/admin/torneo/eliminar")
+    public ModelAndView eliminarTorneo(
+            @RequestParam Long id
+            ){
+        servicioTorneo.eliminarTorneo(id);
+        return new ModelAndView("redirect:/torneo");
+    }
+
+    @GetMapping("/admin/torneos")
+    public ModelAndView verTodosLosTorneos(){
+        ModelMap modelo = new ModelMap();
+        modelo.put("torneos",servicioTorneo.obtenerTodosLosTorneos()
+        );
+        return new ModelAndView("admin-torneos",modelo);
     }
 
 }
