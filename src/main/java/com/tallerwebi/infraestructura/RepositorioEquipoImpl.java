@@ -45,6 +45,22 @@ public class RepositorioEquipoImpl implements RepositorioEquipo {
                 .uniqueResult();
     }
 
+    @Override
+    public boolean existeEquipoEnTorneo(Long idTorneo) {
+        String hql =
+                "SELECT COUNT (e)" +
+                        "FROM Equipo e " +
+                        "WHERE e.torneo.id = :idTorneo";
+
+        Long cantidad = sessionFactory
+                .getCurrentSession()
+                .createQuery(hql, Long.class)
+                .setParameter("idTorneo", idTorneo)
+                .uniqueResult();
+
+        return cantidad > 0;
+    }
+
 
 }
 

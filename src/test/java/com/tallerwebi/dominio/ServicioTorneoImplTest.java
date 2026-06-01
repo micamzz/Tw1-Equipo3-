@@ -11,11 +11,13 @@ public class ServicioTorneoImplTest {
 
     private ServicioTorneo servicioTorneo;
     private RepositorioTorneo repositorioTorneoMock;
+    private RepositorioEquipo repositorioEquipoMock;
 
     @BeforeEach
     public void init() {
         this.repositorioTorneoMock = mock(RepositorioTorneo.class);
-        this.servicioTorneo = new ServicioTorneoImpl(this.repositorioTorneoMock);
+        this.repositorioEquipoMock = mock(RepositorioEquipo.class);
+        this.servicioTorneo = new ServicioTorneoImpl(this.repositorioTorneoMock, this.repositorioEquipoMock);
     }
 
     @Test

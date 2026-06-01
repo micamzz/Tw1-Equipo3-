@@ -13,7 +13,7 @@ public abstract class Torneo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
-    @NotNull
+    //@NotBlank
     protected String nombreTorneo;
     @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
