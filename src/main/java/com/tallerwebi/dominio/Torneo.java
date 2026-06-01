@@ -1,5 +1,7 @@
 package com.tallerwebi.dominio;
 
+
+import com.sun.istack.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -11,9 +13,12 @@ public abstract class Torneo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
+    @NotNull
     protected String nombreTorneo;
+    @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     protected LocalDate fechaInicio;
+    @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     protected LocalDate fechaFin;
 
@@ -51,6 +56,7 @@ public abstract class Torneo {
 
     @Transient //parametro calculado, no se guarda en la BBDD
     public EstadoTorneo getEstadoTorneo() {
+
         LocalDate hoy = LocalDate.now();
 
         if (hoy.isBefore(fechaInicio)) {
