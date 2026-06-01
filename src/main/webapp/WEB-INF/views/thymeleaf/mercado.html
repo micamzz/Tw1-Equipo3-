@@ -52,7 +52,8 @@
             <p class="jugador-precio" th:text="${'$ ' + #numbers.formatInteger(jugador.precio, 1, 'COMMA')}">$ 0</p>
 
           <!--Mica fijate que este boton sirve para poner a cada jugador con su equipo deberias conectarlo con la clase que se muestre en el equipo o que se guarde en algun lado esta info -->
-                <button type="submit" class="btn-fichar">Fichar</button>
+             <a th:href = "@{/jugador/{id}(id=${jugador.id})}" class="btn-detalle">Ver detalle</a>
+            <button type="submit" class="btn-fichar">Fichar</button>
         </div>
         <p th:if="${#lists.isEmpty(jugadores)}" class="sin-resultados">
             No se encontraron jugadores.
@@ -79,7 +80,6 @@
             <li>Lopez, Sofia</li>
             <li>Mazza, Micaela</li>
             <li>Moyano Vivas, Matias</li>
-            <li>Virzi, Valentin</li>
         </ul>
         <p class="footer-copy">© 2026 - Taller Web</p>
     </footer>

@@ -157,6 +157,24 @@ body{
     background-color: rgb(255 122 26 / 0.82);
     color:#fff;
 }
+.btn-detalle {
+    width: 100%;
+    font-size: 12px;
+    padding: 7px;
+    border-radius: 8px;
+    border: 1px solid #60a5fa;
+    background: transparent;
+    color: #60a5fa;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+}
+
+.btn-detalle:hover {
+    background-color: #60a5fa;
+    color: #fff;
+}
 .sin-resultados{
     color:#666;
     font-size: 14px;
