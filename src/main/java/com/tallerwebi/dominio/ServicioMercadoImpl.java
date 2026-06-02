@@ -39,7 +39,6 @@ public class ServicioMercadoImpl implements ServicioMercado {
         return repositorioJugador.buscarJugadores(Posicion.BASE, null);
     }
 
-<<<<<<< HEAD
     @Override
     public RendimientoJugador obtenerRendimiento(long jugadorId) {
         return repositorioJugador.buscarRendimientoPorJugador(jugadorId);
@@ -59,7 +58,4 @@ public class ServicioMercadoImpl implements ServicioMercado {
     public Jugador buscarJugadorPorId(long id) {
         return repositorioJugador.buscarJugadorPorId(id);
     }
-=======
-
->>>>>>> origin/main
 }

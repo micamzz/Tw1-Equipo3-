@@ -44,13 +44,12 @@ public class RepositorioJugadorImpl implements RepositorioJugador {
     }
 
     @Override
-<<<<<<< HEAD
     public RendimientoJugador buscarRendimientoPorJugador(long jugadorId) {
         org.hibernate.Criteria criteria = sessionFactory.getCurrentSession().createCriteria(RendimientoJugador.class);
         criteria.add(Restrictions.eq("jugador.id", jugadorId));
         return (RendimientoJugador)criteria.uniqueResult();
     }
-=======
+
     public List<Jugador> buscarJugadoresPorPosicion(Posicion posicion) {
         return (List<Jugador>) sessionFactory.getCurrentSession()
                 .createCriteria(Jugador.class)
@@ -64,8 +63,5 @@ public class RepositorioJugadorImpl implements RepositorioJugador {
                 .createCriteria(Jugador.class)
                 .list();
     }
-
-
->>>>>>> origin/main
 }
 
