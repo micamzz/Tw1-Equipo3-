@@ -1,10 +1,11 @@
 package com.tallerwebi.dominio;
 
-import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
-import com.tallerwebi.dominio.excepcion.PresupuestoInsuficienteException;
-import com.tallerwebi.dominio.excepcion.elJugadorYaExisteEnElEquipoException;
+import com.tallerwebi.dominio.excepcion.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.HashMap;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -17,6 +18,7 @@ public class ServicioEquipoTest {
     private RepositorioJugador repositorioJugadorMock;
     private RepositorioEquipoJugador repositorioEquipoJugadorMock;
     private ServicioEquipoJugador servicioEquipoJugadorMock;
+    private RepositorioTorneo repositorioTorneoMock;
     private Equipo equipoMock;
 
     /*
@@ -27,6 +29,10 @@ public class ServicioEquipoTest {
     5- Cuando se agrega un jugador al equipo se agrega correctamente
     6- Cuando se agrega un jugador existente al equipo devuelve una excepcion
     7- Cuando se agrega un jugador y el presupuesto es insuficiente devuelve una excepcion
+    Al agregar un jugador al equipo el saldo se descuenta bien
+    Al eliminar un jugador del equipo el saldo se reintegra bien
+    Al crear un equipo con 12 jugadores se valida el equipo correctamente
+    Al crear un equipo con 5 jugadores devuelve una excepcion
     * */
 
     @BeforeEach
@@ -34,119 +40,115 @@ public class ServicioEquipoTest {
         this.repositorioEquipoMock = mock(RepositorioEquipo.class);
         this.repositorioJugadorMock = mock(RepositorioJugador.class);
         this.repositorioEquipoJugadorMock = mock(RepositorioEquipoJugador.class);
+        this.repositorioTorneoMock = mock(RepositorioTorneo.class);
         this.servicioEquipoJugadorMock = mock(ServicioEquipoJugador.class);
         this.equipoMock = mock(Equipo.class);
-        this.servicioEquipo = new ServicioEquipoImpl(repositorioEquipoMock, repositorioJugadorMock, repositorioEquipoJugadorMock, servicioEquipoJugadorMock);
-
+        this.servicioEquipo = new ServicioEquipoImpl(repositorioEquipoMock, repositorioJugadorMock, repositorioEquipoJugadorMock, repositorioTorneoMock);
     }
 
 
     @Test
     public void alBuscarUnEquipoPorIdDevuelveElEquipoCorrecto() throws EquipoNoEncontradoException {
 
-        //preparacion se necesita a equipoMock que esta inicializado en el before
+        //preparación se necesita a equipoMock que está inicializado en el before
 
-        // cuando se llame a buscarEquipoPorId(1L) sobre el mock, devolvé equipoMock
-        // entonces cuando el servicio llama al metodo recibe ese equipo.
+        // cuando se llame a buscarEquipoPorId(1L) sobre el mock, devuelve equipoMock
+        // entonces cuando el servicio llama al método recibe ese equipo.
         when(repositorioEquipoMock.buscarEquipoPorId(1L)).thenReturn(equipoMock);
 
-//    Ejecucion
+//    Ejecución
         Equipo equipoEncontrado = servicioEquipo.buscarEquipoPorId(1L);
 
-        // validacion
+        // validación
         assertEquals(equipoMock, equipoEncontrado);
     }
 
     @Test
     public void alBuscarUnEquipoPorIdDevuelveUnaExcepcion() {
-        // preparacion
+        // preparación
         Long idNoRegistrado = 3L;
         when(repositorioEquipoMock.buscarEquipoPorId(idNoRegistrado)).thenReturn(null);
 
-        assertThrows(EquipoNoEncontradoException.class, () -> {
-            servicioEquipo.buscarEquipoPorId(idNoRegistrado);
-        });
+        assertThrows(EquipoNoEncontradoException.class, () -> servicioEquipo.buscarEquipoPorId(idNoRegistrado));
 
     }
 
     @Test
     public void alBuscarUnEquipoPorNombreDevuelveElEquipoCorrecto() throws EquipoNoEncontradoException {
 
-        //preparacion se necesita a equipoMock que esta inicializado en el before
+        //preparación se necesita a equipoMock que está inicializado en el before
 
         when(repositorioEquipoMock.buscarEquipoPorNombre("NBA")).thenReturn(equipoMock);
 
-        //    Ejecucion
+        //    Ejecución
         Equipo equipoEncontrado = servicioEquipo.buscarEquipoPorNombre("NBA");
 
-        // validacion
+        // validación
         assertEquals(equipoMock, equipoEncontrado);
     }
 
     @Test
     public void alBuscarUnEquipoPorNombreIncorrectoDevuelveUnaExcepcion() {
 
-        //Preparacion
+        //Preparación
         String nombreNoEncontrado = "ParenLaMano";
         when(repositorioEquipoMock.buscarEquipoPorNombre(nombreNoEncontrado)).thenReturn(null);
 
-        //Ejecucion y verificacion
-        assertThrows(EquipoNoEncontradoException.class, () -> {
-            servicioEquipo.buscarEquipoPorNombre(nombreNoEncontrado);
-        });
+        //Ejecución y verificación
+        assertThrows(EquipoNoEncontradoException.class, () -> servicioEquipo.buscarEquipoPorNombre(nombreNoEncontrado));
     }
 
-    /* Se agrega un jugador correctamente, no esta registrado y el presupuesto alcanza*/
+    /* Se agrega un jugador correctamente, no está registrado y el presupuesto alcanza*/
 
     @Test
-    public void cuandoSeAgregaUnJugadorAlEquipoSeAgregaCorrectamente() throws elJugadorYaExisteEnElEquipoException, EquipoNoEncontradoException, PresupuestoInsuficienteException, elJugadorYaExisteEnElEquipoException, PresupuestoInsuficienteException {
+    public void cuandoSeAgregaUnJugadorAlEquipoSeAgregaCorrectamente() throws EquipoNoEncontradoException, elJugadorYaExisteEnElEquipoException, PresupuestoInsuficienteException {
 
-        //preparacion se necesita a equipoMock que esta inicializado en el before
+        //preparación se necesita a equipoMock que está inicializado en el before
         Long idEquipo = 3L;
         Long idJugador = 4L;
         Jugador jugadormock = mock(Jugador.class);
 
-        // metodo buscarEquipoPorId
+        // método buscarEquipoPorId
         when(repositorioEquipoMock.buscarEquipoPorId(idEquipo)).thenReturn(equipoMock);
-        // metodo buscarJugadorPorId
+        // método buscarJugadorPorId
         when(repositorioJugadorMock.buscarJugadorPorId(idJugador)).thenReturn(jugadormock);
-        // metodo de equipoyjugador asociados para el metodo validarSiElJugadorYaFueElegido
+        // método de equipo y jugador asociados para el método validarSiElJugadorYaFueElegido
         when(repositorioEquipoJugadorMock.buscarEquipoYJugadorAsociado(idEquipo, idJugador)).thenReturn(null);
 
-        //valores para verificar si el presuesto alcanza
+        //valores para verificar si el presupuesto alcanza
         when(equipoMock.getPresupuesto()).thenReturn(2000000D);
-        when(jugadormock.getPrecio()).thenReturn(150000.0);
+        when(jugadormock.getPrecio()).thenReturn(150000D);
 
-//        Ejecucion
+//        Ejecución
         servicioEquipo.agregarJugadorAlEquipo(idEquipo, idJugador, 1);
 
-//        Verificacion
+//        Verificación
         verify(repositorioEquipoJugadorMock, times(1)).guardarEquipoJugador(any(EquipoJugador.class));
     }
 
     @Test
-    public void cuandoSeAgregaUnJugadorYaExistenteAlEquipoLanzaUnaExcepcion() throws elJugadorYaExisteEnElEquipoException, EquipoNoEncontradoException, PresupuestoInsuficienteException {
+    public void cuandoSeAgregaUnJugadorYaExistenteAlEquipoLanzaUnaExcepcion() {
 
-        //preparacion se necesita a equipoMock que esta inicializado en el before
+        //preparación se necesita a equipoMock que está inicializado en el before
         Long idEquipo = 3L;
         Long idJugador = 4L;
         Jugador jugadormock = mock(Jugador.class);
 
-        // metodo buscarEquipoPorId
+        // método buscarEquipoPorId
         when(repositorioEquipoMock.buscarEquipoPorId(idEquipo)).thenReturn(equipoMock);
-        // metodo buscarJugadorPorId
+        // método buscarJugadorPorId
         when(repositorioJugadorMock.buscarJugadorPorId(idJugador)).thenReturn(jugadormock);
-        // metodo de equipoyjugador asociados para el metodo validarSiElJugadorYaFueElegido
+        // método de equipo y jugador asociados para el método validarSiElJugadorYaFueElegido
 
         EquipoJugador equipoJugadorMock = mock(EquipoJugador.class);
         when(repositorioEquipoJugadorMock.buscarEquipoYJugadorAsociado(idEquipo, idJugador)).thenReturn(equipoJugadorMock);
 
-        //valores para verificar si el presuesto alcanza
+        //valores para verificar si el presupuesto alcanza
         when(equipoMock.getPresupuesto()).thenReturn(850000D);
-        when(jugadormock.getPrecio()).thenReturn(150000.0);
+        when(jugadormock.getPrecio()).thenReturn(150000D);
 
-//        ejecucion y Verificacion
-        /*
+/*       ejecución y Verificación
+
         assertThrows(UsuarioExistente.class, () -> this.servicioLogin.registrar(usuario));
         verify(this.repositorioUsuarioMock, times(0)).guardar(usuario);
 */
@@ -154,27 +156,209 @@ public class ServicioEquipoTest {
     }
 
     @Test
-    public void cuandoSeAgregaUnJugadorAlEquipoYElPresupuestoNoAlcanzaLanzaUnaExcepcion() throws elJugadorYaExisteEnElEquipoException, EquipoNoEncontradoException, PresupuestoInsuficienteException {
+    public void cuandoSeAgregaUnJugadorAlEquipoYElPresupuestoNoAlcanzaLanzaUnaExcepcion() {
 
-        //preparacion se necesita a equipoMock que esta inicializado en el before
+        //preparación se necesita a equipoMock que está inicializado en el before
         Long idEquipo = 3L;
         Long idJugador = 4L;
         Jugador jugadormock = mock(Jugador.class);
 
-        // metodo buscarEquipoPorId
+        // método buscarEquipoPorId
         when(repositorioEquipoMock.buscarEquipoPorId(idEquipo)).thenReturn(equipoMock);
-        // metodo buscarJugadorPorId
+        // método buscarJugadorPorId
         when(repositorioJugadorMock.buscarJugadorPorId(idJugador)).thenReturn(jugadormock);
-        // metodo de equipoyjugador asociados para el metodo validarSiElJugadorYaFueElegido
+        // método de equipo y jugador asociados para el método validarSiElJugadorYaFueElegido
         when(repositorioEquipoJugadorMock.buscarEquipoYJugadorAsociado(idEquipo, idJugador)).thenReturn(null);
 
-        //valores para verificar si el presuesto alcanza
+        //valores para verificar si el presupuesto alcanza
         when(equipoMock.getPresupuesto()).thenReturn(850000D);
-        when(jugadormock.getPrecio()).thenReturn(850001.0);
+        when(jugadormock.getPrecio()).thenReturn(850001D);
 
-        //Ejecucion y  Verificacion
+        //Ejecución y Verificación
         assertThrows(PresupuestoInsuficienteException.class, () -> servicioEquipo.agregarJugadorAlEquipo(idEquipo, idJugador, 1));
     }
 
+    @Test
+    public void cuandoSeAgregaUnJugadorAlEquipoQueValeMilElPresupuestoDelEquipoEs19000() throws EquipoNoEncontradoException, elJugadorYaExisteEnElEquipoException, PresupuestoInsuficienteException {
+
+        Long idEquipo = 3L;
+
+        Equipo equipoReal = new Equipo();
+        equipoReal.setId(idEquipo);
+        equipoReal.setPresupuesto(20000D);
+
+        Long idJugador = 1L;
+
+        Jugador jugadormock = mock(Jugador.class);
+        when(jugadormock.getPrecio()).thenReturn(1000D);
+
+
+        // método buscarEquipoPorId
+        when(repositorioEquipoMock.buscarEquipoPorId(idEquipo)).thenReturn(equipoReal);
+
+        // método buscarJugadorPorId
+        when(repositorioJugadorMock.buscarJugadorPorId(idJugador)).thenReturn(jugadormock);
+
+
+        // método de equipo y jugador asociados para el método validarSiElJugadorYaFueElegido
+        when(repositorioEquipoJugadorMock.buscarEquipoYJugadorAsociado(idEquipo, idJugador)).thenReturn(null);
+
+        // SE AGREGAN - Ejecución
+        servicioEquipo.agregarJugadorAlEquipo(idEquipo, idJugador, 1); // 1000
+
+        assertEquals(19000D, equipoReal.getPresupuesto());
+
+    }
+
+    @Test
+    public void cuandoSeEliminaUnJugadorAlEquipoSeEliminaCorrectamenteYSeReintegraElPresupuesto() throws EquipoNoEncontradoException, elJugadorYaExisteEnElEquipoException, PresupuestoInsuficienteException {
+
+        Long idEquipo = 3L;
+
+        Equipo equipoReal = new Equipo();
+        equipoReal.setId(idEquipo);
+        equipoReal.setPresupuesto(20000D);
+
+        Long idJugador = 1L;
+        Long idJugador2 = 2L;
+        Long idJugador3 = 3L;
+        Long idJugador4 = 4L;
+        Jugador jugadormock = mock(Jugador.class);
+        when(jugadormock.getPrecio()).thenReturn(1000D);
+
+        Jugador jugadormock2 = mock(Jugador.class);
+        when(jugadormock2.getPrecio()).thenReturn(2000D);
+
+        Jugador jugadormock3 = mock(Jugador.class);
+        when(jugadormock3.getPrecio()).thenReturn(5000D);
+
+        Jugador jugadormock4 = mock(Jugador.class);
+        when(jugadormock4.getPrecio()).thenReturn(10000D);
+
+        // método buscarEquipoPorId
+        when(repositorioEquipoMock.buscarEquipoPorId(idEquipo)).thenReturn(equipoReal);
+
+        // método buscarJugadorPorId
+        when(repositorioJugadorMock.buscarJugadorPorId(idJugador)).thenReturn(jugadormock);
+        when(repositorioJugadorMock.buscarJugadorPorId(idJugador2)).thenReturn(jugadormock2);
+        when(repositorioJugadorMock.buscarJugadorPorId(idJugador3)).thenReturn(jugadormock3);
+        when(repositorioJugadorMock.buscarJugadorPorId(idJugador4)).thenReturn(jugadormock4);
+
+        // método de equipo y jugador asociados para el método validarSiElJugadorYaFueElegido
+        when(repositorioEquipoJugadorMock.buscarEquipoYJugadorAsociado(idEquipo, idJugador)).thenReturn(null);
+        when(repositorioEquipoJugadorMock.buscarEquipoYJugadorAsociado(idEquipo, idJugador2)).thenReturn(null);
+        when(repositorioEquipoJugadorMock.buscarEquipoYJugadorAsociado(idEquipo, idJugador3)).thenReturn(null);
+        when(repositorioEquipoJugadorMock.buscarEquipoYJugadorAsociado(idEquipo, idJugador4)).thenReturn(null);
+
+
+        // SE AGREGAN - Ejecución
+        servicioEquipo.agregarJugadorAlEquipo(idEquipo, idJugador, 1); // 1000
+        servicioEquipo.agregarJugadorAlEquipo(idEquipo, idJugador2, 2); // 2000
+        servicioEquipo.agregarJugadorAlEquipo(idEquipo, idJugador3, 3); // 5000
+        servicioEquipo.agregarJugadorAlEquipo(idEquipo, idJugador4, 4); //10000
+
+        // 20.000 - 1000 - 2000 - 5000 - 10.000 =  2.000
+        assertEquals(2000D, equipoReal.getPresupuesto());
+
+        /*Crear una relación para poder eliminar al jugador */
+        EquipoJugador relacionEquipoJugadorMock = mock(EquipoJugador.class);
+        when(relacionEquipoJugadorMock.getJugador()).thenReturn(jugadormock3);
+
+        when(repositorioEquipoJugadorMock.buscarEquipoYJugadorAsociado(idEquipo, idJugador3)).thenReturn(relacionEquipoJugadorMock);
+
+        // Se elimina al jugador 3 que vale 5000 , el saldo tiene que ser 7000
+        servicioEquipo.eliminarJugadorDelEquipo(idEquipo, idJugador3);
+
+        assertEquals(7000D, equipoReal.getPresupuesto());
+
+    }
+/*
+    @Test
+    public void alCrearUnEquipoCon12JugadoresSeObtieneResultadoExitoso() throws EquipoSinCompletarException {
+        Long idEquipo = 1L;
+
+        EquipoJugador jugador1 = mock(EquipoJugador.class);
+        EquipoJugador jugador2 = mock(EquipoJugador.class);
+        EquipoJugador jugador3 = mock(EquipoJugador.class);
+        EquipoJugador jugador4 = mock(EquipoJugador.class);
+        EquipoJugador jugador5 = mock(EquipoJugador.class);
+        EquipoJugador jugador6 = mock(EquipoJugador.class);
+        EquipoJugador jugador7 = mock(EquipoJugador.class);
+        EquipoJugador jugador8 = mock(EquipoJugador.class);
+        EquipoJugador jugador9 = mock(EquipoJugador.class);
+        EquipoJugador jugador10 = mock(EquipoJugador.class);
+        EquipoJugador jugador11 = mock(EquipoJugador.class);
+        EquipoJugador jugador12 = mock(EquipoJugador.class);
+
+        HashMap<Integer, EquipoJugador> jugadores = new HashMap<>();
+
+        jugadores.put(1, jugador1);
+        jugadores.put(2, jugador2);
+        jugadores.put(3, jugador3);
+        jugadores.put(4, jugador4);
+        jugadores.put(5, jugador5);
+        jugadores.put(6, jugador6);
+        jugadores.put(7, jugador7);
+        jugadores.put(8, jugador8);
+        jugadores.put(9, jugador9);
+        jugadores.put(10, jugador10);
+        jugadores.put(11, jugador11);
+        jugadores.put(12, jugador12);
+
+        when(servicioEquipoJugadorMock.buscarJugadoresPorEquipoId(idEquipo)).thenReturn(jugadores);
+
+        servicioEquipo.validarEquipoCompleto(idEquipo);
+
+    }
+
+    @Test
+    public void alCrearUnEquipoCon5JugadoresLaValidacionTiraUnaExcepcion() {
+
+        Long idEquipo = 1L;
+
+        EquipoJugador jugador1 = mock(EquipoJugador.class);
+        EquipoJugador jugador2 = mock(EquipoJugador.class);
+        EquipoJugador jugador3 = mock(EquipoJugador.class);
+        EquipoJugador jugador4 = mock(EquipoJugador.class);
+        EquipoJugador jugador5 = mock(EquipoJugador.class);
+
+        HashMap<Integer, EquipoJugador> jugadores = new HashMap<>();
+
+        jugadores.put(1, jugador1);
+        jugadores.put(2, jugador2);
+        jugadores.put(3, jugador3);
+        jugadores.put(4, jugador4);
+        jugadores.put(5, jugador5);
+
+        when(servicioEquipoJugadorMock.buscarJugadoresPorEquipoId(idEquipo)).thenReturn(jugadores);
+
+        assertThrows(EquipoSinCompletarException.class, () -> servicioEquipo.validarEquipoCompleto(idEquipo));
+    }*/
+
+    @Test
+    public void alGuardarUnEquipoSeAsignaPresupuestoYTorneo() throws TorneoVirtualActualNoEncontradoException {
+        // preparación
+        Equipo equipo = new Equipo();
+        TorneoVirtual torneoMock = mock(TorneoVirtual.class);
+        when(repositorioTorneoMock.buscarTorneoVirtualActual()).thenReturn(torneoMock);
+
+        // ejecución
+        Equipo resultado = servicioEquipo.guardarEquipo(equipo);
+
+        // verificación
+        assertEquals(2000000D, resultado.getPresupuesto());
+        assertEquals(torneoMock, resultado.getTorneo());
+        verify(repositorioEquipoMock, times(1)).guardarEquipo(equipo);
+    }
+
+    @Test
+    public void alGuardarUnEquipoSinTorneoLanzaExcepcion() {
+        // preparación
+        Equipo equipo = new Equipo();
+        when(repositorioTorneoMock.buscarTorneoVirtualActual()).thenReturn(null);
+
+        // ejecución y verificación
+        assertThrows(TorneoVirtualActualNoEncontradoException.class, () -> servicioEquipo.guardarEquipo(equipo));
+    }
 
 }

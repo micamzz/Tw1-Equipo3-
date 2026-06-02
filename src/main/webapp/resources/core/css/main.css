@@ -1,21 +1,20 @@
-
 body {
-    padding-top: 5rem;
+  padding-top: 5rem;
 }
 
 .starter-template {
-    padding: 3rem 1.5rem;
-    text-align: center;
+  padding: 3rem 1.5rem;
+  text-align: center;
 }
 
 h1 {
-    color: #0000FF;
+  color: #0000ff;
 }
 
 h2 {
-    color: #FF0000;
+  color: #ff0000;
 }
 
 .navbar-brand {
-    margin: 0 2rem;
+  margin: 0 2rem;
 }

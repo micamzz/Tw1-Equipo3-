@@ -49,16 +49,16 @@ public class ControladorEquipo {
 
         try {
             if (equipoIngresado.getNombreEquipo() == null || equipoIngresado.getNombreEquipo().isBlank()) {
-                throw new EquipoSinNombreException();
+                throw new EquipoSinNombreException("El nombre del equipo no puede estar vacío");
             }
 
             Equipo equipoGuardado = servicioEquipo.guardarEquipo(equipoIngresado);
             return new ModelAndView("redirect:/seleccionar-jugadores?id=" + equipoGuardado.getId());
 
-        } catch (EquipoSinNombreException e) {
+        } catch (EquipoSinNombreException | TorneoVirtualActualNoEncontradoException e) {
             ModelMap modelo = new ModelMap();
             modelo.put("equipo", new Equipo());
-            modelo.put("error", "El nombre del equipo no puede estar vacío");
+            modelo.put("error", e.getMessage());
             return new ModelAndView("crear-equipo", modelo);
         }
     }
@@ -74,17 +74,16 @@ public class ControladorEquipo {
             Equipo equipo = servicioEquipo.buscarEquipoPorId(id);
             modelo.put("equipo", equipo);
 
-            List<Jugador> jugadoresBase = servicioJugador.buscarBase();
-            List<Jugador> jugadoresAlero = servicioJugador.buscarAlero();
-            List<Jugador> jugadoresPivot = servicioJugador.buscarPivot();
+            List<Jugador> jugadoresBase = servicioEquipoJugador.obtenerJugadoresDisponiblesPorPosicion(id, Posicion.BASE);
+            List<Jugador> jugadoresAlero = servicioEquipoJugador.obtenerJugadoresDisponiblesPorPosicion(id, Posicion.ALERO);
+            List<Jugador> jugadoresPivot = servicioEquipoJugador.obtenerJugadoresDisponiblesPorPosicion(id, Posicion.PIVOT);
 
             HashMap<Integer, EquipoJugador> jugadoresDelEquipoPorOrden = servicioEquipoJugador.buscarJugadoresPorEquipoId(id);
 
             modelo.put("listadoBases", jugadoresBase);
             modelo.put("listadoAleros", jugadoresAlero);
             modelo.put("listadoPivots", jugadoresPivot);
-
-
+            
             modelo.put("base1", jugadoresDelEquipoPorOrden.get(1));
             modelo.put("base2", jugadoresDelEquipoPorOrden.get(2));
             modelo.put("alero1", jugadoresDelEquipoPorOrden.get(3));
@@ -132,7 +131,7 @@ public class ControladorEquipo {
 
 
     @RequestMapping(value = "/confirmar-equipo", method = RequestMethod.POST)
-    public ModelAndView confirmarEquipoCompleto(@RequestParam Long idEquipo) throws EquipoSinCompletarException {
+    public ModelAndView confirmarEquipoCompleto(@RequestParam Long idEquipo) {
 
         try {
             servicioEquipo.validarEquipoCompleto(idEquipo);
@@ -145,7 +144,6 @@ public class ControladorEquipo {
     @RequestMapping("/ver-equipo")
     public ModelAndView verEquipo(@RequestParam Long id) {
 
-      
         try {
             ModelMap modelo = new ModelMap();
 

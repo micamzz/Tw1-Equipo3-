@@ -14,7 +14,7 @@ import java.util.List;
 @Repository("repositorioJugador")
 public class RepositorioJugadorImpl implements RepositorioJugador {
 
-    private SessionFactory sessionFactory;
+    private final SessionFactory sessionFactory;
 
     @Autowired
     public RepositorioJugadorImpl(SessionFactory sessionFactory) {
@@ -44,9 +44,28 @@ public class RepositorioJugadorImpl implements RepositorioJugador {
     }
 
     @Override
+<<<<<<< HEAD
     public RendimientoJugador buscarRendimientoPorJugador(long jugadorId) {
         org.hibernate.Criteria criteria = sessionFactory.getCurrentSession().createCriteria(RendimientoJugador.class);
         criteria.add(Restrictions.eq("jugador.id", jugadorId));
         return (RendimientoJugador)criteria.uniqueResult();
     }
+=======
+    public List<Jugador> buscarJugadoresPorPosicion(Posicion posicion) {
+        return (List<Jugador>) sessionFactory.getCurrentSession()
+                .createCriteria(Jugador.class)
+                .add(Restrictions.eq("posicion", posicion))
+                .list();
+    }
+
+    @Override
+    public List<Jugador> buscarTodosLosJugadores() {
+        return (List<Jugador>) sessionFactory.getCurrentSession()
+                .createCriteria(Jugador.class)
+                .list();
+    }
+
+
+>>>>>>> origin/main
 }
+

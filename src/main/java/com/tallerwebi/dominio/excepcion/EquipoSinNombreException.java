@@ -3,5 +3,7 @@ package com.tallerwebi.dominio.excepcion;
 public class EquipoSinNombreException extends Exception {
     private static final long serialVersionUID = 1L;
 
-
+    public EquipoSinNombreException(String mensaje) {
+        super(mensaje);
+    }
 }
