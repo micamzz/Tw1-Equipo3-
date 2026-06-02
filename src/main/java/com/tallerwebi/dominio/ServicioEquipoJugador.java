@@ -11,5 +11,4 @@ public interface ServicioEquipoJugador {
 
     List<Jugador> obtenerJugadoresDisponiblesPorPosicion(Long idEquipo, Posicion posicion);
 
-    List<Jugador> obtenerJugadoresDisponibles(Long idEquipo);
 }
