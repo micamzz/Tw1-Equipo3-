@@ -53,7 +53,7 @@ public class ControladorTorneo {
         System.out.println("Fin: " + torneo.getFechaFin());
 
         servicioTorneo.crearTorneo(torneo);
-        return new ModelAndView("redirect:/torneo");
+        return new ModelAndView("redirect:/admin/torneos?success=Torneo creado correctamente");
     }
 
     @PostMapping("/admin/torneo/eliminar")

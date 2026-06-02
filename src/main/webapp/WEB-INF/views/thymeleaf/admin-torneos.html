@@ -37,6 +37,10 @@
             </a>
         </div>
 
+        <div th:if="${param.success}" class="mensaje-exito">
+            <p th:text="${param.success}"></p>
+        </div>
+
         <table class="tabla-torneos">
 
             <thead>
