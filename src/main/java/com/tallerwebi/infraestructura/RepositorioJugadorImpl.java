@@ -49,19 +49,5 @@ public class RepositorioJugadorImpl implements RepositorioJugador {
         criteria.add(Restrictions.eq("jugador.id", jugadorId));
         return (RendimientoJugador)criteria.uniqueResult();
     }
-
-    public List<Jugador> buscarJugadoresPorPosicion(Posicion posicion) {
-        return (List<Jugador>) sessionFactory.getCurrentSession()
-                .createCriteria(Jugador.class)
-                .add(Restrictions.eq("posicion", posicion))
-                .list();
-    }
-
-    @Override
-    public List<Jugador> buscarTodosLosJugadores() {
-        return (List<Jugador>) sessionFactory.getCurrentSession()
-                .createCriteria(Jugador.class)
-                .list();
-    }
 }
 

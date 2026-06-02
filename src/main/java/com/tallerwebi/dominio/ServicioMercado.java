@@ -10,12 +10,7 @@ public interface ServicioMercado {
     List<Jugador> buscarPivot();
 
     List<Jugador> buscarBase();
-<<<<<<< HEAD
     Jugador buscarJugadorPorId(long id);
     RendimientoJugador obtenerRendimiento(long jugadorId);
     double calcularPuntajeJugador(RendimientoJugador rendimiento);
-=======
-
-
->>>>>>> origin/main
 }

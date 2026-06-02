@@ -41,7 +41,7 @@ public class ServicioEquipoJugadorImpl implements ServicioEquipoJugador {
 
     @Override
     public List<Jugador> obtenerJugadoresDisponiblesPorPosicion(Long idEquipo, Posicion posicion) {
-        List<Jugador> jugadoresPorPosicion = repositorioJugador.buscarJugadoresPorPosicion(posicion);
+        List<Jugador> jugadoresPorPosicion = repositorioJugador.buscarJugadores(posicion, null);
         List<EquipoJugador> jugadoresDelEquipo = repositorioEquipoJugador.buscarPorEquipoId(idEquipo);
 
         List<Jugador> jugadoresDisponibles = new ArrayList<>();

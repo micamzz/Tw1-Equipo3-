@@ -6,6 +6,4 @@ public interface RepositorioJugador {
     List<Jugador> buscarJugadores(Posicion posicion, String nombre);
     Jugador buscarJugadorPorId(long id);
     RendimientoJugador buscarRendimientoPorJugador(long jugadorId);
-    List<Jugador> buscarJugadoresPorPosicion(Posicion posicion);
-    List<Jugador> buscarTodosLosJugadores();
 }
