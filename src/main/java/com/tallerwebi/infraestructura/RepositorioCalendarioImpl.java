@@ -5,6 +5,8 @@ import com.tallerwebi.dominio.PartidoNBA;
 import com.tallerwebi.dominio.RendimientoJugador;
 import com.tallerwebi.dominio.RepositorioCalendario;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -22,9 +24,9 @@ public class RepositorioCalendarioImpl implements RepositorioCalendario {
 
     @Override
     public Calendario buscarCalendarioActual() {
-        return sessionFactory.getCurrentSession()
-                .createQuery("FROM Calendario WHERE nombre = :nombre", Calendario.class)
-                .setParameter("nombre", "Temporada 2026")
+        return (Calendario) sessionFactory.getCurrentSession()
+                .createCriteria(Calendario.class)
+                .add(Restrictions.eq("nombre", "Temporada 2026"))
                 .uniqueResult();
     }
 
@@ -36,17 +38,18 @@ public class RepositorioCalendarioImpl implements RepositorioCalendario {
     @Override
     public List<PartidoNBA> buscarListaDePartidosPorCalendarioID(Long calendarioId) {
         return sessionFactory.getCurrentSession()
-                .createQuery("FROM PartidoNBA WHERE calendario.id = :id", PartidoNBA.class)
-                .setParameter("id", calendarioId)
+                .createCriteria(PartidoNBA.class)
+                .add(Restrictions.eq("calendario.id", calendarioId))
                 .list();
     }
+
+
 
     @Override
     public List<RendimientoJugador> buscarTop6Jugadores() {
         return sessionFactory.getCurrentSession()
-                .createQuery(
-                        "FROM RendimientoJugador ORDER BY puntos DESC",
-                        RendimientoJugador.class)
+                .createCriteria(RendimientoJugador.class)
+                .addOrder(Order.desc("puntos"))
                 .setMaxResults(6)
                 .list();
     }
