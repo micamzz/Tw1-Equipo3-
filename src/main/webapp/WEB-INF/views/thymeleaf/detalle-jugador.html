@@ -13,9 +13,15 @@
 <body>
 
 <nav class="nav-bar-detalle">
-    <a th:href="@{/mercado}" class = "btn-volver">← Volver al mercado</a>
     <span class = "nav-brand-text">UNLAM Basket</span>
+    <div class="nav-links-detalle">
+        <a th:href="@{/ver-equipo.html}" class="nav-link-mercado">Ver equipo</a>
+        <a th:href="@{/index}" class="nav-link-mercado">Mi perfil</a>
+    </div>
 </nav>
+<div class="volver-wrapper">
+    <a th:href="@{/mercado}" class = "btn-volver">← Volver al mercado</a>
+</div>
 
 <div class="hero-section">
     <div class="hero-overlay"></div>
@@ -30,7 +36,7 @@
 <div class="stats-rapidas">
     <div class="stats-item">
         <span class="stats-label">PPG</span>
-        <span class="stat-valor" th:text="${rendimiento.puntos}">0</span>
+        <span class="stats-valor" th:text="${rendimiento.puntos}">0</span>
     </div>
     <div class="stats-item">
         <span class = "stats-label">RPG</span>
@@ -39,14 +45,6 @@
     <div class="stats-item">
         <span class = "stats-label">ARP</span>
         <span class="stats-valor" th:text="${rendimiento.asistencias}">0</span>
-    </div>
-    <div class="stats-item">
-        <span class = "stats-label">SPG</span>
-        <span class="stats-valor" th:text="${rendimiento.robos}">0</span>
-    </div>
-    <div class="stats-item">
-        <span class = "stats-label">BPG</span>
-        <span class="stats-valor" th:text="${rendimiento.bloqueos}">0</span>
     </div>
 </div>
 <div class="info-personal">
