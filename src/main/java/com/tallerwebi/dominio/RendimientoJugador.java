@@ -99,4 +99,6 @@ public class RendimientoJugador {
     public void setNombreCompleto(String nombreCompleto) {
         this.nombreCompleto = nombreCompleto;
     }
+
+
 }

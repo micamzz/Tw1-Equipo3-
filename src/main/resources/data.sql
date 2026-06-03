@@ -32,3 +32,17 @@ VALUES
     (12, 24, 12, 3, 1, 2, 2),
     (13, 19, 10, 3, 1, 1, 2),
     (14, 21, 8, 4, 1, 1, 2);
+
+INSERT INTO Calendario (nombre) VALUES ('Temporada 2026');
+
+INSERT INTO PartidoNBA (equipoLocal, equipoVisitante, fechaYhora, calendario_id)
+VALUES ('Spurs', 'Knicks', '2026-06-04 22:30:00', 1);
+
+INSERT INTO PartidoNBA (equipoLocal, equipoVisitante, fechaYhora, calendario_id)
+VALUES ('Knicks', 'Spurs', '2026-06-06 21:30:00', 1);
+
+INSERT INTO PartidoNBA (equipoLocal, equipoVisitante, fechaYhora, calendario_id)
+VALUES ('Spurs', 'Nets', '2026-06-09 22:30:00', 1);
+
+INSERT INTO PartidoNBA (equipoLocal, equipoVisitante, fechaYhora, calendario_id)
+VALUES ('Spurs', 'Mavericks', '2026-06-11 22:00:00', 1);
