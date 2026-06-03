@@ -1,8 +1,6 @@
 package com.tallerwebi.dominio;
 
-import com.tallerwebi.dominio.excepcion.FechaIncoherenteException;
-import com.tallerwebi.dominio.excepcion.FechasSuperpuestasException;
-import com.tallerwebi.dominio.excepcion.NoSePuedeEliminarUnTorneoSiTieneEquiposAsociadosException;
+import com.tallerwebi.dominio.excepcion.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,6 +38,12 @@ public class ServicioTorneoImpl implements ServicioTorneo {
         }
     }
 
+    private void validarQueElNombreDelTorneoNoEsteEnBlanco(TorneoVirtual torneo) throws NombreDeTorneoEnBlancoException {
+
+        if (torneo.getNombreTorneo().isBlank()) {
+            throw new NombreDeTorneoEnBlancoException("El nombre no puede estar vacío");
+        }
+    }
 
     @Override
     public void crearTorneo(TorneoVirtual torneo) throws FechaIncoherenteException, FechasSuperpuestasException {
@@ -64,12 +68,17 @@ public class ServicioTorneoImpl implements ServicioTorneo {
 
 
     @Override
-    public void eliminarTorneo(Long id) throws NoSePuedeEliminarUnTorneoSiTieneEquiposAsociadosException {
+    public void eliminarTorneo(Long id) throws NoSePuedeEliminarUnTorneoSiTieneEquiposAsociadosException, TorneoNoEncontradoException {
+
+        Torneo torneo = buscarTorneoPorId(id);
+
+        if(torneo == null){
+            throw new TorneoNoEncontradoException("El torneo que intentas eliminar NO existe");
+        }
 
         if (repositorioEquipo.existeEquipoEnTorneo(id)){
             throw new NoSePuedeEliminarUnTorneoSiTieneEquiposAsociadosException("No se puede eliminar el torneo ya que tiene equipos asociados");
         }
-       Torneo torneo = buscarTorneoPorId(id);
 
         repositorioTorneo.eliminarTorneo(torneo);
 
