@@ -85,7 +85,7 @@ public class ControladorEquipo {
             modelo.put("listadoBases", jugadoresBase);
             modelo.put("listadoAleros", jugadoresAlero);
             modelo.put("listadoPivots", jugadoresPivot);
-            
+
             modelo.put("base1", jugadoresDelEquipoPorOrden.get(1));
             modelo.put("base2", jugadoresDelEquipoPorOrden.get(2));
             modelo.put("alero1", jugadoresDelEquipoPorOrden.get(3));
