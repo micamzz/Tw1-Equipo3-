@@ -33,39 +33,16 @@ VALUES
     (13, 19, 10, 3, 1, 1, 2),
     (14, 21, 8, 4, 1, 1, 2);
 
+INSERT INTO Calendario (nombre) VALUES ('Temporada 2026');
 
-INSERT INTO `tw1`.`torneo`
-(`id`,
- `fechaFin`,
- `fechaInicio`,
- `nombreTorneo`)
-VALUES
-    (1,
-     '2026-12-31',
-     '2026-01-01',
-     'Temporada NBA 2026');
+INSERT INTO PartidoNBA (equipoLocal, equipoVisitante, fechaYhora, calendario_id)
+VALUES ('Spurs', 'Knicks', '2026-06-04 22:30:00', 1);
 
-INSERT INTO `tw1`.`torneoreal`
-(`temporada`,
- `id`)
-VALUES
-    ('Temporada NBA 2026',
-     1);
+INSERT INTO PartidoNBA (equipoLocal, equipoVisitante, fechaYhora, calendario_id)
+VALUES ('Knicks', 'Spurs', '2026-06-06 21:30:00', 1);
 
-INSERT INTO `tw1`.`torneo`
-(`id`,
- `fechaFin`,
- `fechaInicio`,
- `nombreTorneo`)
-VALUES
-    (2,
-     '2026-12-31',
-     '2026-01-01',
-     'UNLAM Basquet 2026');
+INSERT INTO PartidoNBA (equipoLocal, equipoVisitante, fechaYhora, calendario_id)
+VALUES ('Spurs', 'Nets', '2026-06-09 22:30:00', 1);
 
-INSERT INTO `tw1`.`torneovirtual`
-(`id`,
- `torneoReal_id`)
-VALUES
-    (2,
-     1);
+INSERT INTO PartidoNBA (equipoLocal, equipoVisitante, fechaYhora, calendario_id)
+VALUES ('Spurs', 'Mavericks', '2026-06-11 22:00:00', 1);
