@@ -25,20 +25,19 @@
 
         <h1>ADMINISTRACIÓN DE TORNEOS</h1>
 
+        <div th:if="${param.success}" class="mensaje-exito">
+            <p th:text="${param.success}"></p>
+        </div>
+
         <div th:if="${param.error}" class="mensaje-error">
             <p th:text="${param.error}"></p>
         </div>
-
 
         <div class="acciones-superiores">
             <a th:href="@{/admin/torneo/crear}"
                class="boton-crear">
                 CREAR TORNEO
             </a>
-        </div>
-
-        <div th:if="${param.success}" class="mensaje-exito">
-            <p th:text="${param.success}"></p>
         </div>
 
         <table class="tabla-torneos">
