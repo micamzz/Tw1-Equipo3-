@@ -19,11 +19,13 @@ public class ControladorEquipo {
     private final ServicioEquipo servicioEquipo;
     private final ServicioMercado servicioJugador;
     private final ServicioEquipoJugador servicioEquipoJugador;
+    private final ServicioTorneo servicioTorneo;
 
-    public ControladorEquipo(ServicioEquipo servicioEquipo, ServicioMercado servicioJugador, ServicioEquipoJugador servicioEquipoJugador) {
+    public ControladorEquipo(ServicioEquipo servicioEquipo, ServicioMercado servicioJugador, ServicioEquipoJugador servicioEquipoJugador, ServicioTorneo servicioTorneo) {
         this.servicioEquipo = servicioEquipo;
         this.servicioJugador = servicioJugador;
         this.servicioEquipoJugador = servicioEquipoJugador;
+        this.servicioTorneo = servicioTorneo;
     }
 
 
@@ -38,7 +40,7 @@ public class ControladorEquipo {
         // TORNEO LLAMAR AL TORNEO.buscarTorneoActual();
         // Se crea un objeto vacio que luego se va a rellenar con los datos del form.
         modelo.put("equipo", equipo);
-
+        modelo.put("torneoActual", servicioTorneo.obtenerTorneoActual());
         return new ModelAndView("crear-equipo", modelo);
     }
 
