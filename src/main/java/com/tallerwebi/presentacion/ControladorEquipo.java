@@ -17,13 +17,11 @@ import java.util.List;
 public class ControladorEquipo {
 
     private final ServicioEquipo servicioEquipo;
-    private final ServicioMercado servicioJugador;
     private final ServicioEquipoJugador servicioEquipoJugador;
     private final ServicioTorneo servicioTorneo;
 
-    public ControladorEquipo(ServicioEquipo servicioEquipo, ServicioMercado servicioJugador, ServicioEquipoJugador servicioEquipoJugador, ServicioTorneo servicioTorneo) {
+    public ControladorEquipo(ServicioEquipo servicioEquipo, ServicioEquipoJugador servicioEquipoJugador, ServicioTorneo servicioTorneo) {
         this.servicioEquipo = servicioEquipo;
-        this.servicioJugador = servicioJugador;
         this.servicioEquipoJugador = servicioEquipoJugador;
         this.servicioTorneo = servicioTorneo;
     }
@@ -85,7 +83,7 @@ public class ControladorEquipo {
             modelo.put("listadoBases", jugadoresBase);
             modelo.put("listadoAleros", jugadoresAlero);
             modelo.put("listadoPivots", jugadoresPivot);
-            
+
             modelo.put("base1", jugadoresDelEquipoPorOrden.get(1));
             modelo.put("base2", jugadoresDelEquipoPorOrden.get(2));
             modelo.put("alero1", jugadoresDelEquipoPorOrden.get(3));

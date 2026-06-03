@@ -133,7 +133,7 @@
                         id="ranura-base1"
                         data-orden="1"
                         th:with="ej=${base1}"
-                        th:onclick="${ej != null} ? '' : 'activarRanura(\'ranura-base1\', \'BASE\', \'Guardia\', false)'"
+                        th:onclick="${ej != null} ? '' : 'activarRanura(\'ranura-base1\', \'BASE\')'"
                         th:classappend="${ej != null} ? 'tiene-jugador' : ''"
                 >
                     <div class="ranura-icono" th:if="${ej == null}">+</div>
@@ -174,7 +174,7 @@
                         id="ranura-base2"
                         data-orden="2"
                         th:with="ej=${base2}"
-                        th:onclick="${ej != null} ? '' : 'activarRanura(\'ranura-base2\', \'BASE\', \'Guardia\', false)'"
+                        th:onclick="${ej != null} ? '' : 'activarRanura(\'ranura-base2\', \'BASE\')'"
                         th:classappend="${ej != null} ? 'tiene-jugador' : ''"
                 >
                     <div class="ranura-icono" th:if="${ej == null}">+</div>
@@ -213,7 +213,7 @@
                         id="ranura-alero1"
                         data-orden="3"
                         th:with="ej=${alero1}"
-                        th:onclick="${ej != null} ? '' : 'activarRanura(\'ranura-alero1\', \'ALERO\', \'Delantero\', false)'"
+                        th:onclick="${ej != null} ? '' : 'activarRanura(\'ranura-alero1\', \'ALERO\')'"
                         th:classappend="${ej != null} ? 'tiene-jugador' : ''"
                 >
                     <div class="ranura-icono" th:if="${ej == null}">+</div>
@@ -253,7 +253,7 @@
                         id="ranura-alero2"
                         data-orden="4"
                         th:with="ej=${alero2}"
-                        th:onclick="${ej != null} ? '' : 'activarRanura(\'ranura-alero2\', \'ALERO\', \'Delantero\', false)'"
+                        th:onclick="${ej != null} ? '' : 'activarRanura(\'ranura-alero2\', \'ALERO\')'"
                         th:classappend="${ej != null} ? 'tiene-jugador' : ''"
                 >
                     <div class="ranura-icono" th:if="${ej == null}">+</div>
@@ -293,7 +293,7 @@
                         id="ranura-pivot"
                         data-orden="5"
                         th:with="ej=${pivot}"
-                        th:onclick="${ej != null} ? '' : 'activarRanura(\'ranura-pivot\', \'PIVOT\', \'Centro\', false)'"
+                        th:onclick="${ej != null} ? '' : 'activarRanura(\'ranura-pivot\', \'PIVOT\')'"
                         th:classappend="${ej != null} ? 'tiene-jugador' : ''"
                 >
                     <div class="ranura-icono" th:if="${ej == null}">+</div>
@@ -338,7 +338,7 @@
                         id="suplente-pivot"
                         data-orden="6"
                         th:with="ej=${supPivot}"
-                        th:onclick="${ej != null} ? '' : 'activarRanura(\'suplente-pivot\', \'PIVOT\', \'Pivot\', true)'"
+                        th:onclick="${ej != null} ? '' : 'activarRanura(\'suplente-pivot\', \'PIVOT\')'"
                         th:classappend="${ej != null} ? 'tiene-jugador' : ''"
                 >
                     <div class="ranura-icono" th:if="${ej == null}">+</div>
@@ -378,7 +378,7 @@
                         id="suplente-alero1"
                         data-orden="7"
                         th:with="ej=${supAlero1}"
-                        th:onclick="${ej != null} ? '' : 'activarRanura(\'suplente-alero1\', \'ALERO\', \'Alero\', true)'"
+                        th:onclick="${ej != null} ? '' : 'activarRanura(\'suplente-alero1\', \'ALERO\')'"
                         th:classappend="${ej != null} ? 'tiene-jugador' : ''"
                 >
                     <div class="ranura-icono" th:if="${ej == null}">+</div>
@@ -418,7 +418,7 @@
                         id="suplente-alero2"
                         data-orden="8"
                         th:with="ej=${supAlero2}"
-                        th:onclick="${ej != null} ? '' : 'activarRanura(\'suplente-alero2\', \'ALERO\', \'Alero\', true)'"
+                        th:onclick="${ej != null} ? '' : 'activarRanura(\'suplente-alero2\', \'ALERO\')'"
                         th:classappend="${ej != null} ? 'tiene-jugador' : ''"
                 >
                     <div class="ranura-icono" th:if="${ej == null}">+</div>
@@ -458,7 +458,7 @@
                         id="suplente-base1"
                         data-orden="9"
                         th:with="ej=${supBase1}"
-                        th:onclick="${ej != null} ? '' : 'activarRanura(\'suplente-base1\', \'BASE\', \'Base\', true)'"
+                        th:onclick="${ej != null} ? '' : 'activarRanura(\'suplente-base1\', \'BASE\')'"
                         th:classappend="${ej != null} ? 'tiene-jugador' : ''"
                 >
                     <div class="ranura-icono" th:if="${ej == null}">+</div>
@@ -498,7 +498,7 @@
                         id="suplente-base2"
                         data-orden="10"
                         th:with="ej=${supBase2}"
-                        th:onclick="${ej != null} ? '' : 'activarRanura(\'suplente-base2\', \'BASE\', \'Base\', true)'"
+                        th:onclick="${ej != null} ? '' : 'activarRanura(\'suplente-base2\', \'BASE\')'"
                         th:classappend="${ej != null} ? 'tiene-jugador' : ''"
                 >
                     <div class="ranura-icono" th:if="${ej == null}">+</div>

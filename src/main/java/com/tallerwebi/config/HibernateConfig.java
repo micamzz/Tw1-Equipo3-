@@ -14,37 +14,6 @@ import java.util.Properties;
 @EnableTransactionManagement
 public class HibernateConfig {
 
-  /*
-   * @Bean
-   * public DataSource dataSource2() {
-   * DriverManagerDataSource dataSource = new DriverManagerDataSource();
-   * dataSource.setDriverClassName("org.hsqldb.jdbcDriver");
-   * dataSource.setUrl("jdbc:hsqldb:mem:db_");
-   * dataSource.setUsername("sa");
-   * dataSource.setPassword("");
-   * return dataSource;
-   * }
-   *
-   *
-   * @Bean
-   * public DataSource dataSource() {
-   * DriverManagerDataSource dataSource = new DriverManagerDataSource();
-   * dataSource.setDriverClassName("org.mariadb.jdbc.Driver");
-   * dataSource.setUrl("jdbc:mariadb://localhost:3306/tw1");
-   * dataSource.setUsername("root");
-   * dataSource.setPassword("1234");
-   * return dataSource;
-   * }
-   *
-   */
-
-  /**
-   * Toggle:
-   * - To run with an in-memory DB set env `RUN_WITHOUT_DB=true` or start JVM with
-   * `-DrunWithoutDb=true`.
-   * - To revert to the original behavior, unset the env var or remove the JVM
-   * system property (no code changes required).
-   */
   @Bean
   public DataSource dataSource() {
     if (useInMemoryDatabase()) {
@@ -64,18 +33,13 @@ public class HibernateConfig {
     String dbUser = System.getenv("DB_USER");
     String dbPassword = System.getenv("DB_PASSWORD");
 
-    if (dbHost == null)
-      dbHost = "localhost";
-    if (dbPort == null)
-      dbPort = "3306";
-    if (dbName == null)
-      dbName = "tw1";
-    if (dbUser == null)
-      dbUser = "root";
-    if (dbPassword == null)
-      dbPassword = "1234";
+    if (dbHost == null) dbHost = "localhost";
+    if (dbPort == null) dbPort = "3306";
+    if (dbName == null) dbName = "tw1";
+    if (dbUser == null) dbUser = "root";
+    if (dbPassword == null) dbPassword = "1234";
 
-    String url = String.format("jdbc:mariadb://%s:%s/%s", dbHost, dbPort, dbName);
+    String url = String.format("jdbc:mariadb://%s:%s/%s?allowPublicKeyRetrieval=true&useSSL=false", dbHost, dbPort, dbName);
 
     dataSource.setDriverClassName("org.mariadb.jdbc.Driver");
     dataSource.setUrl(url);
@@ -94,8 +58,9 @@ public class HibernateConfig {
   }
 
   @Bean
-  public HibernateTransactionManager transactionManager() {
-    return new HibernateTransactionManager(sessionFactory(dataSource()).getObject());
+  public HibernateTransactionManager transactionManager(LocalSessionFactoryBean sessionFactory) {
+    // CORREGIDO: Recibir el bean sessionFactory como parámetro
+    return new HibernateTransactionManager(sessionFactory.getObject());
   }
 
   private Properties hibernateProperties() {
@@ -114,8 +79,7 @@ public class HibernateConfig {
 
   private boolean useInMemoryDatabase() {
     String prop = System.getProperty("runWithoutDb");
-    if ("true".equalsIgnoreCase(prop))
-      return true;
+    if ("true".equalsIgnoreCase(prop)) return true;
     String env = System.getenv("RUN_WITHOUT_DB");
     return "true".equalsIgnoreCase(env);
   }
