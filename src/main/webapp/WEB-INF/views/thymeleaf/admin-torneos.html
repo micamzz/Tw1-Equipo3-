@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Administrar torneo</title>
+
+    <!-- Link CSS al Header y Footer-->
+    <link rel="stylesheet" th:href="@{/css/header.css}"/>
+    <link rel="stylesheet" th:href="@{/css/footer.css}"/>
+    <link rel="stylesheet" th:href="@{/css/crear-equipo.css}"/>
+    <link rel="stylesheet" th:href="@{/css/admin-torneos.css}"/>
+
+    <!-- Fuente INTER   -->
+    <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+            rel="stylesheet"
+    />
+</head>
+<body>
+<!--HEADER -->
+<div th:replace="layout/header :: header"></div>
+
+<main>
+    <section class="contenedor-admin-torneos">
+
+        <h1>ADMINISTRACIÓN DE TORNEOS</h1>
+
+        <div th:if="${param.error}" class="mensaje-error">
+            <p th:text="${param.error}"></p>
+        </div>
+
+
+        <div class="acciones-superiores">
+            <a th:href="@{/admin/torneo/crear}"
+               class="boton-crear">
+                CREAR TORNEO
+            </a>
+        </div>
+
+        <div th:if="${param.success}" class="mensaje-exito">
+            <p th:text="${param.success}"></p>
+        </div>
+
+        <table class="tabla-torneos">
+
+            <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Fecha Inicio</th>
+                <th>Fecha Fin</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            <tr th:each="torneo : ${torneos}">
+
+                <td th:text="${torneo.nombreTorneo}"></td>
+
+                <td th:text="${torneo.fechaInicio}"></td>
+
+                <td th:text="${torneo.fechaFin}"></td>
+
+                <td>
+                    <span
+                            th:if="${torneo.estadoTorneo.name() == 'EN_CURSO'}"
+                            class="estado estado-curso">
+                            EN CURSO
+                    </span>
+
+                    <span
+                            th:if="${torneo.estadoTorneo.name() == 'FINALIZADO'}"
+                            class="estado estado-finalizado">
+                            FINALIZADO
+                    </span>
+
+                    <span
+                            th:if="${torneo.estadoTorneo.name() == 'POR_INICIAR'}"
+                            class="estado estado-por-iniciar">
+                    POR INICIAR
+                    </span>
+                </td>
+
+                <td>
+
+                    <form th:action="@{/admin/torneo/eliminar}"
+                          method="post"
+                          onsubmit="return confirm('¿Seguro que desea eliminar este torneo?');">
+
+                        <input type="hidden"
+                               name="id"
+                               th:value="${torneo.id}"/>
+
+                        <button type="submit"
+                                class="boton-eliminar">
+                            Eliminar
+                        </button>
+
+                    </form>
+
+                </td>
+
+            </tr>
+
+            </tbody>
+
+        </table>
+    </section>
+
+</main>
+<!--FOOTER-->
+<div th:replace="layout/footer :: footer"></div>
+
+<!--JAVASCRIPT-->
+<script th:src="@{js/crearEquipo.js}"></script>
+</body>
+
+</html>

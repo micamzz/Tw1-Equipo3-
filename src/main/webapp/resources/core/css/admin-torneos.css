@@ -1,0 +1,187 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+.contenedor-admin-torneos {
+    width: 90%;
+    max-width: 1100px;
+
+    margin: 60px auto;
+
+    padding: 40px;
+
+    background-color: #0d0d0d;
+
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+}
+
+.contenedor-admin-torneos h1 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.acciones-superiores {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.boton-crear {
+    text-decoration: none;
+
+    background-color: #f97316;
+    color: white;
+
+    padding: 12px 24px;
+
+    border-radius: 10px;
+
+    font-weight: 700;
+    transition: 0.2s;
+}
+
+.boton-crear:hover {
+    opacity: 0.9;
+}
+
+.tabla-torneos {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tabla-torneos thead {
+    border-bottom: 2px solid rgba(255,255,255,0.15);
+}
+
+.tabla-torneos th {
+    padding: 16px;
+    text-align: center;
+    font-weight: 700;
+}
+
+.tabla-torneos td {
+    padding: 16px;
+    text-align: center;
+}
+
+.tabla-torneos tbody tr {
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.tabla-torneos tbody tr:hover {
+    background-color: rgba(255,255,255,0.04);
+}
+
+.estado {
+    display: inline-block;
+
+    padding: 6px 12px;
+
+    border-radius: 20px;
+
+    font-size: 0.85rem;
+    font-weight: 700;
+
+    background-color: rgba(255,255,255,0.12);
+}
+
+.boton-eliminar {
+    background-color: #dc2626;
+
+    color: white;
+
+    border: none;
+
+    padding: 8px 14px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    font-weight: 600;
+}
+
+.boton-eliminar:hover {
+    opacity: 0.9;
+}
+
+.mensaje-error {
+    text-align: center;
+    color: #ef4444;
+    margin-bottom: 20px;
+}
+
+.estado-curso {
+    background-color: #16a34a;
+    color: white;
+}
+
+.estado-finalizado {
+    background-color: #6b7280;
+    color: white;
+}
+
+.estado-por-iniciar {
+    background-color: #eab308;
+    color: black;
+}
+
+.boton-eliminar {
+    background-color: #dc2626;
+    color: white;
+
+    border: none;
+    border-radius: 8px;
+
+    padding: 8px 16px;
+
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.boton-eliminar:hover {
+    background-color: #b91c1c;
+    transform: translateY(-1px);
+}
+
+.boton-eliminar:active {
+    transform: translateY(0);
+}
+
+.mensaje-exito {
+    background-color: rgba(22, 163, 74, 0.15);
+    border: 1px solid #16a34a;
+    color: #86efac;
+
+    padding: 12px;
+
+    border-radius: 8px;
+
+    margin-bottom: 20px;
+
+    text-align: center;
+}
+
+.mensaje-error {
+    background-color: rgba(220, 38, 38, 0.15);
+    border: 1px solid #dc2626;
+    color: #fca5a5;
+
+    padding: 12px;
+
+    border-radius: 8px;
+
+    margin-bottom: 20px;
+
+    text-align: center;
+}

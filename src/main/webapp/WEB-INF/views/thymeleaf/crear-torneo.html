@@ -1,37 +1,98 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Crear Torneo</title>
+    <!-- Link CSS al Header y Footer-->
+    <link rel="stylesheet" th:href="@{/css/header.css}"/>
+    <link rel="stylesheet" th:href="@{/css/footer.css}"/>
+    <link rel="stylesheet" th:href="@{/css/crear-equipo.css}"/>
+    <link rel="stylesheet" th:href="@{/css/crear-torneo.css}">
 
+    <!-- Fuente INTER   -->
+    <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+            rel="stylesheet"
+    />
 </head>
 <body>
+<!--HEADER -->
+<div th:replace="layout/header :: header"></div>
+<main>
+    <section class="contenedor-form-torneo">
 
-<h1>Crear Torneo</h1>
+        <a th:href="@{/admin/torneos}" class="volver-link">
+            &larr; Volver a administración de torneos
+        </a>
 
-<form th:action="@{/admin/torneo/guardar}"
-      th:object="${torneo}"
-      method="post">
+        <h1>CREAR TORNEO</h1>
 
-    <div>
-        <label>Nombre del torneo</label>
-        <input type="text" th:field="*{nombreTorneo}">
-    </div>
-
-    <div>
-        <label>Fecha Inicio</label>
-        <input type="date" th:field="*{fechaInicio}">
-    </div>
-
-    <div>
-        <label>Fecha Fin</label>
-        <input type="date" th:field="*{fechaFin}">
-    </div>
+        <form th:action="@{/admin/torneo/guardar}"
+              th:object="${torneo}"
+              method="post">
 
 
-    <input type="submit" value="Guardar">
+            <div class="campo-formulario">
+                <label for="nombreTorneo">
+                    Nombre del torneo
+                </label>
 
-</form>
+                <input
+                        type="text"
+                        id="nombreTorneo"
+                        th:field="*{nombreTorneo}"
+                        placeholder="Ej: Temporada NBA 2026"
+                        required>
 
+            </div>
+
+            <div class="campo-formulario">
+
+                <label for="fechaInicio">
+                    Fecha de inicio
+                </label>
+
+                <input
+                        type="date"
+                        id="fechaInicio"
+                        th:field="*{fechaInicio}"
+                        required>
+
+            </div>
+
+            <div class="campo-formulario">
+
+                <label for="fechaFin">
+                    Fecha de finalización
+                </label>
+
+                <input
+                        type="date"
+                        id="fechaFin"
+                        th:field="*{fechaFin}"
+                        required>
+
+            </div>
+
+            <p th:if="${error}"
+               th:text="${error}"
+               class="mensaje-error">
+            </p>
+
+
+            <button type="submit"
+                    class="boton-guardar">
+                CREAR TORNEO
+            </button>
+
+
+        </form>
+    </section>
+</main>
+<!--FOOTER-->
+<div th:replace="layout/footer :: footer"></div>
+
+<!--JAVASCRIPT-->
+<script th:src="@{js/crearEquipo.js}"></script>
 </body>
 </html>

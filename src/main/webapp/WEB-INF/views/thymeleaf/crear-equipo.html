@@ -23,9 +23,19 @@
       <section class="contenedor-form-equipo">
         <h1>CREAR EQUIPO</h1>
 
-        <h3>Torneo vigente :</h3>
+        <div th:if="${torneoVirtual != null}">
+          <h3>Torneo actual :</h3>
+          <p>
+            Desde: <span th:text="${torneoVirtual.fechaInicio}"></span>
+            Hasta: <span th:text="${torneoVirtual.fechaFin}"></span>
+          </p>
+        </div>
+
+
         <!--guarda el nombre del equipo-->
         <form th:action="@{/guardarEquipo}" th:object="${equipo}" method="POST">
+
+
           <!-- el th:objet debe coincidir con el nombre de la variable
             del modelMap del controlador.(que es la "llave")-->
 

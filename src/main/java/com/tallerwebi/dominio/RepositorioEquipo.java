@@ -8,4 +8,5 @@ public interface RepositorioEquipo {
 
     Equipo buscarEquipoPorNombre(String nombre);
 
+    boolean existeEquipoEnTorneo(Long idTorneo);
 }

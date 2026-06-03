@@ -1,5 +1,7 @@
 package com.tallerwebi.dominio;
 
+
+import com.sun.istack.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -11,13 +13,15 @@ public abstract class Torneo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
+    //@NotBlank
     protected String nombreTorneo;
+    @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     protected LocalDate fechaInicio;
+    @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     protected LocalDate fechaFin;
-    @Enumerated(EnumType.STRING)
-    protected EstadoTorneo estadoTorneo;
+
 
     public Torneo() {
     }
@@ -29,25 +33,41 @@ public abstract class Torneo {
     public String getNombreTorneo() {
         return nombreTorneo;
     }
+
     public void setNombreTorneo(String nombreTorneo) {
         this.nombreTorneo = nombreTorneo;
     }
+
     public LocalDate getFechaInicio() {
         return fechaInicio;
     }
+
     public void setFechaInicio(LocalDate fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
+
     public LocalDate getFechaFin() {
         return fechaFin;
     }
+
     public void setFechaFin(LocalDate fechaFin) {
         this.fechaFin = fechaFin;
     }
+
+    @Transient //parametro calculado, no se guarda en la BBDD
     public EstadoTorneo getEstadoTorneo() {
-        return estadoTorneo;
-    }
-    public void setEstadoTorneo(EstadoTorneo estadoTorneo) {
-        this.estadoTorneo = estadoTorneo;
+
+        LocalDate hoy = LocalDate.now();
+
+        if (hoy.isBefore(fechaInicio)) {
+            return EstadoTorneo.POR_INICIAR;
+        }
+
+        if (hoy.isAfter(fechaFin)) {
+            return EstadoTorneo.FINALIZADO;
+        }
+
+        return EstadoTorneo.EN_CURSO;
+
     }
 }

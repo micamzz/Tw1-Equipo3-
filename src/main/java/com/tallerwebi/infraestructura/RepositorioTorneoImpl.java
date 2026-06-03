@@ -5,6 +5,9 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.util.List;
+
 @Repository
 public class RepositorioTorneoImpl implements RepositorioTorneo {
 
@@ -27,20 +30,43 @@ public class RepositorioTorneoImpl implements RepositorioTorneo {
     }
 
     @Override
-    public TorneoVirtual buscarTorneoVirtualActual(){
-            String hql =
-                    "FROM TorneoVirtual tv WHERE tv.estadoTorneo = :estado";
+    public TorneoVirtual buscarTorneoVirtualActual() {
 
-            return sessionFactory
-                    .getCurrentSession()
-                    .createQuery(hql, TorneoVirtual.class)
-                    .setParameter("estado", EstadoTorneo.EN_CURSO)
-                    .uniqueResult();
-        }
+       LocalDate hoy = LocalDate.now();
+
+        String hql =
+                "FROM TorneoVirtual tv " +
+                        "WHERE tv.fechaInicio <= :hoy " +
+                        "AND tv.fechaFin >= :hoy"
+                ;
+
+        return sessionFactory
+                .getCurrentSession()
+                .createQuery(hql, TorneoVirtual.class)
+                .setParameter("hoy", hoy)
+                .uniqueResult();
+    }
 
     @Override
     public void actualizarTorneo(Torneo torneo) {
         sessionFactory.getCurrentSession().update(torneo);
     }
+
+    @Override
+    public List<TorneoVirtual> obtenerTodosLosTorneosVirtuales() {
+
+        return sessionFactory
+                .getCurrentSession()
+                .createQuery(
+                        "FROM TorneoVirtual",
+                        TorneoVirtual.class)
+                .list();
+    }
+
+    @Override
+    public void eliminarTorneo(Torneo torneo) {
+        sessionFactory.getCurrentSession().delete(torneo);
+    }
+
 
 }
