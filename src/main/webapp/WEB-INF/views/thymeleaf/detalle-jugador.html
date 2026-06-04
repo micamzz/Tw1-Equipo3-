@@ -9,18 +9,15 @@
           crossorigin="anonymous">
     <link rel="stylesheet" th:href="@{/css/main.css}"/>
     <link rel="stylesheet" th:href="@{/css/detalle-jugador.css}"/>
+    <link rel="stylesheet" th:href="@{/css/header.css}" />
 </head>
 <body>
 
-<nav class="nav-bar-detalle">
-    <span class = "nav-brand-text">UNLAM Basket</span>
-    <div class="nav-links-detalle">
-        <a th:href="@{/ver-equipo.html}" class="nav-link-mercado">Ver equipo</a>
-        <a th:href="@{/index}" class="nav-link-mercado">Mi perfil</a>
-    </div>
-</nav>
+<!--HEADER -->
+<div th:replace="layout/header :: header"></div>
+
 <div class="volver-wrapper">
-    <a th:href="@{/mercado}" class = "btn-volver">← Volver al mercado</a>
+    <a th:href="@{/mercado}" class = "btn-volver">Volver al mercado</a>
 </div>
 
 <div class="hero-section">
