@@ -94,8 +94,11 @@
             $ 0
           </p>
 
+          <a th:href = "@{/jugador/{id}(id=${jugador.id})}" class="btn-detalle">Ver detalle</a>
+
           <!--Mica fijate que este boton sirve para poner a cada jugador con su equipo deberias conectarlo con la clase que se muestre en el equipo o que se guarde en algun lado esta info -->
-          <button type="submit" class="btn-fichar">Fichar</button>
+            <button type="submit" class="btn-fichar">Fichar</button>
+
         </div>
         <p th:if="${#lists.isEmpty(jugadores)}" class="sin-resultados">
           No se encontraron jugadores.
