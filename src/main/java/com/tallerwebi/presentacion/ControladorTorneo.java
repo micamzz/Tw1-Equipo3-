@@ -5,6 +5,7 @@ import com.tallerwebi.dominio.TorneoVirtual;
 import com.tallerwebi.dominio.excepcion.FechaIncoherenteException;
 import com.tallerwebi.dominio.excepcion.FechasSuperpuestasException;
 import com.tallerwebi.dominio.excepcion.NoSePuedeEliminarUnTorneoSiTieneEquiposAsociadosException;
+import com.tallerwebi.dominio.excepcion.TorneoNoEncontradoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -46,27 +47,35 @@ public class ControladorTorneo {
 
     @PostMapping("/admin/torneo/guardar")
     public ModelAndView guardarTorneo(
-            @ModelAttribute("torneo") TorneoVirtual torneo) throws FechaIncoherenteException, FechasSuperpuestasException {
+            @ModelAttribute("torneo") TorneoVirtual torneo) {
 
-        System.out.println("Nombre: " + torneo.getNombreTorneo());
-        System.out.println("Inicio: " + torneo.getFechaInicio());
-        System.out.println("Fin: " + torneo.getFechaFin());
+        try {
+            System.out.println("Nombre: " + torneo.getNombreTorneo());
+            System.out.println("Inicio: " + torneo.getFechaInicio());
+            System.out.println("Fin: " + torneo.getFechaFin());
 
-        servicioTorneo.crearTorneo(torneo);
-        return new ModelAndView("redirect:/admin/torneos?success=Torneo creado correctamente");
+            servicioTorneo.crearTorneo(torneo);
+            return new ModelAndView("redirect:/admin/torneos?success=Torneo creado correctamente");
+        } catch (FechaIncoherenteException | FechasSuperpuestasException e) {
+            ModelMap modelo = new ModelMap();
+
+            modelo.put("torneo", torneo);
+            modelo.put("error", e.getMessage());
+            return new ModelAndView("crear-torneo", modelo);
+        }
     }
 
     @PostMapping("/admin/torneo/eliminar")
     public ModelAndView eliminarTorneo(@RequestParam Long id) {
         try {
             servicioTorneo.eliminarTorneo(id);
-        } catch (Exception e) {
+        } catch (NoSePuedeEliminarUnTorneoSiTieneEquiposAsociadosException | TorneoNoEncontradoException e) {
             return new ModelAndView(
                     "redirect:/admin/torneos?error=" + e.getMessage()
             );
         }
 
-        return new ModelAndView("redirect:/admin/torneo");
+        return new ModelAndView("redirect:/admin/torneos?success=Torneo eliminado correctamente");
     }
 
     @GetMapping("/admin/torneos")

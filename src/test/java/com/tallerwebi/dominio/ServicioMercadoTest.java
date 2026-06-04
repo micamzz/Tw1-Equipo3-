@@ -73,4 +73,34 @@ public class ServicioMercadoTest {
         assertThat(resultado, not(empty()));
         assertThat(resultado.get(0).getPosicion(),equalTo(Posicion.BASE));
     }
+
+    @Test
+    public void calcularPuntajeJugadorCorrectamente(){
+        RendimientoJugador rendimiento = new RendimientoJugador();
+        rendimiento.setPuntos(28);
+        rendimiento.setRebotes(8);
+        rendimiento.setAsistencias(9);
+        rendimiento.setRobos(1);
+        rendimiento.setBloqueos(0);
+        rendimiento.setPerdidas(4);
+
+        ServicioMercado servicio = new ServicioMercadoImpl(mock(RepositorioJugador.class));
+        double puntaje = servicio.calcularPuntajeJugador(rendimiento);
+
+        assertThat(puntaje, equalTo(46.1));
+    }
+
+    @Test
+    public void queBuscarJugadorPorIdDevuelvaJugadorCorrecto(){
+        RepositorioJugador repositorioMock= mock(RepositorioJugador.class);
+        Jugador jugador = new Jugador();
+        jugador.setNombre("Luka");
+        jugador.setApellido("Doncic");
+        when(repositorioMock.buscarJugadorPorId(1L)).thenReturn(jugador);
+
+        ServicioMercado servicio = new ServicioMercadoImpl(repositorioMock);
+        Jugador resultado = servicio.buscarJugadorPorId(1L);
+
+        assertThat(resultado.getNombre(),equalTo("Luka"));
+    }
 }

@@ -1,0 +1,239 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    background: #111;
+    color: #fff;
+    font-family: "Inter", sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+
+.btn-volver {
+    color: #aaa;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.btn-volver:hover {
+    color: #FF7A1A;
+}
+
+.nav-brand-text {
+    color: #ff7a1a;
+    font-weight: 600;
+    font-size: 15px;
+    white-space: nowrap;
+}
+
+.hero-section {
+    position: relative;
+    height: 420px;
+    background: linear-gradient(135deg, #0c0c0c, #1a2a3e);
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+    border-bottom: 2px solid rgba(255, 122, 26, 0.4);
+}
+.hero-section {
+    margin-top:0;
+    margin-bottom: 40px;
+}
+
+.hero-foto {
+    position: absolute;
+    left: 80px;
+    bottom: 0;
+    height: 400px;
+    object-fit: cover;
+    object-position: top;
+    filter: drop-shadow(0 0 30px rgba(255,122,26,0.3));
+}
+
+.hero-info {
+    position: relative;
+    z-index: 2;
+    margin-left: auto;
+    padding-bottom: 40px;
+    text-align: right;
+    margin-right: 50px;
+}
+
+.hero-posicion {
+    color: #FF7A1A;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    margin-bottom: 8px;
+}
+
+.hero-nombre {
+    font-size: 52px;
+    font-weight: 800;
+    line-height: 1;
+    color: white;
+}
+
+.hero-apellido {
+    font-size: 52px;
+    font-weight: 800;
+    line-height: 1;
+    color: #FF7A1A;
+    margin-bottom: 16px;
+}
+
+.hero-precio {
+    font-size: 20px;
+    color: #aaa;
+}
+
+.stats-rapidas {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    background: #111;
+    border-bottom: 1px solid rgba(255,122,26,0.2);
+}
+
+.stats-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 40px;
+    border-right: 1px solid rgba(255,255,255,0.1);
+}
+
+.stats-item:last-child {
+    border-right: none;
+}
+
+.stats-label {
+    font-size: 11px;
+    color: #888;
+    letter-spacing: 2px;
+    margin-bottom: 4px;
+}
+
+.stats-valor {
+    font-size: 28px;
+    font-weight: 700;
+    color: white;
+}
+
+.naranja {
+    color: #FF7A1A;
+}
+
+.info-personal {
+    padding: 40px 80px;
+    border-bottom: 1px solid rgba(255,122,26,0.2);
+}
+
+.seccion-titulo {
+    font-size: 18px;
+    font-weight: 600;
+    color: #FF7A1A;
+    letter-spacing: 2px;
+    margin-bottom: 24px;
+    text-transform: uppercase;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0;
+    border: 1px solid rgba(255,122,26,0.2);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    border-right: 1px solid rgba(255,122,26,0.2);
+    border-bottom: 1px solid rgba(255,122,26,0.2);
+}
+
+.info-label {
+    font-size: 10px;
+    color: #888;
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+    text-align: center;
+}
+
+.info-valor {
+    font-size: 15px;
+    font-weight: 600;
+    color: white;
+    text-align: center;
+}
+
+.stats-detalle {
+    padding: 40px 80px;
+}
+
+.stats-tabla {
+    border: 1px solid rgba(255,122,26,0.2);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.stats-fila {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    text-align: center;
+}
+
+.stats-fila.header {
+    background: rgba(255,122,26,0.15);
+    padding: 12px 0;
+    font-size: 12px;
+    color: #FF7A1A;
+    letter-spacing: 2px;
+    font-weight: 600;
+}
+
+.stats-fila:not(.header) {
+    padding: 20px 0;
+    font-size: 22px;
+    font-weight: 700;
+    background: rgba(255,255,255,0.03);
+}
+
+.footer-mercado {
+    border-top: 1px solid #ff7a1a3b;
+    margin-top: 30px;
+    padding: 20px;
+    text-align: center;
+}
+
+.footer-lista {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px 24px;
+    margin-bottom: 10px;
+    color: white;
+    font-size: 12px;
+}
+
+.footer-copy {
+    color: white;
+    font-size: 12px;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    background: #111;
+}

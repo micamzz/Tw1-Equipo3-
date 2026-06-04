@@ -9,13 +9,9 @@ body {
 .contenedor-admin-torneos {
     width: 90%;
     max-width: 1100px;
-
     margin: 60px auto;
-
     padding: 40px;
-
     background-color: #0d0d0d;
-
     border: 1px solid rgba(255,255,255,0.1);
     border-radius: 16px;
 }
@@ -33,14 +29,10 @@ body {
 
 .boton-crear {
     text-decoration: none;
-
     background-color: #f97316;
     color: white;
-
     padding: 12px 24px;
-
     border-radius: 10px;
-
     font-weight: 700;
     transition: 0.2s;
 }
@@ -79,30 +71,20 @@ body {
 
 .estado {
     display: inline-block;
-
     padding: 6px 12px;
-
     border-radius: 20px;
-
     font-size: 0.85rem;
     font-weight: 700;
-
     background-color: rgba(255,255,255,0.12);
 }
 
 .boton-eliminar {
     background-color: #dc2626;
-
     color: white;
-
     border: none;
-
     padding: 8px 14px;
-
     border-radius: 8px;
-
     cursor: pointer;
-
     font-weight: 600;
 }
 
@@ -137,15 +119,11 @@ body {
 
     border: none;
     border-radius: 8px;
-
     padding: 8px 16px;
-
     font-family: 'Inter', sans-serif;
     font-size: 0.9rem;
     font-weight: 600;
-
     cursor: pointer;
-
     transition: all 0.2s ease;
 }
 
@@ -162,13 +140,9 @@ body {
     background-color: rgba(22, 163, 74, 0.15);
     border: 1px solid #16a34a;
     color: #86efac;
-
     padding: 12px;
-
     border-radius: 8px;
-
     margin-bottom: 20px;
-
     text-align: center;
 }
 
@@ -176,12 +150,8 @@ body {
     background-color: rgba(220, 38, 38, 0.15);
     border: 1px solid #dc2626;
     color: #fca5a5;
-
     padding: 12px;
-
     border-radius: 8px;
-
     margin-bottom: 20px;
-
     text-align: center;
 }
