@@ -1,6 +1,7 @@
 package com.tallerwebi.dominio;
 
 import com.tallerwebi.dominio.excepcion.*;
+import com.tallerwebi.dominio.menum.PosicionJugadorEquipo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +36,7 @@ public class ServicioEquipoImpl implements ServicioEquipo {
         equipo.setPresupuesto(PRESUPUESTO_INICIAL); // Presupuesto inicial para cada equipo
         TorneoVirtual torneoVirtualActual = repositorioTorneo.buscarTorneoVirtualActual();
 
-        if(torneoVirtualActual == null) {
+        if (torneoVirtualActual == null) {
             throw new TorneoVirtualActualNoEncontradoException("No hay ningun torneo en curso");
         }
 
@@ -115,7 +116,6 @@ public class ServicioEquipoImpl implements ServicioEquipo {
 
 
 
-
     /*  GUARDA AL EQUIPO Y AL JUGADOR EN EQUIPOJUGADOR LLAMANDO AL REPOSITORIO */
 
     private void guardarRelacionEntreEquipoYJugador(Equipo equipo, Jugador jugador, Integer numeroDeOrden) {
@@ -124,18 +124,20 @@ public class ServicioEquipoImpl implements ServicioEquipo {
         equipoJugador.setEquipo(equipo);
         equipoJugador.setJugador(jugador);
         equipoJugador.setNumeroOrden(numeroDeOrden);
+        if (numeroDeOrden <= 5) {
+            equipoJugador.setPosicionDelJugador(PosicionJugadorEquipo.TITULAR);
+        } else if (numeroDeOrden <= 10) {
+            equipoJugador.setPosicionDelJugador(PosicionJugadorEquipo.SUPLENTE);
+        } else if (numeroDeOrden.equals(NUMERO_ORDEN_CAPITAN)) {
+            equipoJugador.setPosicionDelJugador(PosicionJugadorEquipo.CAPITAN);
+        } else if (numeroDeOrden.equals(NUMERO_ORDEN_SEXTO_HOMBRE)) {
+            equipoJugador.setPosicionDelJugador(PosicionJugadorEquipo.SEXTO_HOMBRE);
 
-        if (numeroDeOrden.equals(NUMERO_ORDEN_CAPITAN)) {
-            equipoJugador.setEsCapitan(true);
+
+            repositorioEquipoJugador.guardarEquipoJugador(equipoJugador);
         }
-
-        if (numeroDeOrden.equals(NUMERO_ORDEN_SEXTO_HOMBRE)) {
-            equipoJugador.setEsCapitan(true);
-        }
-
-        repositorioEquipoJugador.guardarEquipoJugador(equipoJugador);
     }
-
+    
     /* SI EL SALDO DEL EQUIPO ES MENOR AL VALOR DEL JUGADOR EXCEPCION, NO PUEDE COMPRARLO.*/
     private void siElPresupuestoEsMenorLanzaExcepcion(Equipo equipo, Jugador jugador) throws PresupuestoInsuficienteException {
         if (equipo.getPresupuesto() < jugador.getPrecio()) {
