@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Listado Equipos NBA</title>
+    <link rel="stylesheet" th:href="@{/css/header.css}"/>
+    <link rel="stylesheet" th:href="@{/css/footer.css}"/>
+    <link rel="stylesheet" th:href="@{/css/admin-torneos.css}"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+<div th:replace="layout/header :: header"></div>
+
+<main class="contenedor-admin-torneos">
+
+    <h1>EQUIPOS NBA</h1>
+
+    <div class="acciones-superiores">
+        <a th:href="@{/admin/altaEquipoNBA}" class="boton-crear">+ NUEVO EQUIPO</a>
+    </div>
+
+    <table class="tabla-torneos">
+        <thead>
+        <tr>
+            <th>Escudo</th>
+            <th>Nombre</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="equipo : ${equipos}">
+
+            <td>
+                <img th:src="${equipo.escudoImagen}"
+                     th:alt="${equipo.nombre}"
+                     width="50"
+                     th:if="${equipo.escudoImagen != null}"/>
+                <span th:unless="${equipo.escudoImagen != null}">—</span>
+            </td>
+
+            <td th:text="${equipo.nombre}">Nombre</td>
+
+            <td>
+                <a th:href="@{/admin/detalleEquipoNBA(id=${equipo.id})}" class="boton-crear">VER</a>
+
+                <a th:href="@{/admin/asignar-jugadoresNBA(id=${equipo.id})}" class="boton-crear">EDITAR</a>
+
+                <form th:action="@{/admin/eliminarEquipoNBA}" method="post" style="display:inline">
+                    <input type="hidden" name="id" th:value="${equipo.id}">
+                    <button type="submit" class="boton-eliminar">BORRAR</button>
+                </form>
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+
+</main>
+
+<div th:replace="layout/footer :: footer"></div>
+
+</body>
+</html>

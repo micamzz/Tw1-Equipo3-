@@ -23,12 +23,13 @@
     <section class="contenedor-form-equipo">
         <h1>DAR DE ALTA UN EQUIPO OFICIAL</h1>
 
+        <!-- el th:objet debe coincidir con el nombre de la variable
+          del modelMap del controlador.(que es la "llave")-->
 
-        <!--guarda el nombre del equipo-->
-        <form th:action="@{/admin/guardar-equipoNBA}" th:object="${equipoNBA}" method="POST">
+        <!--<form th:action="@{/admin/guardar-equipoNBA}" method="post" th:object="${equipoNBA}"> -->
 
-            <!-- el th:objet debe coincidir con el nombre de la variable
-              del modelMap del controlador.(que es la "llave")-->
+        <form th:action="@{/admin/guardarEquipoNBA}" method="post" th:object="${equipoNBA}">
+
 
             <section class="contenedor-nombre-Equipo">
                 <label for="nombreEquipo"> Ingrese el nombre: </label>
@@ -37,19 +38,18 @@
                         th:field="*{nombre}"
                         id="nombreEquipo"
                         placeholder="Nombre de tu equipo"
-                        required
+
                 />
-
-                <!--                <input type="file" name="escudo">-->
-
-
                 <!--Mensaje de error de la excepcion-->
                 <p th:if="${error}" th:text="${error}" style="color: red"></p>
             </section>
 
             <button type="submit" class="boton-equipo">SIGUIENTE</button>
         </form>
+
     </section>
+
+
 </main>
 
 <!--FOOTER-->

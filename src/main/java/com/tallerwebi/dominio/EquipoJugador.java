@@ -62,5 +62,7 @@ public class EquipoJugador {
     public void setPosicionDelJugador(PosicionJugadorEquipo posicionDelJugador) {
         this.posicionDelJugador = posicionDelJugador;
     }
+
+
 }
 

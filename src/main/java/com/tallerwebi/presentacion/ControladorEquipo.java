@@ -2,6 +2,7 @@ package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.*;
 import com.tallerwebi.dominio.excepcion.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -20,6 +21,7 @@ public class ControladorEquipo {
     private final ServicioEquipoJugador servicioEquipoJugador;
     private final ServicioTorneo servicioTorneo;
 
+    @Autowired
     public ControladorEquipo(ServicioEquipo servicioEquipo, ServicioEquipoJugador servicioEquipoJugador, ServicioTorneo servicioTorneo) {
         this.servicioEquipo = servicioEquipo;
         this.servicioEquipoJugador = servicioEquipoJugador;

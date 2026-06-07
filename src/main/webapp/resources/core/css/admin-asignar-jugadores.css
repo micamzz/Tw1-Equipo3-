@@ -1,0 +1,328 @@
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #111;
+    color: #fff;
+    font-family: "Inter", sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* ─── CONTENEDOR PRINCIPAL ─── */
+.contenedor {
+    width: 90%;
+    max-width: 1100px;
+    margin: 2.5rem auto 4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* ─── TÍTULO DE PÁGINA ─── */
+.contenedor > h1 {
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #fff;
+}
+
+/* ─── SECCIÓN DATOS DEL EQUIPO ─── */
+.datos-equipo {
+    background: #0d0d0d;
+    border: 1px solid #2a2a2a;
+    border-radius: 12px;
+    padding: 1.25rem 1.75rem;
+    text-align: center;
+}
+
+.datos-equipo h2 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #ff6b00;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+/* ─── SECCIÓN FILTROS ─── */
+.filtros {
+    background: #0d0d0d;
+    border: 1px solid #2a2a2a;
+    border-radius: 12px;
+    padding: 1.25rem 1.75rem;
+}
+
+.filtros form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.filtros input[type="text"] {
+    flex: 1;
+    min-width: 180px;
+    background: #111;
+    border: 1px solid #333;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 0.9rem;
+    font-family: inherit;
+    padding: 0.7em 1em;
+    outline: none;
+    transition: border-color 0.15s;
+}
+
+.filtros input[type="text"]:focus {
+    border-color: #ff6b00;
+}
+
+.filtros input[type="text"]::placeholder {
+    color: #555;
+}
+
+.filtros select {
+    background: #111;
+    border: 1px solid #333;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 0.9rem;
+    font-family: inherit;
+    padding: 0.7em 2.2em 0.7em 1em;
+    outline: none;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    transition: border-color 0.15s;
+}
+
+.filtros select:focus {
+    border-color: #ff6b00;
+}
+
+.filtros select option {
+    background: #1a1a1a;
+    color: #fff;
+}
+
+.filtros button[type="submit"] {
+    background: #ff6b00;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 0.7em 1.6em;
+    font-weight: 700;
+    font-size: 0.85rem;
+    font-family: inherit;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+    flex-shrink: 0;
+}
+
+.filtros button[type="submit"]:hover {
+    background: #e05a00;
+}
+
+.filtros button[type="submit"]:active {
+    transform: scale(0.97);
+}
+
+/* ─── TÍTULOS DE SECCIÓN (JUGADORES / PLANTEL) ─── */
+.jugadores-disponibles h2,
+.plantel-actual h2 {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #888;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid #2a2a2a;
+    margin-bottom: 1.25rem;
+}
+
+/* ─── TABLAS ─── */
+.jugadores-disponibles,
+.plantel-actual {
+    background: #0d0d0d;
+    border: 1px solid #2a2a2a;
+    border-radius: 12px;
+    padding: 1.5rem 1.75rem;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead {
+    border-bottom: 2px solid rgba(255, 255, 255, 0.12);
+}
+
+thead th {
+    padding: 0.9rem 1rem;
+    text-align: center;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #888;
+}
+
+tbody tr {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    transition: background 0.15s;
+}
+
+tbody tr:last-child {
+    border-bottom: none;
+}
+
+tbody tr:hover {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+tbody td {
+    padding: 0.85rem 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #e0e0e0;
+    vertical-align: middle;
+}
+
+/* Foto del jugador en la tabla */
+tbody td img {
+    border-radius: 50%;
+    border: 2px solid #2a2a2a;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto;
+    transition: border-color 0.15s;
+}
+
+tbody tr:hover td img {
+    border-color: #ff6b00;
+}
+
+/* ─── BOTÓN AGREGAR (dentro de tabla) ─── */
+.jugadores-disponibles form {
+    display: inline-block;
+    margin: 0;
+}
+
+.jugadores-disponibles form button[type="submit"] {
+    background: #ff6b00;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 14px;
+    font-weight: 700;
+    font-size: 0.72rem;
+    font-family: inherit;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+}
+
+.jugadores-disponibles form button[type="submit"]:hover {
+    background: #e05a00;
+}
+
+.jugadores-disponibles form button[type="submit"]:active {
+    transform: scale(0.95);
+}
+
+/* ─── BOTÓN QUITAR (plantel, actualmente comentado) ─── */
+.plantel-actual form button[type="submit"] {
+    background: transparent;
+    color: #e74c3c;
+    border: 1px solid #e74c3c;
+    border-radius: 6px;
+    padding: 6px 14px;
+    font-weight: 700;
+    font-size: 0.72rem;
+    font-family: inherit;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, transform 0.1s;
+}
+
+.plantel-actual form button[type="submit"]:hover {
+    background: #e74c3c;
+    color: #fff;
+}
+
+.plantel-actual form button[type="submit"]:active {
+    transform: scale(0.95);
+}
+
+/* ─── SEPARADOR ─── */
+hr {
+    border: none;
+    border-top: 1px solid #2a2a2a;
+}
+
+/* ─── ENLACE FINALIZAR ─── */
+.contenedor > a {
+    display: block;
+    text-align: center;
+    width: fit-content;
+    margin: 0 auto;
+    background: #ff6b00;
+    color: #fff;
+    text-decoration: none;
+    padding: 12px 36px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    transition: background 0.15s, transform 0.1s;
+}
+
+.contenedor > a:hover {
+    background: #e05a00;
+}
+
+.contenedor > a:active {
+    transform: scale(0.97);
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 640px) {
+    .contenedor {
+        width: 95%;
+        margin-top: 1.5rem;
+    }
+
+    .filtros form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .filtros select,
+    .filtros input[type="text"],
+    .filtros button[type="submit"] {
+        width: 100%;
+    }
+
+    thead th,
+    tbody td {
+        padding: 0.65rem 0.5rem;
+        font-size: 0.8rem;
+    }
+}
