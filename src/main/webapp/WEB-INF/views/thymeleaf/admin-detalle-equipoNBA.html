@@ -14,13 +14,21 @@
 
 <main class="contenedor">
 
-    <section class="datos-equipo">
+    <section class="datos-equipo detalle-equipo">
         <img th:src="${equipo.escudoImagen}"
              th:alt="${equipo.nombre}"
-             width="80"
+             width="150"
+             height="150"
              th:if="${equipo.escudoImagen != null}"/>
-        <h2 th:text="${equipo.nombre}">Nombre Equipo</h2>
+
+        <h2 th:text="${equipo.nombre}"></h2>
     </section>
+
+    <section class="contenedor-boton-detalle">
+        <a th:href="@{/admin/asignar-jugadoresNBA(id=${equipo.id})}" class="btn btn-naranja">EDITAR</a>
+        <a th:href="@{/admin/listadoEquiposNBA}" class="btn btn-naranja">VOLVER</a>
+    </section>
+
 
     <section class="plantel-actual">
 
@@ -41,7 +49,8 @@
             <tr th:each="jugador : ${plantel}">
                 <td>
                     <img th:src="${jugador.foto}"
-                         width="80"
+                         width="90"
+                         height="90"
                          th:alt="${jugador.nombre}"/>
                 </td>
                 <td th:text="${jugador.nombre}">Nombre</td>
@@ -55,9 +64,6 @@
 
     </section>
 
-    <hr>
-
-    <a th:href="@{/admin/listadoEquiposNBA}">VOLVER</a>
 
 </main>
 

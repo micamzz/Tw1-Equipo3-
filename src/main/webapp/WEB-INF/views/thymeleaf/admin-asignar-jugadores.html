@@ -28,6 +28,11 @@
 
     <!-- DATOS EQUIPO -->
     <section class="datos-equipo">
+        <img th:src="${equipo.escudoImagen}"
+             th:alt="${equipo.nombre}"
+             width="150"
+             height="150"
+             th:if="${equipo.escudoImagen != null}"/>
         <h2 th:text="${equipo.nombre}">Nombre Equipo</h2>
     </section>
 
@@ -80,7 +85,8 @@
 
                 <td>
                     <img th:src="${jugador.foto}"
-                         width="80"
+                         width="90"
+                         height="90"
                          th:alt="${jugador.nombre}">
                 </td>
 
@@ -116,7 +122,7 @@
                                name="idJugador"
                                th:value="${jugador.id}">
 
-                        <button type="submit">AGREGAR</button>
+                        <button type="submit" class="btn-tabla btn-tabla-agregar">AGREGAR</button>
                     </form>
 
                 </td>
@@ -153,7 +159,8 @@
 
                 <td>
                     <img th:src="${jugador.foto}"
-                         width="80"
+                         width="90"
+                         height="90"
                          th:alt="${jugador.nombre}">
                 </td>
 
@@ -182,9 +189,7 @@
                                name="idJugador"
                                th:value="${jugador.id}">
 
-                        <button type="submit">
-                            QUITAR
-                        </button>
+                        <button type="submit" class="btn-tabla btn-tabla-quitar">QUITAR</button>
 
                     </form>
 
