@@ -132,12 +132,10 @@ public class ServicioEquipoImpl implements ServicioEquipo {
             equipoJugador.setPosicionDelJugador(PosicionJugadorEquipo.CAPITAN);
         } else if (numeroDeOrden.equals(NUMERO_ORDEN_SEXTO_HOMBRE)) {
             equipoJugador.setPosicionDelJugador(PosicionJugadorEquipo.SEXTO_HOMBRE);
-
-
-            repositorioEquipoJugador.guardarEquipoJugador(equipoJugador);
         }
+        repositorioEquipoJugador.guardarEquipoJugador(equipoJugador);
     }
-    
+
     /* SI EL SALDO DEL EQUIPO ES MENOR AL VALOR DEL JUGADOR EXCEPCION, NO PUEDE COMPRARLO.*/
     private void siElPresupuestoEsMenorLanzaExcepcion(Equipo equipo, Jugador jugador) throws PresupuestoInsuficienteException {
         if (equipo.getPresupuesto() < jugador.getPrecio()) {

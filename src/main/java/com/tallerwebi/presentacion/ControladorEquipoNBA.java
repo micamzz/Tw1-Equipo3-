@@ -20,13 +20,11 @@ import java.util.List;
 public class ControladorEquipoNBA {
 
     private final ServicioEquipoNBA servicioEquipoNBA;
-    private final ServicioMercado servicioJugador;
     private final ServicioEquipoNBAJugador servicioEquipoNBAJugador;
 
     @Autowired
-    public ControladorEquipoNBA(ServicioEquipoNBA servicioEquipoNBA, ServicioMercado servicioJugador, ServicioEquipoNBAJugador servicioEquipoNBAJugador) {
+    public ControladorEquipoNBA(ServicioEquipoNBA servicioEquipoNBA, ServicioEquipoNBAJugador servicioEquipoNBAJugador) {
         this.servicioEquipoNBA = servicioEquipoNBA;
-        this.servicioJugador = servicioJugador;
         this.servicioEquipoNBAJugador = servicioEquipoNBAJugador;
     }
 
@@ -126,6 +124,5 @@ public class ControladorEquipoNBA {
             return new ModelAndView("redirect:/admin/listadoEquiposNBA");
         }
     }
-
-
 }
+

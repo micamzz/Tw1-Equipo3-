@@ -33,6 +33,7 @@ public class RepositorioEquipoNBAimpl implements RepositorioEquipoNBA {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<EquipoNBA> obtenerTodosLosEquipos() {
         return (List<EquipoNBA>) sessionFactory.getCurrentSession()
                 .createCriteria(EquipoNBA.class)

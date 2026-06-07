@@ -24,6 +24,7 @@ public class repositorioEquipoNBAJugadorImpl implements RepositorioEquipoNBAJuga
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<EquipoNBAJugador> buscarJugadoresDelEquipoNBA(Long idEquipo) {
         return (List<EquipoNBAJugador>) this.sessionFactory.getCurrentSession()
                 .createCriteria(EquipoNBAJugador.class)
@@ -32,6 +33,7 @@ public class repositorioEquipoNBAJugadorImpl implements RepositorioEquipoNBAJuga
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<EquipoNBAJugador> buscarTodasLasAsignaciones() {
         return (List<EquipoNBAJugador>) this.sessionFactory.getCurrentSession()
                 .createCriteria(EquipoNBAJugador.class)

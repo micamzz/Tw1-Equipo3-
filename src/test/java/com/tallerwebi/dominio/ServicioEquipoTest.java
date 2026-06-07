@@ -1,11 +1,11 @@
 package com.tallerwebi.dominio;
 
-import com.tallerwebi.dominio.excepcion.*;
+import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
+import com.tallerwebi.dominio.excepcion.PresupuestoInsuficienteException;
+import com.tallerwebi.dominio.excepcion.TorneoVirtualActualNoEncontradoException;
+import com.tallerwebi.dominio.excepcion.elJugadorYaExisteEnElEquipoException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.HashMap;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -17,7 +17,6 @@ public class ServicioEquipoTest {
     private RepositorioEquipo repositorioEquipoMock;
     private RepositorioJugador repositorioJugadorMock;
     private RepositorioEquipoJugador repositorioEquipoJugadorMock;
-    private ServicioEquipoJugador servicioEquipoJugadorMock;
     private RepositorioTorneo repositorioTorneoMock;
     private Equipo equipoMock;
 
@@ -41,7 +40,6 @@ public class ServicioEquipoTest {
         this.repositorioJugadorMock = mock(RepositorioJugador.class);
         this.repositorioEquipoJugadorMock = mock(RepositorioEquipoJugador.class);
         this.repositorioTorneoMock = mock(RepositorioTorneo.class);
-        this.servicioEquipoJugadorMock = mock(ServicioEquipoJugador.class);
         this.equipoMock = mock(Equipo.class);
         this.servicioEquipo = new ServicioEquipoImpl(repositorioEquipoMock, repositorioJugadorMock, repositorioEquipoJugadorMock, repositorioTorneoMock);
     }
