@@ -1,0 +1,27 @@
+/*BOTONES MAIN INDEX*/
+.contenedor-botones {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2.5em;
+}
+
+/* BOTONES */
+.contenedor-boton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2em;
+    margin: 5em 0;
+}
+
+.boton-equipo {
+    background-color: #ff7a00;
+    color: white;
+    text-decoration: none;
+    padding: 1em 2em;
+    border-radius: 12px;
+    font-weight: bold;
+    cursor: pointer;
+}
