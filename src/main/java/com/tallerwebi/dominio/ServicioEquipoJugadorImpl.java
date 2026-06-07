@@ -47,7 +47,7 @@ public class ServicioEquipoJugadorImpl implements ServicioEquipoJugador {
         List<Jugador> jugadoresDisponibles = new ArrayList<>();
 
         for (Jugador jugador : jugadoresPorPosicion) {
-            Boolean estaSeleccionado = false;
+            boolean estaSeleccionado = false;
 
             for (EquipoJugador equipoJugador : jugadoresDelEquipo) {
                 if (equipoJugador.getJugador().getId().equals(jugador.getId())) {

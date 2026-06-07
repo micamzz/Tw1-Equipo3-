@@ -5,17 +5,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class ControladorIndex {
-
-    @RequestMapping("/index")
-    public ModelAndView irAlIndex() {
-        return new ModelAndView("index");
-    }
+public class ControladorRegla {
 
 
     @RequestMapping("/reglas")
     public ModelAndView iraReglas() {
         return new ModelAndView("reglas");
     }
-
 }

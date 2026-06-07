@@ -1,0 +1,378 @@
+
+:root {
+    --naranja: #ff6b00;
+    --naranja-hover: #e05a00;
+    --rojo: #e74c3c;
+    --rojo-eliminar: #dc2626;
+    --rojo-eliminar-hover: #b91c1c;
+    --fondo: #111;
+    --fondo-card: #0d0d0d;
+    --borde: #2a2a2a;
+    --texto: #fff;
+    --texto-muted: #888;
+    --texto-body: #e0e0e0;
+    --input-bg: #111;
+    --input-borde: #333;
+    --transition: 0.15s;
+}
+
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: var(--fondo);
+    color: var(--texto);
+    font-family: "Inter", sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/*BOTONES BASE  */
+.btn {
+    display: inline-block;
+    border: none;
+    border-radius: 8px;
+    font-family: inherit;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background var(--transition), transform var(--transition);
+}
+
+.btn:active {
+    transform: scale(0.97);
+}
+
+.btn-naranja {
+    background: var(--naranja);
+    color: var(--texto);
+    padding: 10px 22px;
+    font-size: 0.85rem;
+    letter-spacing: 0.06em;
+    margin: 0 4px;
+}
+
+.btn-naranja:hover {
+    background: var(--naranja-hover);
+}
+
+.btn-rojo {
+    background: var(--rojo-eliminar);
+    color: var(--texto);
+    padding: 8px 14px;
+    font-size: 0.75rem;
+}
+
+.btn-rojo:hover {
+    background: var(--rojo-eliminar-hover);
+}
+
+/* Botón pequeño de tabla (AGREGAR / QUITAR) */
+.btn-tabla {
+    border-radius: 6px;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 6px 14px;
+    cursor: pointer;
+    transition: background var(--transition), color var(--transition), transform var(--transition);
+}
+
+.btn-tabla:active {
+    transform: scale(0.95);
+}
+
+.btn-tabla-agregar {
+    background: var(--naranja);
+    color: var(--texto);
+    border: none;
+}
+
+.btn-tabla-agregar:hover {
+    background: var(--naranja-hover);
+}
+
+.btn-tabla-quitar {
+    background: transparent;
+    color: var(--rojo);
+    border: 1px solid var(--rojo);
+}
+
+.btn-tabla-quitar:hover {
+    background: var(--rojo);
+    color: var(--texto);
+}
+
+/* CONTENEDOR PRINCIPAL */
+.contenedor {
+    width: 90%;
+    max-width: 1100px;
+    margin: 2.5rem auto 4rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.contenedor > h1 {
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+/* DATOS DEL EQUIPO*/
+.datos-equipo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    flex-direction: row-reverse;
+}
+
+.datos-equipo h2 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--naranja);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.detalle-equipo {
+    flex-direction: row;
+}
+
+/* FILTROS*/
+.filtros {
+    padding: 1.25rem 0;
+}
+
+.filtros form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+/* Input y select comparten base */
+.filtros input[type="text"],
+.filtros select {
+    background: var(--input-bg);
+    border: 1px solid var(--input-borde);
+    border-radius: 8px;
+    color: var(--texto);
+    font-size: 0.9rem;
+    font-family: inherit;
+    outline: none;
+    transition: border-color var(--transition);
+}
+
+.filtros input[type="text"]:focus,
+.filtros select:focus {
+    border-color: var(--naranja);
+}
+
+.filtros input[type="text"] {
+    flex: 1;
+    min-width: 180px;
+    padding: 0.7em 1em;
+}
+
+.filtros input[type="text"]::placeholder {
+    color: #555;
+}
+
+.filtros select {
+    padding: 0.7em 2.2em 0.7em 1em;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+}
+
+.filtros select option {
+    background: #1a1a1a;
+}
+
+.filtros button[type="submit"] {
+    background: var(--naranja);
+    color: var(--texto);
+    border: none;
+    border-radius: 8px;
+    padding: 0.7em 1.6em;
+    font-weight: 700;
+    font-size: 0.85rem;
+    font-family: inherit;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background var(--transition), transform var(--transition);
+}
+
+.filtros button[type="submit"]:hover {
+    background: var(--naranja-hover);
+}
+
+.filtros button[type="submit"]:active {
+    transform: scale(0.97);
+}
+
+/* SELECCIONES DE TABLA */
+.jugadores-disponibles,
+.plantel-actual {
+    background: var(--fondo-card);
+    border: 1px solid var(--borde);
+    border-radius: 12px;
+    padding: 1.5rem 1.75rem;
+    overflow-x: auto;
+}
+
+.plantel-actual {
+    margin-top: 1em;
+}
+
+.jugadores-disponibles h2,
+.plantel-actual h2 {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--texto-muted);
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--borde);
+    margin-bottom: 1.25rem;
+}
+
+/* TABLA */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead {
+    border-bottom: 2px solid rgba(255, 255, 255, 0.12);
+}
+
+thead th {
+    padding: 0.9rem 1rem;
+    text-align: center;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--texto-muted);
+}
+
+tbody tr {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    transition: background var(--transition);
+}
+
+tbody tr:last-child {
+    border-bottom: none;
+}
+
+tbody tr:hover {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+tbody td {
+    padding: 0.85rem 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--texto-body);
+    vertical-align: middle;
+}
+
+tbody td img {
+    border-radius: 50%;
+    border: 2px solid var(--borde);
+    object-fit: cover;
+    display: block;
+    margin: 0 auto;
+    transition: border-color var(--transition);
+}
+
+tbody tr:hover td img {
+    border-color: var(--naranja);
+}
+
+/* Formularios dentro de tabla */
+.jugadores-disponibles form,
+.plantel-actual form {
+    display: inline-block;
+    margin: 0;
+}
+
+/* SEPARADOR */
+hr {
+    border: none;
+    border-top: 1px solid var(--borde);
+}
+
+/*  BOTÓN VOLVER (detalle equipo)*/
+.contenedor-boton-detalle {
+    display: flex;
+    justify-content: flex-end;
+}
+
+/*   VISTA LISTADO EQUIPOS NBA*/
+.contenedor-admin-vista {
+    width: 90%;
+    margin: 60px auto;
+    padding: 2em;
+    background: var(--fondo-card);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+}
+
+.contenedor-admin-vista h1 {
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+}
+
+.acciones-superiores {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+
+@media (max-width: 640px) {
+    .contenedor {
+        width: 95%;
+        margin-top: 1.5rem;
+    }
+
+    .filtros form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .filtros select,
+    .filtros input[type="text"],
+    .filtros button[type="submit"] {
+        width: 100%;
+    }
+
+    thead th,
+    tbody td {
+        padding: 0.65rem 0.5rem;
+        font-size: 0.8rem;
+    }
+}

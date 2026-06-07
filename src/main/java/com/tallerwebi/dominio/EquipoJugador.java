@@ -1,5 +1,7 @@
 package com.tallerwebi.dominio;
 
+import com.tallerwebi.dominio.menum.PosicionJugadorEquipo;
+
 import javax.persistence.*;
 
 @Entity
@@ -17,22 +19,13 @@ public class EquipoJugador {
 
     //numeroOrden es el valor que le voy a asignar para saber si es titular (1 a 5), suplente (6 a 10) y 6to (6) para luego calcular los puntos del equipo.
     private Integer numeroOrden;
-    private Boolean esCapitan;
-    private Boolean esSextoHombre;
-    private Boolean esSuplente;
+    private PosicionJugadorEquipo posicionDelJugador;
 
 
     public EquipoJugador() {
-        this.esCapitan = false;
-        this.esSextoHombre = false;
-        this.esSuplente = false;
+
     }
 
-    public EquipoJugador(Equipo equipo, Jugador jugador, Integer numeroOrden) {
-        this.equipo = equipo;
-        this.jugador = jugador;
-        this.numeroOrden = numeroOrden;
-    }
 
     public Long getId() {
         return id;
@@ -62,28 +55,14 @@ public class EquipoJugador {
         this.numeroOrden = numeroOrden;
     }
 
-    public Boolean getEsCapitan() {
-        return esCapitan;
+    public PosicionJugadorEquipo getPosicionDelJugador() {
+        return posicionDelJugador;
     }
 
-    public void setEsCapitan(Boolean esCapitan) {
-        this.esCapitan = esCapitan;
+    public void setPosicionDelJugador(PosicionJugadorEquipo posicionDelJugador) {
+        this.posicionDelJugador = posicionDelJugador;
     }
 
-    public Boolean getEsSextoHombre() {
-        return esSextoHombre;
-    }
 
-    public void setEsSextoHombre(Boolean esSextoHombre) {
-        this.esSextoHombre = esSextoHombre;
-    }
-
-    public Boolean getEsSuplente() {
-        return esSuplente;
-    }
-
-    public void setEsSuplente(Boolean esSuplente) {
-        this.esSuplente = esSuplente;
-    }
 }
 

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Alta Equipo NBA</title>
+
+    <!-- Link CSS al Header y Footer-->
+    <link rel="stylesheet" th:href="@{/css/header.css}"/>
+    <link rel="stylesheet" th:href="@{/css/footer.css}"/>
+    <link rel="stylesheet" th:href="@{/css/crear-equipo.css}"/>
+
+    <!-- Fuente INTER   -->
+    <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+            rel="stylesheet"
+    />
+</head>
+<body>
+<!--HEADER -->
+<div th:replace="layout/header :: header"></div>
+
+<main>
+    <section class="contenedor-form-equipo">
+        <h1>DAR DE ALTA UN EQUIPO OFICIAL</h1>
+
+        <!-- el th:objet debe coincidir con el nombre de la variable
+          del modelMap del controlador.(que es la "llave")-->
+
+        <!--<form th:action="@{/admin/guardar-equipoNBA}" method="post" th:object="${equipoNBA}"> -->
+
+        <form th:action="@{/admin/guardarEquipoNBA}" method="post" th:object="${equipoNBA}">
+
+
+            <section class="contenedor-nombre-Equipo">
+                <label for="nombreEquipo"> Ingrese el nombre: </label>
+                <input
+                        type="text"
+                        th:field="*{nombre}"
+                        id="nombreEquipo"
+                        placeholder="Nombre de tu equipo"
+
+                />
+                <!--Mensaje de error de la excepcion-->
+                <p th:if="${error}" th:text="${error}" style="color: red"></p>
+            </section>
+
+            <button type="submit" class="boton-equipo">SIGUIENTE</button>
+        </form>
+
+    </section>
+
+
+</main>
+
+<!--FOOTER-->
+<div th:replace="layout/footer :: footer"></div>
+
+</body>
+</html>

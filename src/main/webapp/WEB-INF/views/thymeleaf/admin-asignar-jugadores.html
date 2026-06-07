@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+
+<html
+        lang="es"
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns="http://www.w3.org/1999/html"
+>
+<head>
+    <meta charset="UTF-8"/>
+    <title>Selecciona a tus jugadores</title>
+
+    <!-- Link CSS al Header y Footer-->
+    <link rel="stylesheet" th:href="@{/css/header.css}"/>
+    <link rel="stylesheet" th:href="@{/css/footer.css}"/>
+    <link rel="stylesheet" th:href="@{/css/admin-asignar-jugadores.css}"/>
+    <!-- Fuente INTER   -->
+    <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+            rel="stylesheet"
+    />
+</head>
+<body>
+
+<!--HEADER -->
+<div th:replace="layout/header :: header"></div>
+
+<main class="contenedor">
+
+    <!-- DATOS EQUIPO -->
+    <section class="datos-equipo">
+        <img th:src="${equipo.escudoImagen}"
+             th:alt="${equipo.nombre}"
+             width="150"
+             height="150"
+             th:if="${equipo.escudoImagen != null}"/>
+        <h2 th:text="${equipo.nombre}">Nombre Equipo</h2>
+    </section>
+
+
+    <!-- FILTROS -->
+    <section class="filtros">
+
+        <form th:action="@{/admin/asignar-jugadoresNBA}" method="get">
+            <input type="hidden" name="id" th:value="${equipo.id}">
+            <input type="text" name="nombre" placeholder="Buscar jugador...">
+
+            <select name="posicion">
+
+                <option value="">Todas las posiciones</option>
+
+                <option value="BASE">Base</option>
+
+                <option value="ALERO">Alero</option>
+
+                <option value="PIVOT">Pivot</option>
+            </select>
+
+            <button type="submit">BUSCAR</button>
+        </form>
+    </section>
+
+
+    <!-- JUGADORES DISPONIBLES -->
+    <section class="jugadores-disponibles">
+
+        <h2>JUGADORES DISPONIBLES</h2>
+
+        <table>
+
+            <thead>
+            <tr>
+                <th>Foto</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Posición</th>
+                <th>Nacionalidad</th>
+                <th>Edad</th>
+                <th></th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            <tr th:each="jugador : ${jugadores}">
+
+                <td>
+                    <img th:src="${jugador.foto}"
+                         width="90"
+                         height="90"
+                         th:alt="${jugador.nombre}">
+                </td>
+
+                <td th:text="${jugador.nombre}">
+                    Nombre
+                </td>
+
+                <td th:text="${jugador.apellido}">
+                    Apellido
+                </td>
+
+                <td th:text="${jugador.posicion}">
+                    Posición
+                </td>
+
+                <td th:text="${jugador.nacionalidad}">
+                    Nacionalidad
+                </td>
+
+                <td th:text="${jugador.edad}">
+                    Edad
+                </td>
+
+                <td>
+
+                    <form th:action="@{/admin/agregarJugadorAEquipoNBA}" method="post">
+
+                        <input type="hidden"
+                               name="idEquipo"
+                               th:value="${equipo.id}">
+
+                        <input type="hidden"
+                               name="idJugador"
+                               th:value="${jugador.id}">
+
+                        <button type="submit" class="btn-tabla btn-tabla-agregar">AGREGAR</button>
+                    </form>
+
+                </td>
+
+            </tr>
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+    <hr>
+
+    <!-- PLANTEL ACTUAL -->
+    <section class="plantel-actual">
+
+        <h2>PLANTEL DEL EQUIPO</h2>
+
+        <table>
+
+            <thead>
+            <tr>
+                <th>Foto</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Posición</th>
+                <th></th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="jugador : ${plantel}">
+
+                <td>
+                    <img th:src="${jugador.foto}"
+                         width="90"
+                         height="90"
+                         th:alt="${jugador.nombre}">
+                </td>
+
+                <td th:text="${jugador.nombre}">
+                    Nombre
+                </td>
+
+                <td th:text="${jugador.apellido}">
+                    Apellido
+                </td>
+
+                <td th:text="${jugador.posicion}">
+                    Posición
+                </td>
+
+                <td>
+
+                    <form th:action="@{/admin/quitarJugadorAEquipoNBA}"
+                          method="post">
+
+                        <input type="hidden"
+                               name="idEquipo"
+                               th:value="${equipo.id}">
+
+                        <input type="hidden"
+                               name="idJugador"
+                               th:value="${jugador.id}">
+
+                        <button type="submit" class="btn-tabla btn-tabla-quitar">QUITAR</button>
+
+                    </form>
+
+                </td>
+
+            </tr>
+            </tbody>
+
+        </table>
+
+    </section>
+
+    <hr>
+
+    <a th:href="@{/admin/listadoEquiposNBA}">CONFIRMAR</a>
+
+</main>
+
+<div th:replace="layout/footer :: footer"></div>
+
+</body>
+</html>
