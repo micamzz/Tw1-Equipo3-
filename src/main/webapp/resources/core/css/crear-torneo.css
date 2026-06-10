@@ -42,13 +42,48 @@ body {
     font-weight: 600;
 }
 
-.campo-formulario input {
+.campo-formulario input,
+.campo-formulario select{
 
     padding: 12px;
 
     border-radius: 8px;
 
     border: 1px solid #444;
+
+    background-color: white;
+
+    font-family: 'Inter', sans-serif;
+
+    font-size: 1rem;
+}
+
+.campo-formulario input:focus,
+.campo-formulario select:focus {
+
+    outline: none;
+
+    border-color: #f97316;
+}
+
+.campo-formulario select {
+
+    display: block;
+    width: 100%;
+
+
+
+    cursor: pointer;
+
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23666'%3E%3Cpath d='M1 3l5 5 5-5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+
+    padding-right: 40px;
 }
 
 .boton-guardar {
@@ -107,3 +142,4 @@ body {
 .volver-link:hover {
     color: white;
 }
+

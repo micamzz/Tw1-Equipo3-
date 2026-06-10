@@ -29,23 +29,6 @@ public class RepositorioTorneoImpl implements RepositorioTorneo {
         return sessionFactory.getCurrentSession().get(Torneo.class, id);
     }
 
-    @Override
-    public TorneoVirtual buscarTorneoVirtualActual() {
-
-       LocalDate hoy = LocalDate.now();
-
-        String hql =
-                "FROM TorneoVirtual tv " +
-                        "WHERE tv.fechaInicio <= :hoy " +
-                        "AND tv.fechaFin >= :hoy"
-                ;
-
-        return sessionFactory
-                .getCurrentSession()
-                .createQuery(hql, TorneoVirtual.class)
-                .setParameter("hoy", hoy)
-                .uniqueResult();
-    }
 
     @Override
     public void actualizarTorneo(Torneo torneo) {
@@ -53,13 +36,10 @@ public class RepositorioTorneoImpl implements RepositorioTorneo {
     }
 
     @Override
-    public List<TorneoVirtual> obtenerTodosLosTorneosVirtuales() {
-
-        return sessionFactory
-                .getCurrentSession()
-                .createQuery(
-                        "FROM TorneoVirtual",
-                        TorneoVirtual.class)
+    public List<Torneo> obtenerTorneosPorTipo(TipoTorneo tipoTorneo) {
+        return sessionFactory.getCurrentSession()
+                .createQuery("FROM Torneo t WHERE t.tipoTorneo = :tipo",  Torneo.class)
+                .setParameter("tipo", tipoTorneo)
                 .list();
     }
 
@@ -68,5 +48,23 @@ public class RepositorioTorneoImpl implements RepositorioTorneo {
         sessionFactory.getCurrentSession().delete(torneo);
     }
 
+    @Override
+    public List<Torneo> obtenerTodosLosTorneos() {
+        return sessionFactory.getCurrentSession()
+                .createQuery("FROM Torneo", Torneo.class)
+                .list();
+    }
+
+    @Override
+    public Torneo buscarTorneoActual(TipoTorneo tipoTorneo) {
+        LocalDate hoy = LocalDate.now();
+        String hql = "FROM Torneo t WHERE t.fechaInicio <= :hoy AND t.fechaFin >= :hoy AND t.tipoTorneo = :tipo";
+
+        return sessionFactory.getCurrentSession()
+                .createQuery(hql, Torneo.class)
+                .setParameter("hoy", hoy)
+                .setParameter("tipo", tipoTorneo)
+                .uniqueResult();
+    }
 
 }
