@@ -45,6 +45,7 @@
             <thead>
             <tr>
                 <th>Nombre</th>
+                <th>Tipo de torneo</th>
                 <th>Fecha Inicio</th>
                 <th>Fecha Fin</th>
                 <th>Estado</th>
@@ -57,6 +58,8 @@
             <tr th:each="torneo : ${torneos}">
 
                 <td th:text="${torneo.nombreTorneo}"></td>
+
+                <td th:text="${torneo.tipoTorneo}"></td>
 
                 <td th:text="${torneo.fechaInicio}"></td>
 

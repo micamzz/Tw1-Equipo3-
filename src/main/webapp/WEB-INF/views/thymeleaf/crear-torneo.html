@@ -51,6 +51,17 @@
             </div>
 
             <div class="campo-formulario">
+                <label for="tipoTorneo">
+                    Tipo de torneo
+                </label>
+                <select id="tipoTorneo" th:field="*{tipoTorneo}" required>
+                    <option value="">Selecciona un tipo</option>
+                    <option th:each="tipo : ${tipos}" th:value="${tipo}" th:text="${tipo}"></option>
+                </select>
+
+            </div>
+
+            <div class="campo-formulario">
 
                 <label for="fechaInicio">
                     Fecha de inicio

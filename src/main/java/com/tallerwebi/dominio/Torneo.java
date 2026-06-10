@@ -1,24 +1,30 @@
 package com.tallerwebi.dominio;
 
 
-import com.sun.istack.NotNull;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Torneo {
+public class Torneo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Long id;
-    //@NotBlank
-    protected String nombreTorneo;
-    @NotNull
+    private Long id;
+
+    @Column(unique = true, nullable = false)
+    private String nombreTorneo;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private TipoTorneo tipoTorneo;
+
+    @Column(nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    protected LocalDate fechaInicio;
-    @NotNull
+    private LocalDate fechaInicio;
+
+    @Column(nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     protected LocalDate fechaFin;
 
@@ -52,6 +58,15 @@ public abstract class Torneo {
 
     public void setFechaFin(LocalDate fechaFin) {
         this.fechaFin = fechaFin;
+    }
+
+
+    public TipoTorneo getTipoTorneo() {
+        return tipoTorneo;
+    }
+
+    public void setTipoTorneo(TipoTorneo tipoTorneo) {
+        this.tipoTorneo = tipoTorneo;
     }
 
     @Transient //parametro calculado, no se guarda en la BBDD
