@@ -52,7 +52,7 @@ public class ServicioEquipoNBAimpl implements ServicioEquipoNBA {
         EquipoNBA equipoNBA = repositorioEquipoNba.buscarEquipoPorId(id);
 
         if (equipoNBA == null) {
-            return null;
+            throw new EquipoNoEncontradoException();
         }
         return equipoNBA;
     }
