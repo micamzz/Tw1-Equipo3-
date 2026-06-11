@@ -1,9 +1,6 @@
 package com.tallerwebi.presentacion;
 
-import com.tallerwebi.dominio.EquipoNBA;
-import com.tallerwebi.dominio.Jugador;
-import com.tallerwebi.dominio.ServicioEquipoNBA;
-import com.tallerwebi.dominio.ServicioEquipoNBAJugador;
+import com.tallerwebi.dominio.*;
 import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
 import com.tallerwebi.dominio.excepcion.elJugadorYaExisteEnElEquipoException;
 import org.hamcrest.text.IsEqualIgnoringCase;
@@ -24,6 +21,7 @@ public class ControladorEquipoNBATest {
     private ControladorEquipoNBA controladorEquipoNBA;
     private ServicioEquipoNBA servicioEquipoNBAMock;
     private ServicioEquipoNBAJugador servicioEquipoNBAJugadorMock;
+    private ServicioTemporada servicioTemporadaMock;
     private EquipoNBA equipoNBAmock;
 
 
@@ -33,7 +31,8 @@ public class ControladorEquipoNBATest {
         servicioEquipoNBAMock = mock(ServicioEquipoNBA.class);
         servicioEquipoNBAJugadorMock = mock(ServicioEquipoNBAJugador.class);
         equipoNBAmock = mock(EquipoNBA.class);
-        controladorEquipoNBA = new ControladorEquipoNBA(servicioEquipoNBAMock, servicioEquipoNBAJugadorMock);
+        servicioTemporadaMock = mock(ServicioTemporada.class);
+        controladorEquipoNBA = new ControladorEquipoNBA(servicioEquipoNBAMock, servicioEquipoNBAJugadorMock, servicioTemporadaMock);
 
     }
 

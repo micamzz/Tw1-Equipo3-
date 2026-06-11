@@ -3,7 +3,6 @@ package com.tallerwebi.presentacion;
 import com.tallerwebi.dominio.*;
 import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
 import com.tallerwebi.dominio.excepcion.elJugadorYaExisteEnElEquipoException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -20,12 +19,14 @@ public class ControladorEquipoNBA {
 
     private final ServicioEquipoNBA servicioEquipoNBA;
     private final ServicioEquipoNBAJugador servicioEquipoNBAJugador;
+    private final ServicioTemporada servicioTemporada;
 
-    @Autowired
-    public ControladorEquipoNBA(ServicioEquipoNBA servicioEquipoNBA, ServicioEquipoNBAJugador servicioEquipoNBAJugador) {
+    public ControladorEquipoNBA(ServicioEquipoNBA servicioEquipoNBA, ServicioEquipoNBAJugador servicioEquipoNBAJugador, ServicioTemporada servicioTemporada) {
         this.servicioEquipoNBA = servicioEquipoNBA;
         this.servicioEquipoNBAJugador = servicioEquipoNBAJugador;
+        this.servicioTemporada = servicioTemporada;
     }
+
 
     @RequestMapping("/altaEquipoNBA")
     public ModelAndView irAlFormularioEquipoNBA() {
@@ -33,6 +34,8 @@ public class ControladorEquipoNBA {
         EquipoNBA equipoNba = new EquipoNBA();
 
         modelo.put("equipoNBA", new EquipoNBA());
+        modelo.put("temporadaActual", servicioTemporada.obtenerTemporadaActual());
+
 
         return new ModelAndView("admin-alta-nombreEquipoNBA", modelo);
     }

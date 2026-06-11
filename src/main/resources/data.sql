@@ -102,6 +102,11 @@ VALUES (1, 26, 5, 6, 1, 0, 2),
        (27, 20, 5, 8, 1, 0, 3),
        (28, 21, 8, 4, 1, 1, 2);
 
+-- TEMPORADA
+INSERT INTO Temporada (id, nombre, anio, fechaInicio, fechaFin)
+VALUES (1, 'Taller Web Unlam 2026', 2026, '2026-03-30', '2026-07-17');
+
+
 -- EQUIPOS NBA
 INSERT INTO EquipoNBA(id, nombre, escudoImagen)
 VALUES (1, 'Golden State Warriors', 'https://cdn.nba.com/logos/nba/1610612744/global/L/logo.svg'),
@@ -173,7 +178,6 @@ INSERT INTO `tw1`.`torneovirtual`
  `torneoReal_id`)
 VALUES (2,
         1);
-
 
 INSERT INTO Calendario (nombre)
 VALUES ('Temporada 2026');
