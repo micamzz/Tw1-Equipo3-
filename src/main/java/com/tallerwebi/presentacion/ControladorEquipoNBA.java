@@ -2,7 +2,6 @@ package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.*;
 import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
-import com.tallerwebi.dominio.excepcion.EquipoSinNombreException;
 import com.tallerwebi.dominio.excepcion.elJugadorYaExisteEnElEquipoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -42,22 +41,18 @@ public class ControladorEquipoNBA {
     @RequestMapping("/guardarEquipoNBA")
     public ModelAndView guardarEquipoNba(@ModelAttribute("equipoNBA") EquipoNBA equipoNBA) {
 
-        try {
-            if (equipoNBA.getNombre() == null || equipoNBA.getNombre().isBlank()) {
-                throw new EquipoSinNombreException("El nombre del equipo no puede estar vacío");
-            }
-
-            servicioEquipoNBA.guardarEquipoNBA(equipoNBA);
-            Long idEquipoIngresado = equipoNBA.getId();
-
-            return new ModelAndView("redirect:/admin/asignar-jugadoresNBA?id=" + idEquipoIngresado);
-
-        } catch (EquipoSinNombreException e) {
+        if (equipoNBA.getNombre() == null || equipoNBA.getNombre().isBlank()) {
             ModelMap modelo = new ModelMap();
             modelo.put("equipoNBA", new EquipoNBA());
-            modelo.put("error", e.getMessage());
+            modelo.put("error", "El nombre del equipo no puede estar vacío");
             return new ModelAndView("admin-alta-nombreEquipoNBA", modelo);
         }
+
+        servicioEquipoNBA.guardarEquipoNBA(equipoNBA);
+        Long idEquipoIngresado = equipoNBA.getId();
+
+        return new ModelAndView("redirect:/admin/asignar-jugadoresNBA?id=" + idEquipoIngresado);
+
     }
 
     // Vista con el form para que seleccione a los jugadores.
