@@ -83,9 +83,11 @@ public class ServicioEquipoNBATest {
         Long idEquipo = 1L;
         Long idJugador = 2L;
 
-        EquipoNBA equipo = new EquipoNBA();
-        equipo.setId(idEquipo);
+        Temporada temporada = new Temporada();
 
+        EquipoNBA equipo = new EquipoNBA();
+        equipo.setTemporada(temporada);
+        
         Jugador jugador = new Jugador();
         jugador.setId(idJugador);
 
