@@ -51,6 +51,7 @@ public class ControladorEquipoNBA {
             return new ModelAndView("admin-alta-nombreEquipoNBA", modelo);
         }
 
+        equipoNBA.setTemporada(servicioTemporada.obtenerTemporadaActual());
         servicioEquipoNBA.guardarEquipoNBA(equipoNBA);
         Long idEquipoIngresado = equipoNBA.getId();
 
@@ -101,7 +102,7 @@ public class ControladorEquipoNBA {
     public ModelAndView verListadoDeEquiposNBA() {
         ModelMap modelo = new ModelMap();
 
-        List<EquipoNBA> equipos = servicioEquipoNBA.obtenerTodosLosEquipos();
+        List<EquipoNBA> equipos = servicioEquipoNBA.obtenerTodosLosEquiposOrdenadosDeMenorAMayor();
 
         modelo.put("equipos", equipos);
 

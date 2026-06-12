@@ -160,7 +160,7 @@ public class ControladorEquipoNBATest {
         equipos.add(equipo1);
         equipos.add(equipo2);
 
-        when(servicioEquipoNBAMock.obtenerTodosLosEquipos()).thenReturn(equipos);
+        when(servicioEquipoNBAMock.obtenerTodosLosEquiposOrdenadosDeMenorAMayor()).thenReturn(equipos);
 
         // Ejecución
         ModelAndView mav = controladorEquipoNBA.verListadoDeEquiposNBA();

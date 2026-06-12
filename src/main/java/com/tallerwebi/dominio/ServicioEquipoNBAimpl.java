@@ -70,7 +70,9 @@ public class ServicioEquipoNBAimpl implements ServicioEquipoNBA {
     }
 
     @Override
-    public List<EquipoNBA> obtenerTodosLosEquipos() {
-        return repositorioEquipoNba.obtenerTodosLosEquipos();
+    public List<EquipoNBA> obtenerTodosLosEquiposOrdenadosDeMenorAMayor() {
+        return repositorioEquipoNba.obtenerTodosLosEquiposOrdenados();
     }
+
+
 }

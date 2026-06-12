@@ -69,9 +69,9 @@ public class ServicioEquipoNBATest {
         equipos.add(new EquipoNBA());
         equipos.add(new EquipoNBA());
 
-        when(repositorioEquipoNBAMock.obtenerTodosLosEquipos()).thenReturn(equipos);
+        when(repositorioEquipoNBAMock.obtenerTodosLosEquiposOrdenados()).thenReturn(equipos);
 
-        List<EquipoNBA> resultado = servicioEquipoNBA.obtenerTodosLosEquipos();
+        List<EquipoNBA> resultado = servicioEquipoNBA.obtenerTodosLosEquiposOrdenadosDeMenorAMayor();
 
         assertThat(resultado, equalTo(equipos));
 

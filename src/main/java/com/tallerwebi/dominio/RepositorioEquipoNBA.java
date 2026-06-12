@@ -11,5 +11,5 @@ public interface RepositorioEquipoNBA {
     void crearEquipo(EquipoNBA equipo);
 
 
-    List<EquipoNBA> obtenerTodosLosEquipos();
+    List<EquipoNBA> obtenerTodosLosEquiposOrdenados();
 }

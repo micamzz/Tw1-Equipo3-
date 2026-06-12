@@ -32,7 +32,17 @@
 
     <section class="plantel-actual">
 
-        <h2>PLANTEL</h2>
+        <section class="contenedor-subtitulo">
+            <h2 class="titulo-plantel">PLANTEL</h2>
+
+            <select id="ordenar" class="select-orden" onchange="ordenarTabla()">
+                <option value="">Ordenar por...</option>
+                <option value="nombre">Nombre A-Z</option>
+                <option value="apellido">Apellido A-Z</option>
+                <option value="edad">Edad</option>
+            </select>
+        </section>
+
 
         <table>
             <thead>
@@ -68,6 +78,10 @@
 </main>
 
 <div th:replace="layout/footer :: footer"></div>
+
+
+<!-- JAVASCRITP-->
+<script th:src="@{/js/admin-detallejugadores.js}"></script>
 
 </body>
 </html>

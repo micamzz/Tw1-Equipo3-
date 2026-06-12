@@ -241,17 +241,6 @@ body {
     margin-top: 1em;
 }
 
-.jugadores-disponibles h2,
-.plantel-actual h2 {
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: var(--texto-muted);
-    padding-bottom: 0.6rem;
-    border-bottom: 1px solid var(--borde);
-    margin-bottom: 1.25rem;
-}
 
 /* TABLA */
 table {
@@ -296,16 +285,13 @@ tbody td {
 
 tbody td img {
     border-radius: 50%;
-    border: 2px solid var(--borde);
+    /*    border: 2px solid var(--borde);*/
     object-fit: cover;
     display: block;
     margin: 0 auto;
     transition: border-color var(--transition);
 }
 
-tbody tr:hover td img {
-    border-color: var(--naranja);
-}
 
 /* Formularios dentro de tabla */
 .jugadores-disponibles form,
@@ -375,4 +361,47 @@ hr {
         padding: 0.65rem 0.5rem;
         font-size: 0.8rem;
     }
+}
+
+/*SELECT JS ORDENAR DE A-Z Y EDAD*/
+.contenedor-subtitulo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 0.6rem;
+    margin-bottom: 1.25rem;
+}
+
+.titulo-plantel {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--texto-muted);
+}
+
+.select-orden {
+    background: var(--input-bg);
+    border: 1px solid var(--input-borde);
+    border-radius: 8px;
+    color: var(--texto);
+    font-size: 0.85rem;
+    font-family: inherit;
+    padding: 0.5em 2.2em 0.5em 1em;
+    cursor: pointer;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    transition: border-color var(--transition);
+}
+
+.select-orden:focus {
+    border-color: var(--naranja);
+}
+
+.select-orden option {
+    background: #1a1a1a;
 }

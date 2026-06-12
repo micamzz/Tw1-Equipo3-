@@ -146,6 +146,12 @@ VALUES
 (4, 23),
 (4, 24);
 
+---- EQUIPO TIENE TEMPORADA
+UPDATE EquipoNBA
+SET temporada_id = 1
+WHERE id IN (1, 2, 3, 4);
+
+
 -- TORNEO
 INSERT INTO `tw1`.`torneo`
 (`id`,

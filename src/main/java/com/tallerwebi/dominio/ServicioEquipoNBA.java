@@ -19,5 +19,5 @@ public interface ServicioEquipoNBA {
     EquipoNBA buscarEquipoPorNombre(String nombre) throws EquipoNoEncontradoException;
 
 
-    List<EquipoNBA> obtenerTodosLosEquipos();
+    List<EquipoNBA> obtenerTodosLosEquiposOrdenadosDeMenorAMayor();
 }
