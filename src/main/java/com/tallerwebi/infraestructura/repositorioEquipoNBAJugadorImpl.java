@@ -39,5 +39,15 @@ public class repositorioEquipoNBAJugadorImpl implements RepositorioEquipoNBAJuga
                 .createCriteria(EquipoNBAJugador.class)
                 .list();
     }
+
+    @Override
+    public boolean jugadorExisteEnLaTemporada(Long idJugador, Long idTemporada) {
+        return this.sessionFactory.getCurrentSession()
+                .createCriteria(EquipoNBAJugador.class)
+                .add(Restrictions.eq("jugador.id", idJugador))
+                .createAlias("equipoNBA", "equipo")
+                .add(Restrictions.eq("equipo.temporada.id", idTemporada))
+                .uniqueResult() != null;
+    }
 }
 

@@ -1,9 +1,6 @@
 package com.tallerwebi.dominio;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class EquipoNBA {
@@ -15,8 +12,8 @@ public class EquipoNBA {
     private String nombre;
     private String escudoImagen;
 
-
-//    private Temporada temporadaActual;
+    @ManyToOne
+    private Temporada temporada;
 
 
     public Long getId() {
@@ -41,5 +38,14 @@ public class EquipoNBA {
 
     public void setEscudoImagen(String escudoImagen) {
         this.escudoImagen = escudoImagen;
+
+    }
+
+    public Temporada getTemporada() {
+        return temporada;
+    }
+
+    public void setTemporada(Temporada temporada) {
+        this.temporada = temporada;
     }
 }

@@ -63,9 +63,20 @@
     <!-- JUGADORES DISPONIBLES -->
     <section class="jugadores-disponibles">
 
-        <h2>JUGADORES DISPONIBLES</h2>
 
-        <table>
+        <section class="contenedor-subtitulo">
+            <h2 class="titulo-plantel">Jugadores Disponibles</h2>
+            <select id="ordenar-disponibles" class="select-orden"
+                    onchange="ordenarTabla('tabla-disponibles', 'ordenar-disponibles')">
+                <option value="">Ordenar por...</option>
+                <option value="nombre">Nombre A-Z</option>
+                <option value="apellido">Apellido A-Z</option>
+                <option value="edad">Edad</option>
+            </select>
+        </section>
+
+
+        <table id="tabla-disponibles">
 
             <thead>
             <tr>
@@ -140,10 +151,17 @@
     <!-- PLANTEL ACTUAL -->
     <section class="plantel-actual">
 
-        <h2>PLANTEL DEL EQUIPO</h2>
+        <section class="contenedor-subtitulo">
+            <h2 class="titulo-plantel">PLANTEL</h2>
+            <select id="ordenar-plantel" class="select-orden"
+                    onchange="ordenarTabla('tabla-plantel', 'ordenar-plantel')">
+                <option value="">Ordenar por...</option>
+                <option value="nombre">Nombre A-Z</option>
+                <option value="apellido">Apellido A-Z</option>
+            </select>
+        </section>
 
-        <table>
-
+        <table id="tabla-plantel">
             <thead>
             <tr>
                 <th>Foto</th>
@@ -210,5 +228,8 @@
 
 <div th:replace="layout/footer :: footer"></div>
 
+
+<!-- JAVASCRITP-->
+<script th:src="@{/js/admin-detallejugadores.js}"></script>
 </body>
 </html>

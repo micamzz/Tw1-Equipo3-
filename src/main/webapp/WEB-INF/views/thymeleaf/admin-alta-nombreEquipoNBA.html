@@ -32,6 +32,10 @@
 
 
             <section class="contenedor-nombre-Equipo">
+                <p>Temporada: <strong th:text="${temporadaActual.nombre}"></strong></p>
+                <input type="hidden" name="temporadaId" th:value="${temporadaActual.id}"/>
+
+                
                 <label for="nombreEquipo"> Ingrese el nombre: </label>
                 <input
                         type="text"

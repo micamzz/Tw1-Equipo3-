@@ -1,6 +1,7 @@
 package com.tallerwebi.dominio;
 
 import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
+import com.tallerwebi.dominio.excepcion.JugadorYaExisteEnLaTemporadaException;
 import com.tallerwebi.dominio.excepcion.elJugadorYaExisteEnElEquipoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,12 @@ public class ServicioEquipoNBAimpl implements ServicioEquipoNBA {
         EquipoNBA equipoNBA = buscarEquipoPorId(idEquipo);
         Jugador jugador = repositorioJugador.buscarJugadorPorId(idJugador);
 
+        Long idTemporada = equipoNBA.getTemporada().getId();
+
+        if (repositorioEquipoNBAJugador.jugadorExisteEnLaTemporada(idJugador, idTemporada)) {
+            throw new JugadorYaExisteEnLaTemporadaException();
+        }
+
         EquipoNBAJugador asignacion = new EquipoNBAJugador();
         asignacion.setEquipoNBA(equipoNBA);
         asignacion.setJugador(jugador);
@@ -52,7 +59,7 @@ public class ServicioEquipoNBAimpl implements ServicioEquipoNBA {
         EquipoNBA equipoNBA = repositorioEquipoNba.buscarEquipoPorId(id);
 
         if (equipoNBA == null) {
-            return null;
+            throw new EquipoNoEncontradoException();
         }
         return equipoNBA;
     }
@@ -63,7 +70,9 @@ public class ServicioEquipoNBAimpl implements ServicioEquipoNBA {
     }
 
     @Override
-    public List<EquipoNBA> obtenerTodosLosEquipos() {
-        return repositorioEquipoNba.obtenerTodosLosEquipos();
+    public List<EquipoNBA> obtenerTodosLosEquiposOrdenadosDeMenorAMayor() {
+        return repositorioEquipoNba.obtenerTodosLosEquiposOrdenados();
     }
+
+
 }

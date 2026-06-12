@@ -9,4 +9,6 @@ public interface RepositorioEquipoNBAJugador {
     List<EquipoNBAJugador> buscarJugadoresDelEquipoNBA(Long id);
 
     List<EquipoNBAJugador> buscarTodasLasAsignaciones();
+
+    boolean jugadorExisteEnLaTemporada(Long idJugador, Long idTemporada);
 }
