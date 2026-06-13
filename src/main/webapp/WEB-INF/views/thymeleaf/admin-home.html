@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Taller Web I - Admin</title>
+
+    <link rel="stylesheet" th:href="@{/css/header.css}"/>
+    <link rel="stylesheet" th:href="@{/css/footer.css}"/>
+    <link rel="stylesheet" th:href="@{/css/main2.css}"/>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+</head>
+<body>
+<!-- HEADER -->
+<div th:replace="layout/header :: header"></div>
+
+<main role="main" class="container">
+    <h1>Panel de administración</h1>
+
+    <section class="contenedor-boton">
+        <a th:href="@{/admin/altaEquipoNBA}" class="boton-equipo">ALTA EQUIPO NBA</a>
+        <a th:href="@{/admin/listadoEquiposNBA}" class="boton-equipo">VER EQUIPOS NBA</a>
+        <a th:href="@{/admin/torneos}" class="boton-equipo">ADMINISTRAR TORNEOS</a>
+        <a th:href="@{/calendario}" class="boton-equipo">ADMINISTRAR TORNEO DEL FINDE</a>
+    </section>
+</main>
+
+<!-- FOOTER -->
+<div th:replace="layout/footer :: footer"></div>
+</body>
+</html>
