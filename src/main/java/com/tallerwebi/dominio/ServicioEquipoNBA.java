@@ -20,4 +20,8 @@ public interface ServicioEquipoNBA {
 
 
     List<EquipoNBA> obtenerTodosLosEquiposOrdenadosDeMenorAMayor();
+
+    void eliminarEquipoNBA(Long idEquipo) throws EquipoNoEncontradoException;
+
+
 }

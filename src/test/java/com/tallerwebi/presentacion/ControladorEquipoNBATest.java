@@ -111,7 +111,7 @@ public class ControladorEquipoNBATest {
         when(servicioEquipoNBAJugadorMock.obtenerJugadoresDelEquipoPorId(idEquipo)).thenReturn(jugadoresEquipo);
 
         // Ejecución
-        ModelAndView mav = controladorEquipoNBA.asignarJugadores(idEquipo, null, null, null);
+        ModelAndView mav = controladorEquipoNBA.asignarJugadores(idEquipo, null);
 
         // Verificación
 
@@ -131,7 +131,7 @@ public class ControladorEquipoNBATest {
         when(servicioEquipoNBAMock.buscarEquipoPorId(idEquipo)).thenThrow(new EquipoNoEncontradoException());
 
         // Ejecución
-        ModelAndView mav = controladorEquipoNBA.asignarJugadores(idEquipo, null, null, null);
+        ModelAndView mav = controladorEquipoNBA.asignarJugadores(idEquipo, null);
 
         // Verificación
         assertThat(mav.getViewName(), equalToIgnoringCase("redirect:/admin"));

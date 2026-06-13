@@ -42,6 +42,11 @@ public class RepositorioEquipoNBAimpl implements RepositorioEquipoNBA {
                 .list();
     }
 
+    @Override
+    public void eliminar(EquipoNBA equipo) {
+        this.sessionFactory.getCurrentSession().delete(equipo);
+    }
+
   /*  @Override
     @SuppressWarnings("unchecked")
     public List<EquipoNBA> obtenerTodosLosEquipos() {

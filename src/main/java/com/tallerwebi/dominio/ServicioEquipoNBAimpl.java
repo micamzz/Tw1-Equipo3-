@@ -46,6 +46,13 @@ public class ServicioEquipoNBAimpl implements ServicioEquipoNBA {
     @Override
     public void eliminarJugadorDelEquipo(Long idEquipo, Long idJugador) throws EquipoNoEncontradoException {
 
+        EquipoNBA equipo = repositorioEquipoNba.buscarEquipoPorId(idEquipo);
+        if (equipo == null) {
+            throw new EquipoNoEncontradoException();
+        }
+        EquipoNBAJugador equipoNBAJugador = repositorioEquipoNBAJugador.buscarEquipoYJugadorAsociado(idEquipo, idJugador);
+
+        repositorioEquipoNBAJugador.eliminarJugadorDelEquipo(equipoNBAJugador);
     }
 
     @Override
@@ -72,6 +79,19 @@ public class ServicioEquipoNBAimpl implements ServicioEquipoNBA {
     @Override
     public List<EquipoNBA> obtenerTodosLosEquiposOrdenadosDeMenorAMayor() {
         return repositorioEquipoNba.obtenerTodosLosEquiposOrdenados();
+    }
+
+    @Override
+    public void eliminarEquipoNBA(Long idEquipo) throws EquipoNoEncontradoException {
+
+        EquipoNBA equipo = repositorioEquipoNba.buscarEquipoPorId(idEquipo);
+
+        if (equipo == null) {
+            throw new EquipoNoEncontradoException();
+        }
+
+        repositorioEquipoNBAJugador.eliminarTodasLasAsignacionesDelEquipo(idEquipo);
+        repositorioEquipoNba.eliminar(equipo);
     }
 
 

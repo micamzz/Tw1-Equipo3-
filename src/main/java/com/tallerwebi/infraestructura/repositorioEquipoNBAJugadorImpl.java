@@ -49,5 +49,39 @@ public class repositorioEquipoNBAJugadorImpl implements RepositorioEquipoNBAJuga
                 .add(Restrictions.eq("equipo.temporada.id", idTemporada))
                 .uniqueResult() != null;
     }
+
+    @Override
+    public void eliminarJugadorDelEquipo(EquipoNBAJugador equipoJugador) {
+        sessionFactory.getCurrentSession().delete(equipoJugador);
+    }
+
+    @Override
+    public EquipoNBAJugador buscarEquipoYJugadorAsociado(Long idEquipo, Long idJugador) {
+
+        return (EquipoNBAJugador) sessionFactory.getCurrentSession()
+                .createCriteria(EquipoNBAJugador.class)
+                /*el primer string tiene que coinicidr con el nombre del atributo de la clase*/
+                .createAlias("equipoNBA", "equi")
+                .createAlias("jugador", "juga")
+                /*usa el alias y lo demas tiene q coinicidr con el atributo de esa clase*/
+                .add(Restrictions.eq("equi.id", idEquipo))
+                .add(Restrictions.eq("juga.id", idJugador))
+                .uniqueResult();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public void eliminarTodasLasAsignacionesDelEquipo(Long idEquipo) {
+        List<EquipoNBAJugador> asignaciones =
+                this.sessionFactory.getCurrentSession()
+                        .createCriteria(EquipoNBAJugador.class)
+                        .add(Restrictions.eq("equipoNBA.id", idEquipo))
+                        .list();
+
+        for (EquipoNBAJugador asignacion : asignaciones) {
+            this.sessionFactory.getCurrentSession().delete(asignacion);
+        }
+    }
+
 }
 

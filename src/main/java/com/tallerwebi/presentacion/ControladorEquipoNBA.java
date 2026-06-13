@@ -31,7 +31,7 @@ public class ControladorEquipoNBA {
     @RequestMapping("/altaEquipoNBA")
     public ModelAndView irAlFormularioEquipoNBA() {
         ModelMap modelo = new ModelMap();
-        EquipoNBA equipoNba = new EquipoNBA();
+
 
         modelo.put("equipoNBA", new EquipoNBA());
         modelo.put("temporadaActual", servicioTemporada.obtenerTemporadaActual());
@@ -47,6 +47,7 @@ public class ControladorEquipoNBA {
         if (equipoNBA.getNombre() == null || equipoNBA.getNombre().isBlank()) {
             ModelMap modelo = new ModelMap();
             modelo.put("equipoNBA", new EquipoNBA());
+            modelo.put("temporadaActual", servicioTemporada.obtenerTemporadaActual());
             modelo.put("error", "El nombre del equipo no puede estar vacío");
             return new ModelAndView("admin-alta-nombreEquipoNBA", modelo);
         }
@@ -62,8 +63,7 @@ public class ControladorEquipoNBA {
     // Vista con el form para que seleccione a los jugadores.
     // El request recibe por parámetro el id que es obtenido del método anterior
     @RequestMapping("/asignar-jugadoresNBA")
-    public ModelAndView asignarJugadores(@RequestParam Long id, @RequestParam(required = false) String nombre,
-                                         @RequestParam(required = false) Posicion posicion,
+    public ModelAndView asignarJugadores(@RequestParam Long id,
                                          @RequestParam(required = false) String error) {
 
         try {
@@ -123,5 +123,27 @@ public class ControladorEquipoNBA {
             return new ModelAndView("redirect:/admin/listadoEquiposNBA");
         }
     }
+
+    @RequestMapping(value = "/quitarJugadorAEquipoNBA", method = RequestMethod.POST)
+    public ModelAndView quitarJugadorAEquipoNBA(
+            @RequestParam Long idEquipo,
+            @RequestParam Long idJugador)
+            throws EquipoNoEncontradoException {
+
+        servicioEquipoNBA.eliminarJugadorDelEquipo(idEquipo, idJugador);
+
+
+        return new ModelAndView("redirect:/admin/asignar-jugadoresNBA?id=" + idEquipo);
+    }
+
+
+    @RequestMapping(value = "/eliminarEquipoNBA", method = RequestMethod.POST)
+    public ModelAndView eliminarEquipoNBA(@RequestParam Long idEquipo) throws EquipoNoEncontradoException {
+
+        servicioEquipoNBA.eliminarEquipoNBA(idEquipo);
+
+        return new ModelAndView("redirect:/admin/listadoEquiposNBA");
+    }
+
 }
 

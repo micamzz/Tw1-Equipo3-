@@ -12,4 +12,6 @@ public interface RepositorioEquipoNBA {
 
 
     List<EquipoNBA> obtenerTodosLosEquiposOrdenados();
+
+    void eliminar(EquipoNBA equipo);
 }

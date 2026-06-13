@@ -11,4 +11,10 @@ public interface RepositorioEquipoNBAJugador {
     List<EquipoNBAJugador> buscarTodasLasAsignaciones();
 
     boolean jugadorExisteEnLaTemporada(Long idJugador, Long idTemporada);
+
+    void eliminarJugadorDelEquipo(EquipoNBAJugador equipoNBAJugador);
+
+    EquipoNBAJugador buscarEquipoYJugadorAsociado(Long idEquipo, Long idJugador);
+
+    void eliminarTodasLasAsignacionesDelEquipo(Long idEquipo);
 }
