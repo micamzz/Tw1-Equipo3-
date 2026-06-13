@@ -36,7 +36,6 @@ public class ControladorEquipoNBATest {
 
     }
 
-
     @Test
     public void irACrearEquipoRetornaUnaVistaParaIngresarElNombreDelEquipo() {
         // Ejecucion
@@ -106,12 +105,13 @@ public class ControladorEquipoNBATest {
 
         when(servicioEquipoNBAMock.buscarEquipoPorId(idEquipo)).thenReturn(equipoNBAmock);
 
-        when(servicioEquipoNBAJugadorMock.obtenerJugadoresDisponibles()).thenReturn(jugadoresDisponibles);
+        when(servicioEquipoNBAJugadorMock.obtenerJugadoresFiltrados(null, null)).thenReturn(jugadoresDisponibles);
 
         when(servicioEquipoNBAJugadorMock.obtenerJugadoresDelEquipoPorId(idEquipo)).thenReturn(jugadoresEquipo);
 
         // Ejecución
-        ModelAndView mav = controladorEquipoNBA.asignarJugadores(idEquipo, null);
+        ModelAndView mav = controladorEquipoNBA.asignarJugadores(idEquipo, null, null, null);
+
 
         // Verificación
 
@@ -131,8 +131,7 @@ public class ControladorEquipoNBATest {
         when(servicioEquipoNBAMock.buscarEquipoPorId(idEquipo)).thenThrow(new EquipoNoEncontradoException());
 
         // Ejecución
-        ModelAndView mav = controladorEquipoNBA.asignarJugadores(idEquipo, null);
-
+        ModelAndView mav = controladorEquipoNBA.asignarJugadores(idEquipo, null, null, null);
         // Verificación
         assertThat(mav.getViewName(), equalToIgnoringCase("redirect:/admin"));
     }

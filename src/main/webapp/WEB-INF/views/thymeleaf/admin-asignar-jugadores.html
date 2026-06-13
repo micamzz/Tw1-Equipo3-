@@ -46,13 +46,11 @@
 
             <select name="posicion">
 
-                <option value="">Todas las posiciones</option>
-
-                <option value="BASE">Base</option>
-
-                <option value="ALERO">Alero</option>
-
-                <option value="PIVOT">Pivot</option>
+                <option value="" th:selected="${posicion == null || posicion == ''}">Todas las posiciones</option>
+                <option value="BASE" th:selected="${posicion == 'BASE'}">Base</option>
+                <option value="ALERO" th:selected="${posicion == 'ALERO'}">Alero</option>
+                <option value="PIVOT" th:selected="${posicion == 'PIVOT'}">Pivot</option>
+                
             </select>
 
             <button type="submit">BUSCAR</button>

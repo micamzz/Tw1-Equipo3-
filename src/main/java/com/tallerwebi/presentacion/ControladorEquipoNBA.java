@@ -64,6 +64,8 @@ public class ControladorEquipoNBA {
     // El request recibe por parámetro el id que es obtenido del método anterior
     @RequestMapping("/asignar-jugadoresNBA")
     public ModelAndView asignarJugadores(@RequestParam Long id,
+                                         @RequestParam(required = false) String nombre,
+                                         @RequestParam(required = false) String posicion,
                                          @RequestParam(required = false) String error) {
 
         try {
@@ -71,16 +73,36 @@ public class ControladorEquipoNBA {
 
             EquipoNBA equipoNBA = servicioEquipoNBA.buscarEquipoPorId(id);
 
-            List<Jugador> listadoJugadores = servicioEquipoNBAJugador.obtenerJugadoresDisponibles();
-            List<Jugador> listadoJugadoresDelEquipo = servicioEquipoNBAJugador.obtenerJugadoresDelEquipoPorId(id);
+            /* IGUAL QUE EL MERCADO(JUGADORES) CONTROLADOR*/
+            if (nombre != null && nombre.isEmpty()) {
+                nombre = null;
+            }
+
+            if (posicion != null && posicion.isEmpty()) {
+                posicion = null;
+            }
+
+            Posicion posicionEnum = null;
+
+            if (posicion != null) {
+                posicionEnum = Posicion.valueOf(posicion);
+            }
+
+            List<Jugador> listadoJugadores = servicioEquipoNBAJugador.obtenerJugadoresFiltrados(posicionEnum, nombre);
+
+            List<Jugador> plantel = servicioEquipoNBAJugador.obtenerJugadoresDelEquipoPorId(id);
 
             modelo.put("equipo", equipoNBA);
             modelo.put("jugadores", listadoJugadores);
-            modelo.put("plantel", listadoJugadoresDelEquipo);
+            modelo.put("plantel", plantel);
+
+            modelo.put("nombre", nombre);
+            modelo.put("posicion", posicion);
 
             if (error != null) {
                 modelo.put("error", error);
             }
+
             return new ModelAndView("admin-asignar-jugadores", modelo);
 
         } catch (EquipoNoEncontradoException e) {

@@ -7,4 +7,6 @@ public interface ServicioEquipoNBAJugador {
     List<Jugador> obtenerJugadoresDelEquipoPorId(Long id);
 
     List<Jugador> obtenerJugadoresDisponibles();
+
+    List<Jugador> obtenerJugadoresFiltrados(Posicion posicionEnum, String nombre);
 }

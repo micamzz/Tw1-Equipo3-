@@ -55,6 +55,11 @@ public class ServicioEquipoNBAJugadorImpl implements ServicioEquipoNBAJugador {
 
         return jugadoresDisponibles;
     }
+
+    @Override
+    public List<Jugador> obtenerJugadoresFiltrados(Posicion posicionEnum, String nombre) {
+        return repositorioJugador.buscarJugadores(posicionEnum, nombre);
+    }
 }
 
 
