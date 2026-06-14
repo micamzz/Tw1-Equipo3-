@@ -6,7 +6,6 @@ import com.tallerwebi.dominio.equipoNBAJugador.EquipoNBAJugador;
 import com.tallerwebi.dominio.equipoNBAJugador.RepositorioEquipoNBAJugador;
 import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
 import com.tallerwebi.dominio.excepcion.JugadorYaExisteEnLaTemporadaException;
-import com.tallerwebi.dominio.excepcion.elJugadorYaExisteEnElEquipoException;
 import com.tallerwebi.dominio.temporada.ServicioTemporada;
 import com.tallerwebi.dominio.temporada.Temporada;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +32,8 @@ public class ServicioEquipoNBAimpl implements ServicioEquipoNBA {
     }
 
     @Override
-    public void agregarJugadorAlEquipo(Long idEquipo, Long idJugador) throws EquipoNoEncontradoException, elJugadorYaExisteEnElEquipoException {
+    public void agregarJugadorAlEquipo(Long idEquipo, Long idJugador)
+            throws EquipoNoEncontradoException, JugadorYaExisteEnLaTemporadaException {
 
         EquipoNBA equipoNBA = buscarEquipoPorId(idEquipo);
         Jugador jugador = repositorioJugador.buscarJugadorPorId(idJugador);
@@ -57,7 +57,7 @@ public class ServicioEquipoNBAimpl implements ServicioEquipoNBA {
 
         EquipoNBA equipo = repositorioEquipoNba.buscarEquipoPorId(idEquipo);
         if (equipo == null) {
-            throw new EquipoNoEncontradoException();
+            throw new EquipoNoEncontradoException("No existe el equipo con id: " + idEquipo);
         }
         EquipoNBAJugador equipoNBAJugador = repositorioEquipoNBAJugador.buscarEquipoYJugadorAsociado(idEquipo, idJugador);
 
@@ -75,15 +75,11 @@ public class ServicioEquipoNBAimpl implements ServicioEquipoNBA {
         EquipoNBA equipoNBA = repositorioEquipoNba.buscarEquipoPorId(id);
 
         if (equipoNBA == null) {
-            throw new EquipoNoEncontradoException();
+            throw new EquipoNoEncontradoException("No existe el equipo con id: " + id);
         }
         return equipoNBA;
     }
 
-    @Override
-    public EquipoNBA buscarEquipoPorNombre(String nombre) throws EquipoNoEncontradoException {
-        return null;
-    }
 
     @Override
     public List<EquipoNBA> obtenerTodosLosEquiposOrdenadosDeMenorAMayor() {
@@ -96,7 +92,7 @@ public class ServicioEquipoNBAimpl implements ServicioEquipoNBA {
         EquipoNBA equipo = repositorioEquipoNba.buscarEquipoPorId(idEquipo);
 
         if (equipo == null) {
-            throw new EquipoNoEncontradoException();
+            throw new EquipoNoEncontradoException("No existe el equipo con id: " + idEquipo);
         }
 
         repositorioEquipoNBAJugador.eliminarTodasLasAsignacionesDelEquipo(idEquipo);

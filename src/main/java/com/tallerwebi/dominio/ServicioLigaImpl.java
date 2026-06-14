@@ -12,7 +12,7 @@ import java.util.List;
 @Transactional
 public class ServicioLigaImpl implements ServicioLiga {
 
-    private RepositorioJugador repositorioJugador;
+    private final RepositorioJugador repositorioJugador;
 
     @Autowired
     public ServicioLigaImpl(RepositorioJugador repositorioJugador) {

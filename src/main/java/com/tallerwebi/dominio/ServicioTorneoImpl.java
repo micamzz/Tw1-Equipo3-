@@ -13,8 +13,8 @@ import java.util.List;
 @Transactional
 public class ServicioTorneoImpl implements ServicioTorneo {
 
-    private RepositorioTorneo repositorioTorneo;
-    private RepositorioEquipo repositorioEquipo;
+    private final RepositorioTorneo repositorioTorneo;
+    private final RepositorioEquipo repositorioEquipo;
 
     @Autowired
     public ServicioTorneoImpl(

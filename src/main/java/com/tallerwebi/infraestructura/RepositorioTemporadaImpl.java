@@ -27,6 +27,7 @@ public class RepositorioTemporadaImpl implements RepositorioTemporada {
     }
 
 
+    /* Toma de referencia el hoy, como la temporada dura de marzo a noviembre no hay problema*/
     @Override
     public Temporada obtenerTemporadaActual() {
         LocalDate hoy = LocalDate.now();

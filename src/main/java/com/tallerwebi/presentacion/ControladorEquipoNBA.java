@@ -6,6 +6,8 @@ import com.tallerwebi.dominio.equipoNBA.EquipoNBA;
 import com.tallerwebi.dominio.equipoNBA.ServicioEquipoNBA;
 import com.tallerwebi.dominio.equipoNBAJugador.ServicioEquipoNBAJugador;
 import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
+import com.tallerwebi.dominio.excepcion.JugadorYaExisteEnLaTemporadaException;
+import com.tallerwebi.dominio.excepcion.TemporadaActualNoEncontradaException;
 import com.tallerwebi.dominio.excepcion.elJugadorYaExisteEnElEquipoException;
 import com.tallerwebi.dominio.temporada.ServicioTemporada;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +42,12 @@ public class ControladorEquipoNBA {
         ModelMap modelo = new ModelMap();
 
         modelo.put("equipoNBA", new EquipoNBA());
-        modelo.put("temporadaActual", servicioTemporada.obtenerTemporadaActual());
+
+        try {
+            modelo.put("temporadaActual", servicioTemporada.obtenerTemporadaActual());
+        } catch (TemporadaActualNoEncontradaException e) {
+            modelo.put("error", e.getMessage());
+        }
 
         return new ModelAndView("admin-alta-nombreEquipoNBA", modelo);
     }
@@ -52,7 +59,10 @@ public class ControladorEquipoNBA {
         if (equipoNBA.getNombre() == null || equipoNBA.getNombre().isBlank()) {
             ModelMap modelo = new ModelMap();
             modelo.put("equipoNBA", new EquipoNBA());
-            modelo.put("temporadaActual", servicioTemporada.obtenerTemporadaActual());
+            try {
+                modelo.put("temporadaActual", servicioTemporada.obtenerTemporadaActual());
+            } catch (TemporadaActualNoEncontradaException e) {
+            }
             modelo.put("error", "El nombre del equipo no puede estar vacío");
             return new ModelAndView("admin-alta-nombreEquipoNBA", modelo);
         }
@@ -116,11 +126,21 @@ public class ControladorEquipoNBA {
 
 
     @RequestMapping(value = "/agregarJugadorAEquipoNBA", method = RequestMethod.POST)
-    public ModelAndView agregarJugadorAlEquipo(@RequestParam Long idEquipo, @RequestParam Long idJugador) throws elJugadorYaExisteEnElEquipoException, EquipoNoEncontradoException {
+    public ModelAndView agregarJugadorAlEquipo(@RequestParam Long idEquipo, @RequestParam Long idJugador) {
 
-        servicioEquipoNBA.agregarJugadorAlEquipo(idEquipo, idJugador);
+        try {
+            servicioEquipoNBA.agregarJugadorAlEquipo(idEquipo, idJugador);
+
+        } catch (EquipoNoEncontradoException |
+                 elJugadorYaExisteEnElEquipoException |
+                 JugadorYaExisteEnLaTemporadaException e) {
+
+            return new ModelAndView(
+                    "redirect:/admin/asignar-jugadoresNBA?id=" + idEquipo
+                            + "&error=" + e.getMessage()
+            );
+        }
         return new ModelAndView("redirect:/admin/asignar-jugadoresNBA?id=" + idEquipo);
-
     }
 
 
@@ -153,8 +173,7 @@ public class ControladorEquipoNBA {
     @RequestMapping(value = "/quitarJugadorAEquipoNBA", method = RequestMethod.POST)
     public ModelAndView quitarJugadorAEquipoNBA(
             @RequestParam Long idEquipo,
-            @RequestParam Long idJugador)
-            throws EquipoNoEncontradoException {
+            @RequestParam Long idJugador) throws EquipoNoEncontradoException {
 
         servicioEquipoNBA.eliminarJugadorDelEquipo(idEquipo, idJugador);
 
@@ -164,12 +183,18 @@ public class ControladorEquipoNBA {
 
 
     @RequestMapping(value = "/eliminarEquipoNBA", method = RequestMethod.POST)
-    public ModelAndView eliminarEquipoNBA(@RequestParam Long idEquipo) throws EquipoNoEncontradoException {
+    public ModelAndView eliminarEquipoNBA(@RequestParam Long idEquipo) {
 
-        servicioEquipoNBA.eliminarEquipoNBA(idEquipo);
+        try {
+            servicioEquipoNBA.eliminarEquipoNBA(idEquipo);
+
+        } catch (EquipoNoEncontradoException e) {
+            return new ModelAndView("redirect:/admin/listadoEquiposNBA?error=" + e.getMessage());
+        }
 
         return new ModelAndView("redirect:/admin/listadoEquiposNBA");
     }
-
 }
+
+
 

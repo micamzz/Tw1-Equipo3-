@@ -6,7 +6,7 @@ import com.tallerwebi.dominio.equipoNBA.ServicioEquipoNBAimpl;
 import com.tallerwebi.dominio.equipoNBAJugador.EquipoNBAJugador;
 import com.tallerwebi.dominio.equipoNBAJugador.RepositorioEquipoNBAJugador;
 import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
-import com.tallerwebi.dominio.excepcion.elJugadorYaExisteEnElEquipoException;
+import com.tallerwebi.dominio.excepcion.JugadorYaExisteEnLaTemporadaException;
 import com.tallerwebi.dominio.temporada.ServicioTemporada;
 import com.tallerwebi.dominio.temporada.Temporada;
 import org.junit.jupiter.api.BeforeEach;
@@ -88,7 +88,7 @@ public class ServicioEquipoNBATest {
 
 
     @Test
-    public void agregarJugadorAlEquipoGuardaLaAsignacion() throws EquipoNoEncontradoException, elJugadorYaExisteEnElEquipoException {
+    public void agregarJugadorAlEquipoGuardaLaAsignacion() throws EquipoNoEncontradoException, JugadorYaExisteEnLaTemporadaException {
         Long idEquipo = 1L;
         Long idJugador = 2L;
 
