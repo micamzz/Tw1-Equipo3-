@@ -1,5 +1,6 @@
 package com.tallerwebi.dominio;
 
+import com.tallerwebi.dominio.equipo.RepositorioEquipo;
 import com.tallerwebi.dominio.excepcion.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -72,11 +73,11 @@ public class ServicioTorneoImpl implements ServicioTorneo {
 
         Torneo torneo = buscarTorneoPorId(id);
 
-        if(torneo == null){
+        if (torneo == null) {
             throw new TorneoNoEncontradoException("El torneo que intentas eliminar NO existe");
         }
 
-        if (repositorioEquipo.existeEquipoEnTorneo(id)){
+        if (repositorioEquipo.existeEquipoEnTorneo(id)) {
             throw new NoSePuedeEliminarUnTorneoSiTieneEquiposAsociadosException("No se puede eliminar el torneo ya que tiene equipos asociados");
         }
 

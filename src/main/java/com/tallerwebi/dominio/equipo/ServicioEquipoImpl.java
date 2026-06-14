@@ -1,7 +1,10 @@
-package com.tallerwebi.dominio;
+package com.tallerwebi.dominio.equipo;
 
+import com.tallerwebi.dominio.*;
+import com.tallerwebi.dominio.equipoJugador.EquipoJugador;
+import com.tallerwebi.dominio.equipoJugador.RepositorioEquipoJugador;
 import com.tallerwebi.dominio.excepcion.*;
-import com.tallerwebi.dominio.menum.PosicionJugadorEquipo;
+import com.tallerwebi.dominio.enums.PosicionJugadorEquipo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

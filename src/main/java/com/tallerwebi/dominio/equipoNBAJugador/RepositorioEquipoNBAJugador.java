@@ -1,4 +1,4 @@
-package com.tallerwebi.dominio;
+package com.tallerwebi.dominio.equipoNBAJugador;
 
 import java.util.List;
 
@@ -10,11 +10,14 @@ public interface RepositorioEquipoNBAJugador {
 
     List<EquipoNBAJugador> buscarTodasLasAsignaciones();
 
-    boolean jugadorExisteEnLaTemporada(Long idJugador, Long idTemporada);
+    boolean jugadorPerteneceAUnEquipoEnLaTemporada(Long idJugador, Long idTemporada);
 
     void eliminarJugadorDelEquipo(EquipoNBAJugador equipoNBAJugador);
 
     EquipoNBAJugador buscarEquipoYJugadorAsociado(Long idEquipo, Long idJugador);
 
     void eliminarTodasLasAsignacionesDelEquipo(Long idEquipo);
+
+    List<EquipoNBAJugador> buscarAsignacionesPorTemporada(Long idTemporada);
+
 }

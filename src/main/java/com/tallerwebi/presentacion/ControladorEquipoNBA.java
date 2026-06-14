@@ -1,8 +1,14 @@
 package com.tallerwebi.presentacion;
 
-import com.tallerwebi.dominio.*;
+import com.tallerwebi.dominio.Jugador;
+import com.tallerwebi.dominio.Posicion;
+import com.tallerwebi.dominio.equipoNBA.EquipoNBA;
+import com.tallerwebi.dominio.equipoNBA.ServicioEquipoNBA;
+import com.tallerwebi.dominio.equipoNBAJugador.ServicioEquipoNBAJugador;
 import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
 import com.tallerwebi.dominio.excepcion.elJugadorYaExisteEnElEquipoException;
+import com.tallerwebi.dominio.temporada.ServicioTemporada;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -21,6 +27,7 @@ public class ControladorEquipoNBA {
     private final ServicioEquipoNBAJugador servicioEquipoNBAJugador;
     private final ServicioTemporada servicioTemporada;
 
+    @Autowired
     public ControladorEquipoNBA(ServicioEquipoNBA servicioEquipoNBA, ServicioEquipoNBAJugador servicioEquipoNBAJugador, ServicioTemporada servicioTemporada) {
         this.servicioEquipoNBA = servicioEquipoNBA;
         this.servicioEquipoNBAJugador = servicioEquipoNBAJugador;
@@ -32,10 +39,8 @@ public class ControladorEquipoNBA {
     public ModelAndView irAlFormularioEquipoNBA() {
         ModelMap modelo = new ModelMap();
 
-
         modelo.put("equipoNBA", new EquipoNBA());
         modelo.put("temporadaActual", servicioTemporada.obtenerTemporadaActual());
-
 
         return new ModelAndView("admin-alta-nombreEquipoNBA", modelo);
     }
@@ -52,7 +57,6 @@ public class ControladorEquipoNBA {
             return new ModelAndView("admin-alta-nombreEquipoNBA", modelo);
         }
 
-        equipoNBA.setTemporada(servicioTemporada.obtenerTemporadaActual());
         servicioEquipoNBA.guardarEquipoNBA(equipoNBA);
         Long idEquipoIngresado = equipoNBA.getId();
 

@@ -1,5 +1,6 @@
 package com.tallerwebi.dominio;
 
+import com.tallerwebi.dominio.equipo.RepositorioEquipo;
 import com.tallerwebi.dominio.excepcion.FechaIncoherenteException;
 import com.tallerwebi.dominio.excepcion.FechasSuperpuestasException;
 import com.tallerwebi.dominio.excepcion.NoSePuedeEliminarUnTorneoSiTieneEquiposAsociadosException;

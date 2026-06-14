@@ -1,8 +1,14 @@
-package com.tallerwebi.dominio;
+package com.tallerwebi.dominio.equipoNBA;
 
+import com.tallerwebi.dominio.Jugador;
+import com.tallerwebi.dominio.RepositorioJugador;
+import com.tallerwebi.dominio.equipoNBAJugador.EquipoNBAJugador;
+import com.tallerwebi.dominio.equipoNBAJugador.RepositorioEquipoNBAJugador;
 import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
 import com.tallerwebi.dominio.excepcion.JugadorYaExisteEnLaTemporadaException;
 import com.tallerwebi.dominio.excepcion.elJugadorYaExisteEnElEquipoException;
+import com.tallerwebi.dominio.temporada.ServicioTemporada;
+import com.tallerwebi.dominio.temporada.Temporada;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +22,14 @@ public class ServicioEquipoNBAimpl implements ServicioEquipoNBA {
     private final RepositorioEquipoNBA repositorioEquipoNba;
     private final RepositorioJugador repositorioJugador;
     private final RepositorioEquipoNBAJugador repositorioEquipoNBAJugador;
+    private final ServicioTemporada servicioTemporada;
 
     @Autowired
-    public ServicioEquipoNBAimpl(RepositorioEquipoNBA repositorioEquipoNba, RepositorioJugador repositorioJugador, RepositorioEquipoNBAJugador repositorioEquipoNBAJugador) {
+    public ServicioEquipoNBAimpl(RepositorioEquipoNBA repositorioEquipoNba, RepositorioJugador repositorioJugador, RepositorioEquipoNBAJugador repositorioEquipoNBAJugador, ServicioTemporada servicioTemporada) {
         this.repositorioEquipoNba = repositorioEquipoNba;
         this.repositorioJugador = repositorioJugador;
         this.repositorioEquipoNBAJugador = repositorioEquipoNBAJugador;
+        this.servicioTemporada = servicioTemporada;
     }
 
     @Override
@@ -30,15 +38,16 @@ public class ServicioEquipoNBAimpl implements ServicioEquipoNBA {
         EquipoNBA equipoNBA = buscarEquipoPorId(idEquipo);
         Jugador jugador = repositorioJugador.buscarJugadorPorId(idJugador);
 
-        Long idTemporada = equipoNBA.getTemporada().getId();
+        Temporada temporadaActual = servicioTemporada.obtenerTemporadaActual();
 
-        if (repositorioEquipoNBAJugador.jugadorExisteEnLaTemporada(idJugador, idTemporada)) {
+        if (repositorioEquipoNBAJugador.jugadorPerteneceAUnEquipoEnLaTemporada(idJugador, temporadaActual.getId())) {
             throw new JugadorYaExisteEnLaTemporadaException();
         }
 
         EquipoNBAJugador asignacion = new EquipoNBAJugador();
         asignacion.setEquipoNBA(equipoNBA);
         asignacion.setJugador(jugador);
+        asignacion.setTemporada(temporadaActual);
 
         repositorioEquipoNBAJugador.asignarJugadorAUnEquipo(asignacion);
     }

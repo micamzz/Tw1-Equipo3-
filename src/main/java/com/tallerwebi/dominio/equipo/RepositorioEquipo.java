@@ -1,4 +1,4 @@
-package com.tallerwebi.dominio;
+package com.tallerwebi.dominio.equipo;
 
 public interface RepositorioEquipo {
 

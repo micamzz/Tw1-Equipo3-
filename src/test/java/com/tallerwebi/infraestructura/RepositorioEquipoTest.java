@@ -1,7 +1,7 @@
 package com.tallerwebi.infraestructura;
 
-import com.tallerwebi.dominio.Equipo;
-import com.tallerwebi.dominio.RepositorioEquipo;
+import com.tallerwebi.dominio.equipo.Equipo;
+import com.tallerwebi.dominio.equipo.RepositorioEquipo;
 import com.tallerwebi.integracion.config.HibernateTestConfig;
 import com.tallerwebi.integracion.config.SpringWebTestConfig;
 import org.hibernate.SessionFactory;

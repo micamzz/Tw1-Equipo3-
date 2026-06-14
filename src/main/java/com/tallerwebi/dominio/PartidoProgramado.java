@@ -1,5 +1,7 @@
 package com.tallerwebi.dominio;
 
+import com.tallerwebi.dominio.equipo.Equipo;
+
 public class PartidoProgramado extends Partido {
     private int numeroFecha;
     private String fecha;
@@ -7,7 +9,7 @@ public class PartidoProgramado extends Partido {
     private String lugar;
 
     public PartidoProgramado(Equipo equipoLocal, Equipo equipoVisitante, int numeroFecha, String fecha, String hora,
-            String lugar) {
+                             String lugar) {
         super(equipoLocal, equipoVisitante);
         this.numeroFecha = numeroFecha;
         this.fecha = fecha;

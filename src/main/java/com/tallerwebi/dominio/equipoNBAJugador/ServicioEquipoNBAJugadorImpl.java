@@ -1,5 +1,10 @@
-package com.tallerwebi.dominio;
+package com.tallerwebi.dominio.equipoNBAJugador;
 
+import com.tallerwebi.dominio.Jugador;
+import com.tallerwebi.dominio.Posicion;
+import com.tallerwebi.dominio.RepositorioJugador;
+import com.tallerwebi.dominio.temporada.ServicioTemporada;
+import com.tallerwebi.dominio.temporada.Temporada;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,11 +18,13 @@ public class ServicioEquipoNBAJugadorImpl implements ServicioEquipoNBAJugador {
 
     private final RepositorioEquipoNBAJugador repositorioEquipoNBAJugador;
     private final RepositorioJugador repositorioJugador;
+    private final ServicioTemporada servicioTemporada;
 
     @Autowired
-    public ServicioEquipoNBAJugadorImpl(RepositorioEquipoNBAJugador repositorioEquipoNBAJugador, RepositorioJugador repositorioJugador) {
+    public ServicioEquipoNBAJugadorImpl(RepositorioEquipoNBAJugador repositorioEquipoNBAJugador, RepositorioJugador repositorioJugador, ServicioTemporada servicioTemporada) {
         this.repositorioEquipoNBAJugador = repositorioEquipoNBAJugador;
         this.repositorioJugador = repositorioJugador;
+        this.servicioTemporada = servicioTemporada;
     }
 
 
@@ -37,8 +44,10 @@ public class ServicioEquipoNBAJugadorImpl implements ServicioEquipoNBAJugador {
     @Override
     public List<Jugador> obtenerJugadoresDisponibles() {
 
+        Temporada temporadaActual = servicioTemporada.obtenerTemporadaActual();
+
         List<Jugador> listadoDeTodosLosJugadores = repositorioJugador.buscarTodosLosJugadores();
-        List<EquipoNBAJugador> jugadoresAsignados = repositorioEquipoNBAJugador.buscarTodasLasAsignaciones();
+        List<EquipoNBAJugador> jugadoresAsignados = repositorioEquipoNBAJugador.buscarAsignacionesPorTemporada(temporadaActual.getId());
 
         List<Jugador> jugadoresDisponibles = new ArrayList<>();
 
@@ -56,9 +65,28 @@ public class ServicioEquipoNBAJugadorImpl implements ServicioEquipoNBAJugador {
         return jugadoresDisponibles;
     }
 
+
+    /* Método que devuelve los jugadores que no fueron asignados a ningun equipoNBA
+    y que ademas cumplen con los filtros para usar en el buscador o en select */
+
     @Override
     public List<Jugador> obtenerJugadoresFiltrados(Posicion posicionEnum, String nombre) {
-        return repositorioJugador.buscarJugadores(posicionEnum, nombre);
+
+        List<Jugador> jugadoresDisponibles = obtenerJugadoresDisponibles();
+        List<Jugador> jugadoresFiltrados = new ArrayList<>();
+
+        for (Jugador jugador : jugadoresDisponibles) {
+
+            if (posicionEnum == null || jugador.getPosicion().equals(posicionEnum)) {
+
+                if (nombre == null || nombre.trim().isEmpty() || jugador.getNombre().toLowerCase().contains(nombre.toLowerCase()) || jugador.getApellido().toLowerCase().contains(nombre.toLowerCase())) {
+                    jugadoresFiltrados.add(jugador);
+                }
+            }
+        }
+
+        return jugadoresFiltrados;
+
     }
 }
 

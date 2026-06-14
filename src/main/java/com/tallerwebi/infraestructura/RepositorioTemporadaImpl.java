@@ -1,8 +1,8 @@
 package com.tallerwebi.infraestructura;
 
-import com.tallerwebi.dominio.EquipoNBAJugador;
-import com.tallerwebi.dominio.RepositorioTemporada;
-import com.tallerwebi.dominio.Temporada;
+import com.tallerwebi.dominio.equipoNBAJugador.EquipoNBAJugador;
+import com.tallerwebi.dominio.temporada.RepositorioTemporada;
+import com.tallerwebi.dominio.temporada.Temporada;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;

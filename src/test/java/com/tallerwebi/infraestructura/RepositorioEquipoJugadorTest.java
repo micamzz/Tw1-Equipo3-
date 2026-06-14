@@ -1,9 +1,9 @@
 package com.tallerwebi.infraestructura;
 
-import com.tallerwebi.dominio.Equipo;
-import com.tallerwebi.dominio.EquipoJugador;
+import com.tallerwebi.dominio.equipo.Equipo;
+import com.tallerwebi.dominio.equipoJugador.EquipoJugador;
 import com.tallerwebi.dominio.Jugador;
-import com.tallerwebi.dominio.RepositorioEquipoJugador;
+import com.tallerwebi.dominio.equipoJugador.RepositorioEquipoJugador;
 import com.tallerwebi.integracion.config.HibernateTestConfig;
 import com.tallerwebi.integracion.config.SpringWebTestConfig;
 import org.hibernate.SessionFactory;

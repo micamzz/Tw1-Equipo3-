@@ -1,7 +1,7 @@
 package com.tallerwebi.infraestructura;
 
-import com.tallerwebi.dominio.EquipoNBAJugador;
-import com.tallerwebi.dominio.RepositorioEquipoNBAJugador;
+import com.tallerwebi.dominio.equipoNBAJugador.EquipoNBAJugador;
+import com.tallerwebi.dominio.equipoNBAJugador.RepositorioEquipoNBAJugador;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -41,12 +41,12 @@ public class repositorioEquipoNBAJugadorImpl implements RepositorioEquipoNBAJuga
     }
 
     @Override
-    public boolean jugadorExisteEnLaTemporada(Long idJugador, Long idTemporada) {
+    @SuppressWarnings("unchecked")
+    public boolean jugadorPerteneceAUnEquipoEnLaTemporada(Long idJugador, Long idTemporada) {
         return this.sessionFactory.getCurrentSession()
                 .createCriteria(EquipoNBAJugador.class)
                 .add(Restrictions.eq("jugador.id", idJugador))
-                .createAlias("equipoNBA", "equipo")
-                .add(Restrictions.eq("equipo.temporada.id", idTemporada))
+                .add(Restrictions.eq("temporada.id", idTemporada))
                 .uniqueResult() != null;
     }
 
@@ -81,6 +81,16 @@ public class repositorioEquipoNBAJugadorImpl implements RepositorioEquipoNBAJuga
         for (EquipoNBAJugador asignacion : asignaciones) {
             this.sessionFactory.getCurrentSession().delete(asignacion);
         }
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<EquipoNBAJugador> buscarAsignacionesPorTemporada(Long idTemporada) {
+        return (List<EquipoNBAJugador>) this.sessionFactory
+                .getCurrentSession()
+                .createCriteria(EquipoNBAJugador.class)
+                .add(Restrictions.eq("temporada.id", idTemporada))
+                .list();
     }
 
 }

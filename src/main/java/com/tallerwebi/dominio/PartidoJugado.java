@@ -1,5 +1,7 @@
 package com.tallerwebi.dominio;
 
+import com.tallerwebi.dominio.equipo.Equipo;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +16,7 @@ public class PartidoJugado extends Partido {
     }
 
     public PartidoJugado(Equipo equipoLocal, Equipo equipoVisitante, int puntosLocal, int puntosVisitante,
-            List<RendimientoJugador> rendimientoEquipoLocal, List<RendimientoJugador> rendimientoEquipoVisitante) {
+                         List<RendimientoJugador> rendimientoEquipoLocal, List<RendimientoJugador> rendimientoEquipoVisitante) {
         super(equipoLocal, equipoVisitante);
         this.puntosLocal = puntosLocal;
         this.puntosVisitante = puntosVisitante;

@@ -1,7 +1,14 @@
 package com.tallerwebi.dominio;
 
+import com.tallerwebi.dominio.equipoNBA.EquipoNBA;
+import com.tallerwebi.dominio.equipoNBA.RepositorioEquipoNBA;
+import com.tallerwebi.dominio.equipoNBA.ServicioEquipoNBAimpl;
+import com.tallerwebi.dominio.equipoNBAJugador.EquipoNBAJugador;
+import com.tallerwebi.dominio.equipoNBAJugador.RepositorioEquipoNBAJugador;
 import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
 import com.tallerwebi.dominio.excepcion.elJugadorYaExisteEnElEquipoException;
+import com.tallerwebi.dominio.temporada.ServicioTemporada;
+import com.tallerwebi.dominio.temporada.Temporada;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,13 +25,15 @@ public class ServicioEquipoNBATest {
     private RepositorioEquipoNBA repositorioEquipoNBAMock;
     private RepositorioJugador repositorioJugadorMock;
     private RepositorioEquipoNBAJugador repositorioEquipoNBAJugadorMock;
+    private ServicioTemporada servicioTemporadaMock;
 
     @BeforeEach
     public void inicializacion() {
         repositorioEquipoNBAMock = mock(RepositorioEquipoNBA.class);
         repositorioJugadorMock = mock(RepositorioJugador.class);
         repositorioEquipoNBAJugadorMock = mock(RepositorioEquipoNBAJugador.class);
-        servicioEquipoNBA = new ServicioEquipoNBAimpl(repositorioEquipoNBAMock, repositorioJugadorMock, repositorioEquipoNBAJugadorMock);
+        servicioTemporadaMock = mock(ServicioTemporada.class);
+        servicioEquipoNBA = new ServicioEquipoNBAimpl(repositorioEquipoNBAMock, repositorioJugadorMock, repositorioEquipoNBAJugadorMock, servicioTemporadaMock);
     }
 
 
@@ -86,13 +95,13 @@ public class ServicioEquipoNBATest {
         Temporada temporada = new Temporada();
 
         EquipoNBA equipo = new EquipoNBA();
-        equipo.setTemporada(temporada);
-        
+
         Jugador jugador = new Jugador();
         jugador.setId(idJugador);
 
         when(repositorioEquipoNBAMock.buscarEquipoPorId(idEquipo)).thenReturn(equipo);
         when(repositorioJugadorMock.buscarJugadorPorId(idJugador)).thenReturn(jugador);
+        when(servicioTemporadaMock.obtenerTemporadaActual()).thenReturn(temporada);
 
         servicioEquipoNBA.agregarJugadorAlEquipo(idEquipo, idJugador);
 

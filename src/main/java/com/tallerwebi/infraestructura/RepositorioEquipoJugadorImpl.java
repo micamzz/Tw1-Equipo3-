@@ -1,7 +1,7 @@
 package com.tallerwebi.infraestructura;
 
-import com.tallerwebi.dominio.EquipoJugador;
-import com.tallerwebi.dominio.RepositorioEquipoJugador;
+import com.tallerwebi.dominio.equipoJugador.EquipoJugador;
+import com.tallerwebi.dominio.equipoJugador.RepositorioEquipoJugador;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;

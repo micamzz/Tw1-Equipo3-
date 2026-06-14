@@ -1,5 +1,11 @@
 package com.tallerwebi.dominio;
 
+import com.tallerwebi.dominio.equipo.Equipo;
+import com.tallerwebi.dominio.equipo.RepositorioEquipo;
+import com.tallerwebi.dominio.equipo.ServicioEquipo;
+import com.tallerwebi.dominio.equipo.ServicioEquipoImpl;
+import com.tallerwebi.dominio.equipoJugador.EquipoJugador;
+import com.tallerwebi.dominio.equipoJugador.RepositorioEquipoJugador;
 import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
 import com.tallerwebi.dominio.excepcion.PresupuestoInsuficienteException;
 import com.tallerwebi.dominio.excepcion.TorneoVirtualActualNoEncontradoException;

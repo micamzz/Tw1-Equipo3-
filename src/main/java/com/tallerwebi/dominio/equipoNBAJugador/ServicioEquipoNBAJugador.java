@@ -1,4 +1,7 @@
-package com.tallerwebi.dominio;
+package com.tallerwebi.dominio.equipoNBAJugador;
+
+import com.tallerwebi.dominio.Jugador;
+import com.tallerwebi.dominio.Posicion;
 
 import java.util.List;
 
