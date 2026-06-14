@@ -1,6 +1,6 @@
 package com.tallerwebi.dominio.equipo;
 
-import com.tallerwebi.dominio.TorneoVirtual;
+import com.tallerwebi.dominio.Torneo;
 
 import javax.persistence.*;
 
