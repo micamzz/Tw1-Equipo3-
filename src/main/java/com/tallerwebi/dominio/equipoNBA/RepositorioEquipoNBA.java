@@ -1,4 +1,4 @@
-package com.tallerwebi.dominio;
+package com.tallerwebi.dominio.equipoNBA;
 
 import java.util.List;
 
@@ -12,4 +12,6 @@ public interface RepositorioEquipoNBA {
 
 
     List<EquipoNBA> obtenerTodosLosEquiposOrdenados();
+
+    void eliminar(EquipoNBA equipo);
 }

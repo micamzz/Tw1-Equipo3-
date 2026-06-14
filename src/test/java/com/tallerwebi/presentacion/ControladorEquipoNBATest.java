@@ -1,8 +1,12 @@
 package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.*;
+import com.tallerwebi.dominio.equipoNBA.EquipoNBA;
+import com.tallerwebi.dominio.equipoNBA.ServicioEquipoNBA;
+import com.tallerwebi.dominio.equipoNBAJugador.ServicioEquipoNBAJugador;
 import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
 import com.tallerwebi.dominio.excepcion.elJugadorYaExisteEnElEquipoException;
+import com.tallerwebi.dominio.temporada.ServicioTemporada;
 import org.hamcrest.text.IsEqualIgnoringCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,7 +39,6 @@ public class ControladorEquipoNBATest {
         controladorEquipoNBA = new ControladorEquipoNBA(servicioEquipoNBAMock, servicioEquipoNBAJugadorMock, servicioTemporadaMock);
 
     }
-
 
     @Test
     public void irACrearEquipoRetornaUnaVistaParaIngresarElNombreDelEquipo() {
@@ -106,12 +109,13 @@ public class ControladorEquipoNBATest {
 
         when(servicioEquipoNBAMock.buscarEquipoPorId(idEquipo)).thenReturn(equipoNBAmock);
 
-        when(servicioEquipoNBAJugadorMock.obtenerJugadoresDisponibles()).thenReturn(jugadoresDisponibles);
+        when(servicioEquipoNBAJugadorMock.obtenerJugadoresFiltrados(null, null)).thenReturn(jugadoresDisponibles);
 
         when(servicioEquipoNBAJugadorMock.obtenerJugadoresDelEquipoPorId(idEquipo)).thenReturn(jugadoresEquipo);
 
         // Ejecución
         ModelAndView mav = controladorEquipoNBA.asignarJugadores(idEquipo, null, null, null);
+
 
         // Verificación
 
@@ -132,7 +136,6 @@ public class ControladorEquipoNBATest {
 
         // Ejecución
         ModelAndView mav = controladorEquipoNBA.asignarJugadores(idEquipo, null, null, null);
-
         // Verificación
         assertThat(mav.getViewName(), equalToIgnoringCase("redirect:/admin"));
     }

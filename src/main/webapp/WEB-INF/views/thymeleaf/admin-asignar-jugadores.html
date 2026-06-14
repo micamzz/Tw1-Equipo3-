@@ -46,13 +46,11 @@
 
             <select name="posicion">
 
-                <option value="">Todas las posiciones</option>
-
-                <option value="BASE">Base</option>
-
-                <option value="ALERO">Alero</option>
-
-                <option value="PIVOT">Pivot</option>
+                <option value="" th:selected="${posicion == null || posicion == ''}">Todas las posiciones</option>
+                <option value="BASE" th:selected="${posicion == 'BASE'}">Base</option>
+                <option value="ALERO" th:selected="${posicion == 'ALERO'}">Alero</option>
+                <option value="PIVOT" th:selected="${posicion == 'PIVOT'}">Pivot</option>
+                
             </select>
 
             <button type="submit">BUSCAR</button>
@@ -207,7 +205,7 @@
                                name="idJugador"
                                th:value="${jugador.id}">
 
-                        <button type="submit" class="btn-tabla btn-tabla-quitar">QUITAR</button>
+                        <button type="submit" class="btn-tabla btn-tabla-quitar">ELIMINAR</button>
 
                     </form>
 
@@ -222,7 +220,7 @@
 
     <hr>
 
-    <a th:href="@{/admin/listadoEquiposNBA}">CONFIRMAR</a>
+    <a th:href="@{/admin/listadoEquiposNBA}" class="boton-equipo">CONFIRMAR</a>
 
 </main>
 

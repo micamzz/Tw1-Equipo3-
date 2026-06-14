@@ -1,4 +1,4 @@
-package com.tallerwebi.dominio;
+package com.tallerwebi.dominio.equipoNBA;
 
 import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
 import com.tallerwebi.dominio.excepcion.elJugadorYaExisteEnElEquipoException;
@@ -20,4 +20,8 @@ public interface ServicioEquipoNBA {
 
 
     List<EquipoNBA> obtenerTodosLosEquiposOrdenadosDeMenorAMayor();
+
+    void eliminarEquipoNBA(Long idEquipo) throws EquipoNoEncontradoException;
+
+
 }

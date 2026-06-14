@@ -1,7 +1,7 @@
 package com.tallerwebi.infraestructura;
 
-import com.tallerwebi.dominio.EquipoNBA;
-import com.tallerwebi.dominio.RepositorioEquipoNBA;
+import com.tallerwebi.dominio.equipoNBA.EquipoNBA;
+import com.tallerwebi.dominio.equipoNBA.RepositorioEquipoNBA;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -40,6 +40,11 @@ public class RepositorioEquipoNBAimpl implements RepositorioEquipoNBA {
                 .createCriteria(EquipoNBA.class)
                 .addOrder(Order.asc("nombre"))
                 .list();
+    }
+
+    @Override
+    public void eliminar(EquipoNBA equipo) {
+        this.sessionFactory.getCurrentSession().delete(equipo);
     }
 
   /*  @Override

@@ -1,5 +1,6 @@
-package com.tallerwebi.dominio;
+package com.tallerwebi.dominio.equipo;
 
+import com.tallerwebi.dominio.equipoJugador.EquipoJugador;
 import com.tallerwebi.dominio.excepcion.*;
 
 import java.util.List;

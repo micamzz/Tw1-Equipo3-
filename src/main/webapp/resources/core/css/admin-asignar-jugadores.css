@@ -216,16 +216,12 @@ body {
     letter-spacing: 0.06em;
     cursor: pointer;
     flex-shrink: 0;
-    transition: background var(--transition), transform var(--transition);
 }
 
 .filtros button[type="submit"]:hover {
     background: var(--naranja-hover);
 }
 
-.filtros button[type="submit"]:active {
-    transform: scale(0.97);
-}
 
 /* SELECCIONES DE TABLA */
 .jugadores-disponibles,
@@ -404,4 +400,14 @@ hr {
 
 .select-orden option {
     background: #1a1a1a;
+}
+
+.boton-equipo {
+    margin: 1.5em auto 0;
+    text-decoration: none;
+    color: white;
+    font-weight: 700;
+    background: var(--naranja);
+    padding: 0.7em 1.6em;
+    border-radius: 8px;
 }

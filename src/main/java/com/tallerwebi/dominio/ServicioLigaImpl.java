@@ -1,5 +1,6 @@
 package com.tallerwebi.dominio;
 
+import com.tallerwebi.dominio.equipo.Equipo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,7 +51,7 @@ public class ServicioLigaImpl implements ServicioLiga {
 
 
     private List<RendimientoJugador> mapJugadoresToRendimientos(List<Jugador> jugadores, int startInclusive,
-            int endExclusive) {
+                                                                int endExclusive) {
         List<RendimientoJugador> rendimientos = new ArrayList<>();
         if (jugadores == null || jugadores.isEmpty()) {
             return rendimientos;

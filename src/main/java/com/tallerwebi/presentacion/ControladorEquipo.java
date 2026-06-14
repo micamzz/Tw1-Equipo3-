@@ -1,6 +1,10 @@
 package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.*;
+import com.tallerwebi.dominio.equipo.Equipo;
+import com.tallerwebi.dominio.equipo.ServicioEquipo;
+import com.tallerwebi.dominio.equipoJugador.EquipoJugador;
+import com.tallerwebi.dominio.equipoJugador.ServicioEquipoJugador;
 import com.tallerwebi.dominio.excepcion.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

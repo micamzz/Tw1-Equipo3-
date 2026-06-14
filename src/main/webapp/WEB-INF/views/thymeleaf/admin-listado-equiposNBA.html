@@ -48,7 +48,7 @@
                 <a th:href="@{/admin/asignar-jugadoresNBA(id=${equipo.id})}" class="btn btn-naranja">EDITAR</a>
 
                 <form th:action="@{/admin/eliminarEquipoNBA}" method="post" style="display:inline">
-                    <input type="hidden" name="id" th:value="${equipo.id}">
+                    <input type="hidden" name="idEquipo" th:value="${equipo.id}">
                     <button type="submit" class="btn btn-rojo">BORRAR</button>
                 </form>
             </td>

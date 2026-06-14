@@ -1,4 +1,4 @@
-package com.tallerwebi.dominio;
+package com.tallerwebi.dominio.temporada;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -17,7 +17,7 @@ public class Temporada {
 
     private Integer anio;
 
-    
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate fechaInicio;
 

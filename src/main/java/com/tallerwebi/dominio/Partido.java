@@ -1,5 +1,7 @@
 package com.tallerwebi.dominio;
 
+import com.tallerwebi.dominio.equipo.Equipo;
+
 public abstract class Partido {
     private Equipo equipoLocal;
     private Equipo equipoVisitante;

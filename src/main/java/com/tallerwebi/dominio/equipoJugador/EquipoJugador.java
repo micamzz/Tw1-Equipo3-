@@ -1,6 +1,8 @@
-package com.tallerwebi.dominio;
+package com.tallerwebi.dominio.equipoJugador;
 
-import com.tallerwebi.dominio.menum.PosicionJugadorEquipo;
+import com.tallerwebi.dominio.Jugador;
+import com.tallerwebi.dominio.equipo.Equipo;
+import com.tallerwebi.dominio.enums.PosicionJugadorEquipo;
 
 import javax.persistence.*;
 

@@ -1,8 +1,14 @@
 package com.tallerwebi.presentacion;
 
-import com.tallerwebi.dominio.*;
+import com.tallerwebi.dominio.Jugador;
+import com.tallerwebi.dominio.Posicion;
+import com.tallerwebi.dominio.equipoNBA.EquipoNBA;
+import com.tallerwebi.dominio.equipoNBA.ServicioEquipoNBA;
+import com.tallerwebi.dominio.equipoNBAJugador.ServicioEquipoNBAJugador;
 import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
 import com.tallerwebi.dominio.excepcion.elJugadorYaExisteEnElEquipoException;
+import com.tallerwebi.dominio.temporada.ServicioTemporada;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -21,6 +27,7 @@ public class ControladorEquipoNBA {
     private final ServicioEquipoNBAJugador servicioEquipoNBAJugador;
     private final ServicioTemporada servicioTemporada;
 
+    @Autowired
     public ControladorEquipoNBA(ServicioEquipoNBA servicioEquipoNBA, ServicioEquipoNBAJugador servicioEquipoNBAJugador, ServicioTemporada servicioTemporada) {
         this.servicioEquipoNBA = servicioEquipoNBA;
         this.servicioEquipoNBAJugador = servicioEquipoNBAJugador;
@@ -31,11 +38,9 @@ public class ControladorEquipoNBA {
     @RequestMapping("/altaEquipoNBA")
     public ModelAndView irAlFormularioEquipoNBA() {
         ModelMap modelo = new ModelMap();
-        EquipoNBA equipoNba = new EquipoNBA();
 
         modelo.put("equipoNBA", new EquipoNBA());
         modelo.put("temporadaActual", servicioTemporada.obtenerTemporadaActual());
-
 
         return new ModelAndView("admin-alta-nombreEquipoNBA", modelo);
     }
@@ -47,11 +52,11 @@ public class ControladorEquipoNBA {
         if (equipoNBA.getNombre() == null || equipoNBA.getNombre().isBlank()) {
             ModelMap modelo = new ModelMap();
             modelo.put("equipoNBA", new EquipoNBA());
+            modelo.put("temporadaActual", servicioTemporada.obtenerTemporadaActual());
             modelo.put("error", "El nombre del equipo no puede estar vacío");
             return new ModelAndView("admin-alta-nombreEquipoNBA", modelo);
         }
 
-        equipoNBA.setTemporada(servicioTemporada.obtenerTemporadaActual());
         servicioEquipoNBA.guardarEquipoNBA(equipoNBA);
         Long idEquipoIngresado = equipoNBA.getId();
 
@@ -62,8 +67,9 @@ public class ControladorEquipoNBA {
     // Vista con el form para que seleccione a los jugadores.
     // El request recibe por parámetro el id que es obtenido del método anterior
     @RequestMapping("/asignar-jugadoresNBA")
-    public ModelAndView asignarJugadores(@RequestParam Long id, @RequestParam(required = false) String nombre,
-                                         @RequestParam(required = false) Posicion posicion,
+    public ModelAndView asignarJugadores(@RequestParam Long id,
+                                         @RequestParam(required = false) String nombre,
+                                         @RequestParam(required = false) String posicion,
                                          @RequestParam(required = false) String error) {
 
         try {
@@ -71,16 +77,36 @@ public class ControladorEquipoNBA {
 
             EquipoNBA equipoNBA = servicioEquipoNBA.buscarEquipoPorId(id);
 
-            List<Jugador> listadoJugadores = servicioEquipoNBAJugador.obtenerJugadoresDisponibles();
-            List<Jugador> listadoJugadoresDelEquipo = servicioEquipoNBAJugador.obtenerJugadoresDelEquipoPorId(id);
+            /* IGUAL QUE EL MERCADO(JUGADORES) CONTROLADOR*/
+            if (nombre != null && nombre.isEmpty()) {
+                nombre = null;
+            }
+
+            if (posicion != null && posicion.isEmpty()) {
+                posicion = null;
+            }
+
+            Posicion posicionEnum = null;
+
+            if (posicion != null) {
+                posicionEnum = Posicion.valueOf(posicion);
+            }
+
+            List<Jugador> listadoJugadores = servicioEquipoNBAJugador.obtenerJugadoresFiltrados(posicionEnum, nombre);
+
+            List<Jugador> plantel = servicioEquipoNBAJugador.obtenerJugadoresDelEquipoPorId(id);
 
             modelo.put("equipo", equipoNBA);
             modelo.put("jugadores", listadoJugadores);
-            modelo.put("plantel", listadoJugadoresDelEquipo);
+            modelo.put("plantel", plantel);
+
+            modelo.put("nombre", nombre);
+            modelo.put("posicion", posicion);
 
             if (error != null) {
                 modelo.put("error", error);
             }
+
             return new ModelAndView("admin-asignar-jugadores", modelo);
 
         } catch (EquipoNoEncontradoException e) {
@@ -123,5 +149,27 @@ public class ControladorEquipoNBA {
             return new ModelAndView("redirect:/admin/listadoEquiposNBA");
         }
     }
+
+    @RequestMapping(value = "/quitarJugadorAEquipoNBA", method = RequestMethod.POST)
+    public ModelAndView quitarJugadorAEquipoNBA(
+            @RequestParam Long idEquipo,
+            @RequestParam Long idJugador)
+            throws EquipoNoEncontradoException {
+
+        servicioEquipoNBA.eliminarJugadorDelEquipo(idEquipo, idJugador);
+
+
+        return new ModelAndView("redirect:/admin/asignar-jugadoresNBA?id=" + idEquipo);
+    }
+
+
+    @RequestMapping(value = "/eliminarEquipoNBA", method = RequestMethod.POST)
+    public ModelAndView eliminarEquipoNBA(@RequestParam Long idEquipo) throws EquipoNoEncontradoException {
+
+        servicioEquipoNBA.eliminarEquipoNBA(idEquipo);
+
+        return new ModelAndView("redirect:/admin/listadoEquiposNBA");
+    }
+
 }
 

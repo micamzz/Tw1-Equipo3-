@@ -1,6 +1,9 @@
 package com.tallerwebi.dominio;
 
+
+import com.tallerwebi.dominio.equipo.RepositorioEquipo;
 import com.tallerwebi.dominio.excepcion.*;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -1,7 +1,7 @@
 package com.tallerwebi.infraestructura;
 
-import com.tallerwebi.dominio.Equipo;
-import com.tallerwebi.dominio.RepositorioEquipo;
+import com.tallerwebi.dominio.equipo.Equipo;
+import com.tallerwebi.dominio.equipo.RepositorioEquipo;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
