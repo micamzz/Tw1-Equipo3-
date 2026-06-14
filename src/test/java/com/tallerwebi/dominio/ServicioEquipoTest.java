@@ -343,8 +343,8 @@ public class ServicioEquipoTest {
     public void alGuardarUnEquipoSeAsignaPresupuestoYTorneo() throws TorneoVirtualActualNoEncontradoException {
         // preparación
         Equipo equipo = new Equipo();
-        TorneoVirtual torneoMock = mock(TorneoVirtual.class);
-        when(repositorioTorneoMock.buscarTorneoVirtualActual()).thenReturn(torneoMock);
+        Torneo torneoMock = mock(Torneo.class);
+        when(repositorioTorneoMock.buscarTorneoActual(TipoTorneo.VIRTUAL)).thenReturn(torneoMock);
 
         // ejecución
         Equipo resultado = servicioEquipo.guardarEquipo(equipo);
@@ -359,7 +359,7 @@ public class ServicioEquipoTest {
     public void alGuardarUnEquipoSinTorneoLanzaExcepcion() {
         // preparación
         Equipo equipo = new Equipo();
-        when(repositorioTorneoMock.buscarTorneoVirtualActual()).thenReturn(null);
+        when(repositorioTorneoMock.buscarTorneoActual(TipoTorneo.VIRTUAL)).thenReturn(null);
 
         // ejecución y verificación
         assertThrows(TorneoVirtualActualNoEncontradoException.class, () -> servicioEquipo.guardarEquipo(equipo));

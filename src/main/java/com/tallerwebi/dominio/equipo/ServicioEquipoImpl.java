@@ -37,7 +37,7 @@ public class ServicioEquipoImpl implements ServicioEquipo {
     @Override
     public Equipo guardarEquipo(Equipo equipo) throws TorneoVirtualActualNoEncontradoException {
         equipo.setPresupuesto(PRESUPUESTO_INICIAL); // Presupuesto inicial para cada equipo
-        TorneoVirtual torneoVirtualActual = repositorioTorneo.buscarTorneoVirtualActual();
+        Torneo torneoVirtualActual = repositorioTorneo.buscarTorneoActual(TipoTorneo.VIRTUAL);
 
         if (torneoVirtualActual == null) {
             throw new TorneoVirtualActualNoEncontradoException("No hay ningun torneo en curso");

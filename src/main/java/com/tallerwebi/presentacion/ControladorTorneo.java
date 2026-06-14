@@ -1,11 +1,9 @@
 package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.ServicioTorneo;
-import com.tallerwebi.dominio.TorneoVirtual;
-import com.tallerwebi.dominio.excepcion.FechaIncoherenteException;
-import com.tallerwebi.dominio.excepcion.FechasSuperpuestasException;
-import com.tallerwebi.dominio.excepcion.NoSePuedeEliminarUnTorneoSiTieneEquiposAsociadosException;
-import com.tallerwebi.dominio.excepcion.TorneoNoEncontradoException;
+import com.tallerwebi.dominio.TipoTorneo;
+import com.tallerwebi.dominio.Torneo;
+import com.tallerwebi.dominio.excepcion.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -29,7 +27,7 @@ public class ControladorTorneo {
     public ModelAndView verTorneoActual() {
         ModelMap modelo = new ModelMap();
 
-        modelo.put("torneo", servicioTorneo.obtenerTorneoActual());
+        modelo.put("torneo", servicioTorneo.obtenerTorneoActual(TipoTorneo.VIRTUAL));
 
         return new ModelAndView("torneo", modelo);
     }
@@ -39,7 +37,9 @@ public class ControladorTorneo {
 
         ModelMap modelo = new ModelMap();
 
-        modelo.put("torneo", new TorneoVirtual());
+        modelo.put("torneo", new Torneo());
+
+        modelo.put("tipos", TipoTorneo.values());
 
         return new ModelAndView("crear-torneo", modelo);
 
@@ -47,7 +47,7 @@ public class ControladorTorneo {
 
     @PostMapping("/admin/torneo/guardar")
     public ModelAndView guardarTorneo(
-            @ModelAttribute("torneo") TorneoVirtual torneo) {
+            @ModelAttribute("torneo") Torneo torneo) {
 
         try {
             System.out.println("Nombre: " + torneo.getNombreTorneo());
@@ -56,11 +56,12 @@ public class ControladorTorneo {
 
             servicioTorneo.crearTorneo(torneo);
             return new ModelAndView("redirect:/admin/torneos?success=Torneo creado correctamente");
-        } catch (FechaIncoherenteException | FechasSuperpuestasException e) {
+        } catch (FechaIncoherenteException | FechasSuperpuestasException | NombreDeTorneoEnBlancoException | TipoDeTorneoEnBlancoException e) {
             ModelMap modelo = new ModelMap();
 
             modelo.put("torneo", torneo);
             modelo.put("error", e.getMessage());
+            modelo.put("tipos", TipoTorneo.values());
             return new ModelAndView("crear-torneo", modelo);
         }
     }

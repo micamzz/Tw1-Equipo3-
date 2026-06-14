@@ -24,10 +24,10 @@ public class ServicioTorneoImpl implements ServicioTorneo {
         this.repositorioEquipo = repositorioEquipo;
     }
 
-    private void validarQueNoSeSuperponganFechas(TorneoVirtual torneoNuevo) throws FechasSuperpuestasException {
-        List<TorneoVirtual> torneosExistentes = repositorioTorneo.obtenerTodosLosTorneosVirtuales();
+    private void validarQueNoSeSuperponganFechas(Torneo torneoNuevo) throws FechasSuperpuestasException {
+        List<Torneo> torneosExistentes = repositorioTorneo.obtenerTorneosPorTipo(torneoNuevo.getTipoTorneo());
 
-        for (TorneoVirtual torneoExistente : torneosExistentes) {
+        for (Torneo torneoExistente : torneosExistentes) {
             boolean seSuperponen =
                     !torneoNuevo.getFechaFin().isBefore(torneoExistente.getFechaInicio())
                             &&
@@ -39,27 +39,37 @@ public class ServicioTorneoImpl implements ServicioTorneo {
         }
     }
 
-    private void validarQueElNombreDelTorneoNoEsteEnBlanco(TorneoVirtual torneo) throws NombreDeTorneoEnBlancoException {
+    private void validarQueElNombreDelTorneoNoEsteEnBlanco(Torneo torneo) throws NombreDeTorneoEnBlancoException {
 
-        if (torneo.getNombreTorneo().isBlank()) {
+        if (torneo.getNombreTorneo() == null || torneo.getNombreTorneo().isBlank()) {
             throw new NombreDeTorneoEnBlancoException("El nombre no puede estar vacío");
         }
     }
 
     @Override
-    public void crearTorneo(TorneoVirtual torneo) throws FechaIncoherenteException, FechasSuperpuestasException {
+    public void crearTorneo(Torneo torneo) throws FechaIncoherenteException, FechasSuperpuestasException, NombreDeTorneoEnBlancoException, TipoDeTorneoEnBlancoException {
+
+        if (torneo.getFechaInicio() == null || torneo.getFechaFin() == null) {
+            throw new FechaIncoherenteException("La fecha de inicio y la fecha de finalizacion del torneo no pueden estar vacias");
+        }
+
+        if (torneo.getTipoTorneo() == null) {
+            throw new TipoDeTorneoEnBlancoException("El tipo de torneo no puede estar vacio");
+        }
+
         if (torneo.getFechaFin().isBefore(torneo.getFechaInicio())) {
             throw new FechaIncoherenteException("La fecha de finalizacion del torneo debe ser posterior a la fecha de inicio");
 
         }
+        validarQueElNombreDelTorneoNoEsteEnBlanco(torneo);
         validarQueNoSeSuperponganFechas(torneo);
         repositorioTorneo.guardarTorneo(torneo);
     }
 
     @Override
-    public TorneoVirtual obtenerTorneoActual() {
+    public Torneo obtenerTorneoActual(TipoTorneo tipoTorneo) {
 
-        return repositorioTorneo.buscarTorneoVirtualActual();
+        return repositorioTorneo.buscarTorneoActual(tipoTorneo);
     }
 
     @Override
@@ -86,8 +96,9 @@ public class ServicioTorneoImpl implements ServicioTorneo {
     }
 
     @Override
-    public List<TorneoVirtual> obtenerTodosLosTorneos() {
-        return repositorioTorneo.obtenerTodosLosTorneosVirtuales();
+    public List<Torneo> obtenerTodosLosTorneos() {
+
+        return repositorioTorneo.obtenerTodosLosTorneos();
     }
 
 

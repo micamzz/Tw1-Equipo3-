@@ -193,33 +193,28 @@ INSERT INTO `tw1`.`torneo`
 (`id`,
  `fechaFin`,
  `fechaInicio`,
- `nombreTorneo`)
+ `nombreTorneo`,
+ `TipoTorneo`)
 VALUES (1,
         '2026-12-31',
         '2026-01-01',
-        'Temporada NBA 2026');
+        'Temporada NBA 2026',
+        'REAL');
 
-INSERT INTO `tw1`.`torneoreal`
-(`temporada`,
- `id`)
-VALUES ('Temporada NBA 2026',
-        1);
 
 INSERT INTO `tw1`.`torneo`
 (`id`,
  `fechaFin`,
  `fechaInicio`,
- `nombreTorneo`)
+ `nombreTorneo`,
+ `TipoTorneo`)
 VALUES (2,
         '2026-12-31',
         '2026-01-01',
-        'UNLAM Basquet 2026');
+        'UNLAM Basquet 2026',
+        'VIRTUAL');
 
-INSERT INTO `tw1`.`torneovirtual`
-(`id`,
- `torneoReal_id`)
-VALUES (2,
-        1);
+
 
 INSERT INTO Calendario (nombre)
 VALUES ('Temporada 2026');

@@ -44,7 +44,7 @@ public class ControladorEquipo {
         // TORNEO LLAMAR AL TORNEO.buscarTorneoActual();
         // Se crea un objeto vacio que luego se va a rellenar con los datos del form.
         modelo.put("equipo", equipo);
-        modelo.put("torneoActual", servicioTorneo.obtenerTorneoActual());
+        modelo.put("torneoActual", servicioTorneo.obtenerTorneoActual(TipoTorneo.VIRTUAL));
         return new ModelAndView("crear-equipo", modelo);
     }
 

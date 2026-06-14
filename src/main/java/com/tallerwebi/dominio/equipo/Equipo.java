@@ -14,7 +14,7 @@ public class Equipo {
     private Double presupuesto;
 
     @ManyToOne
-    private TorneoVirtual torneo;
+    private Torneo torneo;
     // private Usuario usu;
 
 
@@ -45,11 +45,11 @@ public class Equipo {
         this.presupuesto = presupuesto;
     }
 
-    public TorneoVirtual getTorneo() {
+    public Torneo getTorneo() {
         return torneo;
     }
 
-    public void setTorneo(TorneoVirtual torneo) {
+    public void setTorneo(Torneo torneo) {
         this.torneo = torneo;
     }
 }
