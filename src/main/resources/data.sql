@@ -1,9 +1,13 @@
 INSERT INTO Usuario(id, email, password, rol, activo)
 VALUES (null, 'test@unlam.edu.ar', 'test', 'ADMIN', true);
 
--- TEMPORADA
+-- TEMPORADA  2025 DEL 1 DE MARZO AL 08 NOVIEMBRE  (2025)
 INSERT INTO Temporada (id, nombre, anio, fechaInicio, fechaFin)
-VALUES (1, 'Taller Web Unlam 2026', 2026, '2026-03-30', '2026-07-17');
+VALUES (1, 'Taller Web Unlam 2025', 2025, '2025-03-01', '2025-11-08');
+
+-- TEMPORADA DEL 1 DE MARZO AL 08 NOVIEMBRE  (2026)
+INSERT INTO Temporada (id, nombre, anio, fechaInicio, fechaFin)
+VALUES (2, 'Taller Web Unlam 2026', 2026, '2026-03-01', '2026-11-08');
 
 -- EQUIPOS NBA
 INSERT INTO EquipoNBA(id, nombre, escudoImagen)
@@ -146,46 +150,79 @@ VALUES
 (36, 32, 5, 7, 2, 1, 3),
 (37, 27, 5, 4, 2, 0, 3);
 
-
+-- ASIGNACIONES 2025
+INSERT INTO EquipoNBAJugador(equipoNBA_id, jugador_id, temporada_id)
+VALUES (1, 9, 1),
+       (2, 17, 1),
+       (3, 25, 1),
+       (4, 1, 1),
+       (1, 18, 1),
+       (2, 26, 1),
+       (3, 2, 1),
+       (4, 10, 1),
+       (1, 27, 1),
+       (2, 3, 1),
+       (3, 11, 1),
+       (4, 19, 1),
+       (1, 4, 1),
+       (2, 12, 1),
+       (3, 20, 1),
+       (4, 28, 1),
+       (1, 13, 1),
+       (2, 21, 1),
+       (3, 29, 1),
+       (4, 5, 1),
+       (1, 22, 1),
+       (2, 30, 1),
+       (3, 6, 1),
+       (4, 14, 1),
+       (1, 23, 1),
+       (2, 31, 1),
+       (3, 7, 1),
+       (4, 15, 1),
+       (1, 24, 1),
+       (2, 32, 1),
+       (3, 8, 1),
+       (4, 16, 1);
 -- ASIGNACIONES EquipoNBAJugador con temporada
 INSERT INTO EquipoNBAJugador(equipoNBA_id, jugador_id, temporada_id)
 VALUES
 -- Golden State Warriors
-(1, 1, 1),
-(1, 2, 1),
-(1, 3, 1),
-(1, 4, 1),
-(1, 5, 1),
-(1, 6, 1),
-(1, 7, 1),
-(1, 8, 1),
+(1, 1, 2),
+(1, 2, 2),
+(1, 3, 2),
+(1, 4, 2),
+(1, 5, 2),
+(1, 6, 2),
+(1, 7, 2),
+(1, 8, 2),
 -- Boston Celtics
-(2, 9, 1),
-(2, 10, 1),
-(2, 11, 1),
-(2, 12, 1),
-(2, 13, 1),
-(2, 14, 1),
-(2, 15, 1),
-(2, 16, 1),
+(2, 9, 2),
+(2, 10, 2),
+(2, 11, 2),
+(2, 12, 2),
+(2, 13, 2),
+(2, 14, 2),
+(2, 15, 2),
+(2, 16, 2),
 -- Los Angeles Lakers
-(3, 17, 1),
-(3, 18, 1),
-(3, 19, 1),
-(3, 20, 1),
-(3, 21, 1),
-(3, 22, 1),
-(3, 23, 1),
-(3, 24, 1),
+(3, 17, 2),
+(3, 18, 2),
+(3, 19, 2),
+(3, 20, 2),
+(3, 21, 2),
+(3, 22, 2),
+(3, 23, 2),
+(3, 24, 2),
 -- Miami Heat
-(4, 25, 1),
-(4, 26, 1),
-(4, 27, 1),
-(4, 28, 1),
-(4, 29, 1),
-(4, 30, 1),
-(4, 31, 1),
-(4, 32, 1);
+(4, 25, 2),
+(4, 26, 2),
+(4, 27, 2),
+(4, 28, 2),
+(4, 29, 2),
+(4, 30, 2),
+(4, 31, 2),
+(4, 32, 2);
 
 
 -- TORNEO
