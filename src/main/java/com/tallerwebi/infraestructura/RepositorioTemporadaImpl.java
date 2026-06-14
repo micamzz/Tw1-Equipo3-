@@ -1,6 +1,5 @@
 package com.tallerwebi.infraestructura;
 
-import com.tallerwebi.dominio.equipoNBAJugador.EquipoNBAJugador;
 import com.tallerwebi.dominio.temporada.RepositorioTemporada;
 import com.tallerwebi.dominio.temporada.Temporada;
 import org.hibernate.SessionFactory;
@@ -27,13 +26,6 @@ public class RepositorioTemporadaImpl implements RepositorioTemporada {
         sessionFactory.getCurrentSession().save(temporada);
     }
 
-    @Override
-    public Temporada buscarPorId(Long id) {
-        return (Temporada) sessionFactory.getCurrentSession()
-                .createCriteria(Temporada.class)
-                .add(Restrictions.eq("id", id))
-                .uniqueResult();
-    }
 
     @Override
     public Temporada obtenerTemporadaActual() {
@@ -53,13 +45,4 @@ public class RepositorioTemporadaImpl implements RepositorioTemporada {
                 .list();
     }
 
-    @Override
-    public boolean jugadorExisteEnLaTemporada(Long idJugador, Long idTemporada) {
-        return this.sessionFactory.getCurrentSession()
-                .createCriteria(EquipoNBAJugador.class)
-                .add(Restrictions.eq("jugador.id", idJugador))
-                .createAlias("equipoNBA", "equipo")
-                .add(Restrictions.eq("equipo.temporada.id", idTemporada))
-                .uniqueResult() != null;
-    }
 }

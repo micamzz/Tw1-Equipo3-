@@ -30,7 +30,9 @@ public class ServicioEquipoNBAJugadorImpl implements ServicioEquipoNBAJugador {
 
     @Override
     public List<Jugador> obtenerJugadoresDelEquipoPorId(Long id) {
-        List<EquipoNBAJugador> jugadoresAsignados = repositorioEquipoNBAJugador.buscarJugadoresDelEquipoNBA(id);
+        Temporada temporadaActual = servicioTemporada.obtenerTemporadaActual();
+        List<EquipoNBAJugador> jugadoresAsignados = repositorioEquipoNBAJugador.buscarJugadoresDelEquipoNBAEnTemporada(id, temporadaActual.getId());
+
 
         List<Jugador> plantel = new ArrayList<>();
 
