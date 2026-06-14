@@ -10,7 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ControladorLiga {
 
-    private ServicioLiga servicioLiga;
+    private final ServicioLiga servicioLiga;
 
     public ControladorLiga() {
         // Uso de la demo de liga en caso de no tener la capa de persistencia de datos

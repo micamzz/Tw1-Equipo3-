@@ -12,7 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class ControladorMercado {
-    private ServicioMercado servicioMercado;
+    private final ServicioMercado servicioMercado;
 
     @Autowired
     public ControladorMercado(ServicioMercado servicioMercado) {

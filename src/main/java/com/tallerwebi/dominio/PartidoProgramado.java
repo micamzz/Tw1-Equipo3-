@@ -3,10 +3,10 @@ package com.tallerwebi.dominio;
 import com.tallerwebi.dominio.equipo.Equipo;
 
 public class PartidoProgramado extends Partido {
-    private int numeroFecha;
-    private String fecha;
-    private String hora;
-    private String lugar;
+    private final int numeroFecha;
+    private final String fecha;
+    private final String hora;
+    private final String lugar;
 
     public PartidoProgramado(Equipo equipoLocal, Equipo equipoVisitante, int numeroFecha, String fecha, String hora,
                              String lugar) {

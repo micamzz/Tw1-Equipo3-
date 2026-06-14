@@ -44,7 +44,7 @@ public class RepositorioJugadorTest {
     public void queBuscarJugadoresPorNombreDevuelvaResultados() {
         Jugador jugador = new Jugador();
         jugador.setNombre("Stephen Curry");
-        when(criteriaMock.list()).thenReturn(Arrays.asList(jugador));
+        when(criteriaMock.list()).thenReturn(List.of(jugador));
 
         List<Jugador> resultado = repositorioJugador.buscarJugadores(null, "Curry");
 
@@ -56,7 +56,7 @@ public class RepositorioJugadorTest {
     public void queBuscarJugadoresPorPosicionDevuelvaResultados() {
         Jugador jugador = new Jugador();
         jugador.setPosicion(Posicion.BASE);
-        when(criteriaMock.list()).thenReturn(Arrays.asList(jugador));
+        when(criteriaMock.list()).thenReturn(List.of(jugador));
 
         List<Jugador> resultado = repositorioJugador.buscarJugadores(Posicion.BASE, null);
 

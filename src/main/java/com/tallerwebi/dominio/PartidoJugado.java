@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PartidoJugado extends Partido {
-    private int puntosLocal;
-    private int puntosVisitante;
+    private final int puntosLocal;
+    private final int puntosVisitante;
     private List<RendimientoJugador> rendimientoEquipoLocal;
     private List<RendimientoJugador> rendimientoEquipoVisitante;
 

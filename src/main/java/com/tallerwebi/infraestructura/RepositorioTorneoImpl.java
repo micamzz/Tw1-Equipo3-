@@ -1,6 +1,8 @@
 package com.tallerwebi.infraestructura;
 
-import com.tallerwebi.dominio.*;
+import com.tallerwebi.dominio.RepositorioTorneo;
+import com.tallerwebi.dominio.TipoTorneo;
+import com.tallerwebi.dominio.Torneo;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -11,7 +13,7 @@ import java.util.List;
 @Repository
 public class RepositorioTorneoImpl implements RepositorioTorneo {
 
-    private SessionFactory sessionFactory;
+    private final SessionFactory sessionFactory;
 
     @Autowired
     public RepositorioTorneoImpl(SessionFactory sessionFactory) {
@@ -38,7 +40,7 @@ public class RepositorioTorneoImpl implements RepositorioTorneo {
     @Override
     public List<Torneo> obtenerTorneosPorTipo(TipoTorneo tipoTorneo) {
         return sessionFactory.getCurrentSession()
-                .createQuery("FROM Torneo t WHERE t.tipoTorneo = :tipo",  Torneo.class)
+                .createQuery("FROM Torneo t WHERE t.tipoTorneo = :tipo", Torneo.class)
                 .setParameter("tipo", tipoTorneo)
                 .list();
     }
