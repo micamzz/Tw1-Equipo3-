@@ -12,15 +12,15 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class ControladorJugador {
-    private ServicioMercado servicioMercado;
+    private final ServicioMercado servicioMercado;
 
     @Autowired
-    public ControladorJugador(ServicioMercado servicioMercado){
+    public ControladorJugador(ServicioMercado servicioMercado) {
         this.servicioMercado = servicioMercado;
     }
 
     @GetMapping("/jugador/{id}")
-    public ModelAndView verDetalleJugador(@PathVariable Long id){
+    public ModelAndView verDetalleJugador(@PathVariable Long id) {
         ModelMap modelo = new ModelMap();
 
         Jugador jugador = servicioMercado.buscarJugadorPorId(id);

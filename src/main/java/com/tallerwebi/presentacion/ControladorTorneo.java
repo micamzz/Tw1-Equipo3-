@@ -16,7 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ControladorTorneo {
 
-    private ServicioTorneo servicioTorneo;
+    private final ServicioTorneo servicioTorneo;
 
     @Autowired
     public ControladorTorneo(ServicioTorneo servicioTorneo) {
@@ -56,7 +56,8 @@ public class ControladorTorneo {
 
             servicioTorneo.crearTorneo(torneo);
             return new ModelAndView("redirect:/admin/torneos?success=Torneo creado correctamente");
-        } catch (FechaIncoherenteException | FechasSuperpuestasException | NombreDeTorneoEnBlancoException | TipoDeTorneoEnBlancoException e) {
+        } catch (FechaIncoherenteException | FechasSuperpuestasException | NombreDeTorneoEnBlancoException |
+                 TipoDeTorneoEnBlancoException e) {
             ModelMap modelo = new ModelMap();
 
             modelo.put("torneo", torneo);

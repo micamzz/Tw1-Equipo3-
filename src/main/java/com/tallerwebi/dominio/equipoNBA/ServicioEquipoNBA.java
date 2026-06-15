@@ -1,6 +1,8 @@
 package com.tallerwebi.dominio.equipoNBA;
 
 import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
+import com.tallerwebi.dominio.excepcion.JugadorYaExisteEnLaTemporadaException;
+import com.tallerwebi.dominio.excepcion.TemporadaActualNoEncontradaException;
 import com.tallerwebi.dominio.excepcion.elJugadorYaExisteEnElEquipoException;
 
 import java.util.List;
@@ -8,17 +10,14 @@ import java.util.List;
 
 public interface ServicioEquipoNBA {
 
-    void agregarJugadorAlEquipo(Long idEquipo, Long idJugador) throws EquipoNoEncontradoException, elJugadorYaExisteEnElEquipoException;
+    void agregarJugadorAlEquipo(Long idEquipo, Long idJugador) throws EquipoNoEncontradoException, elJugadorYaExisteEnElEquipoException, JugadorYaExisteEnLaTemporadaException, TemporadaActualNoEncontradaException;
 
-    void eliminarJugadorDelEquipo(Long idEquipo, Long idJugador) throws EquipoNoEncontradoException;
+    void eliminarJugadorDelEquipo(Long idEquipo, Long idJugador) throws EquipoNoEncontradoException, TemporadaActualNoEncontradaException;
 
     void guardarEquipoNBA(EquipoNBA equipo);
 
     EquipoNBA buscarEquipoPorId(Long id) throws EquipoNoEncontradoException;
-
-    EquipoNBA buscarEquipoPorNombre(String nombre) throws EquipoNoEncontradoException;
-
-
+    
     List<EquipoNBA> obtenerTodosLosEquiposOrdenadosDeMenorAMayor();
 
     void eliminarEquipoNBA(Long idEquipo) throws EquipoNoEncontradoException;

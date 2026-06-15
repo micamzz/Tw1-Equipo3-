@@ -1,11 +1,10 @@
 package com.tallerwebi.presentacion;
 
-import com.tallerwebi.dominio.*;
+import com.tallerwebi.dominio.Jugador;
 import com.tallerwebi.dominio.equipoNBA.EquipoNBA;
 import com.tallerwebi.dominio.equipoNBA.ServicioEquipoNBA;
 import com.tallerwebi.dominio.equipoNBAJugador.ServicioEquipoNBAJugador;
 import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
-import com.tallerwebi.dominio.excepcion.elJugadorYaExisteEnElEquipoException;
 import com.tallerwebi.dominio.temporada.ServicioTemporada;
 import org.hamcrest.text.IsEqualIgnoringCase;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,7 +28,7 @@ public class ControladorEquipoNBATest {
     private EquipoNBA equipoNBAmock;
 
 
-    // Inicializacion de variables
+    // Inicialización de variables
     @BeforeEach
     public void inicializacion() {
         servicioEquipoNBAMock = mock(ServicioEquipoNBA.class);
@@ -42,25 +41,25 @@ public class ControladorEquipoNBATest {
 
     @Test
     public void irACrearEquipoRetornaUnaVistaParaIngresarElNombreDelEquipo() {
-        // Ejecucion
+        // Ejecución
         ModelAndView mav = controladorEquipoNBA.irAlFormularioEquipoNBA();
 
-        //Se encuentra el input para poner ingresar el nombre del equipo?
+        //¿Se encuentra el input para poner ingresar el nombre del equipo?
         assertThat(mav.getViewName(), equalToIgnoringCase("admin-alta-nombreEquipoNBA"));
 
-        // Verifica si se crea el objeto vacio
+        // Verifica si se crea el objeto vacío
         assertThat(mav.getModel().get("equipoNBA"), instanceOf(EquipoNBA.class));
     }
 
     @Test
     public void alCrearUnEquipoConNombreVacioTeRedirigeAlAltaEquipo() {
 
-        // Preparacion
+        // Preparación
         EquipoNBA equipoNBA1 = new EquipoNBA();
 
-        // Ejecucion
+        // Ejecución
         ModelAndView mav = controladorEquipoNBA.guardarEquipoNba(equipoNBA1);
-        // Verificacion
+        // Verificación
         assertThat(mav.getViewName(), equalToIgnoringCase("admin-alta-nombreEquipoNBA")
         );
     }
@@ -69,13 +68,13 @@ public class ControladorEquipoNBATest {
     @Test
     public void alCrearUnEquipoConNombreVacioTeMuestraUnMsjDeError() {
 
-        // Preparacion
+        // Preparación
         EquipoNBA equipoNBA1 = new EquipoNBA();
         equipoNBA1.setId(1L);
 
-        // Ejecucion
+        // Ejecución
         ModelAndView mav = controladorEquipoNBA.guardarEquipoNba(equipoNBA1);
-        // Verificacion
+        // Verificación
         assertThat(mav.getModel().get("error").toString(),
                 IsEqualIgnoringCase.equalToIgnoringCase("El nombre del equipo no puede estar vacío")
         );
@@ -85,14 +84,14 @@ public class ControladorEquipoNBATest {
     @Test
     public void alGuardarEquipoTeRedirigeAAsignarJugadores() {
 
-        // Preparacion
+        // Preparación
         EquipoNBA equipoNBA1 = new EquipoNBA();
         equipoNBA1.setNombre("PLM2026");
         equipoNBA1.setId(1L);
 
-        // Ejecucion
+        // Ejecución
         ModelAndView mav = controladorEquipoNBA.guardarEquipoNba(equipoNBA1);
-        // Verificacion
+        // Verificación
         assertThat(mav.getViewName(), equalToIgnoringCase("redirect:/admin/asignar-jugadoresNBA?id=1")
         );
 
@@ -132,7 +131,7 @@ public class ControladorEquipoNBATest {
         // Preparación
         Long idEquipo = 1L;
 
-        when(servicioEquipoNBAMock.buscarEquipoPorId(idEquipo)).thenThrow(new EquipoNoEncontradoException());
+        when(servicioEquipoNBAMock.buscarEquipoPorId(idEquipo)).thenThrow(new EquipoNoEncontradoException("No existe el equipo con id: " + idEquipo));
 
         // Ejecución
         ModelAndView mav = controladorEquipoNBA.asignarJugadores(idEquipo, null, null, null);
@@ -141,7 +140,7 @@ public class ControladorEquipoNBATest {
     }
 
     @Test
-    public void agregarJugadoresAlEquipoNBATeRedirigeALaMismaPagina() throws EquipoNoEncontradoException, elJugadorYaExisteEnElEquipoException {
+    public void agregarJugadoresAlEquipoNBATeRedirigeALaMismaPagina() {
 
         Long idEquipo = 1L;
         Long idJugador = 2L;
@@ -199,7 +198,7 @@ public class ControladorEquipoNBATest {
     public void siElEquipoNoExisteAlVerDetalleDebeRedirigirAlListado() throws EquipoNoEncontradoException {
         Long idEquipo = 99L;
 
-        when(servicioEquipoNBAMock.buscarEquipoPorId(idEquipo)).thenThrow(new EquipoNoEncontradoException());
+        when(servicioEquipoNBAMock.buscarEquipoPorId(idEquipo)).thenThrow(new EquipoNoEncontradoException("No existe el equipo con id: " + idEquipo));
 
         ModelAndView mav = controladorEquipoNBA.verDetalleEquipoNBA(idEquipo);
 

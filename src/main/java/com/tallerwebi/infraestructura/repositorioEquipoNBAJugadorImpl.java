@@ -34,6 +34,16 @@ public class repositorioEquipoNBAJugadorImpl implements RepositorioEquipoNBAJuga
 
     @Override
     @SuppressWarnings("unchecked")
+    public List<EquipoNBAJugador> buscarJugadoresDelEquipoNBAEnTemporada(Long idEquipo, Long idTemporada) {
+        return (List<EquipoNBAJugador>) this.sessionFactory.getCurrentSession()
+                .createCriteria(EquipoNBAJugador.class)
+                .add(Restrictions.eq("equipoNBA.id", idEquipo))
+                .add(Restrictions.eq("temporada.id", idTemporada))
+                .list();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
     public List<EquipoNBAJugador> buscarTodasLasAsignaciones() {
         return (List<EquipoNBAJugador>) this.sessionFactory.getCurrentSession()
                 .createCriteria(EquipoNBAJugador.class)

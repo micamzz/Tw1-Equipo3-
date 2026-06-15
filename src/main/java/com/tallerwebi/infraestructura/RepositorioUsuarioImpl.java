@@ -10,44 +10,44 @@ import org.springframework.stereotype.Repository;
 @Repository("repositorioUsuario")
 public class RepositorioUsuarioImpl implements RepositorioUsuario {
 
-  private SessionFactory sessionFactory;
+    private final SessionFactory sessionFactory;
 
-  @Autowired
-  public RepositorioUsuarioImpl(SessionFactory sessionFactory) {
-    this.sessionFactory = sessionFactory;
-  }
+    @Autowired
+    public RepositorioUsuarioImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
-  @Override
-  public Usuario buscarUsuario(String email, String password) {
-    /* Se utiliza sessionFactory.getCurrentSession() directamente para que el recurso sea gestionado por Spring y PMD no exija cerrarlo manualmente */
-    return (Usuario) sessionFactory
-      .getCurrentSession()
-      .createCriteria(Usuario.class)
-      .add(Restrictions.eq("email", email))
-      .add(Restrictions.eq("password", password))
-      .uniqueResult();
+    @Override
+    public Usuario buscarUsuario(String email, String password) {
+        /* Se utiliza sessionFactory.getCurrentSession() directamente para que el recurso sea gestionado por Spring y PMD no exija cerrarlo manualmente */
+        return (Usuario) sessionFactory
+                .getCurrentSession()
+                .createCriteria(Usuario.class)
+                .add(Restrictions.eq("email", email))
+                .add(Restrictions.eq("password", password))
+                .uniqueResult();
     /* select *
     From tabla
     where
      */
-  }
+    }
 
-  @Override
-  public void guardar(Usuario usuario) {
-    sessionFactory.getCurrentSession().save(usuario);
-  }
+    @Override
+    public void guardar(Usuario usuario) {
+        sessionFactory.getCurrentSession().save(usuario);
+    }
 
-  @Override
-  public Usuario buscar(String email) {
-    return (Usuario) sessionFactory
-      .getCurrentSession()
-      .createCriteria(Usuario.class)
-      .add(Restrictions.eq("email", email))
-      .uniqueResult();
-  }
+    @Override
+    public Usuario buscar(String email) {
+        return (Usuario) sessionFactory
+                .getCurrentSession()
+                .createCriteria(Usuario.class)
+                .add(Restrictions.eq("email", email))
+                .uniqueResult();
+    }
 
-  @Override
-  public void modificar(Usuario usuario) {
-    sessionFactory.getCurrentSession().update(usuario);
-  }
+    @Override
+    public void modificar(Usuario usuario) {
+        sessionFactory.getCurrentSession().update(usuario);
+    }
 }

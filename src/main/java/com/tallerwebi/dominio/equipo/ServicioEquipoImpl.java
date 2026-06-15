@@ -1,10 +1,10 @@
 package com.tallerwebi.dominio.equipo;
 
 import com.tallerwebi.dominio.*;
+import com.tallerwebi.dominio.enums.PosicionJugadorEquipo;
 import com.tallerwebi.dominio.equipoJugador.EquipoJugador;
 import com.tallerwebi.dominio.equipoJugador.RepositorioEquipoJugador;
 import com.tallerwebi.dominio.excepcion.*;
-import com.tallerwebi.dominio.enums.PosicionJugadorEquipo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +22,7 @@ public class ServicioEquipoImpl implements ServicioEquipo {
     private static final Double PRESUPUESTO_INICIAL = 2000000D;
     private static final Integer NUMERO_ORDEN_CAPITAN = 11;
     private static final Integer NUMERO_ORDEN_SEXTO_HOMBRE = 12;
+    private static final Integer CANTIDAD_JUGADORES_EQUIPO_COMPLETO = 12;
 
 
     @Autowired
@@ -52,7 +53,7 @@ public class ServicioEquipoImpl implements ServicioEquipo {
     public Equipo buscarEquipoPorId(Long id) throws EquipoNoEncontradoException {
         Equipo equipo = repositorioEquipo.buscarEquipoPorId(id);
         if (equipo == null) {
-            throw new EquipoNoEncontradoException();
+            throw new EquipoNoEncontradoException("No existe el equipo con id: " + id);
         }
         return equipo;
     }
@@ -61,7 +62,7 @@ public class ServicioEquipoImpl implements ServicioEquipo {
     public Equipo buscarEquipoPorNombre(String nombre) throws EquipoNoEncontradoException {
         Equipo equipo = repositorioEquipo.buscarEquipoPorNombre(nombre);
         if (equipo == null) {
-            throw new EquipoNoEncontradoException();
+            throw new EquipoNoEncontradoException("No existe el equipo con nombre: " + nombre);
         }
         return equipo;
     }
@@ -71,7 +72,7 @@ public class ServicioEquipoImpl implements ServicioEquipo {
 
         List<EquipoJugador> listadoDeJugadores = buscarJugadoresDelEquipo(idEquipo);
 
-        if (listadoDeJugadores == null || listadoDeJugadores.size() < 12) {
+        if (listadoDeJugadores == null || listadoDeJugadores.size() < CANTIDAD_JUGADORES_EQUIPO_COMPLETO) {
             throw new EquipoSinCompletarException("El equipo debe estar completo para poder confirmarlo ");
         }
     }

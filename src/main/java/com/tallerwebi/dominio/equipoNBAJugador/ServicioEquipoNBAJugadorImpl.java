@@ -3,6 +3,7 @@ package com.tallerwebi.dominio.equipoNBAJugador;
 import com.tallerwebi.dominio.Jugador;
 import com.tallerwebi.dominio.Posicion;
 import com.tallerwebi.dominio.RepositorioJugador;
+import com.tallerwebi.dominio.excepcion.TemporadaActualNoEncontradaException;
 import com.tallerwebi.dominio.temporada.ServicioTemporada;
 import com.tallerwebi.dominio.temporada.Temporada;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +30,10 @@ public class ServicioEquipoNBAJugadorImpl implements ServicioEquipoNBAJugador {
 
 
     @Override
-    public List<Jugador> obtenerJugadoresDelEquipoPorId(Long id) {
-        List<EquipoNBAJugador> jugadoresAsignados = repositorioEquipoNBAJugador.buscarJugadoresDelEquipoNBA(id);
+    public List<Jugador> obtenerJugadoresDelEquipoPorId(Long id) throws TemporadaActualNoEncontradaException {
+        Temporada temporadaActual = servicioTemporada.obtenerTemporadaActual();
+        List<EquipoNBAJugador> jugadoresAsignados = repositorioEquipoNBAJugador.buscarJugadoresDelEquipoNBAEnTemporada(id, temporadaActual.getId());
+
 
         List<Jugador> plantel = new ArrayList<>();
 
@@ -42,7 +45,7 @@ public class ServicioEquipoNBAJugadorImpl implements ServicioEquipoNBAJugador {
 
 
     @Override
-    public List<Jugador> obtenerJugadoresDisponibles() {
+    public List<Jugador> obtenerJugadoresDisponibles() throws TemporadaActualNoEncontradaException {
 
         Temporada temporadaActual = servicioTemporada.obtenerTemporadaActual();
 
@@ -70,7 +73,7 @@ public class ServicioEquipoNBAJugadorImpl implements ServicioEquipoNBAJugador {
     y que ademas cumplen con los filtros para usar en el buscador o en select */
 
     @Override
-    public List<Jugador> obtenerJugadoresFiltrados(Posicion posicionEnum, String nombre) {
+    public List<Jugador> obtenerJugadoresFiltrados(Posicion posicionEnum, String nombre) throws TemporadaActualNoEncontradaException {
 
         List<Jugador> jugadoresDisponibles = obtenerJugadoresDisponibles();
         List<Jugador> jugadoresFiltrados = new ArrayList<>();

@@ -1,5 +1,6 @@
 package com.tallerwebi.dominio.temporada;
 
+import com.tallerwebi.dominio.excepcion.TemporadaActualNoEncontradaException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +24,14 @@ public class ServicioTemporadaImpl implements ServicioTemporada {
     }
 
     @Override
-    public Temporada obtenerTemporadaActual() {
-        return repositorioTemporada.obtenerTemporadaActual();
+    public Temporada obtenerTemporadaActual() throws TemporadaActualNoEncontradaException {
+        Temporada temporadaActual = repositorioTemporada.obtenerTemporadaActual();
+
+        if (temporadaActual == null) {
+            throw new TemporadaActualNoEncontradaException("No hay ninguna temporada vigente en este momento");
+        }
+
+        return temporadaActual;
     }
 
     @Override

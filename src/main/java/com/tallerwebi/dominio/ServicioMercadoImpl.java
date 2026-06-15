@@ -11,7 +11,7 @@ import java.util.List;
 @Transactional
 public class ServicioMercadoImpl implements ServicioMercado {
 
-    private RepositorioJugador repositorioJugador;
+    private final RepositorioJugador repositorioJugador;
 
     @Autowired
     public ServicioMercadoImpl(RepositorioJugador repositorioJugador) {
@@ -47,11 +47,11 @@ public class ServicioMercadoImpl implements ServicioMercado {
     @Override
     public double calcularPuntajeJugador(RendimientoJugador rendimiento) {
         return rendimiento.getPuntos()
-                +1.2 * rendimiento.getRebotes()
-                +1.5 * rendimiento.getAsistencias()
-                +3.0 * rendimiento.getRobos()
-                +3.0 * rendimiento.getBloqueos()
-                -2.0 * rendimiento.getPerdidas();
+                + 1.2 * rendimiento.getRebotes()
+                + 1.5 * rendimiento.getAsistencias()
+                + 3.0 * rendimiento.getRobos()
+                + 3.0 * rendimiento.getBloqueos()
+                - 2.0 * rendimiento.getPerdidas();
     }
 
     @Override
