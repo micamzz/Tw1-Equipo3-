@@ -61,6 +61,11 @@ public class RepositorioEquipoImpl implements RepositorioEquipo {
         return cantidad > 0;
     }
 
+    @Override
+    public void actualizarEquipo(Equipo equipo) {
+        sessionFactory.getCurrentSession().update(equipo);
+    }
+
 
 }
 

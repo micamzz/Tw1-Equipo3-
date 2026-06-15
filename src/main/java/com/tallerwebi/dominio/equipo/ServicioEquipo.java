@@ -21,5 +21,6 @@ public interface ServicioEquipo {
 
     void validarEquipoCompleto(Long idEquipo) throws EquipoSinCompletarException;
 
+    void actualizarEquipo(Equipo equipo);
 
 }

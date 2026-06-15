@@ -38,6 +38,8 @@ public class ServicioEquipoImpl implements ServicioEquipo {
     @Override
     public Equipo guardarEquipo(Equipo equipo) throws TorneoVirtualActualNoEncontradoException {
         equipo.setPresupuesto(PRESUPUESTO_INICIAL); // Presupuesto inicial para cada equipo
+        equipo.setPuntaje(0D); // Comienza el torneo con 0 puntos
+
         Torneo torneoVirtualActual = repositorioTorneo.buscarTorneoActual(TipoTorneo.VIRTUAL);
 
         if (torneoVirtualActual == null) {
@@ -75,6 +77,11 @@ public class ServicioEquipoImpl implements ServicioEquipo {
         if (listadoDeJugadores == null || listadoDeJugadores.size() < CANTIDAD_JUGADORES_EQUIPO_COMPLETO) {
             throw new EquipoSinCompletarException("El equipo debe estar completo para poder confirmarlo ");
         }
+    }
+
+    @Override
+    public void actualizarEquipo(Equipo equipo) {
+        repositorioEquipo.actualizarEquipo(equipo);
     }
 
     @Override
