@@ -3,6 +3,7 @@ package com.tallerwebi.infraestructura;
 import com.tallerwebi.dominio.temporada.RepositorioTemporada;
 import com.tallerwebi.dominio.temporada.Temporada;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -40,10 +41,19 @@ public class RepositorioTemporadaImpl implements RepositorioTemporada {
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<Temporada> obtenerTodas() {
+    public List<Temporada> obtenerTodasLasTemporadas() {
         return (List<Temporada>) sessionFactory.getCurrentSession()
                 .createCriteria(Temporada.class)
+                .addOrder(Order.desc("anio"))
                 .list();
+    }
+
+    @Override
+    public Temporada obtenerTemporadaPorId(Long idTemporada) {
+        return (Temporada) sessionFactory.getCurrentSession()
+                .createCriteria(Temporada.class)
+                .add(Restrictions.eq("id", idTemporada))
+                .uniqueResult();
     }
 
 }

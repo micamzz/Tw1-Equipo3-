@@ -91,6 +91,22 @@ public class ServicioEquipoNBAJugadorImpl implements ServicioEquipoNBAJugador {
         return jugadoresFiltrados;
 
     }
+
+    @Override
+    public List<Jugador> obtenerJugadoresDelEquipoEnTemporada(Long idEquipo, Long idTemporada) {
+
+        List<EquipoNBAJugador> asignaciones = repositorioEquipoNBAJugador.buscarJugadoresDelEquipoNBAEnTemporada(idEquipo, idTemporada);
+
+        List<Jugador> plantel = new ArrayList<>();
+
+        for (EquipoNBAJugador asignacion : asignaciones) {
+            plantel.add(asignacion.getJugador());
+        }
+        return plantel;
+    }
+
+
 }
+
 
 

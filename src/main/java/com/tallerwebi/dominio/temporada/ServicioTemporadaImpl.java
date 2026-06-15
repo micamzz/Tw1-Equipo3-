@@ -36,6 +36,11 @@ public class ServicioTemporadaImpl implements ServicioTemporada {
 
     @Override
     public List<Temporada> obtenerTodasLasTemporadas() {
-        return repositorioTemporada.obtenerTodas();
+        return repositorioTemporada.obtenerTodasLasTemporadas();
+    }
+
+    @Override
+    public Temporada obtenerTemporadaPorId(Long idTemporada) {
+        return repositorioTemporada.obtenerTemporadaPorId(idTemporada);
     }
 }

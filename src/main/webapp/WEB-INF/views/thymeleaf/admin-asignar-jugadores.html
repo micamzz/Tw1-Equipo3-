@@ -50,7 +50,7 @@
                 <option value="BASE" th:selected="${posicion == 'BASE'}">Base</option>
                 <option value="ALERO" th:selected="${posicion == 'ALERO'}">Alero</option>
                 <option value="PIVOT" th:selected="${posicion == 'PIVOT'}">Pivot</option>
-                
+
             </select>
 
             <button type="submit">BUSCAR</button>
@@ -63,7 +63,8 @@
 
 
         <section class="contenedor-subtitulo">
-            <h2 class="titulo-plantel">Jugadores Disponibles</h2>
+            <h2 class="titulo-plantel" th:text="'Jugadores disponibles: ' + ${jugadores.size()}"></h2>
+
             <select id="ordenar-disponibles" class="select-orden"
                     onchange="ordenarTabla('tabla-disponibles', 'ordenar-disponibles')">
                 <option value="">Ordenar por...</option>
@@ -72,7 +73,6 @@
                 <option value="edad">Edad</option>
             </select>
         </section>
-
 
         <table id="tabla-disponibles">
 

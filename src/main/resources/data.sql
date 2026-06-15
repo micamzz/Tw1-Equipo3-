@@ -3,11 +3,11 @@ VALUES (null, 'test@unlam.edu.ar', 'test', 'ADMIN', true);
 
 -- TEMPORADA  2025 DEL 1 DE MARZO AL 08 NOVIEMBRE  (2025)
 INSERT INTO Temporada (id, nombre, anio, fechaInicio, fechaFin)
-VALUES (1, 'Taller Web Unlam 2025', 2025, '2025-03-01', '2025-11-08');
+VALUES (1, 'Temporada 2025', 2025, '2025-03-01', '2025-11-08');
 
 -- TEMPORADA DEL 1 DE MARZO AL 08 NOVIEMBRE  (2026)
 INSERT INTO Temporada (id, nombre, anio, fechaInicio, fechaFin)
-VALUES (2, 'Taller Web Unlam 2026', 2026, '2026-03-01', '2026-11-08');
+VALUES (2, 'Taller Web I', 2026, '2026-03-01', '2026-11-08');
 
 -- EQUIPOS NBA
 INSERT INTO EquipoNBA(id, nombre, escudoImagen)
@@ -152,39 +152,45 @@ VALUES
 
 -- ASIGNACIONES 2025
 INSERT INTO EquipoNBAJugador(equipoNBA_id, jugador_id, temporada_id)
-VALUES (1, 9, 1),
-       (2, 17, 1),
-       (3, 25, 1),
-       (4, 1, 1),
-       (1, 18, 1),
-       (2, 26, 1),
-       (3, 2, 1),
-       (4, 10, 1),
-       (1, 27, 1),
-       (2, 3, 1),
-       (3, 11, 1),
-       (4, 19, 1),
-       (1, 4, 1),
-       (2, 12, 1),
-       (3, 20, 1),
-       (4, 28, 1),
-       (1, 13, 1),
-       (2, 21, 1),
-       (3, 29, 1),
-       (4, 5, 1),
-       (1, 22, 1),
-       (2, 30, 1),
-       (3, 6, 1),
-       (4, 14, 1),
-       (1, 23, 1),
-       (2, 31, 1),
-       (3, 7, 1),
-       (4, 15, 1),
-       (1, 24, 1),
-       (2, 32, 1),
-       (3, 8, 1),
-       (4, 16, 1);
--- ASIGNACIONES EquipoNBAJugador con temporada
+VALUES
+-- Golden State Warriors (equipo 1)
+(1, 1, 1),  -- Curry
+(1, 2, 1),  -- Draymond Green
+(1, 3, 1),
+(1, 34, 1), --- Moses Moody
+(1, 4, 1),  -- Podziemski
+(1, 5, 1),  -- Kuminga
+(1, 7, 1),  -- Kevon Looney
+
+-- Boston Celtics
+(2, 9, 1),  -- Jaylen Brown
+(2, 10, 1), -- Jayson Tatum
+(2, 11, 1), -- Payton Pritchard
+(2, 12, 1), -- Derrick White
+(2, 13, 1), -- Al Horford
+(2, 16, 1), -- Jrue Holiday
+
+-- Los Angeles Lakers
+(3, 17, 1), -- LeBron James
+(3, 19, 1), -- Austin Reaves
+(3, 20, 1), -- Rui Hachimura
+(3, 22, 1), -- Dorian Finney-Smith
+(3, 23, 1), -- Jarred Vanderbilt
+(3, 21, 1), -- Deandre Ayton
+(3, 36, 1), -- Shai Gilgeous-Alexander (libre en 26, estaba en OKC pero usamos para poblar)
+(3, 24, 1), -- Jake LaRavia
+
+-- Miami Heat (equipo 4)
+(4, 25, 1), -- Bam Adebayo
+(4, 26, 1), -- Tyler Herro
+(4, 27, 1), -- Jaime Jaquez Jr.
+(4, 28, 1), -- Norman Powell
+(4, 29, 1), -- Kel'el Ware
+(4, 30, 1);
+-- Davion Mitchell
+
+
+-- ASIGNACIONES EquipoNBAJugador con temporada 2026
 INSERT INTO EquipoNBAJugador(equipoNBA_id, jugador_id, temporada_id)
 VALUES
 -- Golden State Warriors
