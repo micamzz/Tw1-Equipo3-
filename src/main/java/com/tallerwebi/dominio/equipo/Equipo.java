@@ -12,6 +12,7 @@ public class Equipo {
     private Long id;
     private String nombreEquipo;
     private Double presupuesto;
+    private Double puntaje;
 
     @ManyToOne
     private Torneo torneo;
@@ -51,6 +52,14 @@ public class Equipo {
 
     public void setTorneo(Torneo torneo) {
         this.torneo = torneo;
+    }
+
+    public Double getPuntaje() {
+        return puntaje;
+    }
+
+    public void setPuntaje(Double puntaje) {
+        this.puntaje = puntaje;
     }
 }
 
