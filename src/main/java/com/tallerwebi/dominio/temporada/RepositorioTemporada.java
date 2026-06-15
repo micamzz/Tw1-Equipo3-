@@ -9,7 +9,7 @@ public interface RepositorioTemporada {
 
     Temporada obtenerTemporadaActual();
 
-    List<Temporada> obtenerTodas();
+    List<Temporada> obtenerTodasLasTemporadas();
 
-
+    Temporada obtenerTemporadaPorId(Long idTemporada);
 }

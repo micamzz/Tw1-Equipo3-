@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Historial Temporadas</title>
+    <link rel="stylesheet" th:href="@{/css/header.css}"/>
+    <link rel="stylesheet" th:href="@{/css/footer.css}"/>
+    <link rel="stylesheet" th:href="@{/css/admin-asignar-jugadores.css}"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+<div th:replace="layout/header :: header"></div>
+
+<main class="contenedor-admin-vista">
+
+    <div class="acciones-superiores">
+        <h1>HISTORIAL DE TEMPORADAS</h1>
+    </div>
+
+    <table class="tabla-torneos">
+        <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Año</th>
+            <th>Fecha Inicio</th>
+            <th>Fecha Fin</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="temporada : ${temporadas}">
+            <td th:text="${temporada.nombre}">Nombre</td>
+            <td th:text="${temporada.anio}">Año</td>
+            <td th:text="${temporada.fechaInicio}">Inicio</td>
+            <td th:text="${temporada.fechaFin}">Fin</td>
+            <td>
+                <a th:href="@{/admin/historialTemporada(idTemporada=${temporada.id})}" class="btn btn-naranja">VER
+                    EQUIPO</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</main>
+
+<div th:replace="layout/footer :: footer"></div>
+
+</body>
+</html>

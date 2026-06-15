@@ -13,4 +13,6 @@ public interface ServicioEquipoNBAJugador {
     List<Jugador> obtenerJugadoresDisponibles() throws TemporadaActualNoEncontradaException;
 
     List<Jugador> obtenerJugadoresFiltrados(Posicion posicionEnum, String nombre) throws TemporadaActualNoEncontradaException;
+
+    List<Jugador> obtenerJugadoresDelEquipoEnTemporada(Long idEquipo, Long idTemporada);
 }
