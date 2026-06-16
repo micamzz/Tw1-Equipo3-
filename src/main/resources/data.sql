@@ -14,7 +14,13 @@ INSERT INTO EquipoNBA(id, nombre, escudoImagen)
 VALUES (1, 'Golden State Warriors', 'https://cdn.nba.com/logos/nba/1610612744/global/L/logo.svg'),
        (2, 'Boston Celtics', 'https://cdn.nba.com/logos/nba/1610612738/global/L/logo.svg'),
        (3, 'Los Angeles Lakers', 'https://cdn.nba.com/logos/nba/1610612747/global/L/logo.svg'),
-       (4, 'Miami Heat', 'https://cdn.nba.com/logos/nba/1610612748/global/L/logo.svg');
+       (4, 'Miami Heat', 'https://cdn.nba.com/logos/nba/1610612748/global/L/logo.svg'),
+       (5, 'San Antonio Spurs',  'https://cdn.nba.com/logos/nba/1610612759/global/L/logo.svg'),
+       (6, 'New York Knicks',    'https://cdn.nba.com/logos/nba/1610612752/global/L/logo.svg'),
+       (7, 'Brooklyn Nets',      'https://cdn.nba.com/logos/nba/1610612751/global/L/logo.svg'),
+       (8, 'Dallas Mavericks',   'https://cdn.nba.com/logos/nba/1610612742/global/L/logo.svg');
+
+
 
 -- JUGADORES
 INSERT INTO Jugador(id, nombre, apellido, posicion, precio, dni, foto, altura, peso, nacionalidad, edad,
@@ -157,7 +163,7 @@ VALUES
 (1, 1, 1),  -- Curry
 (1, 2, 1),  -- Draymond Green
 (1, 3, 1),
-(1, 34, 1), --- Moses Moody
+(1, 34, 1), -- Moses Moody
 (1, 4, 1),  -- Podziemski
 (1, 5, 1),  -- Kuminga
 (1, 7, 1),  -- Kevon Looney
@@ -259,17 +265,16 @@ VALUES (2,
 
 
 
-INSERT INTO Calendario (nombre)
-VALUES ('Temporada 2026');
+INSERT INTO Calendario (nombre) VALUES ('Temporada 2026');
 
-INSERT INTO PartidoNBA (equipoLocal, equipoVisitante, fechaYhora, calendario_id)
-VALUES ('Spurs', 'Knicks', '2026-06-04 22:30:00', 1);
+INSERT INTO PartidoNBA (equipoLocal_id, equipoVisitante_id, fechaYhora, calendario_id)
+VALUES (5, 6, '2026-06-04 22:30:00', 1);
 
-INSERT INTO PartidoNBA (equipoLocal, equipoVisitante, fechaYhora, calendario_id)
-VALUES ('Knicks', 'Spurs', '2026-06-06 21:30:00', 1);
+INSERT INTO PartidoNBA (equipoLocal_id, equipoVisitante_id, fechaYhora, calendario_id)
+VALUES (6, 5, '2026-06-06 21:30:00', 1);
 
-INSERT INTO PartidoNBA (equipoLocal, equipoVisitante, fechaYhora, calendario_id)
-VALUES ('Spurs', 'Nets', '2026-06-09 22:30:00', 1);
+INSERT INTO PartidoNBA (equipoLocal_id, equipoVisitante_id, fechaYhora, calendario_id)
+VALUES (5, 7, '2026-06-09 22:30:00', 1);
 
-INSERT INTO PartidoNBA (equipoLocal, equipoVisitante, fechaYhora, calendario_id)
-VALUES ('Spurs', 'Mavericks', '2026-06-11 22:00:00', 1);
+INSERT INTO PartidoNBA (equipoLocal_id, equipoVisitante_id, fechaYhora, calendario_id)
+VALUES (5, 8, '2026-06-11 22:00:00', 1);

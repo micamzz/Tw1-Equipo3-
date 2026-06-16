@@ -1,5 +1,7 @@
 package com.tallerwebi.dominio;
 
+import com.tallerwebi.dominio.equipoNBA.EquipoNBA;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -10,24 +12,20 @@ public class PartidoNBA {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String equipoLocal;
-    private String equipoVisitante;
+    @ManyToOne
+    private EquipoNBA equipoLocal;
+
+    @ManyToOne
+    private EquipoNBA equipoVisitante;
+
     private LocalDateTime fechaYhora;
 
     @ManyToOne
-    @JoinColumn(name = "calendario_id")
     private Calendario calendario;
 
     public PartidoNBA() {
     }
-
-    public PartidoNBA(String equipoLocal, String equipoVisitante, LocalDateTime fechaYhora) {
-        this.equipoLocal = equipoLocal;
-        this.equipoVisitante = equipoVisitante;
-        this.fechaYhora = fechaYhora;
-    }
-
-    // Getters y Setters
+    
     public Long getId() {
         return id;
     }
@@ -36,19 +34,19 @@ public class PartidoNBA {
         this.id = id;
     }
 
-    public String getEquipoLocal() {
+    public EquipoNBA getEquipoLocal() {
         return equipoLocal;
     }
 
-    public void setEquipoLocal(String equipoLocal) {
+    public void setEquipoLocal(EquipoNBA equipoLocal) {
         this.equipoLocal = equipoLocal;
     }
 
-    public String getEquipoVisitante() {
+    public EquipoNBA getEquipoVisitante() {
         return equipoVisitante;
     }
 
-    public void setEquipoVisitante(String equipoVisitante) {
+    public void setEquipoVisitante(EquipoNBA equipoVisitante) {
         this.equipoVisitante = equipoVisitante;
     }
 
@@ -70,10 +68,12 @@ public class PartidoNBA {
 
     public String getHora() {
         return String.format("%02d:%02d", fechaYhora.getHour(), fechaYhora.getMinute());
-
     }
 
     public String getFecha() {
-        return String.format("%02d/%02d/%d", fechaYhora.getDayOfMonth(), fechaYhora.getMonthValue(), fechaYhora.getYear());
+        return String.format("%02d/%02d/%d",
+                fechaYhora.getDayOfMonth(),
+                fechaYhora.getMonthValue(),
+                fechaYhora.getYear());
     }
 }

@@ -104,18 +104,11 @@ main {
     text-overflow: ellipsis;
 }
 
-.badge-equipo {
+.escudo-equipo {
     width: 64px;
     height: 64px;
+    object-fit: contain;
     flex-shrink: 0;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    background: linear-gradient(145deg, #eb5e28, #c74c19);
-    color: var(--color-neutro);
-    font-size: 0.85rem;
-    font-weight: 800;
 }
 
 .badge-visitante {

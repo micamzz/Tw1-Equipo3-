@@ -35,10 +35,11 @@
 
                     <!-- Equipo Local -->
                     <div class="equipo">
-                            <span class="badge-equipo"
-                                  th:text="${#strings.substring(partido.equipoLocal, 0, 3)}">LAL</span>
+                        <img class="escudo-equipo"
+                             th:src="${partido.equipoLocal.escudoImagen}"
+                             th:alt="${partido.equipoLocal.nombre}" />
                         <span class="nombre-equipo"
-                              th:text="${partido.equipoLocal}">Lakers</span>
+                              th:text="${partido.equipoLocal.nombre}">Lakers</span>
                     </div>
 
                     <!-- Info central -->
@@ -51,17 +52,18 @@
 
                     <!-- Equipo Visitante -->
                     <div class="equipo equipo-visitante">
-                            <span class="badge-equipo badge-visitante"
-                                  th:text="${#strings.substring(partido.equipoVisitante, 0, 3)}">BOS</span>
+                        <img class="escudo-equipo"
+                             th:src="${partido.equipoVisitante.escudoImagen}"
+                             th:alt="${partido.equipoVisitante.nombre}" />
                         <span class="nombre-equipo"
-                              th:text="${partido.equipoVisitante}">Celtics</span>
+                              th:text="${partido.equipoVisitante.nombre}">Celtics</span>
                     </div>
 
                 </div>
             </li>
         </ul>
-
     </section>
+
     <section class="seccion-top">
         <h2 class="titulo-seccion">Jugadores destacados de esta temporada</h2>
         <ul class="top-lista">
