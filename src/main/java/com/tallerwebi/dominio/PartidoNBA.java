@@ -14,6 +14,8 @@ public class PartidoNBA {
     private String equipoVisitante;
     private LocalDateTime fechaYhora;
 
+    //private Boolean finalizado = false; cuando es true se realizan los calculos de los puntos y eventos.
+
     @ManyToOne
     @JoinColumn(name = "calendario_id")
     private Calendario calendario;
@@ -21,11 +23,11 @@ public class PartidoNBA {
     public PartidoNBA() {
     }
 
-    public PartidoNBA(String equipoLocal, String equipoVisitante, LocalDateTime fechaYhora) {
-        this.equipoLocal = equipoLocal;
-        this.equipoVisitante = equipoVisitante;
-        this.fechaYhora = fechaYhora;
-    }
+//    public PartidoNBA(String equipoLocal, String equipoVisitante, LocalDateTime fechaYhora) {
+//        this.equipoLocal = equipoLocal;
+//        this.equipoVisitante = equipoVisitante;
+//        this.fechaYhora = fechaYhora;
+//    }
 
     // Getters y Setters
     public Long getId() {
