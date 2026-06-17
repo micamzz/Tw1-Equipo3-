@@ -1,6 +1,7 @@
 package com.tallerwebi.dominio;
 
 import com.tallerwebi.dominio.equipoNBA.EquipoNBA;
+import com.tallerwebi.dominio.equipoNBA.EstadoPartido;
 import com.tallerwebi.dominio.temporada.Temporada;
 
 import javax.persistence.*;
@@ -12,6 +13,9 @@ public class PartidoNBA {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Enumerated(EnumType.STRING)
+    private EstadoPartido estadoPartido;
 
     @ManyToOne
     private EquipoNBA equipoLocal;
@@ -25,6 +29,7 @@ public class PartidoNBA {
 
     @ManyToOne
     private Temporada temporada;
+
 
     public PartidoNBA() {}
 
@@ -47,6 +52,18 @@ public class PartidoNBA {
     public void setTemporada(Temporada temporada) { this.temporada = temporada; }
 
     public boolean estaActivo() { return minutoFin == null; }
+
+    public boolean estaFinalizado(){
+        return EstadoPartido.CERRADO.equals(this.estadoPartido);
+    }
+
+    public EstadoPartido getEstadoPartido() {
+        return estadoPartido;
+    }
+
+    public void setEstadoPartido(EstadoPartido estadoPartido) {
+        this.estadoPartido = estadoPartido;
+    }
 
     public String getFechaFormateada() {
         if (horaInicio == null) return "";
