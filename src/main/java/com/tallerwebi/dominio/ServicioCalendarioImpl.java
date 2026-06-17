@@ -18,8 +18,8 @@ public class ServicioCalendarioImpl implements ServicioCalendario {
     }
 
     @Override
-    public Calendario obtenerCalendario() {
-        return repositorioCalendario.buscarCalendarioActual();
+    public FuturosPartidos obtenerFuturosPartidos() {
+        return repositorioCalendario.buscarFuturosPartidosActuales();
     }
 
     @Override

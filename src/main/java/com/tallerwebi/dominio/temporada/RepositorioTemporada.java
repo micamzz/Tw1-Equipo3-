@@ -4,8 +4,9 @@ import java.util.List;
 
 public interface RepositorioTemporada {
 
-
     void guardar(Temporada temporada);
+
+    void actualizar(Temporada temporada);
 
     Temporada obtenerTemporadaActual();
 
