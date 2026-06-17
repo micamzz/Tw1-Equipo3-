@@ -28,4 +28,8 @@ public interface ServicioPartidoNBA {
     ScorePartido obtenerScoreLocal(Long partidoId);
 
     ScorePartido obtenerScoreVisitante(Long partidoId);
+
+    List<PartidoConScoreDTO> obtenerPartidosActivosConScore();
+
+    List<PartidoConScoreDTO> obtenerPartidosFinalizadosConScore();
 }

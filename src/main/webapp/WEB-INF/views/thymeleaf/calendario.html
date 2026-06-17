@@ -36,9 +36,9 @@
                     <!-- Equipo Local -->
                     <div class="equipo">
                             <span class="badge-equipo"
-                                  th:text="${#strings.substring(partido.equipoLocal.nombreEquipo, 0, 3)}">LAL</span>
+                                  th:text="${#strings.substring(partido.equipoLocal.nombre, 0, 3)}">LAL</span>
                         <span class="nombre-equipo"
-                              th:text="${partido.equipoLocal.nombreEquipo}">Lakers</span>
+                              th:text="${partido.equipoLocal.nombre}">Lakers</span>
                     </div>
 
                     <!-- Info central -->
@@ -52,9 +52,9 @@
                     <!-- Equipo Visitante -->
                     <div class="equipo equipo-visitante">
                             <span class="badge-equipo badge-visitante"
-                                  th:text="${#strings.substring(partido.equipoVisitante.nombreEquipo, 0, 3)}">BOS</span>
+                                  th:text="${#strings.substring(partido.equipoVisitante.nombre, 0, 3)}">BOS</span>
                         <span class="nombre-equipo"
-                              th:text="${partido.equipoVisitante.nombreEquipo}">Celtics</span>
+                              th:text="${partido.equipoVisitante.nombre}">Celtics</span>
                     </div>
 
                 </div>

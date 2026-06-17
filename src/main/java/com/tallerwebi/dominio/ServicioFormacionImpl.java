@@ -57,8 +57,8 @@ import java.util.List;
         }
 
         @Override
-        public List<FormacionPartido> obtenerSubtitulares(Long idPartido, Long idEquipo) {
-            return repositorioFormacion.buscarTitularesPorPartidoYEquipo(idPartido, idEquipo);
+        public List<FormacionPartido> obtenerSuplentes(Long idPartido, Long idEquipo) {
+            return repositorioFormacion.buscarSuplentesPorPartidoYEquipo(idPartido, idEquipo);
         }
 
         @Override

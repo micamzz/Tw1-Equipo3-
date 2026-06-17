@@ -8,6 +8,6 @@ public interface ServicioFormacion {
 
     List<FormacionPartido> obtenerFormacion(Long idPartido);
     List<FormacionPartido> obtenerTitulares(Long idPartido, Long idEquipo);
-    List<FormacionPartido> obtenerSubtitulares(Long idPartido, Long idEquipo);
+    List<FormacionPartido> obtenerSuplentes(Long idPartido, Long idEquipo);
     boolean jugadorYaEstasEnFormacion(Long idPartido, Long idJugador);
 }
