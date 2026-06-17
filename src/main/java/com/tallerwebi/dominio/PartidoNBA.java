@@ -1,10 +1,5 @@
 package com.tallerwebi.dominio;
 
-import com.tallerwebi.dominio.equipo.Equipo;
-import com.tallerwebi.dominio.equipoNBA.EquipoNBA;
-import com.tallerwebi.dominio.equipoNBA.EstadoPartido;
-import com.tallerwebi.dominio.temporada.Temporada;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -23,8 +18,8 @@ public class PartidoNBA {
     @JoinColumn(name = "calendario_id")
     private Calendario calendario;
 
-    @Enumerated(EnumType.STRING)
-    private EstadoPartido estadoPartido;
+    public PartidoNBA() {
+    }
 
     public PartidoNBA(String equipoLocal, String equipoVisitante, LocalDateTime fechaYhora) {
         this.equipoLocal = equipoLocal;

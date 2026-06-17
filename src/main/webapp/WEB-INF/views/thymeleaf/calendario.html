@@ -23,38 +23,38 @@
 
     <div class="calendario-encabezado">
         <h1>Calendario NBA</h1>
-        <p class="calendario-descripcion" th:text="${calendario.nombre}">Temporada 2026</p>
+        <p class="calendario-descripcion" th:text="${futurosPartidos.nombre}">Próximos Partidos</p>
     </div>
 
     <section class="seccion-partidos">
         <h2 class="titulo-seccion">Próximos partidos</h2>
 
         <ul class="partidos-lista">
-            <li th:each="partido : ${calendario.partidos}">
+            <li th:each="partido : ${futurosPartidos.partidos}">
                 <div class="card-partido-programado">
 
                     <!-- Equipo Local -->
                     <div class="equipo">
                             <span class="badge-equipo"
-                                  th:text="${#strings.substring(partido.equipoLocal, 0, 3)}">LAL</span>
+                                  th:text="${#strings.substring(partido.equipoLocal.nombreEquipo, 0, 3)}">LAL</span>
                         <span class="nombre-equipo"
-                              th:text="${partido.equipoLocal}">Lakers</span>
+                              th:text="${partido.equipoLocal.nombreEquipo}">Lakers</span>
                     </div>
 
                     <!-- Info central -->
                     <div class="info-central">
-                        <span class="ronda">NBA Finals</span>
+                        <span class="ronda">NBA</span>
                         <span class="vs">VS</span>
-                        <span class="horario" th:text="${partido.hora}">22:30</span>
-                        <span class="fecha" th:text="${partido.fecha}">04/06/2026</span>
+                        <span class="horario" th:text="${partido.horaFormateada}">22:30</span>
+                        <span class="fecha" th:text="${partido.fechaFormateada}">04/06/2026</span>
                     </div>
 
                     <!-- Equipo Visitante -->
                     <div class="equipo equipo-visitante">
                             <span class="badge-equipo badge-visitante"
-                                  th:text="${#strings.substring(partido.equipoVisitante, 0, 3)}">BOS</span>
+                                  th:text="${#strings.substring(partido.equipoVisitante.nombreEquipo, 0, 3)}">BOS</span>
                         <span class="nombre-equipo"
-                              th:text="${partido.equipoVisitante}">Celtics</span>
+                              th:text="${partido.equipoVisitante.nombreEquipo}">Celtics</span>
                     </div>
 
                 </div>

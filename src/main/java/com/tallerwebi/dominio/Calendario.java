@@ -1,8 +1,6 @@
 package com.tallerwebi.dominio;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 public class Calendario {
@@ -12,11 +10,8 @@ public class Calendario {
     private Long id;
 
     private String nombre;
-    @OneToMany(mappedBy = "calendario", fetch = FetchType.EAGER)
-    private List<PartidoNBA> partidos;
 
     public Calendario() {
-        this.partidos = new ArrayList<>();
     }
 
     // Getters y Setters
@@ -34,13 +29,5 @@ public class Calendario {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public List<PartidoNBA> getPartidos() {
-        return partidos;
-    }
-
-    public void setPartidos(List<PartidoNBA> partidos) {
-        this.partidos = partidos;
     }
 }
