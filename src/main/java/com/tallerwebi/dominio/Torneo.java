@@ -13,18 +13,18 @@ public class Torneo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
+    @Column(name = "nombreTorneo", unique = true, nullable = false)
     private String nombreTorneo;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "tipoTorneo",nullable = false)
     private TipoTorneo tipoTorneo;
 
-    @Column(nullable = false)
+    @Column(name = "fechaInicio", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate fechaInicio;
 
-    @Column(nullable = false)
+    @Column(name = "fechaFin", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     protected LocalDate fechaFin;
 

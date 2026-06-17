@@ -3,6 +3,6 @@ package com.tallerwebi.dominio;
 import java.util.List;
 
 public interface ServicioCalendario {
-    Calendario obtenerCalendario();
+    FuturosPartidos obtenerFuturosPartidos();
     List<RendimientoJugador> Top6Jugadores();
 }

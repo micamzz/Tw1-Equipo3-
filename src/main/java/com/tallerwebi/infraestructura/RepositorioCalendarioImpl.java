@@ -1,12 +1,10 @@
 package com.tallerwebi.infraestructura;
 
-import com.tallerwebi.dominio.Calendario;
-import com.tallerwebi.dominio.PartidoNBA;
+import com.tallerwebi.dominio.FuturosPartidos;
 import com.tallerwebi.dominio.RendimientoJugador;
 import com.tallerwebi.dominio.RepositorioCalendario;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -23,27 +21,17 @@ public class RepositorioCalendarioImpl implements RepositorioCalendario {
     }
 
     @Override
-    public Calendario buscarCalendarioActual() {
-        return (Calendario) sessionFactory.getCurrentSession()
-                .createCriteria(Calendario.class)
-                .add(Restrictions.eq("nombre", "Temporada 2026"))
+    public FuturosPartidos buscarFuturosPartidosActuales() {
+        return (FuturosPartidos) sessionFactory.getCurrentSession()
+                .createCriteria(FuturosPartidos.class)
+                .setMaxResults(1)
                 .uniqueResult();
     }
 
     @Override
-    public void guardarCalendario(Calendario calendario) {
-        sessionFactory.getCurrentSession().save(calendario);
+    public void guardarFuturosPartidos(FuturosPartidos futurosPartidos) {
+        sessionFactory.getCurrentSession().save(futurosPartidos);
     }
-
-    @Override
-    public List<PartidoNBA> buscarListaDePartidosPorCalendarioID(Long calendarioId) {
-        return sessionFactory.getCurrentSession()
-                .createCriteria(PartidoNBA.class)
-                .add(Restrictions.eq("calendario.id", calendarioId))
-                .list();
-    }
-
-
 
     @Override
     public List<RendimientoJugador> buscarTop6Jugadores() {
