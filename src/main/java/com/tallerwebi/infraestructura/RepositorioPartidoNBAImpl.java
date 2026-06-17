@@ -77,4 +77,21 @@ public class RepositorioPartidoNBAImpl implements RepositorioPartidoNBA {
 
         return (countLocal + countVisitante) > 0;
     }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<PartidoNBA> buscarTodos() {
+        return sessionFactory.getCurrentSession()
+                .createCriteria(PartidoNBA.class)
+                .list();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<PartidoNBA> buscarPorTemporada(Long temporadaId) {
+        return sessionFactory.getCurrentSession()
+                .createCriteria(PartidoNBA.class)
+                .add(Restrictions.eq("temporada.id", temporadaId))
+                .list();
+    }
 }
