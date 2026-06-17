@@ -116,28 +116,45 @@ VALUES (3, 4, '2026-06-14 21:00:00', 48, 1);
 INSERT INTO PartidoNBA (equipoLocal_id, equipoVisitante_id, horaInicio, minutoFin, temporada_id)
 VALUES (2, 3, '2026-06-10 20:30:00', 53, 1);
 
--- Score del partido activo (id=1): local=0, visitante=0
-INSERT INTO ScorePartido (partido_id, equipo_id, puntos) VALUES (1, 1, 0);
-INSERT INTO ScorePartido (partido_id, equipo_id, puntos) VALUES (1, 2, 0);
+-- Partido ACTIVO (id=5)
+INSERT INTO ScorePartido (partido_id, equipo_id, puntos)
+VALUES (5, 1, 0);
+INSERT INTO ScorePartido (partido_id, equipo_id, puntos)
+VALUES (5, 2, 0);
 
--- Score del partido finalizado 1 (id=2)
-INSERT INTO ScorePartido (partido_id, equipo_id, puntos) VALUES (2, 3, 112);
-INSERT INTO ScorePartido (partido_id, equipo_id, puntos) VALUES (2, 4, 98);
+-- Partido FINALIZADO 1 (id=6)
+INSERT INTO ScorePartido (partido_id, equipo_id, puntos)
+VALUES (6, 3, 112);
+INSERT INTO ScorePartido (partido_id, equipo_id, puntos)
+VALUES (6, 4, 98);
 
--- Score del partido finalizado 2 (id=3)
-INSERT INTO ScorePartido (partido_id, equipo_id, puntos) VALUES (3, 2, 105);
-INSERT INTO ScorePartido (partido_id, equipo_id, puntos) VALUES (3, 3, 101);
+-- Partido FINALIZADO 2 (id=7)
+INSERT INTO ScorePartido (partido_id, equipo_id, puntos)
+VALUES (7, 2, 105);
+INSERT INTO ScorePartido (partido_id, equipo_id, puntos)
+VALUES (7, 3, 101);
 
--- Cronologia del partido finalizado 1
-INSERT INTO CronologiaNBA (partido_id, minuto, tipo, descripcion, puntosSumados, equipoBeneficiado_id)
-VALUES (2, 5,  'PUNTAJE', 'Triple de Curry', 3, 3);
-INSERT INTO CronologiaNBA (partido_id, minuto, tipo, descripcion, puntosSumados, equipoBeneficiado_id)
-VALUES (2, 12, 'PUNTAJE', 'Bandeja de Durant', 2, 4);
-INSERT INTO CronologiaNBA (partido_id, minuto, tipo, descripcion, puntosSumados, equipoBeneficiado_id)
-VALUES (2, 23, 'PUNTAJE', 'Triple de Curry', 3, 3);
+INSERT INTO ScorePartido(partido_id, equipo_id, puntos)
+VALUES
+    (1,1,0),(1,2,0),
+    (2,2,0),(2,1,0),
+    (3,1,0),(3,3,0),
+    (4,1,0),(4,4,0);
 
--- Cronologia del partido finalizado 2
+-- Cronologia del partido finalizado 1 (ID 6)
 INSERT INTO CronologiaNBA (partido_id, minuto, tipo, descripcion, puntosSumados, equipoBeneficiado_id)
-VALUES (3, 8,  'PUNTAJE', 'Doble de James', 2, 2);
+VALUES (6, 5, 'PUNTAJE', 'Triple de Curry', 3, 3);
+
 INSERT INTO CronologiaNBA (partido_id, minuto, tipo, descripcion, puntosSumados, equipoBeneficiado_id)
-VALUES (3, 31, 'PUNTAJE', 'Triple de Harden', 3, 3);
+VALUES (6, 12, 'PUNTAJE', 'Bandeja de Durant', 2, 4);
+
+INSERT INTO CronologiaNBA (partido_id, minuto, tipo, descripcion, puntosSumados, equipoBeneficiado_id)
+VALUES (6, 23, 'PUNTAJE', 'Triple de Curry', 3, 3);
+
+
+-- Cronologia del partido finalizado 2 (ID 7)
+INSERT INTO CronologiaNBA (partido_id, minuto, tipo, descripcion, puntosSumados, equipoBeneficiado_id)
+VALUES (7, 8, 'PUNTAJE', 'Doble de James', 2, 2);
+
+INSERT INTO CronologiaNBA (partido_id, minuto, tipo, descripcion, puntosSumados, equipoBeneficiado_id)
+VALUES (7, 31, 'PUNTAJE', 'Triple de Harden', 3, 3);
