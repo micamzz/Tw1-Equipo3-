@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Agregar Partido</title>
+    <link rel="stylesheet" th:href="@{/css/header.css}"/>
+    <link rel="stylesheet" th:href="@{/css/footer.css}"/>
+    <link rel="stylesheet" th:href="@{/css/temporada.css}"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+<div th:replace="layout/header :: header"></div>
+
+<main class="contenedor-admin-vista">
+
+    <div class="acciones-superiores">
+        <h1>Agregar Partido</h1>
+    </div>
+
+    <div th:if="${error}" class="mensaje-error" th:text="${error}">Error</div>
+
+    <form th:action="@{/admin/agregarPartido}" method="post" class="formulario-partido">
+
+        <div class="campo-formulario">
+            <label for="idLocal">Equipo Local</label>
+            <select id="idLocal" name="idLocal" required>
+                <option value="">Seleccioná un equipo</option>
+                <option th:each="equipo : ${equipos}"
+                        th:value="${equipo.id}"
+                        th:text="${equipo.nombre}">Equipo</option>
+            </select>
+        </div>
+
+        <div class="campo-formulario">
+            <label for="idVisitante">Equipo Visitante</label>
+            <select id="idVisitante" name="idVisitante" required>
+                <option value="">Seleccioná un equipo</option>
+                <option th:each="equipo : ${equipos}"
+                        th:value="${equipo.id}"
+                        th:text="${equipo.nombre}">Equipo</option>
+            </select>
+        </div>
+
+        <div class="campo-formulario">
+            <label for="horaInicio">Fecha y hora del partido</label>
+            <input type="datetime-local" id="horaInicio" name="horaInicio"/>
+        </div>
+
+        <div class="botones-confirmacion">
+            <button type="submit" class="btn btn-naranja">Crear Partido</button>
+            <a th:href="@{/admin/partidos}" class="btn btn-secundario">Cancelar</a>
+        </div>
+    </form>
+
+</main>
+
+<div th:replace="layout/footer :: footer"></div>
+</body>
+</html>
