@@ -1,6 +1,7 @@
 package com.tallerwebi.dominio;
 
 import com.tallerwebi.dominio.equipoNBA.EquipoNBA;
+import com.tallerwebi.dominio.temporada.Temporada;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -18,62 +19,45 @@ public class PartidoNBA {
     @ManyToOne
     private EquipoNBA equipoVisitante;
 
-    private LocalDateTime fechaYhora;
+    private LocalDateTime horaInicio;
+
+    private Integer minutoFin;
 
     @ManyToOne
-    private Calendario calendario;
+    private Temporada temporada;
 
-    public PartidoNBA() {
-    }
-    
-    public Long getId() {
-        return id;
-    }
+    public PartidoNBA() {}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public EquipoNBA getEquipoLocal() {
-        return equipoLocal;
-    }
+    public EquipoNBA getEquipoLocal() { return equipoLocal; }
+    public void setEquipoLocal(EquipoNBA equipoLocal) { this.equipoLocal = equipoLocal; }
 
-    public void setEquipoLocal(EquipoNBA equipoLocal) {
-        this.equipoLocal = equipoLocal;
-    }
+    public EquipoNBA getEquipoVisitante() { return equipoVisitante; }
+    public void setEquipoVisitante(EquipoNBA equipoVisitante) { this.equipoVisitante = equipoVisitante; }
 
-    public EquipoNBA getEquipoVisitante() {
-        return equipoVisitante;
-    }
+    public LocalDateTime getHoraInicio() { return horaInicio; }
+    public void setHoraInicio(LocalDateTime horaInicio) { this.horaInicio = horaInicio; }
 
-    public void setEquipoVisitante(EquipoNBA equipoVisitante) {
-        this.equipoVisitante = equipoVisitante;
-    }
+    public Integer getMinutoFin() { return minutoFin; }
+    public void setMinutoFin(Integer minutoFin) { this.minutoFin = minutoFin; }
 
-    public LocalDateTime getFechaYhora() {
-        return fechaYhora;
-    }
+    public Temporada getTemporada() { return temporada; }
+    public void setTemporada(Temporada temporada) { this.temporada = temporada; }
 
-    public void setFechaYhora(LocalDateTime fechaYhora) {
-        this.fechaYhora = fechaYhora;
-    }
+    public boolean estaActivo() { return minutoFin == null; }
 
-    public Calendario getCalendario() {
-        return calendario;
-    }
-
-    public void setCalendario(Calendario calendario) {
-        this.calendario = calendario;
-    }
-
-    public String getHora() {
-        return String.format("%02d:%02d", fechaYhora.getHour(), fechaYhora.getMinute());
-    }
-
-    public String getFecha() {
+    public String getFechaFormateada() {
+        if (horaInicio == null) return "";
         return String.format("%02d/%02d/%d",
-                fechaYhora.getDayOfMonth(),
-                fechaYhora.getMonthValue(),
-                fechaYhora.getYear());
+                horaInicio.getDayOfMonth(),
+                horaInicio.getMonthValue(),
+                horaInicio.getYear());
+    }
+
+    public String getHoraFormateada() {
+        if (horaInicio == null) return "";
+        return String.format("%02d:%02d", horaInicio.getHour(), horaInicio.getMinute());
     }
 }

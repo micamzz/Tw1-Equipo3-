@@ -1,6 +1,6 @@
 package com.tallerwebi.presentacion;
 
-import com.tallerwebi.dominio.Calendario;
+import com.tallerwebi.dominio.FuturosPartidos;
 import com.tallerwebi.dominio.RendimientoJugador;
 import com.tallerwebi.dominio.ServicioCalendario;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +25,10 @@ public class ControladorCalendario{
     public ModelAndView irACalendarioNBA() {
         ModelMap modelo = new ModelMap();
 
-        Calendario calendario = servicioCalendario.obtenerCalendario();
+        FuturosPartidos futurosPartidos = servicioCalendario.obtenerFuturosPartidos();
         List<RendimientoJugador> topJugadores = servicioCalendario.Top6Jugadores();
 
-
-        modelo.put("calendario", calendario);
+        modelo.put("futurosPartidos", futurosPartidos);
         modelo.put("topJugadores", topJugadores);
 
         return new ModelAndView("calendario", modelo);

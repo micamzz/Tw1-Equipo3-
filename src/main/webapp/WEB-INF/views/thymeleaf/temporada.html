@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Temporada</title>
+    <link rel="stylesheet" th:href="@{/css/header.css}"/>
+    <link rel="stylesheet" th:href="@{/css/footer.css}"/>
+    <link rel="stylesheet" th:href="@{/css/admin-asignar-jugadores.css}"/>
+    <link rel="stylesheet" th:href="@{/css/temporada.css}"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+<div th:replace="layout/header :: header"></div>
+
+<main class="contenedor-admin-vista">
+
+    <!-- PARTIDOS EN VIVO -->
+    <div class="acciones-superiores">
+        <h1>Temporada NBA</h1>
+    </div>
+
+    <h2 class="subtitulo-seccion">
+        <span class="badge-vivo">EN VIVO</span>
+    </h2>
+
+    <div th:if="${#lists.isEmpty(partidosActivos)}" class="sin-partidos">
+        No hay partidos en curso en este momento.
+    </div>
+
+    <div th:each="partido : ${partidosActivos}" class="card-partido-vivo">
+        <div class="equipo-score">
+            <img th:src="${partido.equipoLocal.escudoImagen}" th:alt="${partido.equipoLocal.nombre}" class="escudo"/>
+            <span class="nombre-equipo-partido" th:text="${partido.equipoLocal.nombre}">Local</span>
+        </div>
+
+        <div class="centro-partido">
+            <span class="score-vivo"
+                  th:text="${@RepositorioScorePartido.buscarPorPartidoYEquipo(partido.id, partido.equipoLocal.id)?.puntos} + ' - ' + ${@RepositorioScorePartido.buscarPorPartidoYEquipo(partido.id, partido.equipoVisitante.id)?.puntos}">
+                0 - 0
+            </span>
+            <span class="estado-vivo">EN VIVO</span>
+            <a th:href="@{/partido/cronologia(idPartido=${partido.id})}" class="btn btn-naranja">Ver cronología</a>
+        </div>
+
+        <div class="equipo-score">
+            <img th:src="${partido.equipoVisitante.escudoImagen}" th:alt="${partido.equipoVisitante.nombre}" class="escudo"/>
+            <span class="nombre-equipo-partido" th:text="${partido.equipoVisitante.nombre}">Visitante</span>
+        </div>
+    </div>
+
+    <!-- PARTIDOS FINALIZADOS -->
+    <h2 class="subtitulo-seccion" style="margin-top: 2rem;">Partidos finalizados</h2>
+
+    <div th:if="${#lists.isEmpty(partidosFinalizados)}" class="sin-partidos">
+        No hay partidos finalizados aún.
+    </div>
+
+    <div th:each="partido : ${partidosFinalizados}" class="card-partido-finalizado">
+        <div class="equipo-score">
+            <img th:src="${partido.equipoLocal.escudoImagen}" th:alt="${partido.equipoLocal.nombre}" class="escudo"/>
+            <span class="nombre-equipo-partido" th:text="${partido.equipoLocal.nombre}">Local</span>
+        </div>
+
+        <div class="centro-partido">
+            <span class="score-final"
+                  th:text="${@RepositorioScorePartido.buscarPorPartidoYEquipo(partido.id, partido.equipoLocal.id)?.puntos} + ' - ' + ${@RepositorioScorePartido.buscarPorPartidoYEquipo(partido.id, partido.equipoVisitante.id)?.puntos}">
+                0 - 0
+            </span>
+            <span class="estado-finalizado">FINALIZADO</span>
+            <span class="duracion" th:text="'Duración: ' + ${partido.minutoFin} + ' min'">Duración: 48 min</span>
+            <a th:href="@{/partido/cronologia(idPartido=${partido.id})}" class="btn btn-naranja">Ver cronología</a>
+        </div>
+
+        <div class="equipo-score">
+            <img th:src="${partido.equipoVisitante.escudoImagen}" th:alt="${partido.equipoVisitante.nombre}" class="escudo"/>
+            <span class="nombre-equipo-partido" th:text="${partido.equipoVisitante.nombre}">Visitante</span>
+        </div>
+    </div>
+
+</main>
+
+<div th:replace="layout/footer :: footer"></div>
+</body>
+</html>

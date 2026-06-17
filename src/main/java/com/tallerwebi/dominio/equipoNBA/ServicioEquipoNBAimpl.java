@@ -6,11 +6,10 @@ import com.tallerwebi.dominio.equipoNBAJugador.EquipoNBAJugador;
 import com.tallerwebi.dominio.equipoNBAJugador.RepositorioEquipoNBAJugador;
 import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
 import com.tallerwebi.dominio.excepcion.JugadorYaExisteEnLaTemporadaException;
-import com.tallerwebi.dominio.temporada.ServicioTemporada;
 import com.tallerwebi.dominio.temporada.Temporada;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import com.tallerwebi.dominio.temporada.ServicioTemporada;
 import javax.transaction.Transactional;
 import java.util.List;
 
