@@ -40,8 +40,8 @@ public class ControladorPartidoNBA {
     @RequestMapping("/temporada")
     public ModelAndView verTemporada() {
         ModelMap modelo = new ModelMap();
-        modelo.put("partidosActivos", servicioPartidoNBA.obtenerPartidosActivos());
-        modelo.put("partidosFinalizados", servicioPartidoNBA.obtenerPartidosFinalizados());
+        modelo.put("partidosActivos", servicioPartidoNBA.obtenerPartidosActivosConScore());
+        modelo.put("partidosFinalizados", servicioPartidoNBA.obtenerPartidosFinalizadosConScore());
         return new ModelAndView("temporada", modelo);
     }
 

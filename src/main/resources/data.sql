@@ -104,3 +104,40 @@ VALUES (1, 3, '2026-06-09 22:30:00', 2);
 INSERT INTO PartidoNBA (equipoLocal_id, equipoVisitante_id, horaInicio, temporada_id)
 VALUES (1, 4, '2026-06-11 22:00:00', 2);
 
+-- Partido ACTIVO (minutoFin null = en curso)
+INSERT INTO PartidoNBA (equipoLocal_id, equipoVisitante_id, horaInicio, minutoFin, temporada_id)
+VALUES (1, 2, '2026-06-17 20:00:00', null, 1);
+
+-- Partido FINALIZADO 1 (minutoFin = duracion en minutos)
+INSERT INTO PartidoNBA (equipoLocal_id, equipoVisitante_id, horaInicio, minutoFin, temporada_id)
+VALUES (3, 4, '2026-06-14 21:00:00', 48, 1);
+
+-- Partido FINALIZADO 2
+INSERT INTO PartidoNBA (equipoLocal_id, equipoVisitante_id, horaInicio, minutoFin, temporada_id)
+VALUES (2, 3, '2026-06-10 20:30:00', 53, 1);
+
+-- Score del partido activo (id=1): local=0, visitante=0
+INSERT INTO ScorePartido (partido_id, equipo_id, puntos) VALUES (1, 1, 0);
+INSERT INTO ScorePartido (partido_id, equipo_id, puntos) VALUES (1, 2, 0);
+
+-- Score del partido finalizado 1 (id=2)
+INSERT INTO ScorePartido (partido_id, equipo_id, puntos) VALUES (2, 3, 112);
+INSERT INTO ScorePartido (partido_id, equipo_id, puntos) VALUES (2, 4, 98);
+
+-- Score del partido finalizado 2 (id=3)
+INSERT INTO ScorePartido (partido_id, equipo_id, puntos) VALUES (3, 2, 105);
+INSERT INTO ScorePartido (partido_id, equipo_id, puntos) VALUES (3, 3, 101);
+
+-- Cronologia del partido finalizado 1
+INSERT INTO CronologiaNBA (partido_id, minuto, tipo, descripcion, puntosSumados, equipoBeneficiado_id)
+VALUES (2, 5,  'PUNTAJE', 'Triple de Curry', 3, 3);
+INSERT INTO CronologiaNBA (partido_id, minuto, tipo, descripcion, puntosSumados, equipoBeneficiado_id)
+VALUES (2, 12, 'PUNTAJE', 'Bandeja de Durant', 2, 4);
+INSERT INTO CronologiaNBA (partido_id, minuto, tipo, descripcion, puntosSumados, equipoBeneficiado_id)
+VALUES (2, 23, 'PUNTAJE', 'Triple de Curry', 3, 3);
+
+-- Cronologia del partido finalizado 2
+INSERT INTO CronologiaNBA (partido_id, minuto, tipo, descripcion, puntosSumados, equipoBeneficiado_id)
+VALUES (3, 8,  'PUNTAJE', 'Doble de James', 2, 2);
+INSERT INTO CronologiaNBA (partido_id, minuto, tipo, descripcion, puntosSumados, equipoBeneficiado_id)
+VALUES (3, 31, 'PUNTAJE', 'Triple de Harden', 3, 3);

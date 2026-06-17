@@ -3,23 +3,29 @@
 <head>
     <meta charset="UTF-8"/>
     <title>Temporada</title>
+
     <link rel="stylesheet" th:href="@{/css/header.css}"/>
     <link rel="stylesheet" th:href="@{/css/footer.css}"/>
     <link rel="stylesheet" th:href="@{/css/admin-asignar-jugadores.css}"/>
     <link rel="stylesheet" th:href="@{/css/temporada.css}"/>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet"/>
 </head>
+
 <body>
 
 <div th:replace="layout/header :: header"></div>
 
 <main class="contenedor-admin-vista">
 
-    <!-- PARTIDOS EN VIVO -->
+    <!-- TÍTULO -->
     <div class="acciones-superiores">
         <h1>Temporada NBA</h1>
     </div>
 
+
+    <!-- PARTIDOS EN VIVO -->
     <h2 class="subtitulo-seccion">
         <span class="badge-vivo">EN VIVO</span>
     </h2>
@@ -28,58 +34,132 @@
         No hay partidos en curso en este momento.
     </div>
 
+
     <div th:each="partido : ${partidosActivos}" class="card-partido-vivo">
+
         <div class="equipo-score">
-            <img th:src="${partido.equipoLocal.escudoImagen}" th:alt="${partido.equipoLocal.nombre}" class="escudo"/>
-            <span class="nombre-equipo-partido" th:text="${partido.equipoLocal.nombre}">Local</span>
+            <img class="escudo"
+                 th:src="${partido.partido.equipoLocal.escudoImagen}"
+                 th:alt="${partido.partido.equipoLocal.nombre}"/>
+
+            <span class="nombre-equipo-partido"
+                  th:text="${partido.partido.equipoLocal.nombre}">
+                Local
+            </span>
         </div>
+
 
         <div class="centro-partido">
+
             <span class="score-vivo"
-                  th:text="${@RepositorioScorePartido.buscarPorPartidoYEquipo(partido.id, partido.equipoLocal.id)?.puntos} + ' - ' + ${@RepositorioScorePartido.buscarPorPartidoYEquipo(partido.id, partido.equipoVisitante.id)?.puntos}">
+                  th:text="${partido.scoreLocal.puntos + ' - ' + partido.scoreVisitante.puntos}">
                 0 - 0
             </span>
-            <span class="estado-vivo">EN VIVO</span>
-            <a th:href="@{/partido/cronologia(idPartido=${partido.id})}" class="btn btn-naranja">Ver cronología</a>
+
+            <span class="estado-vivo">
+                EN VIVO
+            </span>
+
+            <a class="btn btn-naranja"
+               th:href="@{/partido/cronologia(idPartido=${partido.partido.id})}">
+                Ver cronología
+            </a>
+
         </div>
+
 
         <div class="equipo-score">
-            <img th:src="${partido.equipoVisitante.escudoImagen}" th:alt="${partido.equipoVisitante.nombre}" class="escudo"/>
-            <span class="nombre-equipo-partido" th:text="${partido.equipoVisitante.nombre}">Visitante</span>
+
+            <img class="escudo"
+                 th:src="${partido.partido.equipoVisitante.escudoImagen}"
+                 th:alt="${partido.partido.equipoVisitante.nombre}"/>
+
+            <span class="nombre-equipo-partido"
+                  th:text="${partido.partido.equipoVisitante.nombre}">
+                Visitante
+            </span>
+
         </div>
+
     </div>
 
-    <!-- PARTIDOS FINALIZADOS -->
-    <h2 class="subtitulo-seccion" style="margin-top: 2rem;">Partidos finalizados</h2>
 
-    <div th:if="${#lists.isEmpty(partidosFinalizados)}" class="sin-partidos">
+    <!-- PARTIDOS FINALIZADOS -->
+    <h2 class="subtitulo-seccion" style="margin-top: 2rem;">
+        Partidos finalizados
+    </h2>
+
+
+    <div th:if="${#lists.isEmpty(partidosFinalizados)}"
+         class="sin-partidos">
         No hay partidos finalizados aún.
     </div>
 
-    <div th:each="partido : ${partidosFinalizados}" class="card-partido-finalizado">
+
+    <div th:each="partido : ${partidosFinalizados}"
+         class="card-partido-finalizado">
+
+
         <div class="equipo-score">
-            <img th:src="${partido.equipoLocal.escudoImagen}" th:alt="${partido.equipoLocal.nombre}" class="escudo"/>
-            <span class="nombre-equipo-partido" th:text="${partido.equipoLocal.nombre}">Local</span>
+
+            <img class="escudo"
+                 th:src="${partido.partido.equipoLocal.escudoImagen}"
+                 th:alt="${partido.partido.equipoLocal.nombre}"/>
+
+            <span class="nombre-equipo-partido"
+                  th:text="${partido.partido.equipoLocal.nombre}">
+                Local
+            </span>
+
         </div>
+
 
         <div class="centro-partido">
+
             <span class="score-final"
-                  th:text="${@RepositorioScorePartido.buscarPorPartidoYEquipo(partido.id, partido.equipoLocal.id)?.puntos} + ' - ' + ${@RepositorioScorePartido.buscarPorPartidoYEquipo(partido.id, partido.equipoVisitante.id)?.puntos}">
+                  th:text="${partido.scoreLocal.puntos + ' - ' + partido.scoreVisitante.puntos}">
                 0 - 0
             </span>
-            <span class="estado-finalizado">FINALIZADO</span>
-            <span class="duracion" th:text="'Duración: ' + ${partido.minutoFin} + ' min'">Duración: 48 min</span>
-            <a th:href="@{/partido/cronologia(idPartido=${partido.id})}" class="btn btn-naranja">Ver cronología</a>
+
+
+            <span class="estado-finalizado">
+                FINALIZADO
+            </span>
+
+
+            <span class="duracion"
+                  th:text="${'Duración: ' + partido.partido.minutoFin + ' min'}">
+                Duración: 48 min
+            </span>
+
+
+            <a class="btn btn-naranja"
+               th:href="@{/partido/cronologia(idPartido=${partido.partido.id})}">
+                Ver cronología
+            </a>
+
         </div>
 
+
         <div class="equipo-score">
-            <img th:src="${partido.equipoVisitante.escudoImagen}" th:alt="${partido.equipoVisitante.nombre}" class="escudo"/>
-            <span class="nombre-equipo-partido" th:text="${partido.equipoVisitante.nombre}">Visitante</span>
+
+            <img class="escudo"
+                 th:src="${partido.partido.equipoVisitante.escudoImagen}"
+                 th:alt="${partido.partido.equipoVisitante.nombre}"/>
+
+            <span class="nombre-equipo-partido"
+                  th:text="${partido.partido.equipoVisitante.nombre}">
+                Visitante
+            </span>
+
         </div>
+
     </div>
 
 </main>
 
+
 <div th:replace="layout/footer :: footer"></div>
+
 </body>
 </html>
