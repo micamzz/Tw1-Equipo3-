@@ -5,7 +5,7 @@ import com.tallerwebi.dominio.equipo.Equipo;
 import com.tallerwebi.dominio.equipoNBA.EquipoNBA;
 
 import javax.persistence.*;
-
+@Entity
 public class Formacion {
 
     /* id   1       2       3       4
@@ -38,20 +38,26 @@ public class Formacion {
     }
 
     public PartidoNBA getPartido() {
+
         return partido;
     }
+
     public void setPartido(PartidoNBA partido) {
         this.partido = partido;
     }
+
     public EquipoNBA getEquipoNBA() {
         return equipoNBA;
     }
+
     public void setEquipoNBA(EquipoNBA equipoNBA) {
         this.equipoNBA = equipoNBA;
     }
+
     public Jugador getJugador() {
         return jugador;
     }
+
     public void setJugador(Jugador jugador) {
         this.jugador = jugador;
     }

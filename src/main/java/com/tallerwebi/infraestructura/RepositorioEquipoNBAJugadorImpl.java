@@ -9,11 +9,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class repositorioEquipoNBAJugadorImpl implements RepositorioEquipoNBAJugador {
+public class RepositorioEquipoNBAJugadorImpl implements RepositorioEquipoNBAJugador {
 
     private final SessionFactory sessionFactory;
 
-    public repositorioEquipoNBAJugadorImpl(SessionFactory sessionFactory) {
+    public RepositorioEquipoNBAJugadorImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 

@@ -1,0 +1,14 @@
+package com.tallerwebi.dominio;
+
+import java.util.List;
+
+public interface RepositorioFormacion {
+
+    void guardarFormacion(Formacion formacion);
+
+    List<Formacion> obtenerJugadoresPorPartido (Long idPartido);
+
+    List<Formacion> buscarJugadoresPorEquipoYPartido (Long idEquipo, Long idPartido);
+
+    boolean existeJugadorEnPartido (Long jugadorId, Long partidoId);
+}
