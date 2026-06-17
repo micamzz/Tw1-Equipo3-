@@ -141,14 +141,14 @@
 
                 <h4>Suplentes</h4>
                 <ul class="lista-formacion">
-                    <li th:if="${#lists.isEmpty(suplentesVisitantes)}" class="formacion-vacia">Sin suplentes</li>
-                    <li th:each="f : ${suplentesVisitantes}" class="formacion-item">
+                    <li th:if="${#lists.isEmpty(suplentesVisitante)}" class="formacion-vacia">Sin suplentes</li>
+                    <li th:each="f : ${suplentesVisitante}" class="formacion-item">
                         <span th:text="${f.jugador.nombre} + ' ' + ${f.jugador.apellido}">Jugador</span>
                         <span class="badge-posicion" th:text="${f.jugador.posicion}">POS</span>
                         <form th:action="@{/admin/eliminarJugadorFormacion}" method="post" style="display:inline">
                             <input type="hidden" name="idFormacion" th:value="${f.id}"/>
                             <input type="hidden" name="idPartido" th:value="${partido.id}"/>
-                            <button type="submit" class="btn-eliminar">✕</button>
+                            <button type="submit" class="btn-eliminar">x</button>
                         </form>
                     </li>
                 </ul>

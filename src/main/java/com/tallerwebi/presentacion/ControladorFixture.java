@@ -98,9 +98,9 @@ public class ControladorFixture {
 
         //Formacion de ambos equipos
         List<FormacionPartido> titularesLocal = servicioFormacion.obtenerTitulares(idPartido, partido.getEquipoLocal().getId());
-        List<FormacionPartido> suplentesLocal = servicioFormacion.obtenerSubtitulares(idPartido, partido.getEquipoLocal().getId());
+        List<FormacionPartido> suplentesLocal = servicioFormacion.obtenerSuplentes(idPartido, partido.getEquipoLocal().getId());
         List<FormacionPartido> titularesVisitantes = servicioFormacion.obtenerTitulares(idPartido, partido.getEquipoVisitante().getId());
-        List<FormacionPartido> suplentesVisitantes = servicioFormacion.obtenerSubtitulares(idPartido, partido.getEquipoVisitante().getId());
+        List<FormacionPartido> suplentesVisitantes = servicioFormacion.obtenerSuplentes(idPartido, partido.getEquipoVisitante().getId());
 
         modelo.put("partido", partido);
         modelo.put("cronologia", cronologia);
