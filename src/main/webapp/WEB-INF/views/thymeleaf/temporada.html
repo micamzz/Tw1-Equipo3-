@@ -1,33 +1,56 @@
-<div th:each="partido : ${partidosActivos}" class="card-partido-vivo">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 
-    <div class="equipo-score">
-        <img th:src="${partido.partido.equipoLocal.escudoImagen}" class="escudo"/>
-        <span class="nombre-equipo-partido"
-              th:text="${partido.partido.equipoLocal.nombre}">
-        </span>
-    </div>
+<head>
+    <meta charset="UTF-8">
+    <title>Partidos en vivo</title>
+    <link rel="stylesheet" th:href="@{/css/admin-cronologia.css}">
+</head>
 
-    <div class="centro-partido">
+<body>
 
-        <span class="score-vivo"
-              th:text="${partido.scoreLocal.puntos + ' - ' + partido.scoreVisitante.puntos}">
-        </span>
+<div class="contenedor-admin-vista">
 
-        <span class="estado-vivo">EN VIVO</span>
+    <h1>Partidos en vivo</h1>
 
-        <a th:href="@{/partido/cronologia(idPartido=${partido.partido.id})}"
-           class="btn btn-naranja">
-            Ver cronología
-        </a>
+    <div th:each="partido : ${partidosActivos}" class="card-partido-vivo">
 
-    </div>
+        <div class="equipo-score">
+            <img th:src="${partido.partido.equipoLocal.escudoImagen}" class="escudo"/>
 
-    <div class="equipo-score">
-        <img th:src="${partido.partido.equipoVisitante.escudoImagen}" class="escudo"/>
+            <span class="nombre-equipo-partido"
+                  th:text="${partido.partido.equipoLocal.nombre}">
+            </span>
+        </div>
 
-        <span class="nombre-equipo-partido"
-              th:text="${partido.partido.equipoVisitante.nombre}">
-        </span>
+        <div class="centro-partido">
+
+            <span class="score-vivo"
+                  th:text="${partido.scoreLocal.puntos + ' - ' + partido.scoreVisitante.puntos}">
+            </span>
+
+            <span class="estado-vivo">
+                EN VIVO
+            </span>
+
+            <a th:href="@{/partido/cronologia(idPartido=${partido.partido.id})}"
+               class="btn btn-naranja">
+                Ver cronología
+            </a>
+
+        </div>
+
+        <div class="equipo-score">
+            <img th:src="${partido.partido.equipoVisitante.escudoImagen}" class="escudo"/>
+
+            <span class="nombre-equipo-partido"
+                  th:text="${partido.partido.equipoVisitante.nombre}">
+            </span>
+        </div>
+
     </div>
 
 </div>
+
+</body>
+</html>
