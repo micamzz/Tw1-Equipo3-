@@ -51,7 +51,7 @@ public class RepositorioFormacionImpl implements RepositorioFormacion {
     }
 
     @Override
-    public boolean existeJugadorEnPartido(Long jugadorId, Long partidoId) {
+    public boolean existeJugadorEnFormacion(Long idJugador, Long idPartido) {
        String hql = "SELECT COUNT(*) " +
                "FROM Formacion f WHERE f.jugador.id = :jugadorId " +
                "AND f.partido.id = :partidoId";
@@ -59,8 +59,8 @@ public class RepositorioFormacionImpl implements RepositorioFormacion {
        Long cantidad = sessionFactory
                .getCurrentSession()
                .createQuery(hql, Long.class)
-               .setParameter("jugadorId", jugadorId)
-               .setParameter("partidoId", partidoId)
+               .setParameter("jugadorId", idJugador)
+               .setParameter("partidoId", idPartido)
                .uniqueResult();
 
 

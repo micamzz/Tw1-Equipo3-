@@ -27,14 +27,7 @@ public class RepositorioEventoPartidoImpl implements RepositorioEventoPartido {
     }
 
     @Override
-    public EventoPartido buscarEventoPorId(Long id) {
-        return sessionFactory
-                .getCurrentSession()
-                .get(EventoPartido.class, id);
-    }
-
-    @Override
-    public List<EventoPartido> buscarEventoPorPartido(Long partidoId) {
+    public List<EventoPartido> buscarEventosPorPartido(Long partidoId) {
         String hql =
                 "FROM EventoPartido e " +
                         "WHERE e.partido.id = :partidoId " +
@@ -45,6 +38,22 @@ public class RepositorioEventoPartidoImpl implements RepositorioEventoPartido {
                 .setParameter("partidoId", partidoId)
                 .list();
 
+    }
+
+    @Override
+    public List<EventoPartido> buscarEventosPorPartidoYJugador(Long partidoId, Long jugadorId) {
+
+        String hql =
+                "FROM EventoPartido e " +
+                        "WHERE e.partido.id = :partidoId " +
+                        "AND e.jugador.id = :jugadorId";
+
+        return sessionFactory
+                .getCurrentSession()
+                .createQuery(hql, EventoPartido.class)
+                .setParameter("partidoId", partidoId)
+                .setParameter("jugadorId", jugadorId)
+                .list();
     }
 
 

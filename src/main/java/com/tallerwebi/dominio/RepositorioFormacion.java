@@ -10,5 +10,5 @@ public interface RepositorioFormacion {
 
     List<Formacion> buscarJugadoresPorEquipoYPartido (Long idEquipo, Long idPartido);
 
-    boolean existeJugadorEnPartido (Long jugadorId, Long partidoId);
+    boolean existeJugadorEnFormacion (Long idJugador, Long idPartido);
 }
