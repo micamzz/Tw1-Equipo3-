@@ -5,7 +5,7 @@ INSERT INTO Temporada (id, nombre, anio, fechaInicio, fechaFin)
 VALUES (1, 'Temporada 2025', 2025, '2025-03-01', '2025-11-08');
 
 INSERT INTO Temporada (id, nombre, anio, fechaInicio, fechaFin)
-VALUES (2, 'Taller Web I', 2026, '2026-03-01', '2026-11-08');
+VALUES (2, 'Taller Web I', 2026, '2026-03-01', null);
 
 INSERT INTO EquipoNBA(id, nombre, escudoImagen)
 VALUES (1, 'Golden State Warriors', 'https://cdn.nba.com/logos/nba/1610612744/global/L/logo.svg'),
