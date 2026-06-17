@@ -26,16 +26,18 @@ public class ControladorFixture {
     private final ServicioEquipoNBA servicioEquipoNBA;
     private final ServicioEquipoNBAJugador servicioEquipoNBAJugador;
     private final ServicioTemporada servicioTemporada;
+    private final ServicioFormacion servicioFormacion;
 
     @Autowired
     public ControladorFixture(ServicioPartidoNBA servicioPartidoNBA,
                                  ServicioEquipoNBA servicioEquipoNBA,
                                  ServicioEquipoNBAJugador servicioEquipoNBAJugador,
-                                 ServicioTemporada servicioTemporada) {
+                                 ServicioTemporada servicioTemporada, ServicioFormacion servicioFormacion) {
         this.servicioPartidoNBA = servicioPartidoNBA;
         this.servicioEquipoNBA = servicioEquipoNBA;
         this.servicioEquipoNBAJugador = servicioEquipoNBAJugador;
         this.servicioTemporada = servicioTemporada;
+        this.servicioFormacion = servicioFormacion;
     }
 
     @RequestMapping("/admin/partidos")
@@ -87,11 +89,18 @@ public class ControladorFixture {
         ScorePartido scoreLocal = servicioPartidoNBA.obtenerScoreLocal(idPartido);
         ScorePartido scoreVisitante = servicioPartidoNBA.obtenerScoreVisitante(idPartido);
 
+
         // Jugadores de cada equipo para el plantel
         List<Jugador> jugadoresLocal = servicioEquipoNBAJugador
                 .obtenerJugadoresDelEquipoEnTemporada(partido.getEquipoLocal().getId(), partido.getTemporada().getId());
         List<Jugador> jugadoresVisitante = servicioEquipoNBAJugador
                 .obtenerJugadoresDelEquipoEnTemporada(partido.getEquipoVisitante().getId(), partido.getTemporada().getId());
+
+        //Formacion de ambos equipos
+        List<FormacionPartido> titularesLocal = servicioFormacion.obtenerTitulares(idPartido, partido.getEquipoLocal().getId());
+        List<FormacionPartido> suplentesLocal = servicioFormacion.obtenerSubtitulares(idPartido, partido.getEquipoLocal().getId());
+        List<FormacionPartido> titularesVisitantes = servicioFormacion.obtenerTitulares(idPartido, partido.getEquipoVisitante().getId());
+        List<FormacionPartido> suplentesVisitantes = servicioFormacion.obtenerSubtitulares(idPartido, partido.getEquipoVisitante().getId());
 
         modelo.put("partido", partido);
         modelo.put("cronologia", cronologia);
@@ -99,6 +108,24 @@ public class ControladorFixture {
         modelo.put("scoreVisitante", scoreVisitante);
         modelo.put("jugadoresLocal", jugadoresLocal);
         modelo.put("jugadoresVisitante", jugadoresVisitante);
+
+        modelo.put("titularesLocal", titularesLocal);
+        modelo.put("suplentesLocal", suplentesLocal);
+        modelo.put("titularesVisitantes", titularesVisitantes);
+        modelo.put("suplentesVisitante", suplentesVisitantes);
         return new ModelAndView("admin-partido", modelo);
     }
+
+    @RequestMapping(value="/admin/agregarJugadorFormacion", method = RequestMethod.POST)
+    public ModelAndView agregarJugadorFormacion(@RequestParam Long idPartido, @RequestParam Long idEquipo, @RequestParam Long idJugador, @RequestParam RolFormacion rol) {
+        servicioFormacion.agregarJugador(idPartido, idEquipo, idJugador, rol);
+        return new ModelAndView("redirect:/admin/partido?idPartido=" + idPartido);
+    }
+
+    @RequestMapping(value = "/admin/eliminarJugadorFormacion", method = RequestMethod.POST)
+    public ModelAndView eliminarJugadorFormacion(@RequestParam Long idFormacion, Long idPartido) {
+        servicioFormacion.quitarJugador(idFormacion);
+        return new ModelAndView("redirect:/admin/partido?idPartido=" + idPartido);
+    }
+
 }
