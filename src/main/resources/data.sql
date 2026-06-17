@@ -83,6 +83,19 @@ VALUES
     (3,17,2),(3,18,2),(3,19,2),(3,20,2),(3,21,2),(3,22,2),(3,23,2),(3,24,2),
     (4,25,2),(4,26,2),(4,27,2),(4,28,2),(4,29,2),(4,30,2),(4,31,2),(4,32,2);
 
+-- Asignar jugadores a equipos vacios (5=Spurs, 6=Knicks, 7=Nets, 8=Mavericks)
+-- Temp 1
+INSERT INTO EquipoNBAJugador(equipoNBA_id, jugador_id, temporada_id)
+VALUES (5,6,1),(5,8,1),(5,33,1),
+       (6,14,1),(6,15,1),(6,35,1),
+       (7,18,1),(7,31,1),(7,37,1),
+       (8,32,1);
+-- Temp 2 (solo 33-37 estan libres en temp 2)
+INSERT INTO EquipoNBAJugador(equipoNBA_id, jugador_id, temporada_id)
+VALUES (5,33,2),(5,34,2),
+       (6,35,2),(6,36,2),
+       (7,37,2);
+
 INSERT INTO Torneo (id, fechaFin, fechaInicio, nombreTorneo, tipoTorneo)
 VALUES (1, '2026-12-31', '2026-01-01', 'Temporada NBA 2026', 'REAL');
 

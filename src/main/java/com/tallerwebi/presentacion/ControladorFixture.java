@@ -62,12 +62,15 @@ public class ControladorFixture {
     @RequestMapping(value = "/admin/agregarPartido", method = RequestMethod.POST)
     public ModelAndView guardarPartido(@RequestParam Long idLocal,
                                        @RequestParam Long idVisitante,
-                                       @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime horaInicio) {
+                                       @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime horaInicio) {
         try {
             EquipoNBA local = servicioEquipoNBA.buscarEquipoPorId(idLocal);
             EquipoNBA visitante = servicioEquipoNBA.buscarEquipoPorId(idVisitante);
             Temporada temporada = servicioTemporada.obtenerTemporadaActual();
 
+            if (horaInicio == null) {
+                horaInicio = LocalDateTime.now();
+            }
             servicioPartidoNBA.agregarPartido(local, visitante, horaInicio, temporada);
             return new ModelAndView("redirect:/admin/partidos");
 

@@ -164,7 +164,7 @@ public class ControladorEquipoNBATest {
         when(servicioEquipoNBAMock.obtenerTodosLosEquiposOrdenadosDeMenorAMayor()).thenReturn(equipos);
 
         // Ejecución
-        ModelAndView mav = controladorEquipoNBA.verListadoDeEquiposNBA();
+        ModelAndView mav = controladorEquipoNBA.verListadoDeEquiposNBA(null);
 
         // Verificación
         assertThat(mav.getViewName(), equalToIgnoringCase("admin-listado-equiposNBA"));
