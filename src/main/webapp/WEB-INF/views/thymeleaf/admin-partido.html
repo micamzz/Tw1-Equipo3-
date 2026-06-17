@@ -6,6 +6,8 @@
     <link rel="stylesheet" th:href="@{/css/header.css}"/>
     <link rel="stylesheet" th:href="@{/css/footer.css}"/>
     <link rel="stylesheet" th:href="@{/css/temporada.css}"/>
+    <link rel="stylesheet" th:href="@{/css/footer.css}"/>
+    <link rel="stylesheet" th:href="@{/css/admin-partido.css}"/>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
 </head>
 <body>
@@ -35,115 +37,240 @@
         </div>
     </div>
 
-    <!-- Cronologia actual -->
-    <h2 class="subtitulo-seccion">Cronología ↓</h2>
-
-    <ul class="cronologia-lista">
-        <li th:each="evento : ${cronologia}" class="cronologia-item">
-            <span class="cronologia-minuto" th:text="${evento.minuto} + ''''">14'</span>
-            <span class="cronologia-descripcion" th:text="${evento.descripcion}">Evento</span>
-            <span class="cronologia-tipo-puntaje"
-                  th:if="${evento.tipo == 'PUNTAJE'}"
-                  th:text="'+' + ${evento.puntosSumados} + ' pts'">+3 pts</span>
-            <span class="cronologia-tipo-plantel"
-                  th:if="${evento.tipo == 'PLANTEL'}">Cambio</span>
-        </li>
-    </ul>
-
-    <!-- Agregar cronologia PUNTAJE -->
-    <div class="panel-accion">
-        <h3>Agregar Cronología Puntaje</h3>
-        <form th:action="@{/admin/agregarCronologiaPuntaje}" method="post" class="formulario-partido">
-            <input type="hidden" name="idPartido" th:value="${partido.id}"/>
-
-            <div class="campos-inline">
-                <div class="campo-formulario">
-                    <label>Minuto</label>
-                    <input type="number" name="minuto" min="0" required/>
-                </div>
-                <div class="campo-formulario">
-                    <label>Descripción</label>
-                    <input type="text" name="descripcion" placeholder="Ej: Triple de Curry" required/>
-                </div>
-                <div class="campo-formulario">
-                    <label>Puntos</label>
-                    <select name="puntos" required>
-                        <option value="1">1 pt (libre)</option>
-                        <option value="2">2 pts</option>
-                        <option value="3">3 pts (triple)</option>
-                    </select>
-                </div>
-                <div class="campo-formulario">
-                    <label>Equipo</label>
-                    <select name="idEquipo" required>
-                        <option th:value="${partido.equipoLocal.id}"
-                                th:text="${partido.equipoLocal.nombre}">Local</option>
-                        <option th:value="${partido.equipoVisitante.id}"
-                                th:text="${partido.equipoVisitante.nombre}">Visitante</option>
-                    </select>
-                </div>
-            </div>
-            <button type="submit" class="btn btn-naranja">Agregar Puntaje</button>
-        </form>
+    <!--Tabs-->
+    <div class="tabs">
+        <button class="tab activo" onclick="mostrarTab('cronologia')">Cronología</button>
+        <button class="tab" onclick="mostrarTab('formacion')">Formación</button>
+        <button class="tab" onclick="mostrarTab('acciones')">Acciones</button>
     </div>
 
-    <!-- Agregar cronologia PLANTEL -->
-    <div class="panel-accion">
-        <h3>Agregar Cronología Plantel</h3>
-        <form th:action="@{/admin/agregarCronologiaPlantel}" method="post" class="formulario-partido">
-            <input type="hidden" name="idPartido" th:value="${partido.id}"/>
-
-            <div class="campos-inline">
-                <div class="campo-formulario">
-                    <label>Minuto</label>
-                    <input type="number" name="minuto" min="0" required/>
-                </div>
-                <div class="campo-formulario">
-                    <label>Jugador que sale</label>
-                    <select name="idJugadorSale" required>
-                        <optgroup th:label="${partido.equipoLocal.nombre}">
-                            <option th:each="j : ${jugadoresLocal}"
-                                    th:value="${j.id}"
-                                    th:text="${j.nombre} + ' ' + ${j.apellido}">Jugador</option>
-                        </optgroup>
-                        <optgroup th:label="${partido.equipoVisitante.nombre}">
-                            <option th:each="j : ${jugadoresVisitante}"
-                                    th:value="${j.id}"
-                                    th:text="${j.nombre} + ' ' + ${j.apellido}">Jugador</option>
-                        </optgroup>
-                    </select>
-                </div>
-                <div class="campo-formulario">
-                    <label>Jugador que entra</label>
-                    <select name="idJugadorEntra" required>
-                        <optgroup th:label="${partido.equipoLocal.nombre}">
-                            <option th:each="j : ${jugadoresLocal}"
-                                    th:value="${j.id}"
-                                    th:text="${j.nombre} + ' ' + ${j.apellido}">Jugador</option>
-                        </optgroup>
-                        <optgroup th:label="${partido.equipoVisitante.nombre}">
-                            <option th:each="j : ${jugadoresVisitante}"
-                                    th:value="${j.id}"
-                                    th:text="${j.nombre} + ' ' + ${j.apellido}">Jugador</option>
-                        </optgroup>
-                    </select>
-                </div>
-            </div>
-            <button type="submit" class="btn btn-naranja">Agregar Cambio</button>
-        </form>
+    <!-- Tab : Cronologia actual -->
+    <div id="tab-cronologia" class="tab-content">
+        <h2 class="subtitulo-seccion">Cronología</h2>
+        <ul class="cronologia-lista">
+            <li th:if="${#lists.isEmpty(cronologia)}" class="cronologia-vacia">
+                Sin eventos aún.
+            </li>
+            <li th:each="evento : ${cronologia}" class="cronologia-item">
+                <span class="cronologia-minuto" th:text="${evento.minuto} + ''''">14'</span>
+                <span class="cronologia-descripcion" th:text="${evento.descripcion}">Evento</span>
+                <span class="cronologia-tipo-puntaje"
+                      th:if="${evento.tipo == 'PUNTAJE'}"
+                      th:text="'+' + ${evento.puntosSumados} + ' pts'">+3 pts</span>
+                <span class="cronologia-tipo-plantel"
+                      th:if="${evento.tipo == 'PLANTEL'}">Cambio</span>
+            </li>
+        </ul>
     </div>
 
-    <!-- Finalizar partido -->
-    <div class="panel-accion panel-finalizar">
-        <h3>Finalizar Partido</h3>
-        <form th:action="@{/admin/finalizarPartido}" method="post" class="formulario-partido">
-            <input type="hidden" name="idPartido" th:value="${partido.id}"/>
-            <div class="campo-formulario">
-                <label>Minuto en que finalizó</label>
-                <input type="number" name="minutoFin" min="1" required/>
+    <!-- Tab: Formacion -->
+    <div id="tab-formacion" class="tab-content oculto">
+        <div class=" formacion-grid">
+            <!-- Local -->
+            <div class="formacion-equipo">
+                <h3 th:text="${partido.equipoLocal.nombre}">Local</h3>
+
+                <h4>Titulares</h4>
+                <ul class="lista-formacion">
+                    <li th:if="${#lists.isEmpty(titularesLocal)}" class="formacion-vacia">Sin titulares</li>
+                    <li th:each="f : ${titularesLocal}" class="formacion-item">
+                        <span th:text="${f.jugador.nombre} + ' ' + ${f.jugador.apellido}">Jugador</span>
+                        <span class="badge-posicion" th:text="${f.jugador.posicion}">POS</span>
+                        <form th:action="@{/admin/eliminarJugadorFormacion}" method="post" style="display:inline">
+                            <input type="hidden" name="idFormacion" th:value="${f.id}"/>
+                            <input type="hidden" name="idPartido" th:value="${partido.id}"/>
+                            <button type="submit" class="btn-eliminar">✕</button>
+                        </form>
+                    </li>
+                </ul>
+
+
+                <h4>Suplentes</h4>
+                <ul class="lista-formacion">
+                    <li th:if="${#lists.isEmpty(suplentesLocal)}" class="formacion-vacia">Sin suplentes</li>
+                    <li th:each="f : ${suplentesLocal}" class="formacion-item">
+                        <span th:text="${f.jugador.nombre} + ' ' + ${f.jugador.apellido}">Jugador</span>
+                        <span class="badge-posicion" th:text="${f.jugador.posicion}">POS</span>
+                        <form th:action="@{/admin/eliminarJugadorFormacion}" method="post" style="display:inline">
+                            <input type="hidden" name="idFormacion" th:value="${f.id}"/>
+                            <input type="hidden" name="idPartido" th:value="${partido.id}"/>
+                            <button type="submit" class="btn-eliminar">✕</button>
+                        </form>
+                    </li>
+                </ul>
+
+                <!-- Agregar jugador local -->
+                <div class="panel-agregar-jugador">
+                    <h4>Agregar jugador</h4>
+                    <form th:action="@{/admin/agregarJugadorFormacion}" method="post" class="form-formacion">
+                        <input type="hidden" name="idPartido" th:value="${partido.id}"/>
+                        <input type="hidden" name="idEquipo" th:value="${partido.equipoLocal.id}"/>
+                        <select name="idJugador" required>
+                            <option value="" disabled selected>Seleccionar jugador...</option>
+                            <option th:each="j : ${jugadoresLocal}"
+                                    th:value="${j.id}"
+                                    th:text="${j.nombre} + ' ' + ${j.apellido} + ' (' + ${j.posicion} + ')'">
+                            </option>
+                        </select>
+                        <select name="rol" required>
+                            <option value="TITULAR">Titular</option>
+                            <option value="SUPLENTE">Suplente</option>
+                        </select>
+                        <button type="submit" class="btn btn-naranja">Agregar</button>
+                    </form>
+                </div>
             </div>
-            <button type="submit" class="btn btn-rojo">Finalizar Partido</button>
-        </form>
+
+            <!-- Visitante -->
+            <div class="formacion-equipo">
+                <h3 th:text="${partido.equipoVisitante.nombre}">Visitante</h3>
+
+                <h4>Titulares</h4>
+                <ul class="lista-formacion">
+                    <li th:if="${#lists.isEmpty(titularesVisitantes)}" class="formacion-vacia">Sin titulares</li>
+                    <li th:each="f : ${titularesVisitantes}" class="formacion-item">
+                        <span th:text="${f.jugador.nombre} + ' ' + ${f.jugador.apellido}">Jugador</span>
+                        <span class="badge-posicion" th:text="${f.jugador.posicion}">POS</span>
+                        <form th:action="@{/admin/eliminarJugadorFormacion}" method="post" style="display:inline">
+                            <input type="hidden" name="idFormacion" th:value="${f.id}"/>
+                            <input type="hidden" name="idPartido" th:value="${partido.id}"/>
+                            <button type="submit" class="btn-eliminar">✕</button>
+                        </form>
+                    </li>
+                </ul>
+
+                <h4>Suplentes</h4>
+                <ul class="lista-formacion">
+                    <li th:if="${#lists.isEmpty(suplentesVisitantes)}" class="formacion-vacia">Sin suplentes</li>
+                    <li th:each="f : ${suplentesVisitantes}" class="formacion-item">
+                        <span th:text="${f.jugador.nombre} + ' ' + ${f.jugador.apellido}">Jugador</span>
+                        <span class="badge-posicion" th:text="${f.jugador.posicion}">POS</span>
+                        <form th:action="@{/admin/eliminarJugadorFormacion}" method="post" style="display:inline">
+                            <input type="hidden" name="idFormacion" th:value="${f.id}"/>
+                            <input type="hidden" name="idPartido" th:value="${partido.id}"/>
+                            <button type="submit" class="btn-eliminar">✕</button>
+                        </form>
+                    </li>
+                </ul>
+
+                <!-- Agregar jugador visitante -->
+                <div class="panel-agregar-jugador">
+                    <h4>Agregar jugador</h4>
+                    <form th:action="@{/admin/agregarJugadorFormacion}" method="post" class="form-formacion">
+                        <input type="hidden" name="idPartido" th:value="${partido.id}"/>
+                        <input type="hidden" name="idEquipo" th:value="${partido.equipoVisitante.id}"/>
+                        <select name="idJugador" required>
+                            <option value="" disabled selected>Seleccionar jugador...</option>
+                            <option th:each="j : ${jugadoresVisitante}"
+                                    th:value="${j.id}"
+                                    th:text="${j.nombre} + ' ' + ${j.apellido} + ' (' + ${j.posicion} + ')'">
+                            </option>
+                        </select>
+                        <select name="rol" required>
+                            <option value="TITULAR">Titular</option>
+                            <option value="SUPLENTE">Suplente</option>
+                        </select>
+                        <button type="submit" class="btn btn-naranja">Agregar</button>
+                    </form>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- Tab: Acciones -->
+    <div id="tab-acciones" class="tab-content oculto">
+        <!-- Agregar puntaje -->
+        <div class="panel-accion">
+            <h3>Agregar Puntaje</h3>
+            <form th:action="@{/admin/agregarCronologiaPuntaje}" method="post" class="formulario-partido">
+                <input type="hidden" name="idPartido" th:value="${partido.id}"/>
+                <div class="campos-inline">
+                    <div class="campo-formulario">
+                        <label>Minuto</label>
+                        <input type="number" name="minuto" min="0" required/>
+                    </div>
+                    <div class="campo-formulario">
+                        <label>Descripción</label>
+                        <input type="text" name="descripcion" placeholder="Ej: Triple de Curry" required/>
+                    </div>
+                    <div class="campo-formulario">
+                        <label>Puntos</label>
+                        <select name="puntos" required>
+                            <option value="1">1 pt (libre)</option>
+                            <option value="2">2 pts</option>
+                            <option value="3">3 pts (triple)</option>
+                        </select>
+                    </div>
+                    <div class="campo-formulario">
+                        <label>Equipo</label>
+                        <select name="idEquipo" required>
+                            <option th:value="${partido.equipoLocal.id}"
+                                    th:text="${partido.equipoLocal.nombre}">Local</option>
+                            <option th:value="${partido.equipoVisitante.id}"
+                                    th:text="${partido.equipoVisitante.nombre}">Visitante</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-naranja">Agregar Puntaje</button>
+            </form>
+        </div>
+
+        <!-- Cambio de jugador -->
+        <div class="panel-accion">
+            <h3>Cambio de Jugador</h3>
+            <form th:action="@{/admin/agregarCronologiaPlantel}" method="post" class="formulario-partido">
+                <input type="hidden" name="idPartido" th:value="${partido.id}"/>
+                <div class="campos-inline">
+                    <div class="campo-formulario">
+                        <label>Minuto</label>
+                        <input type="number" name="minuto" min="0" required/>
+                    </div>
+                    <div class="campo-formulario">
+                        <label>Sale</label>
+                        <select name="idJugadorSale" required>
+                            <optgroup th:label="${partido.equipoLocal.nombre}">
+                                <option th:each="j : ${jugadoresLocal}" th:value="${j.id}"
+                                        th:text="${j.nombre} + ' ' + ${j.apellido}"/>
+                            </optgroup>
+                            <optgroup th:label="${partido.equipoVisitante.nombre}">
+                                <option th:each="j : ${jugadoresVisitante}" th:value="${j.id}"
+                                        th:text="${j.nombre} + ' ' + ${j.apellido}"/>
+                            </optgroup>
+                        </select>
+                    </div>
+                    <div class="campo-formulario">
+                        <label>Entra</label>
+                        <select name="idJugadorEntra" required>
+                            <optgroup th:label="${partido.equipoLocal.nombre}">
+                                <option th:each="j : ${jugadoresLocal}" th:value="${j.id}"
+                                        th:text="${j.nombre} + ' ' + ${j.apellido}"/>
+                            </optgroup>
+                            <optgroup th:label="${partido.equipoVisitante.nombre}">
+                                <option th:each="j : ${jugadoresVisitante}" th:value="${j.id}"
+                                        th:text="${j.nombre} + ' ' + ${j.apellido}"/>
+                            </optgroup>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-naranja">Confirmar Cambio</button>
+            </form>
+        </div>
+
+        <!-- Finalizar -->
+        <div class="panel-accion panel-finalizar">
+            <h3>Finalizar Partido</h3>
+            <form th:action="@{/admin/finalizarPartido}" method="post" class="formulario-partido">
+                <input type="hidden" name="idPartido" th:value="${partido.id}"/>
+                <div class="campo-formulario">
+                    <label>Minuto final</label>
+                    <input type="number" name="minutoFin" min="1" required/>
+                </div>
+                <button type="submit" class="btn btn-rojo"
+                        onclick="return confirm('¿Finalizar el partido? Esta acción no se puede deshacer.')">
+                    Finalizar Partido
+                </button>
+            </form>
+        </div>
     </div>
 
     <a th:href="@{/admin/partidos}" class="btn btn-secundario" style="margin-top:1rem;">← Volver</a>
@@ -151,5 +278,15 @@
 </main>
 
 <div th:replace="layout/footer :: footer"></div>
+
+<script>
+    function mostrarTab(nombre) {
+        document.querySelectorAll('.tab-content').forEach(t => t.classList.add('oculto'));
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('activo'));
+        document.getElementById('tab-' + nombre).classList.remove('oculto');
+        event.target.classList.add('activo');
+    }
+</script>
+
 </body>
 </html>
