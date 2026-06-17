@@ -28,6 +28,10 @@ public class Temporada {
     public Temporada() {
     }
 
+    public Long setId(Long id) {
+        return this.id = id;
+    }
+
     public Long getId() {
         return id;
     }
