@@ -39,7 +39,7 @@ public class RepositorioFormacionImpl implements RepositorioFormacion {
     public List<Formacion> buscarJugadoresPorEquipoYPartido(Long idEquipo, Long idPartido) {
         String hql =
                 "FROM Formacion f " +
-                        "WHERE f.equipo.id = :idEquipo " +
+                        "WHERE f.equipoNBA.id = :idEquipo " +
                         "AND f.partido.id = :idPartido";
 
         return sessionFactory
