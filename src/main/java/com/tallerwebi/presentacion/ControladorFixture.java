@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Controller
 public class ControladorFixture {
@@ -54,27 +55,27 @@ public class ControladorFixture {
         ModelMap modelo = new ModelMap();
         List<EquipoNBA> equipos = servicioEquipoNBA.obtenerTodosLosEquiposOrdenadosDeMenorAMayor();
         modelo.put("equipos", equipos);
-        return new ModelAndView("admin-agregar-partido", modelo);
+        return new ModelAndView("admin-agregarPartido", modelo);
     }
 
     // Guardar partido nuevo
     @RequestMapping(value = "/admin/agregarPartido", method = RequestMethod.POST)
     public ModelAndView guardarPartido(@RequestParam Long idLocal,
-                                       @RequestParam Long idVisitante) {
+                                       @RequestParam Long idVisitante,
+                                       @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime horaInicio) {
         try {
             EquipoNBA local = servicioEquipoNBA.buscarEquipoPorId(idLocal);
             EquipoNBA visitante = servicioEquipoNBA.buscarEquipoPorId(idVisitante);
             Temporada temporada = servicioTemporada.obtenerTemporadaActual();
 
-            // El partido empieza en minuto 0 al crearse
-            servicioPartidoNBA.agregarPartido(local, visitante, LocalDateTime.now(), temporada);
+            servicioPartidoNBA.agregarPartido(local, visitante, horaInicio, temporada);
             return new ModelAndView("redirect:/admin/partidos");
 
         } catch (EquiposIgualesException | PartidoYaActivoException | TemporadaActualNoEncontradaException e) {
             ModelMap modelo = new ModelMap();
             modelo.put("error", e.getMessage());
             modelo.put("equipos", servicioEquipoNBA.obtenerTodosLosEquiposOrdenadosDeMenorAMayor());
-            return new ModelAndView("admin-agregar-partido", modelo);
+            return new ModelAndView("admin-agregarPartido", modelo);
         } catch (EquipoNoEncontradoException e) {
             throw new RuntimeException(e);
         }
