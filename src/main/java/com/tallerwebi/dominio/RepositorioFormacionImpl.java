@@ -26,43 +26,44 @@ public class RepositorioFormacionImpl  implements RepositorioFormacion {
     @Override
     @SuppressWarnings("unchecked")
     public List<FormacionPartido> buscarPorPartido(Long idPartido) {
-        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(FormacionPartido.class);
-        criteria.add(Restrictions.eq("partido", idPartido));
-
-        return criteria.list();
+        return sessionFactory.getCurrentSession()
+                .createCriteria(FormacionPartido.class)
+                .add(Restrictions.eq("partido", idPartido))
+                .list();
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public List<FormacionPartido> buscarTitularesPorPartidoYEquipo(Long idPartido, Long idEquipo) {
 
-        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(FormacionPartido.class);
-        criteria.add(Restrictions.eq("partido", idPartido));
-        criteria.add(Restrictions.eq("equipo", idEquipo));
-        criteria.add(Restrictions.eq("rol", RolFormacion.TITULAR));
-
-        return criteria.list();
+       return sessionFactory.getCurrentSession()
+               .createCriteria(FormacionPartido.class)
+               .add(Restrictions.eq("partido.id", idPartido))
+               .add(Restrictions.eq("equipo.id", idEquipo))
+               .add(Restrictions.eq("rol", RolFormacion.TITULAR))
+               .list();
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<FormacionPartido> buscarSuplentesPorPartidoYEquipo(Long idPartido, Long idEquipo) {
-        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(FormacionPartido.class);
-        criteria.add(Restrictions.eq("partido", idPartido));
-        criteria.add(Restrictions.eq("equipo", idEquipo));
-        criteria.add(Restrictions.eq("rol", RolFormacion.SUPLENTE));
-
-        return criteria.list();
+        return sessionFactory.getCurrentSession()
+                .createCriteria(FormacionPartido.class)
+                .add(Restrictions.eq("partido.id", idPartido))
+                .add(Restrictions.eq("equipo.id", idEquipo))
+                .add(Restrictions.eq("rol", RolFormacion.SUPLENTE))
+                .list();
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public boolean jugadorYaEstaEnFormacion(Long idPartido, Long idJugador) {
-        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(FormacionPartido.class);
-        criteria.add(Restrictions.eq("partido", idPartido));
-        criteria.add(Restrictions.eq("jugador.id", idJugador));
-
-        List<FormacionPartido> formacionPartidos = criteria.list();
-        return !formacionPartidos.isEmpty();
+        List<FormacionPartido> resultado = sessionFactory.getCurrentSession()
+                .createCriteria(FormacionPartido.class)
+                .add(Restrictions.eq("partido.id", idPartido))
+                .add(Restrictions.eq("jugador.id", idJugador))
+                .list();
+        return !resultado.isEmpty();
 
     }
 
