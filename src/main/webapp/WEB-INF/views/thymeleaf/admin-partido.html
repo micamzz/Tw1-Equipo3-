@@ -94,7 +94,7 @@
                         <form th:action="@{/admin/eliminarJugadorFormacion}" method="post" style="display:inline">
                             <input type="hidden" name="idFormacion" th:value="${f.id}"/>
                             <input type="hidden" name="idPartido" th:value="${partido.id}"/>
-                            <button type="submit" class="btn-eliminar">✕</button>
+                            <button type="submit" class="btn-eliminar"> x </button>
                         </form>
                     </li>
                 </ul>
@@ -273,7 +273,7 @@
         </div>
     </div>
 
-    <a th:href="@{/admin/partidos}" class="btn btn-secundario" style="margin-top:1rem;">← Volver</a>
+    <a th:href="@{/admin/partidos}" class="btn btn-secundario" style="margin-top:1rem;"> Volver</a>
 
 </main>
 
