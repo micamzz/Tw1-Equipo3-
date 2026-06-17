@@ -48,7 +48,7 @@
 
     <ul class="cronologia-lista">
         <li th:each="evento : ${cronologia}" class="cronologia-item">
-            <span class="cronologia-minuto" th:text="${evento.minuto} + ''''">14'</span>
+            <span class="cronologia-minuto" th:text="${evento.minuto} + '\''">14'</span>
             <span class="cronologia-descripcion" th:text="${evento.descripcion}">Descripción</span>
             <span class="cronologia-tipo-puntaje"
                   th:if="${evento.tipo == 'PUNTAJE'}"
