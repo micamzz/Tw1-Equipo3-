@@ -168,7 +168,7 @@ public class ControladorEquipoNBATest {
         Long idEquipo = 1L;
         Long idJugador = 2L;
 
-        ModelAndView mav = controladorEquipoNBA.eliminarJugadorDeEquipoNBA(idEquipo, idJugador);
+        ModelAndView mav = controladorEquipoNBA.quitarJugadorAEquipoNBA(idEquipo, idJugador);
 
         assertThat(mav.getViewName(), equalToIgnoringCase("redirect:/admin/asignar-jugadoresNBA?id=1"
                 )
