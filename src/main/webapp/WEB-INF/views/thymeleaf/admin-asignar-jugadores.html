@@ -74,7 +74,10 @@
             </select>
         </section>
 
-        <table id="tabla-disponibles">
+        <p th:if="${jugadores == null || jugadores.isEmpty()}" class="mensaje-vacio">No hay jugadores disponibles</p>
+
+        <table id="tabla-disponibles" th:unless="${jugadores == null || jugadores.isEmpty()}">
+
 
             <thead>
             <tr>
@@ -159,7 +162,9 @@
             </select>
         </section>
 
-        <table id="tabla-plantel">
+        <p th:if="${plantel == null || plantel.isEmpty()}" class="mensaje-vacio">No hay jugadores asignados</p>
+
+        <table id="tabla-plantel" th:unless="${plantel == null || plantel.isEmpty()}">
             <thead>
             <tr>
                 <th>Foto</th>

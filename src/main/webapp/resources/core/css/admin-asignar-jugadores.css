@@ -411,3 +411,12 @@ hr {
     padding: 0.7em 1.6em;
     border-radius: 8px;
 }
+
+.mensaje-vacio {
+    font-size: 1rem;
+    color: #888;
+    text-align: center;
+    padding: 30px 20px;
+    margin: 15px 0;
+}
+
