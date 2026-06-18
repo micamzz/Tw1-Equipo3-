@@ -19,6 +19,8 @@
         <a th:href="@{/admin/altaEquipoNBA}" class="btn btn-naranja"> NUEVO EQUIPO</a>
     </div>
 
+    <div th:if="${error}" style="background:#f8d7da;color:#721c24;padding:12px;border-radius:6px;margin-bottom:16px;text-align:center;" th:text="${error}">Error</div>
+
     <table class="tabla-torneos">
         <thead>
         <tr>

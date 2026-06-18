@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -151,4 +152,42 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
         PartidoNBA partido = repositorioPartidoNBA.buscarPorId(partidoId);
         return repositorioScorePartido.buscarPorPartidoYEquipo(partidoId, partido.getEquipoVisitante().getId());
     }
+
+    @Override
+    public List<PartidoConScoreDTO> obtenerPartidosActivosConScore() {
+
+        List<PartidoConScoreDTO> resultado = new ArrayList<>();
+
+        for (PartidoNBA partido : obtenerPartidosActivos()) {
+            resultado.add(
+                    new PartidoConScoreDTO(
+                            partido,
+                            obtenerScoreLocal(partido.getId()),
+                            obtenerScoreVisitante(partido.getId())
+                    )
+            );
+        }
+
+        return resultado;
+    }
+
+    @Override
+    public List<PartidoConScoreDTO> obtenerPartidosFinalizadosConScore() {
+
+        List<PartidoConScoreDTO> resultado = new ArrayList<>();
+
+        for (PartidoNBA partido : obtenerPartidosFinalizados()) {
+            resultado.add(
+                    new PartidoConScoreDTO(
+                            partido,
+                            obtenerScoreLocal(partido.getId()),
+                            obtenerScoreVisitante(partido.getId())
+                    )
+            );
+        }
+
+        return resultado;
+    }
+
+
 }

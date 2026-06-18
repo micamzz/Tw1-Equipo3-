@@ -8,9 +8,12 @@ public class RendimientoJugador {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "jugador_id")
+    @ManyToOne
     private Jugador jugador;
+
+    @ManyToOne
+    private PartidoNBA partidoNBA;
+
 
     private Integer perdidas;
     private Integer robos;

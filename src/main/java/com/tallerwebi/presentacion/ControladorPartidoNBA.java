@@ -37,18 +37,14 @@ public class ControladorPartidoNBA {
         this.servicioTemporada = servicioTemporada;
     }
 
-    // ===================== VISTA USUARIO =====================
-
-    // Vista principal del usuario: partidos en vivo y finalizados
     @RequestMapping("/temporada")
     public ModelAndView verTemporada() {
         ModelMap modelo = new ModelMap();
-        modelo.put("partidosActivos", servicioPartidoNBA.obtenerPartidosActivos());
-        modelo.put("partidosFinalizados", servicioPartidoNBA.obtenerPartidosFinalizados());
+        modelo.put("partidosActivos", servicioPartidoNBA.obtenerPartidosActivosConScore());
+        modelo.put("partidosFinalizados", servicioPartidoNBA.obtenerPartidosFinalizadosConScore());
         return new ModelAndView("temporada", modelo);
     }
 
-    // Vista de cronologia de un partido (usuario)
     @RequestMapping("/partido/cronologia")
     public ModelAndView verCronologia(@RequestParam Long idPartido) {
         ModelMap modelo = new ModelMap();
@@ -64,74 +60,8 @@ public class ControladorPartidoNBA {
         return new ModelAndView("partido-cronologia", modelo);
     }
 
-    // ===================== VISTAS ADMIN =====================
 
-    // Panel admin de partidos
-    @RequestMapping("/admin/partidos")
-    public ModelAndView adminPartidos() {
-        ModelMap modelo = new ModelMap();
-        modelo.put("partidosActivos", servicioPartidoNBA.obtenerPartidosActivos());
-        modelo.put("partidosFinalizados", servicioPartidoNBA.obtenerPartidosFinalizados());
-        return new ModelAndView("admin-partidos", modelo);
-    }
 
-    // Formulario para agregar partido
-    @RequestMapping(value = "/admin/agregarPartido", method = RequestMethod.GET)
-    public ModelAndView formularioAgregarPartido() {
-        ModelMap modelo = new ModelMap();
-        List<EquipoNBA> equipos = servicioEquipoNBA.obtenerTodosLosEquiposOrdenadosDeMenorAMayor();
-        modelo.put("equipos", equipos);
-        return new ModelAndView("admin-agregar-partido", modelo);
-    }
-
-    // Guardar partido nuevo
-    @RequestMapping(value = "/admin/agregarPartido", method = RequestMethod.POST)
-    public ModelAndView guardarPartido(@RequestParam Long idLocal,
-                                       @RequestParam Long idVisitante) {
-        try {
-            EquipoNBA local = servicioEquipoNBA.buscarEquipoPorId(idLocal);
-            EquipoNBA visitante = servicioEquipoNBA.buscarEquipoPorId(idVisitante);
-            Temporada temporada = servicioTemporada.obtenerTemporadaActual();
-
-            // El partido empieza en minuto 0 al crearse
-            servicioPartidoNBA.agregarPartido(local, visitante, LocalDateTime.now(), temporada);
-            return new ModelAndView("redirect:/admin/partidos");
-
-        } catch (EquiposIgualesException | PartidoYaActivoException | TemporadaActualNoEncontradaException e) {
-            ModelMap modelo = new ModelMap();
-            modelo.put("error", e.getMessage());
-            modelo.put("equipos", servicioEquipoNBA.obtenerTodosLosEquiposOrdenadosDeMenorAMayor());
-            return new ModelAndView("admin-agregar-partido", modelo);
-        } catch (EquipoNoEncontradoException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    // Panel admin de un partido activo (agregar cronologia, finalizar)
-    @RequestMapping("/admin/partido")
-    public ModelAndView adminPartido(@RequestParam Long idPartido) {
-        ModelMap modelo = new ModelMap();
-        PartidoNBA partido = servicioPartidoNBA.obtenerPorId(idPartido);
-        List<CronologiaNBA> cronologia = servicioPartidoNBA.obtenerCronologiaDePartido(idPartido);
-        ScorePartido scoreLocal = servicioPartidoNBA.obtenerScoreLocal(idPartido);
-        ScorePartido scoreVisitante = servicioPartidoNBA.obtenerScoreVisitante(idPartido);
-
-        // Jugadores de cada equipo para el plantel
-        List<Jugador> jugadoresLocal = servicioEquipoNBAJugador
-                .obtenerJugadoresDelEquipoEnTemporada(partido.getEquipoLocal().getId(), partido.getTemporada().getId());
-        List<Jugador> jugadoresVisitante = servicioEquipoNBAJugador
-                .obtenerJugadoresDelEquipoEnTemporada(partido.getEquipoVisitante().getId(), partido.getTemporada().getId());
-
-        modelo.put("partido", partido);
-        modelo.put("cronologia", cronologia);
-        modelo.put("scoreLocal", scoreLocal);
-        modelo.put("scoreVisitante", scoreVisitante);
-        modelo.put("jugadoresLocal", jugadoresLocal);
-        modelo.put("jugadoresVisitante", jugadoresVisitante);
-        return new ModelAndView("admin-partido", modelo);
-    }
-
-    // Agregar cronologia tipo PUNTAJE
     @RequestMapping(value = "/admin/agregarCronologiaPuntaje", method = RequestMethod.POST)
     public ModelAndView agregarCronologiaPuntaje(@RequestParam Long idPartido,
                                                  @RequestParam Integer minuto,
@@ -141,7 +71,7 @@ public class ControladorPartidoNBA {
         try {
             servicioPartidoNBA.agregarCronologiaPuntaje(idPartido, minuto, descripcion, puntos, idEquipo);
         } catch (PartidoFinalizadoException e) {
-            // no deberia pasar desde la vista, pero por las dudas
+
         }
         return new ModelAndView("redirect:/admin/partido?idPartido=" + idPartido);
     }
@@ -155,7 +85,7 @@ public class ControladorPartidoNBA {
         try {
             servicioPartidoNBA.agregarCronologiaPlantel(idPartido, minuto, idJugadorSale, idJugadorEntra);
         } catch (PartidoFinalizadoException e) {
-            // no deberia pasar desde la vista
+
         }
         return new ModelAndView("redirect:/admin/partido?idPartido=" + idPartido);
     }

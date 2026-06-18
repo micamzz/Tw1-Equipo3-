@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Cronología del Partido</title>
+    <link rel="stylesheet" th:href="@{/css/header.css}"/>
+    <link rel="stylesheet" th:href="@{/css/footer.css}"/>
+    <link rel="stylesheet" th:href="@{/css/temporada.css}"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+<div th:replace="layout/header :: header"></div>
+
+<main class="contenedor-admin-vista">
+
+    <!-- Encabezado del partido -->
+    <div class="card-partido-vivo">
+        <div class="equipo-score">
+            <img th:src="${partido.equipoLocal.escudoImagen}"
+                 th:alt="${partido.equipoLocal.nombre}" class="escudo"/>
+            <span class="nombre-equipo-partido" th:text="${partido.equipoLocal.nombre}">Local</span>
+        </div>
+
+        <div class="centro-partido">
+            <span class="score-final"
+                  th:text="${scoreLocal.puntos} + ' - ' + ${scoreVisitante.puntos}">0 - 0</span>
+            <span class="estado-vivo" th:if="${partido.estaActivo()}">EN VIVO</span>
+            <span class="estado-finalizado" th:unless="${partido.estaActivo()}">FINALIZADO</span>
+            <span class="duracion"
+                  th:unless="${partido.estaActivo()}"
+                  th:text="'Duración: ' + ${partido.minutoFin} + ' min'">Duración: 48 min</span>
+        </div>
+
+        <div class="equipo-score">
+            <img th:src="${partido.equipoVisitante.escudoImagen}"
+                 th:alt="${partido.equipoVisitante.nombre}" class="escudo"/>
+            <span class="nombre-equipo-partido" th:text="${partido.equipoVisitante.nombre}">Visitante</span>
+        </div>
+    </div>
+
+    <!-- Cronologia -->
+    <h2 class="subtitulo-seccion">Cronología ↓</h2>
+
+    <div th:if="${#lists.isEmpty(cronologia)}" class="sin-partidos">
+        No hay eventos registrados aún.
+    </div>
+
+    <ul class="cronologia-lista">
+        <li th:each="evento : ${cronologia}" class="cronologia-item">
+            <span class="cronologia-minuto" th:text="${evento.minuto} + '\''">14'</span>
+            <span class="cronologia-descripcion" th:text="${evento.descripcion}">Descripción</span>
+            <span class="cronologia-tipo-puntaje"
+                  th:if="${evento.tipo == 'PUNTAJE'}"
+                  th:text="'+' + ${evento.puntosSumados} + ' pts'">+3 pts</span>
+            <span class="cronologia-tipo-plantel"
+                  th:if="${evento.tipo == 'PLANTEL'}">Cambio</span>
+        </li>
+    </ul>
+
+    <a th:href="@{/temporada}" class="btn btn-naranja" style="margin-top: 2rem;">Volver</a>
+
+</main>
+
+<div th:replace="layout/footer :: footer"></div>
+</body>
+</html>

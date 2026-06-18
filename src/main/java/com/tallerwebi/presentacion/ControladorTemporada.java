@@ -78,7 +78,7 @@ public class ControladorTemporada {
         } catch (TemporadaActualNoEncontradaException e) {
             modelo.put("error", e.getMessage());
         }
-        return new ModelAndView("admin-confirmar-finalizar-temporada", modelo);
+        return new ModelAndView("admin-finalizarTemporada", modelo);
     }
 
 
@@ -96,7 +96,7 @@ public class ControladorTemporada {
             } catch (TemporadaActualNoEncontradaException ex) {
                 // ya esta en el error
             }
-            return new ModelAndView("admin-confirmar-finalizar-temporada", modelo);
+            return new ModelAndView("admin-finalizarTemporada", modelo);
         }
     }
 }

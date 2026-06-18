@@ -144,12 +144,15 @@ public class ControladorEquipoNBA {
 
 
     @RequestMapping("/listadoEquiposNBA")
-    public ModelAndView verListadoDeEquiposNBA() {
+    public ModelAndView verListadoDeEquiposNBA(@RequestParam(required = false) String error) {
         ModelMap modelo = new ModelMap();
 
         List<EquipoNBA> equipos = servicioEquipoNBA.obtenerTodosLosEquiposOrdenadosDeMenorAMayor();
 
         modelo.put("equipos", equipos);
+        if (error != null) {
+            modelo.put("error", error);
+        }
 
         return new ModelAndView("admin-listado-equiposNBA", modelo);
     }
@@ -183,14 +186,13 @@ public class ControladorEquipoNBA {
 
     @RequestMapping(value = "/eliminarEquipoNBA", method = RequestMethod.POST)
     public ModelAndView eliminarEquipoNBA(@RequestParam Long idEquipo) {
-
         try {
             servicioEquipoNBA.eliminarEquipoNBA(idEquipo);
-
         } catch (EquipoNoEncontradoException e) {
             return new ModelAndView("redirect:/admin/listadoEquiposNBA?error=" + e.getMessage());
+        } catch (Exception e) {
+            return new ModelAndView("redirect:/admin/listadoEquiposNBA?error=No se puede eliminar el equipo porque tiene partidos u otros registros asociados.");
         }
-
         return new ModelAndView("redirect:/admin/listadoEquiposNBA");
     }
 }

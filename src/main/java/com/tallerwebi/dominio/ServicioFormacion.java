@@ -1,0 +1,13 @@
+package com.tallerwebi.dominio;
+
+import java.util.List;
+
+public interface ServicioFormacion {
+    void agregarJugador(Long idPartido, Long idEquipo, Long idJugador, RolFormacion rol);
+    void quitarJugador(Long idFormacion);
+
+    List<FormacionPartido> obtenerFormacion(Long idPartido);
+    List<FormacionPartido> obtenerTitulares(Long idPartido, Long idEquipo);
+    List<FormacionPartido> obtenerSuplentes(Long idPartido, Long idEquipo);
+    boolean jugadorYaEstasEnFormacion(Long idPartido, Long idJugador);
+}

@@ -5,7 +5,7 @@ INSERT INTO Temporada (id, nombre, anio, fechaInicio, fechaFin)
 VALUES (1, 'Temporada 2025', 2025, '2025-03-01', '2025-11-08');
 
 INSERT INTO Temporada (id, nombre, anio, fechaInicio, fechaFin)
-VALUES (2, 'Taller Web I', 2026, '2026-03-01', '2026-11-08');
+VALUES (2, 'Taller Web I', 2026, '2026-03-01', null);
 
 INSERT INTO EquipoNBA(id, nombre, escudoImagen)
 VALUES (1, 'Golden State Warriors', 'https://cdn.nba.com/logos/nba/1610612744/global/L/logo.svg'),
@@ -83,6 +83,19 @@ VALUES
     (3,17,2),(3,18,2),(3,19,2),(3,20,2),(3,21,2),(3,22,2),(3,23,2),(3,24,2),
     (4,25,2),(4,26,2),(4,27,2),(4,28,2),(4,29,2),(4,30,2),(4,31,2),(4,32,2);
 
+-- Asignar jugadores a equipos vacios (5=Spurs, 6=Knicks, 7=Nets, 8=Mavericks)
+-- Temp 1
+INSERT INTO EquipoNBAJugador(equipoNBA_id, jugador_id, temporada_id)
+VALUES (5,6,1),(5,8,1),(5,33,1),
+       (6,14,1),(6,15,1),(6,35,1),
+       (7,18,1),(7,31,1),(7,37,1),
+       (8,32,1);
+-- Temp 2 (solo 33-37 estan libres en temp 2)
+INSERT INTO EquipoNBAJugador(equipoNBA_id, jugador_id, temporada_id)
+VALUES (5,33,2),(5,34,2),
+       (6,35,2),(6,36,2),
+       (7,37,2);
+
 INSERT INTO Torneo (id, fechaFin, fechaInicio, nombreTorneo, tipoTorneo)
 VALUES (1, '2026-12-31', '2026-01-01', 'Temporada NBA 2026', 'REAL');
 
@@ -103,3 +116,58 @@ VALUES (1, 3, '2026-06-09 22:30:00', 2);
 
 INSERT INTO PartidoNBA (equipoLocal_id, equipoVisitante_id, horaInicio, temporada_id)
 VALUES (1, 4, '2026-06-11 22:00:00', 2);
+
+-- Partido ACTIVO (minutoFin null = en curso)
+INSERT INTO PartidoNBA (equipoLocal_id, equipoVisitante_id, horaInicio, minutoFin, temporada_id)
+VALUES (1, 2, '2026-06-17 20:00:00', null, 1);
+
+-- Partido FINALIZADO 1 (minutoFin = duracion en minutos)
+INSERT INTO PartidoNBA (equipoLocal_id, equipoVisitante_id, horaInicio, minutoFin, temporada_id)
+VALUES (3, 4, '2026-06-14 21:00:00', 48, 1);
+
+-- Partido FINALIZADO 2
+INSERT INTO PartidoNBA (equipoLocal_id, equipoVisitante_id, horaInicio, minutoFin, temporada_id)
+VALUES (2, 3, '2026-06-10 20:30:00', 53, 1);
+
+-- Partido ACTIVO (id=5)
+INSERT INTO ScorePartido (partido_id, equipo_id, puntos)
+VALUES (5, 1, 0);
+INSERT INTO ScorePartido (partido_id, equipo_id, puntos)
+VALUES (5, 2, 0);
+
+-- Partido FINALIZADO 1 (id=6)
+INSERT INTO ScorePartido (partido_id, equipo_id, puntos)
+VALUES (6, 3, 112);
+INSERT INTO ScorePartido (partido_id, equipo_id, puntos)
+VALUES (6, 4, 98);
+
+-- Partido FINALIZADO 2 (id=7)
+INSERT INTO ScorePartido (partido_id, equipo_id, puntos)
+VALUES (7, 2, 105);
+INSERT INTO ScorePartido (partido_id, equipo_id, puntos)
+VALUES (7, 3, 101);
+
+INSERT INTO ScorePartido(partido_id, equipo_id, puntos)
+VALUES
+    (1,1,0),(1,2,0),
+    (2,2,0),(2,1,0),
+    (3,1,0),(3,3,0),
+    (4,1,0),(4,4,0);
+
+-- Cronologia del partido finalizado 1 (ID 6)
+INSERT INTO CronologiaNBA (partido_id, minuto, tipo, descripcion, puntosSumados, equipoBeneficiado_id)
+VALUES (6, 5, 'PUNTAJE', 'Triple de Curry', 3, 3);
+
+INSERT INTO CronologiaNBA (partido_id, minuto, tipo, descripcion, puntosSumados, equipoBeneficiado_id)
+VALUES (6, 12, 'PUNTAJE', 'Bandeja de Durant', 2, 4);
+
+INSERT INTO CronologiaNBA (partido_id, minuto, tipo, descripcion, puntosSumados, equipoBeneficiado_id)
+VALUES (6, 23, 'PUNTAJE', 'Triple de Curry', 3, 3);
+
+
+-- Cronologia del partido finalizado 2 (ID 7)
+INSERT INTO CronologiaNBA (partido_id, minuto, tipo, descripcion, puntosSumados, equipoBeneficiado_id)
+VALUES (7, 8, 'PUNTAJE', 'Doble de James', 2, 2);
+
+INSERT INTO CronologiaNBA (partido_id, minuto, tipo, descripcion, puntosSumados, equipoBeneficiado_id)
+VALUES (7, 31, 'PUNTAJE', 'Triple de Harden', 3, 3);

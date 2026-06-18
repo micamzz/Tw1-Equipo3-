@@ -5,11 +5,13 @@ import com.tallerwebi.dominio.equipoNBA.EquipoNBA;
 import com.tallerwebi.dominio.equipoNBA.ServicioEquipoNBA;
 import com.tallerwebi.dominio.equipoNBAJugador.ServicioEquipoNBAJugador;
 import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
+import com.tallerwebi.dominio.excepcion.TemporadaActualNoEncontradaException;
+import com.tallerwebi.dominio.temporada.ServicioTemporada;
 import org.hamcrest.text.IsEqualIgnoringCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.servlet.ModelAndView;
-import com.tallerwebi.dominio.temporada.ServicioTemporada;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,6 +81,16 @@ public class ControladorEquipoNBATest {
         );
     }
 
+    @Test
+    public void irACrearEquipoMuestraErrorSiNoHayTemporadaActual() throws TemporadaActualNoEncontradaException {
+        when(servicioTemporadaMock.obtenerTemporadaActual())
+                .thenThrow(new TemporadaActualNoEncontradaException("No hay ninguna temporada vigente en este momento"));
+
+        ModelAndView mav = controladorEquipoNBA.irAlFormularioEquipoNBA();
+
+        assertThat(mav.getViewName(), equalToIgnoringCase("admin-alta-nombreEquipoNBA"));
+        assertThat(mav.getModel().get("error"), equalTo("No hay ninguna temporada vigente en este momento"));
+    }
 
     @Test
     public void alGuardarEquipoTeRedirigeAAsignarJugadores() {
@@ -139,7 +151,7 @@ public class ControladorEquipoNBATest {
     }
 
     @Test
-    public void agregarJugadoresAlEquipoNBATeRedirigeALaMismaPagina() {
+    public void agregarJugadoresAlEquipoNBATeRedirigeALaMismaVista() {
 
         Long idEquipo = 1L;
         Long idJugador = 2L;
@@ -147,6 +159,20 @@ public class ControladorEquipoNBATest {
         ModelAndView mav = controladorEquipoNBA.agregarJugadorAlEquipo(idEquipo, idJugador);
 
         assertThat(mav.getViewName(), equalToIgnoringCase("redirect:/admin/asignar-jugadoresNBA?id=1"));
+    }
+
+    @Test
+    public void eliminarJugadorDelEquipoNBATeRedirigeAMismaVista()
+            throws EquipoNoEncontradoException {
+
+        Long idEquipo = 1L;
+        Long idJugador = 2L;
+
+        ModelAndView mav = controladorEquipoNBA.quitarJugadorAEquipoNBA(idEquipo, idJugador);
+
+        assertThat(mav.getViewName(), equalToIgnoringCase("redirect:/admin/asignar-jugadoresNBA?id=1"
+                )
+        );
     }
 
     @Test
@@ -164,7 +190,7 @@ public class ControladorEquipoNBATest {
         when(servicioEquipoNBAMock.obtenerTodosLosEquiposOrdenadosDeMenorAMayor()).thenReturn(equipos);
 
         // Ejecución
-        ModelAndView mav = controladorEquipoNBA.verListadoDeEquiposNBA();
+        ModelAndView mav = controladorEquipoNBA.verListadoDeEquiposNBA(null);
 
         // Verificación
         assertThat(mav.getViewName(), equalToIgnoringCase("admin-listado-equiposNBA"));
