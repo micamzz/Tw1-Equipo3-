@@ -8,12 +8,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class RepositorioFormacionImpl implements RepositorioFormacion {
+public class RepositorioFormacionSabriImpl implements RepositorioFormacionSabri {
 
     private SessionFactory sessionFactory;
 
     @Autowired
-    public RepositorioFormacionImpl(SessionFactory sessionFactory) {
+    public RepositorioFormacionSabriImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 

@@ -19,15 +19,15 @@ public class ServicioEventoPartidoImpl implements ServicioEventoPartido{
     private RepositorioEventoPartido repositorioEventoPartido;
     private RepositorioPartidoNBA repositorioPartidoNBA;
     private RepositorioJugador repositorioJugador;
-    private ServicioFormacion servicioFormacion;
+    private ServicioFormacionSabri servicioFormacionSabri;
 
 
     @Autowired
-    public ServicioEventoPartidoImpl(RepositorioEventoPartido repositorioEventoPartido, RepositorioPartidoNBA repositorioPartidoNBA, RepositorioJugador repositorioJugador, ServicioFormacion servicioFormacion) {
+    public ServicioEventoPartidoImpl(RepositorioEventoPartido repositorioEventoPartido, RepositorioPartidoNBA repositorioPartidoNBA, RepositorioJugador repositorioJugador, ServicioFormacionSabri servicioFormacionSabri) {
         this.repositorioEventoPartido = repositorioEventoPartido;
         this.repositorioPartidoNBA = repositorioPartidoNBA;
         this.repositorioJugador = repositorioJugador;
-        this.servicioFormacion = servicioFormacion;
+        this.servicioFormacionSabri = servicioFormacionSabri;
     }
 
     // Metodo que voy a usar para registrarEvento, que valida si el momento en el que voy a registrar el evento existe dentro del partido
@@ -66,7 +66,7 @@ public class ServicioEventoPartidoImpl implements ServicioEventoPartido{
         }
 
         // Valido que el jugador este convocado al partido
-        if(!servicioFormacion.existeJugadorEnFormacion(idJugador, idPartido)){
+        if(!servicioFormacionSabri.existeJugadorEnFormacion(idJugador, idPartido)){
             throw new JugadorNoConvocadoException("El jugador no forma parte del partido");
         }
 

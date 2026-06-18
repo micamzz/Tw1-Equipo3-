@@ -14,7 +14,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
-public class ServicioTorneoImplTest {
+public class ServicioTorneoTest {
 
     private ServicioTorneo servicioTorneo;
     private RepositorioTorneo repositorioTorneoMock;

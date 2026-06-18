@@ -4,7 +4,7 @@ import com.tallerwebi.dominio.excepcion.*;
 
 import java.util.List;
 
-public interface ServicioFormacion {
+public interface ServicioFormacionSabri {
 
     void registrarJugador (Long idPartido, Long idEquipo, Long idJugador) throws EquipoNoEncontradoException, PartidoNoEncontradoException, JugadorNoEncontradoException, EquipoNoParticipaEnPartidoException, JugadorNoPerteneceAlEquipoException, FormacionDuplicadaException;
 

@@ -5,6 +5,7 @@ import com.tallerwebi.dominio.equipoNBA.RepositorioEquipoNBA;
 import com.tallerwebi.dominio.equipoNBAJugador.EquipoNBAJugador;
 import com.tallerwebi.dominio.equipoNBAJugador.RepositorioEquipoNBAJugador;
 import com.tallerwebi.dominio.excepcion.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -12,23 +13,24 @@ import java.util.List;
 
 @Service
 @Transactional
-public class ServicioFormacionImpl implements ServicioFormacion {
+public class ServicioFormacionSabriImpl implements ServicioFormacionSabri {
 
-    private RepositorioFormacion repositorioFormacion;
+    private RepositorioFormacionSabri repositorioFormacionSabri;
     private RepositorioPartidoNBA repositorioPartidoNBA;
     private RepositorioJugador repositorioJugador;
     private RepositorioEquipoNBA repositorioEquipoNBA;
     private RepositorioEquipoNBAJugador repositorioEquipoNBAJugador;
 
 
-    public ServicioFormacionImpl(
-            RepositorioFormacion repositorioFormacion,
+    @Autowired
+    public ServicioFormacionSabriImpl(
+            RepositorioFormacionSabri repositorioFormacionSabri,
             RepositorioPartidoNBA repositorioPartidoNBA,
             RepositorioJugador repositorioJugador,
             RepositorioEquipoNBA repositorioEquipoNBA,
             RepositorioEquipoNBAJugador repositorioEquipoNBAJugador) {
 
-        this.repositorioFormacion = repositorioFormacion;
+        this.repositorioFormacionSabri = repositorioFormacionSabri;
         this.repositorioPartidoNBA = repositorioPartidoNBA;
         this.repositorioJugador = repositorioJugador;
         this.repositorioEquipoNBA = repositorioEquipoNBA;
@@ -75,7 +77,7 @@ public class ServicioFormacionImpl implements ServicioFormacion {
 
         //Valido que la formacion no este duplicada o sea que el jugador no haya sido agregado a ese partido
 
-        if(repositorioFormacion.existeJugadorEnFormacion(idJugador, idPartido)){
+        if(repositorioFormacionSabri.existeJugadorEnFormacion(idJugador, idPartido)){
             throw new FormacionDuplicadaException("El jugador ya fue registrado en ese partido");
         }
 
@@ -85,23 +87,23 @@ public class ServicioFormacionImpl implements ServicioFormacion {
         nuevaFormacion.setEquipoNBA(equipoNBA);
         nuevaFormacion.setPartido(partidoNBA);
 
-        repositorioFormacion.guardarFormacion(nuevaFormacion);
+        repositorioFormacionSabri.guardarFormacion(nuevaFormacion);
 
 
     }
 
     @Override
     public List<Formacion> obtenerFormacionPorPartido(Long idPartido) {
-        return repositorioFormacion.obtenerJugadoresPorPartido(idPartido);
+        return repositorioFormacionSabri.obtenerJugadoresPorPartido(idPartido);
     }
 
     @Override
     public List<Formacion> obtenerFormacionPorPartidoYEquipo(Long idPartido, Long idEquipo) {
-        return repositorioFormacion.buscarJugadoresPorEquipoYPartido(idEquipo, idPartido);
+        return repositorioFormacionSabri.buscarJugadoresPorEquipoYPartido(idEquipo, idPartido);
     }
 
     @Override
     public Boolean existeJugadorEnFormacion(Long idJugador, Long idPartido) {
-        return repositorioFormacion.existeJugadorEnFormacion(idJugador, idPartido);
+        return repositorioFormacionSabri.existeJugadorEnFormacion(idJugador, idPartido);
     }
 }
