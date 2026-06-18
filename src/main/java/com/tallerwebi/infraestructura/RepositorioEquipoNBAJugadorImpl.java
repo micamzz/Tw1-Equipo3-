@@ -9,11 +9,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class repositorioEquipoNBAJugadorImpl implements RepositorioEquipoNBAJugador {
+public class RepositorioEquipoNBAJugadorImpl implements RepositorioEquipoNBAJugador {
 
     private final SessionFactory sessionFactory;
 
-    public repositorioEquipoNBAJugadorImpl(SessionFactory sessionFactory) {
+    public RepositorioEquipoNBAJugadorImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
@@ -101,6 +101,16 @@ public class repositorioEquipoNBAJugadorImpl implements RepositorioEquipoNBAJuga
                 .createCriteria(EquipoNBAJugador.class)
                 .add(Restrictions.eq("temporada.id", idTemporada))
                 .list();
+    }
+
+    @Override
+    public EquipoNBAJugador buscarEquipoJugadorYTemporada(Long idEquipo, Long idJugador, Long idTemporada) {
+      return (EquipoNBAJugador) sessionFactory.getCurrentSession()
+               .createCriteria(EquipoNBAJugador.class)
+               .add(Restrictions.eq("equipoNBA.id", idEquipo))
+               .add(Restrictions.eq("jugador.id", idJugador))
+               .add(Restrictions.eq("temporada.id", idTemporada))
+               .uniqueResult();
     }
 
 }

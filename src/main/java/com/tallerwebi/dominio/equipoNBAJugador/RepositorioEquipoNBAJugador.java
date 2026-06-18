@@ -22,4 +22,5 @@ public interface RepositorioEquipoNBAJugador {
 
     List<EquipoNBAJugador> buscarAsignacionesPorTemporada(Long idTemporada);
 
+    EquipoNBAJugador buscarEquipoJugadorYTemporada(Long idEquipo, Long idJugador, Long idTemporada);
 }
