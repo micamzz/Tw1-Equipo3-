@@ -1,5 +1,7 @@
 INSERT INTO Usuario(id, email, password, rol, activo)
-VALUES (null, 'test@unlam.edu.ar', 'test', 'ADMIN', true);
+VALUES (null, 'test@unlam.edu.ar', 'test', 'ADMIN', true),
+       (null, 'mica@unlam.com', 'test', 'ADMIN', true);
+
 
 /* TEMPORADA 2025 08 DE MARZO A 22 DE DICIEMBRE*/
 INSERT INTO Temporada (id, nombre, anio, fechaInicio, fechaFin)

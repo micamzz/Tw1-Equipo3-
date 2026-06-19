@@ -2,6 +2,7 @@ package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.ServicioLogin;
 import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.enums.RolUsuario;
 import com.tallerwebi.dominio.excepcion.UsuarioExistente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -41,7 +42,13 @@ public class ControladorLogin {
         );
         if (usuarioBuscado != null) {
             request.getSession().setAttribute("ROL", usuarioBuscado.getRol());
+
+            /* SI SOS ADMIN TE LLEVA A LA URL DE ADMIN*/
+            if (usuarioBuscado.getRol() == RolUsuario.ADMIN) {
+                return new ModelAndView("redirect:/admin/home");
+            }
             return new ModelAndView("redirect:/home");
+
         } else {
             /* Se instancia el ModelMap solo cuando es necesario (en el flujo de error) para evitar anomalías en el flujo de datos (DU-anomaly de PMD) */
             ModelMap model = new ModelMap();
@@ -81,4 +88,25 @@ public class ControladorLogin {
     public ModelAndView inicio() {
         return new ModelAndView("redirect:/login");
     }
+
+    /* Para que el administrador pueda crear nuevos admin*/
+    @RequestMapping(path = "/admin/nuevo-admin", method = RequestMethod.GET)
+    public ModelAndView nuevoAdmin() {
+        ModelMap model = new ModelMap();
+        model.put("usuario", new Usuario());
+        return new ModelAndView("admin-nuevo-admin", model);
+    }
+
+    @RequestMapping(path = "/admin/crear-admin", method = RequestMethod.POST)
+    public ModelAndView crearAdmin(@ModelAttribute("usuario") Usuario usuario) {
+        ModelMap model = new ModelMap();
+        try {
+            servicioLogin.registrarAdmin(usuario);
+        } catch (UsuarioExistente e) {
+            model.put("error", "El usuario ya existe");
+            return new ModelAndView("admin-nuevo-admin", model);
+        }
+        return new ModelAndView("redirect:/admin/home");
+    }
+
 }

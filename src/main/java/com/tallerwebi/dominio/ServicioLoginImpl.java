@@ -1,5 +1,6 @@
 package com.tallerwebi.dominio;
 
+import com.tallerwebi.dominio.enums.RolUsuario;
 import com.tallerwebi.dominio.excepcion.UsuarioExistente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,23 @@ public class ServicioLoginImpl implements ServicioLogin {
         if (usuarioEncontrado != null) {
             throw new UsuarioExistente();
         }
+        usuario.setRol(RolUsuario.USER);
+        usuario.setActivo(true);
         repositorioUsuario.guardar(usuario);
     }
+
+    /*Para que el administrador pueda asignar otros admin */
+    @Override
+    public void registrarAdmin(Usuario usuario) throws UsuarioExistente {
+        Usuario usuarioExistente = repositorioUsuario.buscar(usuario.getEmail());
+
+        if (usuarioExistente != null) {
+            throw new UsuarioExistente();
+        }
+        usuario.setRol(RolUsuario.ADMIN);
+        usuario.setActivo(true);
+        repositorioUsuario.guardar(usuario);
+    }
+
+
 }
