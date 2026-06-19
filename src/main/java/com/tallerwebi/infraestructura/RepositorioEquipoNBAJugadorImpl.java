@@ -64,6 +64,17 @@ public class RepositorioEquipoNBAJugadorImpl implements RepositorioEquipoNBAJuga
                 .list();
     }
 
+    /*Comprueba que exista al menos una fila en esta tabla para ese torneo*/
+    @Override
+    public boolean existenJugadoresAsignadosEnTorneo(Long idTorneo) {
+        List<EquipoNBAJugador> asignaciones = this.sessionFactory.getCurrentSession()
+                .createCriteria(EquipoNBAJugador.class)
+                .add(Restrictions.eq("torneo.id", idTorneo))
+                .list();
+
+        return !asignaciones.isEmpty();
+    }
+
     /*VER SI SE BORRA*/
     @Override
     @SuppressWarnings("unchecked")

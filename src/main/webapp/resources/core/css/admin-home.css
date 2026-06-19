@@ -103,19 +103,12 @@ body {
 
 .boton-equipo .titulo {
     color: var(--texto-muted);
-    opacity: 0;
     transform: translateX(-4px);
     transition: opacity var(--transition), transform var(--transition), color var(--transition);
     font-size: 1rem;
 }
 
 .boton-equipo .descripcion {
-    color: var(--texto-muted);
-    font-size: 0.82rem;
-    line-height: 1.4;
-}
-
-.boton-equipo:hover {
     background: var(--fondo-card-hover);
     border-color: var(--borde-hover);
     border-left-color: var(--acento);
@@ -123,20 +116,12 @@ body {
 }
 
 .boton-equipo:hover .titulo {
-    opacity: 1;
     transform: translateX(0);
     color: var(--acento);
 }
 
-.boton-equipo:focus-visible {
-    outline: 2px solid var(--acento);
-    outline-offset: 2px;
-}
 
-.boton-equipo:active {
-    transform: translateX(2px) scale(0.995);
-}
-
+/*responsive*/
 @media (max-width: 640px) {
     .container {
         padding: 2.25rem 0.75rem;

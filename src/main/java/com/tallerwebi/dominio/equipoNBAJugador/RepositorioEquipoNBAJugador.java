@@ -17,11 +17,13 @@ public interface RepositorioEquipoNBAJugador {
     void eliminarTodasLasAsignacionesDelEquipo(Long idEquipo);
 
     /*Se usa validación en un if*/
-    boolean jugadorPerteneceAUnEquipoEnElTorneo(Long idJugador, Long id);
+    boolean jugadorPerteneceAUnEquipoEnElTorneo(Long idJugador, Long idTorneo);
 
     List<EquipoNBAJugador> buscarAsignacionesPorTorneo(Long idTorneo);
 
     EquipoNBAJugador buscarEquipoJugadorYTorneo(Long idEquipo, Long idJugador, Long idTorneo);
 
     List<EquipoNBAJugador> buscarJugadoresDelEquipoNBAEnTorneo(Long idEquipo, Long idTorneo);
+
+    boolean existenJugadoresAsignadosEnTorneo(Long idTorneo);
 }
