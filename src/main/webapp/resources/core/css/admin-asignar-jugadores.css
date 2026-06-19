@@ -180,7 +180,6 @@ body {
 }
 
 .filtros input[type="text"] {
-    flex: 1;
     min-width: 180px;
     padding: 0.7em 1em;
 }
@@ -233,9 +232,11 @@ body {
     overflow-x: auto;
 }
 
+/*
 .plantel-actual {
     margin-top: 1em;
 }
+*/
 
 
 /* TABLA */
@@ -244,11 +245,11 @@ table {
     border-collapse: collapse;
 }
 
-thead {
+/*thead {
     border-bottom: 2px solid rgba(255, 255, 255, 0.12);
-}
+}*/
 
-thead th {
+/*thead th {
     padding: 0.9rem 1rem;
     text-align: center;
     font-size: 0.72rem;
@@ -256,7 +257,7 @@ thead th {
     text-transform: uppercase;
     letter-spacing: 1.5px;
     color: var(--texto-muted);
-}
+}*/
 
 tbody tr {
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
@@ -272,7 +273,7 @@ tbody tr:hover {
 }
 
 tbody td {
-    padding: 0.85rem 1rem;
+    padding: 0.55rem 0.5rem;
     text-align: center;
     font-size: 0.9rem;
     color: var(--texto-body);
@@ -288,6 +289,11 @@ tbody td img {
     transition: border-color var(--transition);
 }
 
+/*Listado Equipos NBA - VER EDITAR BORRAR*/
+.contenedor-3-botones {
+    text-align: right;
+
+}
 
 /* Formularios dentro de tabla */
 .jugadores-disponibles form,
@@ -364,8 +370,8 @@ hr {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-bottom: 0.6rem;
-    margin-bottom: 1.25rem;
+    /*  padding-bottom: 0.6rem;
+      margin-bottom: 1.25rem;*/
 }
 
 .titulo-plantel {
@@ -420,3 +426,20 @@ hr {
     margin: 15px 0;
 }
 
+.layout-dos-columnas {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    margin-top: 1rem;
+}
+
+.jugadores-disponibles,
+.plantel-actual {
+    flex: 1;
+    min-width: 0;
+    background: var(--fondo-card);
+    border: 1px solid var(--borde);
+    border-radius: 12px;
+    padding: 1.5rem 1.75rem;
+    overflow-x: auto;
+}

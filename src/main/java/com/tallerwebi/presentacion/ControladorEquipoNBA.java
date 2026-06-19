@@ -98,12 +98,14 @@ public class ControladorEquipoNBA {
 
             List<Jugador> plantel = servicioEquipoNBAJugador.obtenerJugadoresDelEquipoPorId(id);
 
+            modelo.put("torneoActual", servicioTorneo.obtenerTorneoActual(TipoTorneo.REAL));
             modelo.put("equipo", equipoNBA);
             modelo.put("jugadores", listadoJugadores);
             modelo.put("plantel", plantel);
 
             modelo.put("nombre", nombre);
             modelo.put("posicion", posicion);
+
 
             if (error != null) {
                 modelo.put("error", error);
@@ -157,6 +159,7 @@ public class ControladorEquipoNBA {
             List<Jugador> plantel = servicioEquipoNBAJugador.obtenerJugadoresDelEquipoPorId(id);
             modelo.put("equipo", equipo);
             modelo.put("plantel", plantel);
+            modelo.put("torneoActual", servicioTorneo.obtenerTorneoActual(TipoTorneo.REAL));
             return new ModelAndView("admin-detalle-equipoNBA", modelo);
         } catch (EquipoNoEncontradoException e) {
             return new ModelAndView("redirect:/admin/listadoEquiposNBA");
