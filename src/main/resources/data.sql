@@ -104,7 +104,42 @@ VALUES (1, 'Stephen', 'Curry', 'BASE', 175000, 1, 'https://cdn.nba.com/headshots
         'https://cdn.nba.com/headshots/nba/latest/1040x760/1628983.png', '6''6" (1.98m)', '195lb (88kg)', 'Canada', 26,
         'July 12, 1998', '2018 R1 Pick 11', 7),
        (37, 'Anthony', 'Edwards', 'ALERO', 185000, 37, 'https://cdn.nba.com/headshots/nba/latest/1040x760/1630162.png',
-        '6''4" (1.93m)', '225lb (102kg)', 'USA', 24, 'August 5, 2001', '2020 R1 Pick 1', 5);
+        '6''4" (1.93m)', '225lb (102kg)', 'USA', 24, 'August 5, 2001', '2020 R1 Pick 1', 5),
+       (38, 'Victor',    'Wembanyama',   'PIVOT', 180000, 38, 'https://cdn.nba.com/headshots/nba/latest/1040x760/1641706.png', '7''3\" (2.24m)', '229lb (104kg)', 'Francia',  21, 'January 4, 2004',   '2023 R1 Pick 1',  2),
+       (39, 'Devin',     'Vassell',      'ALERO', 100000, 39, 'https://cdn.nba.com/headshots/nba/latest/1040x760/1630170.png', '6''5\" (1.96m)', '200lb (91kg)',  'USA',      25, 'October 23, 2000',  '2020 R1 Pick 11', 5),
+       (40, 'Jeremy',    'Sochan',       'ALERO',  90000, 40, 'https://cdn.nba.com/headshots/nba/latest/1040x760/1631109.png', '6''9\" (2.06m)', '230lb (104kg)', 'Polonia',  22, 'May 20, 2003',      '2022 R1 Pick 9',  3),
+       (41, 'Chris',     'Paul',         'BASE',   75000, 41, 'https://cdn.nba.com/headshots/nba/latest/1040x760/101108.png',  '6''0\" (1.83m)', '175lb (79kg)',  'USA',      40, 'May 6, 1985',       '2005 R1 Pick 4',  20),
+       (42, 'Jalen',     'Brunson',      'BASE',  160000, 42, 'https://cdn.nba.com/headshots/nba/latest/1040x760/1628973.png', '6''2\" (1.88m)', '190lb (86kg)',  'USA',      29, 'December 31, 1996', '2018 R2 Pick 33', 7),
+       (43, 'Karl-Anthony', 'Towns',     'PIVOT', 170000, 43, 'https://cdn.nba.com/headshots/nba/latest/1040x760/1626157.png', '7''0\" (2.13m)', '270lb (122kg)', 'USA',      30, 'November 15, 1995', '2015 R1 Pick 1',  10),
+       (44, 'OG',        'Anunoby',      'ALERO', 120000, 44, 'https://cdn.nba.com/headshots/nba/latest/1040x760/1628384.png', '6''7\" (2.01m)', '232lb (105kg)', 'Nigeria',  27, 'July 17, 1997',     '2017 R1 Pick 23', 8),
+       (45, 'Mikal',     'Bridges',      'ALERO', 105000, 45, 'https://cdn.nba.com/headshots/nba/latest/1040x760/1628969.png', '6''7\" (2.01m)', '209lb (95kg)',  'USA',      28, 'August 30, 1996',   '2018 R1 Pick 10', 7),
+       (46, 'Cam',       'Thomas',       'BASE',  110000, 46, 'https://cdn.nba.com/headshots/nba/latest/1040x760/1630560.png', '6''4\" (1.93m)', '210lb (95kg)',  'USA',      23, 'December 3, 2001',  '2021 R1 Pick 27', 4),
+       (47, 'Nic',       'Claxton',      'PIVOT',  85000, 47, 'https://cdn.nba.com/headshots/nba/latest/1040x760/1629651.png', '6''11\" (2.11m)','215lb (98kg)',  'USA',      26, 'April 18, 1999',    '2019 R2 Pick 31', 6),
+       (48, 'Ben',       'Simmons',      'BASE',   80000, 48, 'https://cdn.nba.com/headshots/nba/latest/1040x760/1627732.png', '6''10\" (2.08m)','240lb (109kg)', 'Australia',28, 'July 20, 1996',     '2016 R1 Pick 1',  9),
+       (49, 'Day''Ron',  'Sharpe',       'PIVOT',  70000, 49, 'https://cdn.nba.com/headshots/nba/latest/1040x760/1630549.png', '6''10\" (2.08m)','260lb (118kg)', 'USA',      23, 'December 3, 2001',  '2021 R2 Pick 29', 4),
+       (50, 'Dennis',    'Schroder',     'BASE',   75000, 50, 'https://cdn.nba.com/headshots/nba/latest/1040x760/203471.png',  '6''1\" (1.85m)', '180lb (82kg)',  'Alemania', 32, 'September 15, 1993','2013 R1 Pick 17', 12),
+       (51, 'Kyrie',     'Irving',       'BASE',  155000, 51, 'https://cdn.nba.com/headshots/nba/latest/1040x760/202681.png',  '6''2\" (1.88m)', '193lb (88kg)',  'USA',      34, 'March 23, 1992',    '2011 R1 Pick 1',  14),
+       (52, 'PJ',        'Washington',   'ALERO',  95000, 52, 'https://cdn.nba.com/headshots/nba/latest/1040x760/1629023.png', '6''7\" (2.01m)', '230lb (104kg)', 'USA',      27, 'August 23, 1998',   '2019 R1 Pick 12', 6),
+       (53, 'Quentin',   'Grimes',       'ALERO',  80000, 53, 'https://cdn.nba.com/headshots/nba/latest/1040x760/1630208.png', '6''5\" (1.96m)', '210lb (95kg)',  'USA',      25, 'May 8, 2000',       '2021 R1 Pick 25', 4),
+       (54, 'Daniel',    'Gafford',      'PIVOT',  85000, 54, 'https://cdn.nba.com/headshots/nba/latest/1040x760/1629655.png', '6''11\" (2.11m)','234lb (106kg)', 'USA',      26, 'October 1, 1998',   '2019 R2 Pick 38', 6),
+       (55, 'Josh',      'Green',        'ALERO',  75000, 55, 'https://cdn.nba.com/headshots/nba/latest/1040x760/1630182.png', '6''5\" (1.96m)', '210lb (95kg)',  'Australia',24, 'November 16, 2000', '2020 R1 Pick 18', 5),
+       (56, 'Klay',      'Thompson',     'ALERO', 100000, 56, 'https://cdn.nba.com/headshots/nba/latest/1040x760/202691.png',  '6''6\" (1.98m)', '215lb (98kg)',  'USA',      35, 'February 8, 1990',  '2011 R1 Pick 11', 14),
+       (63, 'Zion',      'Williamson',  'PIVOT', 150000, 63, 'https://cdn.nba.com/headshots/nba/latest/1040x760/1629627.png', '6''6\" (1.98m)', '284lb (129kg)', 'USA',      24, 'July 6, 2000',      '2019 R1 Pick 1',  6),
+       (64, 'Trae',      'Young',       'BASE',  155000, 64, 'https://cdn.nba.com/headshots/nba/latest/1040x760/1629029.png', '6''1\" (1.85m)', '180lb (82kg)',  'USA',      27, 'September 19, 1998','2018 R1 Pick 5',  7),
+       (65, 'Donovan',   'Mitchell',    'BASE',  150000, 65, 'https://cdn.nba.com/headshots/nba/latest/1040x760/1628378.png', '6''1\" (1.85m)', '215lb (98kg)',  'USA',      28, 'September 7, 1996', '2017 R1 Pick 13', 8),
+       (66, 'Jaren',     'Jackson Jr.', 'PIVOT', 130000, 66, 'https://cdn.nba.com/headshots/nba/latest/1040x760/1628991.png', '6''11\" (2.11m)','242lb (110kg)', 'USA',      25, 'September 15, 1999','2018 R1 Pick 4',  7),
+       (67, 'De''Aaron', 'Fox',         'BASE',  145000, 67, 'https://cdn.nba.com/headshots/nba/latest/1040x760/1628368.png', '6''3\" (1.91m)', '186lb (84kg)',  'USA',      28, 'December 20, 1997', '2017 R1 Pick 5',  8),
+       (68, 'Darius',    'Garland',     'BASE',  120000, 68, 'https://cdn.nba.com/headshots/nba/latest/1040x760/1629636.png', '6''1\" (1.85m)', '192lb (87kg)',  'USA',      25, 'January 26, 2000',  '2019 R1 Pick 5',  6),
+
+
+-- 6 Jugadores libres,mati del futuro no les asignes equipo por favor
+       (57, 'Paolo',     'Banchero',     'ALERO', 130000, 57, 'https://cdn.nba.com/headshots/nba/latest/1040x760/1631094.png', '6''10\" (2.08m)','250lb (113kg)', 'USA',      23, 'November 12, 2002', '2022 R1 Pick 1',  3),
+       (58, 'Cade',      'Cunningham',   'BASE',  140000, 58, 'https://cdn.nba.com/headshots/nba/latest/1040x760/1630595.png', '6''6\" (1.98m)', '220lb (100kg)', 'USA',      24, 'September 25, 2001','2021 R1 Pick 1',  4),
+       (59, 'Evan',      'Mobley',       'PIVOT', 120000, 59, 'https://cdn.nba.com/headshots/nba/latest/1040x760/1630596.png', '7''0\" (2.13m)', '215lb (98kg)',  'USA',      24, 'June 18, 2001',     '2021 R1 Pick 3',  4),
+       (60, 'Franz',     'Wagner',       'ALERO', 115000, 60, 'https://cdn.nba.com/headshots/nba/latest/1040x760/1630532.png', '6''10\" (2.08m)','220lb (100kg)', 'Alemania', 24, 'August 27, 2001',   '2021 R1 Pick 8',  4),
+       (61, 'Scottie',   'Barnes',       'ALERO', 110000, 61, 'https://cdn.nba.com/headshots/nba/latest/1040x760/1630567.png', '6''8\" (2.03m)', '225lb (102kg)', 'USA',      25, 'August 1, 2001',    '2021 R1 Pick 4',  4),
+       (62, 'Jabari',    'Smith Jr.',    'ALERO', 105000, 62, 'https://cdn.nba.com/headshots/nba/latest/1040x760/1631095.png', '6''10\" (2.08m)','220lb (100kg)', 'USA',      23, 'November 27, 2002', '2022 R1 Pick 3',  3);
+
 
 INSERT INTO RendimientoJugador(jugador_id, puntos, rebotes, asistencias, robos, bloqueos, perdidas)
 VALUES (1, 27, 4, 5, 1, 0, 3),
@@ -143,7 +178,40 @@ VALUES (1, 27, 4, 5, 1, 0, 3),
        (34, 26, 7, 4, 1, 2, 2),
        (35, 29, 13, 9, 1, 1, 3),
        (36, 32, 5, 7, 2, 1, 3),
-       (37, 27, 5, 4, 2, 0, 3);
+       (37, 27, 5, 4, 2, 0, 3),
+       (38,24,10,3,1,3,2),
+       (39,15,4,3,1,0,2),
+       (40,12,5,3,1,0,2),
+       (41,8,3,8,2,0,2),
+       (42,26,4,7,1,0,3),
+       (43,24,9,3,1,1,2),
+       (44,17,5,2,2,1,1),
+       (45,19,4,3,2,0,2),
+       (46,22,4,3,1,0,2),
+       (47,12,9,1,1,3,1),
+       (48,10,7,8,2,1,3),
+       (49,8,8,1,0,2,1),
+       (50,14,3,6,2,0,2),
+       (51,24,5,6,2,0,3),
+       (52,15,6,3,1,0,2),
+       (53,13,4,3,1,0,1),
+       (54,11,7,1,0,2,1),
+       (55,10,4,2,1,0,1),
+       (56,18,4,2,1,0,1),
+       (57,22,8,4,1,1,2),
+       (58,26,5,7,2,0,3),
+       (59,18,9,2,1,3,1),
+       (60,20,6,4,1,1,2),
+       (61,19,7,4,2,1,2),
+       (62,16,7,2,1,2,1),
+       (63,26,7,5,1,1,3),
+       (64,28,4,10,1,0,4),
+       (65,27,5,6,2,0,3),
+       (66,22,8,2,1,3,2),
+       (67,29,4,7,2,0,3),
+       (68,22,3,8,1,0,3);
+
+
 
 INSERT INTO EquipoNBAJugador(equipoNBA_id, jugador_id, torneo_id)
 VALUES (1, 1, 1),
@@ -172,7 +240,22 @@ VALUES (1, 1, 1),
        (4, 27, 1),
        (4, 28, 1),
        (4, 29, 1),
-       (4, 30, 1);
+       (4, 30, 1),
+       (5, 63, 1),
+       (5, 64, 1),
+       (5, 67, 1),
+       (6, 65, 1),
+       (6, 66, 1),
+       (6, 68, 1),
+       (7, 41, 1),
+       (7, 50, 1),
+       (7, 56, 1),
+       (8, 51, 1),
+       (8, 52, 1),
+       (8, 53, 1),
+       (8, 54, 1),
+       (8, 55, 1);
+
 
 INSERT INTO EquipoNBAJugador(equipoNBA_id, jugador_id, torneo_id)
 VALUES (1, 1, 2),
@@ -208,7 +291,6 @@ VALUES (1, 1, 2),
        (4, 31, 2),
        (4, 32, 2);
 
--- Asignar jugadores a equipos vacios (5=Spurs, 6=Knicks, 7=Nets, 8=Mavericks)
 -- Temp 1
 INSERT INTO EquipoNBAJugador(equipoNBA_id, jugador_id, torneo_id)
 VALUES (5, 6, 1),
@@ -222,13 +304,33 @@ VALUES (5, 6, 1),
        (7, 37, 1),
        (8, 32, 1);
 
--- Temp 2 (solo 33-37 estan libres en temp 2)
+-- Temp 2
 INSERT INTO EquipoNBAJugador(equipoNBA_id, jugador_id, torneo_id)
 VALUES (5, 33, 2),
        (5, 34, 2),
        (6, 35, 2),
        (6, 36, 2),
-       (7, 37, 2);
+       (7, 37, 2),
+       (5,38,2),
+       (5,39,2),
+       (5,40,2),
+       (5,41,2),
+       (6,42,2),
+       (6,43,2),
+       (6,44,2),
+       (6,45,2),
+       (7,46,2),
+       (7,47,2),
+       (7,48,2),
+       (7,49,2),
+       (7,50,2),
+       (8,51,2),
+       (8,52,2),
+       (8,53,2),
+       (8,54,2),
+       (8,55,2),
+       (8,56,2);
+
 
 
 INSERT INTO Calendario (nombre)
