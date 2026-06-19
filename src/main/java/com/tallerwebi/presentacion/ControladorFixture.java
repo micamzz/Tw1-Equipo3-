@@ -1,4 +1,3 @@
-/*
 package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.*;
@@ -7,8 +6,6 @@ import com.tallerwebi.dominio.equipoNBA.EquipoNBA;
 import com.tallerwebi.dominio.equipoNBA.ServicioEquipoNBA;
 import com.tallerwebi.dominio.equipoNBAJugador.ServicioEquipoNBAJugador;
 import com.tallerwebi.dominio.excepcion.*;
-import com.tallerwebi.dominio.temporada.ServicioTemporada;
-import com.tallerwebi.dominio.temporada.Temporada;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -27,18 +24,18 @@ public class ControladorFixture {
     private final ServicioPartidoNBA servicioPartidoNBA;
     private final ServicioEquipoNBA servicioEquipoNBA;
     private final ServicioEquipoNBAJugador servicioEquipoNBAJugador;
-    private final ServicioTemporada servicioTemporada;
+    private final ServicioTorneo servicioTorneo;
     private final ServicioFormacion servicioFormacion;
 
     @Autowired
     public ControladorFixture(ServicioPartidoNBA servicioPartidoNBA,
                                  ServicioEquipoNBA servicioEquipoNBA,
                                  ServicioEquipoNBAJugador servicioEquipoNBAJugador,
-                                 ServicioTemporada servicioTemporada, ServicioFormacion servicioFormacion) {
+                                 ServicioTorneo servicioTorneo, ServicioFormacion servicioFormacion) {
         this.servicioPartidoNBA = servicioPartidoNBA;
         this.servicioEquipoNBA = servicioEquipoNBA;
         this.servicioEquipoNBAJugador = servicioEquipoNBAJugador;
-        this.servicioTemporada = servicioTemporada;
+        this.servicioTorneo = servicioTorneo;
         this.servicioFormacion = servicioFormacion;
     }
 
@@ -50,7 +47,6 @@ public class ControladorFixture {
         return new ModelAndView("admin-partidos", modelo);
     }
 
-    // Formulario para agregar partido
     @RequestMapping(value = "/admin/agregarPartido", method = RequestMethod.GET)
     public ModelAndView formularioAgregarPartido() {
         ModelMap modelo = new ModelMap();
@@ -59,7 +55,6 @@ public class ControladorFixture {
         return new ModelAndView("admin-agregarPartido", modelo);
     }
 
-    // Guardar partido nuevo
     @RequestMapping(value = "/admin/agregarPartido", method = RequestMethod.POST)
     public ModelAndView guardarPartido(@RequestParam Long idLocal,
                                        @RequestParam Long idVisitante,
@@ -67,15 +62,15 @@ public class ControladorFixture {
         try {
             EquipoNBA local = servicioEquipoNBA.buscarEquipoPorId(idLocal);
             EquipoNBA visitante = servicioEquipoNBA.buscarEquipoPorId(idVisitante);
-            Temporada temporada = servicioTemporada.obtenerTemporadaActual();
+            Torneo torneo = servicioTorneo.obtenerTorneoActual(TipoTorneo.REAL);
 
             if (horaInicio == null) {
                 horaInicio = LocalDateTime.now();
             }
-            servicioPartidoNBA.agregarPartido(local, visitante, horaInicio, temporada);
+            servicioPartidoNBA.agregarPartido(local, visitante, horaInicio, torneo);
             return new ModelAndView("redirect:/admin/partidos");
 
-        } catch (EquiposIgualesException | PartidoYaActivoException | TemporadaActualNoEncontradaException e) {
+        } catch (EquiposIgualesException | PartidoYaActivoException e) {
             ModelMap modelo = new ModelMap();
             modelo.put("error", e.getMessage());
             modelo.put("equipos", servicioEquipoNBA.obtenerTodosLosEquiposOrdenadosDeMenorAMayor());
@@ -85,7 +80,6 @@ public class ControladorFixture {
         }
     }
 
-    // Panel admin de un partido activo (agregar cronologia, finalizar)
     @RequestMapping("/admin/partido")
     public ModelAndView adminPartido(@RequestParam Long idPartido) {
         ModelMap modelo = new ModelMap();
@@ -94,14 +88,11 @@ public class ControladorFixture {
         ScorePartido scoreLocal = servicioPartidoNBA.obtenerScoreLocal(idPartido);
         ScorePartido scoreVisitante = servicioPartidoNBA.obtenerScoreVisitante(idPartido);
 
-
-        // Jugadores de cada equipo para el plantel
         List<Jugador> jugadoresLocal = servicioEquipoNBAJugador
-                .obtenerJugadoresDelEquipoEnTemporada(partido.getEquipoLocal().getId(), partido.getTemporada().getId());
+                .obtenerJugadoresDelEquipoEnTorneo(partido.getEquipoLocal().getId(), partido.getTorneo().getId());
         List<Jugador> jugadoresVisitante = servicioEquipoNBAJugador
-                .obtenerJugadoresDelEquipoEnTemporada(partido.getEquipoVisitante().getId(), partido.getTemporada().getId());
+                .obtenerJugadoresDelEquipoEnTorneo(partido.getEquipoVisitante().getId(), partido.getTorneo().getId());
 
-        //Formacion de ambos equipos
         List<FormacionPartido> titularesLocal = servicioFormacion.obtenerTitulares(idPartido, partido.getEquipoLocal().getId());
         List<FormacionPartido> suplentesLocal = servicioFormacion.obtenerSuplentes(idPartido, partido.getEquipoLocal().getId());
         List<FormacionPartido> titularesVisitantes = servicioFormacion.obtenerTitulares(idPartido, partido.getEquipoVisitante().getId());
@@ -134,4 +125,3 @@ public class ControladorFixture {
     }
 
 }
-*/

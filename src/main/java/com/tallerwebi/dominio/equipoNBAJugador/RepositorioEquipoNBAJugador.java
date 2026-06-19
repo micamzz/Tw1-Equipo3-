@@ -8,11 +8,7 @@ public interface RepositorioEquipoNBAJugador {
 
     List<EquipoNBAJugador> buscarJugadoresDelEquipoNBA(Long id);
 
-    List<EquipoNBAJugador> buscarJugadoresDelEquipoNBAEnTemporada(Long idEquipo, Long idTemporada);
-
     List<EquipoNBAJugador> buscarTodasLasAsignaciones();
-
-    /* boolean jugadorPerteneceAUnEquipoEnLaTemporada(Long idJugador, Long idTemporada);*/
 
     void eliminarJugadorDelEquipo(EquipoNBAJugador equipoNBAJugador);
 
@@ -28,6 +24,4 @@ public interface RepositorioEquipoNBAJugador {
     EquipoNBAJugador buscarEquipoJugadorYTorneo(Long idEquipo, Long idJugador, Long idTorneo);
 
     List<EquipoNBAJugador> buscarJugadoresDelEquipoNBAEnTorneo(Long idEquipo, Long idTorneo);
-
-    EquipoNBAJugador buscarEquipoJugadorYTemporada(Long idEquipo, Long idJugador, Long idTemporada);
 }

@@ -17,5 +17,5 @@ public interface RepositorioPartidoNBA {
     boolean equipoTienePartidoActivo(Long equipoId);
 
     List<PartidoNBA> buscarTodos();
-    List<PartidoNBA> buscarPorTemporada(Long temporadaId);
+    List<PartidoNBA> buscarPorTorneo(Long torneoId);
 }

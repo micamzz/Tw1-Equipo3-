@@ -65,12 +65,12 @@ public class ServicioFormacionSabriImpl implements ServicioFormacionSabri {
             throw new EquipoNoParticipaEnPartidoException("El equipo que intentas registrar no participa en ese partido");
         }
 
-        //Valido que el jugador pertenezca al equipoNBA de esa temporada.
+        //Valido que el jugador pertenezca al equipoNBA de ese torneo.
 
-        Long idTemporada = partidoNBA.getTorneo().getId();
+        Long idTorneo = partidoNBA.getTorneo().getId();
 
 
-        EquipoNBAJugador pertenece = repositorioEquipoNBAJugador.buscarEquipoJugadorYTemporada(idEquipo, idJugador, idTemporada);
+        EquipoNBAJugador pertenece = repositorioEquipoNBAJugador.buscarEquipoJugadorYTorneo(idEquipo, idJugador, idTorneo);
 
         if (pertenece == null) {
             throw new JugadorNoPerteneceAlEquipoException("El jugador no pertenece al equipo seleccionado");

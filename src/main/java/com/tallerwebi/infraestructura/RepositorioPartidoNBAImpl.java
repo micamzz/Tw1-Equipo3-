@@ -88,10 +88,10 @@ public class RepositorioPartidoNBAImpl implements RepositorioPartidoNBA {
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<PartidoNBA> buscarPorTemporada(Long temporadaId) {
+    public List<PartidoNBA> buscarPorTorneo(Long torneoId) {
         return sessionFactory.getCurrentSession()
                 .createCriteria(PartidoNBA.class)
-                .add(Restrictions.eq("temporada.id", temporadaId))
+                .add(Restrictions.eq("torneo.id", torneoId))
                 .list();
     }
 }
