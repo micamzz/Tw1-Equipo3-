@@ -1,0 +1,152 @@
+:root {
+    --fondo: #0e0e12;
+    --fondo-card: #16161c;
+    --fondo-card-hover: #1c1c24;
+    --borde: #2a2a33;
+    --borde-hover: #3a3a45;
+    --texto: #fff;
+    --texto-muted: #9a9aa5;
+    --transition: 0.18s;
+
+    --c1: #ff6b00;
+    --c2: #6366f1;
+    --c3: #10b981;
+    --c4: #ec4899;
+    --c5: #06b6d4;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background: var(--fondo);
+    color: var(--texto);
+    font-family: "Inter", sans-serif;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container {
+    width: 90%;
+    max-width: 1000px;
+    margin: auto;
+    padding: 3.5rem 1rem;
+    flex: 1;
+}
+
+.container h1 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.4rem;
+}
+
+.container > p.subtitulo {
+    color: var(--texto-muted);
+    font-size: 0.9rem;
+    margin-bottom: 2.5rem;
+}
+
+.contenedor-boton {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem;
+}
+
+.boton-equipo {
+    --acento: var(--c1);
+    position: relative;
+    background: var(--fondo-card);
+    border: 1px solid var(--borde);
+    border-left: 3px solid var(--acento);
+    border-radius: 10px;
+    padding: 1.25rem 1.4rem;
+    text-decoration: none;
+    color: var(--texto);
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    transition: border-color var(--transition), background var(--transition), transform var(--transition);
+}
+
+.boton-equipo:nth-child(1) {
+    --acento: var(--c1);
+}
+
+.boton-equipo:nth-child(2) {
+    --acento: var(--c2);
+}
+
+.boton-equipo:nth-child(3) {
+    --acento: var(--c3);
+}
+
+.boton-equipo:nth-child(4) {
+    --acento: var(--c4);
+}
+
+.boton-equipo:nth-child(5) {
+    --acento: var(--c5);
+}
+
+.boton-equipo .titulo {
+    font-weight: 700;
+    font-size: 0.98rem;
+    letter-spacing: 0.01em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.boton-equipo .titulo {
+    color: var(--texto-muted);
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: opacity var(--transition), transform var(--transition), color var(--transition);
+    font-size: 1rem;
+}
+
+.boton-equipo .descripcion {
+    color: var(--texto-muted);
+    font-size: 0.82rem;
+    line-height: 1.4;
+}
+
+.boton-equipo:hover {
+    background: var(--fondo-card-hover);
+    border-color: var(--borde-hover);
+    border-left-color: var(--acento);
+    transform: translateX(2px);
+}
+
+.boton-equipo:hover .titulo {
+    opacity: 1;
+    transform: translateX(0);
+    color: var(--acento);
+}
+
+.boton-equipo:focus-visible {
+    outline: 2px solid var(--acento);
+    outline-offset: 2px;
+}
+
+.boton-equipo:active {
+    transform: translateX(2px) scale(0.995);
+}
+
+@media (max-width: 640px) {
+    .container {
+        padding: 2.25rem 0.75rem;
+    }
+
+    .container h1 {
+        font-size: 1.25rem;
+    }
+
+    .contenedor-boton {
+        grid-template-columns: 1fr;
+    }
+}
