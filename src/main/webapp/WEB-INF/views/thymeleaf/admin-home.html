@@ -6,23 +6,47 @@
 
     <link rel="stylesheet" th:href="@{/css/header.css}"/>
     <link rel="stylesheet" th:href="@{/css/footer.css}"/>
-    <link rel="stylesheet" th:href="@{/css/main2.css}"/>
+    <link rel="stylesheet" th:href="@{/css/admin-home.css}"/>
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
 </head>
 <body>
-<!-- HEADER -->
-<div th:replace="layout/header :: header"></div>
+
+<!--HEADER ADMIN -->
+<div th:replace="layout/admin-header :: header-admin"></div>
+
 
 <main role="main" class="container">
     <h1>Panel de administración</h1>
+    <p class="subtitulo">Gestioná equipos, torneos y el historial de la liga</p>
 
     <section class="contenedor-boton">
-        <a th:href="@{/admin/altaEquipoNBA}" class="boton-equipo">ALTA EQUIPO NBA</a>
-        <a th:href="@{/admin/listadoEquiposNBA}" class="boton-equipo">VER EQUIPOS NBA</a>
-        <a th:href="@{/admin/torneos}" class="boton-equipo">ADMINISTRAR TORNEOS</a>
-        <a th:href="@{/calendario}" class="boton-equipo">ADMINISTRAR TORNEO DEL FINDE</a>
-        <a th:href="@{/admin/historialTemporadas}" class="boton-equipo">HISTORIAL TEMPORADAS Y EQUIPO</a>
+        <a th:href="@{/admin/altaEquipoNBA}" class="boton-equipo">
+            <span class="titulo">Alta equipo NBA </span>
+
+        </a>
+
+        <a th:href="@{/admin/listadoEquiposNBA}" class="boton-equipo">
+            <span class="titulo">Ver equipos NBA </span>
+
+        </a>
+
+        <a th:href="@{/admin/torneos}" class="boton-equipo">
+            <span class="titulo">Administrar torneos </span>
+
+        </a>
+
+        <a th:href="@{/calendario}" class="boton-equipo">
+            <span class="titulo">Torneo del finde </span>
+            <span class="titulo">esta va a calendario </span>
+
+        </a>
+
+        <a th:href="@{/admin/historialTemporadas}" class="boton-equipo">
+            <span class="titulo">Historial temporadas </span>
+        </a>
+
+
     </section>
 </main>
 
