@@ -18,4 +18,5 @@ public interface ServicioTorneo {
     List<Torneo> obtenerTodosLosTorneos();
 
 
+    List<Torneo> obtenerTorneosPorTemporada(Long idTemporada);
 }

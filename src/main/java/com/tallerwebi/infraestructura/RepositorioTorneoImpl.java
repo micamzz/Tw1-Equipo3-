@@ -4,6 +4,7 @@ import com.tallerwebi.dominio.RepositorioTorneo;
 import com.tallerwebi.dominio.TipoTorneo;
 import com.tallerwebi.dominio.Torneo;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -67,6 +68,15 @@ public class RepositorioTorneoImpl implements RepositorioTorneo {
                 .setParameter("hoy", hoy)
                 .setParameter("tipo", tipoTorneo)
                 .uniqueResult();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<Torneo> obtenerTorneosPorTemporada(Long idTemporada) {
+        return sessionFactory.getCurrentSession()
+                .createCriteria(Torneo.class)
+                .add(Restrictions.eq("temporada.id", idTemporada))
+                .list();
     }
 
 }

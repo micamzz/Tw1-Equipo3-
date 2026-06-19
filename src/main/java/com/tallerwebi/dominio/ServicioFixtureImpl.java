@@ -1,3 +1,4 @@
+/*
 package com.tallerwebi.dominio;
 
 import com.tallerwebi.dominio.equipoNBA.EquipoNBA;
@@ -69,3 +70,4 @@ public class ServicioFixtureImpl implements ServicioFixture{
     repositorioPartidoNBA.guardar(partido);
     }
 }
+*/

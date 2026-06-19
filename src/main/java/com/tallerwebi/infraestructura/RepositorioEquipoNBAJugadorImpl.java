@@ -24,61 +24,11 @@ public class RepositorioEquipoNBAJugadorImpl implements RepositorioEquipoNBAJuga
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public List<EquipoNBAJugador> buscarJugadoresDelEquipoNBA(Long idEquipo) {
-        return (List<EquipoNBAJugador>) this.sessionFactory.getCurrentSession()
-                .createCriteria(EquipoNBAJugador.class)
-                .add(Restrictions.eq("equipoNBA.id", idEquipo))
-                .list();
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public List<EquipoNBAJugador> buscarJugadoresDelEquipoNBAEnTemporada(Long idEquipo, Long idTemporada) {
-        return (List<EquipoNBAJugador>) this.sessionFactory.getCurrentSession()
-                .createCriteria(EquipoNBAJugador.class)
-                .add(Restrictions.eq("equipoNBA.id", idEquipo))
-                .add(Restrictions.eq("temporada.id", idTemporada))
-                .list();
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public List<EquipoNBAJugador> buscarTodasLasAsignaciones() {
-        return (List<EquipoNBAJugador>) this.sessionFactory.getCurrentSession()
-                .createCriteria(EquipoNBAJugador.class)
-                .list();
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public boolean jugadorPerteneceAUnEquipoEnLaTemporada(Long idJugador, Long idTemporada) {
-        return this.sessionFactory.getCurrentSession()
-                .createCriteria(EquipoNBAJugador.class)
-                .add(Restrictions.eq("jugador.id", idJugador))
-                .add(Restrictions.eq("temporada.id", idTemporada))
-                .uniqueResult() != null;
-    }
-
-    @Override
     public void eliminarJugadorDelEquipo(EquipoNBAJugador equipoJugador) {
         sessionFactory.getCurrentSession().delete(equipoJugador);
     }
 
-    @Override
-    public EquipoNBAJugador buscarEquipoYJugadorAsociado(Long idEquipo, Long idJugador) {
-
-        return (EquipoNBAJugador) sessionFactory.getCurrentSession()
-                .createCriteria(EquipoNBAJugador.class)
-                /*el primer string tiene que coinicidr con el nombre del atributo de la clase*/
-                .createAlias("equipoNBA", "equi")
-                .createAlias("jugador", "juga")
-                /*usa el alias y lo demas tiene q coinicidr con el atributo de esa clase*/
-                .add(Restrictions.eq("equi.id", idEquipo))
-                .add(Restrictions.eq("juga.id", idJugador))
-                .uniqueResult();
-    }
-
+    /*borra todas las asignaciones de un equipo*/
     @Override
     @SuppressWarnings("unchecked")
     public void eliminarTodasLasAsignacionesDelEquipo(Long idEquipo) {
@@ -93,6 +43,107 @@ public class RepositorioEquipoNBAJugadorImpl implements RepositorioEquipoNBAJuga
         }
     }
 
+    /*Busca todas las asignaciones de un equipoNBA, sin filtrar por torneo*/
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<EquipoNBAJugador> buscarJugadoresDelEquipoNBA(Long idEquipo) {
+        return (List<EquipoNBAJugador>) this.sessionFactory.getCurrentSession()
+                .createCriteria(EquipoNBAJugador.class)
+                .add(Restrictions.eq("equipoNBA.id", idEquipo))
+                .list();
+    }
+
+    /* Busca asignacion filtrando por torneo*/
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<EquipoNBAJugador> buscarJugadoresDelEquipoNBAEnTorneo(Long idEquipo, Long idTorneo) {
+        return (List<EquipoNBAJugador>) this.sessionFactory.getCurrentSession()
+                .createCriteria(EquipoNBAJugador.class)
+                .add(Restrictions.eq("equipoNBA.id", idEquipo))
+                .add(Restrictions.eq("torneo.id", idTorneo))
+                .list();
+    }
+
+    @Override
+    public EquipoNBAJugador buscarEquipoJugadorYTemporada(Long idEquipo, Long idJugador, Long idTemporada) {
+        return (EquipoNBAJugador) sessionFactory.getCurrentSession()
+                .createCriteria(EquipoNBAJugador.class)
+                .add(Restrictions.eq("equipoNBA.id", idEquipo))
+                .add(Restrictions.eq("jugador.id", idJugador))
+                .add(Restrictions.eq("temporada.id", idTemporada))
+                .uniqueResult();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<EquipoNBAJugador> buscarJugadoresDelEquipoNBAEnTemporada(Long idEquipo, Long idTemporada) {
+        return (List<EquipoNBAJugador>) this.sessionFactory.getCurrentSession()
+                .createCriteria(EquipoNBAJugador.class)
+                .add(Restrictions.eq("equipoNBA.id", idEquipo))
+                .add(Restrictions.eq("temporada.id", idTemporada))
+                .list();
+    }
+
+    /*VER SI SE BORRA*/
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<EquipoNBAJugador> buscarTodasLasAsignaciones() {
+        return (List<EquipoNBAJugador>) this.sessionFactory.getCurrentSession()
+                .createCriteria(EquipoNBAJugador.class)
+                .list();
+    }
+
+
+    /*BUSCA UNA ASIGNACION PUNTUAL ENTRE EQUIPONBA Y JUGADOR*/
+    @Override
+    public EquipoNBAJugador buscarEquipoYJugadorAsociado(Long idEquipo, Long idJugador) {
+
+        return (EquipoNBAJugador) sessionFactory.getCurrentSession()
+                .createCriteria(EquipoNBAJugador.class)
+                /*el primer string tiene que coinicidr con el nombre del atributo de la clase*/
+                .createAlias("equipoNBA", "equi")
+                .createAlias("jugador", "juga")
+                /*usa el alias y lo demas tiene q coinicidr con el atributo de esa clase*/
+                .add(Restrictions.eq("equi.id", idEquipo))
+                .add(Restrictions.eq("juga.id", idJugador))
+                .uniqueResult();
+    }
+
+
+    /*Para saber si un jugador pertenece a un torneo*/
+    @Override
+    @SuppressWarnings("unchecked")
+    public boolean jugadorPerteneceAUnEquipoEnElTorneo(Long idJugador, Long idTorneo) {
+        return this.sessionFactory.getCurrentSession()
+                .createCriteria(EquipoNBAJugador.class)
+                .add(Restrictions.eq("jugador.id", idJugador))
+                .add(Restrictions.eq("torneo.id", idTorneo))
+                .uniqueResult() != null;
+    }
+
+    @Override
+    public List<EquipoNBAJugador> buscarAsignacionesPorTorneo(Long idTorneo) {
+        return (List<EquipoNBAJugador>) this.sessionFactory
+                .getCurrentSession()
+                .createCriteria(EquipoNBAJugador.class)
+                .add(Restrictions.eq("torneo.id", idTorneo))
+                .list();
+    }
+
+    @Override
+    public EquipoNBAJugador buscarEquipoJugadorYTorneo(Long idEquipo, Long idJugador, Long idTorneo) {
+        return (EquipoNBAJugador) sessionFactory.getCurrentSession()
+                .createCriteria(EquipoNBAJugador.class)
+                .add(Restrictions.eq("equipoNBA.id", idEquipo))
+                .add(Restrictions.eq("jugador.id", idJugador))
+                .add(Restrictions.eq("torneo.id", idTorneo))
+                .uniqueResult();
+    }
+
+
+
+    /* TEMPORADA*/
+    /*
     @Override
     @SuppressWarnings("unchecked")
     public List<EquipoNBAJugador> buscarAsignacionesPorTemporada(Long idTemporada) {
@@ -105,13 +156,26 @@ public class RepositorioEquipoNBAJugadorImpl implements RepositorioEquipoNBAJuga
 
     @Override
     public EquipoNBAJugador buscarEquipoJugadorYTemporada(Long idEquipo, Long idJugador, Long idTemporada) {
-      return (EquipoNBAJugador) sessionFactory.getCurrentSession()
-               .createCriteria(EquipoNBAJugador.class)
-               .add(Restrictions.eq("equipoNBA.id", idEquipo))
-               .add(Restrictions.eq("jugador.id", idJugador))
-               .add(Restrictions.eq("temporada.id", idTemporada))
-               .uniqueResult();
+        return (EquipoNBAJugador) sessionFactory.getCurrentSession()
+                .createCriteria(EquipoNBAJugador.class)
+                .add(Restrictions.eq("equipoNBA.id", idEquipo))
+                .add(Restrictions.eq("jugador.id", idJugador))
+                .add(Restrictions.eq("temporada.id", idTemporada))
+                .uniqueResult();
     }
 
+     @Override
+     @SuppressWarnings("unchecked")
+     public boolean jugadorPerteneceAUnEquipoEnLaTemporada(Long idJugador, Long idTemporada) {
+         return this.sessionFactory.getCurrentSession()
+                 .createCriteria(EquipoNBAJugador.class)
+                 .add(Restrictions.eq("jugador.id", idJugador))
+                 .add(Restrictions.eq("temporada.id", idTemporada))
+                 .uniqueResult() != null;
+     }
+ */
+
 }
+
+
 

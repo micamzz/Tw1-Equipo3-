@@ -1,8 +1,8 @@
 package com.tallerwebi.dominio.equipoNBAJugador;
 
 import com.tallerwebi.dominio.Jugador;
+import com.tallerwebi.dominio.Torneo;
 import com.tallerwebi.dominio.equipoNBA.EquipoNBA;
-import com.tallerwebi.dominio.temporada.Temporada;
 
 import javax.persistence.*;
 
@@ -20,7 +20,7 @@ public class EquipoNBAJugador {
     private Jugador jugador;
 
     @ManyToOne
-    private Temporada temporada;
+    private Torneo torneo;
 
 
     public Long getId() {
@@ -47,12 +47,12 @@ public class EquipoNBAJugador {
         this.jugador = jugador;
     }
 
-    public Temporada getTemporada() {
-        return temporada;
+    public Torneo getTorneo() {
+        return torneo;
     }
 
-    public void setTemporada(Temporada temporada) {
-        this.temporada = temporada;
+    public void setTorneo(Torneo torneo) {
+        this.torneo = torneo;
     }
 }
 

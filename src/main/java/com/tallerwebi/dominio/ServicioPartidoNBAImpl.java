@@ -1,3 +1,4 @@
+/*
 package com.tallerwebi.dominio;
 
 import com.tallerwebi.dominio.equipoNBA.EquipoNBA;
@@ -190,4 +191,4 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
     }
 
 
-}
+}*/

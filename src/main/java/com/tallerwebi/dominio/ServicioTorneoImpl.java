@@ -101,5 +101,10 @@ public class ServicioTorneoImpl implements ServicioTorneo {
         return repositorioTorneo.obtenerTodosLosTorneos();
     }
 
+    @Override
+    public List<Torneo> obtenerTorneosPorTemporada(Long idTemporada) {
+        return repositorioTorneo.obtenerTorneosPorTemporada(idTemporada);
+    }
+
 
 }

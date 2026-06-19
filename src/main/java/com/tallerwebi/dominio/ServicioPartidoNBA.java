@@ -1,3 +1,4 @@
+/*
 package com.tallerwebi.dominio;
 
 import com.tallerwebi.dominio.equipoNBA.EquipoNBA;
@@ -32,4 +33,4 @@ public interface ServicioPartidoNBA {
     List<PartidoConScoreDTO> obtenerPartidosActivosConScore();
 
     List<PartidoConScoreDTO> obtenerPartidosFinalizadosConScore();
-}
+}*/
