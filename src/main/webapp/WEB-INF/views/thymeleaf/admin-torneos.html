@@ -89,8 +89,10 @@
                 <td>
 
                     <form th:action="@{/admin/torneo/eliminar}"
-                          method="post"
-                          onsubmit="return confirm('¿Seguro que desea eliminar este torneo?');">
+                          method="post">
+
+                        <!--  esto hace q aparezca como un alert 
+                        onsubmit="return confirm('¿Seguro que desea eliminar este torneo?');">-->
 
                         <input type="hidden"
                                name="id"

@@ -2,6 +2,7 @@ package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.ServicioLogin;
 import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.enums.RolUsuario;
 import com.tallerwebi.dominio.excepcion.UsuarioExistente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -41,7 +42,14 @@ public class ControladorLogin {
         );
         if (usuarioBuscado != null) {
             request.getSession().setAttribute("ROL", usuarioBuscado.getRol());
+            request.getSession().setAttribute("usuario", usuarioBuscado);
+
+            /* SI SOS ADMIN TE LLEVA A LA URL DE ADMIN*/
+            if (usuarioBuscado.getRol() == RolUsuario.ADMIN) {
+                return new ModelAndView("redirect:/admin/home");
+            }
             return new ModelAndView("redirect:/home");
+
         } else {
             /* Se instancia el ModelMap solo cuando es necesario (en el flujo de error) para evitar anomalías en el flujo de datos (DU-anomaly de PMD) */
             ModelMap model = new ModelMap();
@@ -73,12 +81,28 @@ public class ControladorLogin {
     }
 
     @RequestMapping(path = "/home", method = RequestMethod.GET)
-    public ModelAndView irAHome() {
-        return new ModelAndView("home");
+    public ModelAndView iraHome(HttpServletRequest request) {
+
+        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+
+        ModelMap modelo = new ModelMap();
+        modelo.put("usuario", usuario);
+
+        return new ModelAndView("home", modelo);
     }
 
     @RequestMapping(path = "/", method = RequestMethod.GET)
     public ModelAndView inicio() {
-        return new ModelAndView("redirect:/login");
+        return new ModelAndView("landing");
+    }
+
+
+    /*Parra cerrar sesion */
+    @RequestMapping(path = "/salir", method = RequestMethod.GET)
+    public ModelAndView cerrarSesion(HttpServletRequest request) {
+
+        request.getSession().invalidate();
+
+        return new ModelAndView("redirect:/");
     }
 }

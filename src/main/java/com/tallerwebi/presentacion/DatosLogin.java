@@ -2,29 +2,39 @@ package com.tallerwebi.presentacion;
 
 public class DatosLogin {
 
-  private String email;
-  private String password;
+    private String nombre;
+    private String email;
+    private String password;
 
-  public DatosLogin() {}
+    public DatosLogin() {
+    }
 
-  public DatosLogin(String email, String password) {
-    this.email = email;
-    this.password = password;
-  }
+    public DatosLogin(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
 
-  public String getEmail() {
-    return email;
-  }
+    public String getNombre() {
+        return nombre;
+    }
 
-  public void setEmail(String email) {
-    this.email = email;
-  }
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
-  public String getPassword() {
-    return password;
-  }
+    public String getEmail() {
+        return email;
+    }
 
-  public void setPassword(String password) {
-    this.password = password;
-  }
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }
