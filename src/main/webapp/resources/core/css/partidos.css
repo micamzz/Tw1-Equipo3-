@@ -231,6 +231,10 @@ body {
     margin: 0 auto;
 }
 
+.programado-acciones > button.btn-rojo {
+    justify-self: end;
+}
+
 .programado-acciones-secundarias {
     display: grid;
     grid-template-columns: 1fr auto 1fr;
