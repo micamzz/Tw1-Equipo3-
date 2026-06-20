@@ -1,12 +1,9 @@
 :root {
-    --fondo: #0e0e12;
+    --fondo: #111;
     --fondo-card: #16161c;
-    --fondo-card-hover: #1c1c24;
     --borde: #2a2a33;
-    --borde-hover: #3a3a45;
     --texto: #fff;
     --texto-muted: #9a9aa5;
-    --transition: 0.18s;
 
     --c1: #ff6b00;
     --c2: #6366f1;

@@ -42,6 +42,7 @@ public class ControladorLogin {
         );
         if (usuarioBuscado != null) {
             request.getSession().setAttribute("ROL", usuarioBuscado.getRol());
+            request.getSession().setAttribute("usuario", usuarioBuscado);
 
             /* SI SOS ADMIN TE LLEVA A LA URL DE ADMIN*/
             if (usuarioBuscado.getRol() == RolUsuario.ADMIN) {
@@ -109,4 +110,12 @@ public class ControladorLogin {
         return new ModelAndView("redirect:/admin/home");
     }
 
+    /*Parra cerrar sesion */
+    @RequestMapping(path = "/salir", method = RequestMethod.GET)
+    public ModelAndView cerrarSesion(HttpServletRequest request) {
+
+        request.getSession().invalidate();
+
+        return new ModelAndView("redirect:/");
+    }
 }

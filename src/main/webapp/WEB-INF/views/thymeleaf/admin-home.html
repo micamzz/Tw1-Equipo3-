@@ -12,12 +12,19 @@
 </head>
 <body>
 
-<!--HEADER ADMIN -->
+<!--HEADER -->
 <div th:replace="layout/admin-header :: header-admin"></div>
 
 
 <main role="main" class="container">
+
+    <p th:if="${usuario != null}">
+        Bienvenido/a <span th:text="${usuario.nombre}"></span>
+    </p>
+
+
     <h1>Panel de administración</h1>
+    <h1>AHORA ESTA ASI, PERO DSP HAY Q MODIFICAR EL CSS SEGUN SEA LA PAGINA</h1>
     <p class="subtitulo">Gestioná equipos, torneos y el historial de la liga</p>
 
     <section class="contenedor-boton">
@@ -36,9 +43,8 @@
 
         </a>
 
-        <a th:href="@{/calendario}" class="boton-equipo">
-            <span class="titulo">Torneo del finde </span>
-            <span class="titulo">esta va a calendario </span>
+        <a th:href="@{/admin/partidos}" class="boton-equipo">
+            <span class="titulo">partidos </span>
 
         </a>
 

@@ -1,7 +1,7 @@
-INSERT INTO Usuario(id, email, password, rol, activo)
-VALUES (null, 'test@unlam.edu.ar', 'test', 'ADMIN', true),
-       (null, 'mica@unlam.com', 'test', 'ADMIN', true);
-
+INSERT INTO Usuario(id, nombre, email, password, rol, activo)
+VALUES (null, 'Admin Test', 'test@unlam.edu.ar', 'test', 'ADMIN', true),
+       (null, 'Micaela', 'mica@unlam.com', 'test', 'ADMIN', true),
+       (null, 'Lucas', 'lucas@unlam.com', 'test', 'USER', true);
 
 /* TEMPORADA 2025 08 DE MARZO A 22 DE DICIEMBRE*/
 INSERT INTO Temporada (id, nombre, anio, fechaInicio, fechaFin)
@@ -13,7 +13,7 @@ VALUES (2, 'Taller Web I', 2026, '2026-03-01', '2026-12-21');
 
 /* TORNEO REAL 07   DE MARZO A 20 DE DICIEMBRE */
 INSERT INTO Torneo (id, fechaFin, fechaInicio, nombreTorneo, tipoTorneo, temporada_id)
-VALUES (1, '2026-12-20', '2026-03-07', 'Temporada NBA 2026', 'REAL', 2);
+VALUES (1, '2026-12-20', '2026-03-07', 'NBA 2026', 'REAL', 2);
 
 INSERT INTO Torneo (id, fechaFin, fechaInicio, nombreTorneo, tipoTorneo, temporada_id)
 VALUES (2, '2026-12-20', '2026-03-07', 'UNLAM Basquet 2026', 'VIRTUAL', 2);
@@ -318,9 +318,8 @@ VALUES (1, 1, 1),
 -- 6 jugadores libres (57-62): no asignados a ningun equipo en el torneo vigente,
 -- quedan disponibles para que un equipo nuevo los pueda fichar
 
-
 -- TORNEO 2025 - ASOCIADO A TORNEO ID 3
--- Se asignan los mismos equipos (5,6,7,8) con algunos jugadores distintos en el plantel
+--FALTA ASOCIAR JUGADORES A EQUIPO 1 2 3 4 AL TORNEO VIEJO
 -- San Antonio Spurs (equipoNBA_id = 5)
 INSERT INTO EquipoNBAJugador(equipoNBA_id, jugador_id, torneo_id)
 VALUES (5, 33, 3),
