@@ -53,8 +53,9 @@ public class ControladorLoginTest {
         verify(sessionMock, times(0)).setAttribute("ROL", "ADMIN");
     }
 
+    /* SI SOS ADMIN*/
     @Test
-    public void loginConUsuarioYPasswordCorrectosDeberiaLLevarAHome() {
+    public void loginAdminUsuarioYPasswordCorrectosDeberiaLLevarAHomeDeAdmin() {
         // preparacion
         Usuario usuarioEncontradoMock = mock(Usuario.class);
         when(usuarioEncontradoMock.getRol()).thenReturn(RolUsuario.ADMIN);
@@ -67,8 +68,28 @@ public class ControladorLoginTest {
         ModelAndView modelAndView = controladorLogin.validarLogin(datosLoginMock, requestMock);
 
         // validacion
-        assertThat(modelAndView.getViewName(), equalToIgnoringCase("redirect:/home"));
+        assertThat(modelAndView.getViewName(), equalToIgnoringCase("redirect:/admin/home"));
         verify(sessionMock, times(1)).setAttribute("ROL", usuarioEncontradoMock.getRol());
+    }
+
+    @Test
+    public void loginConUsuarioComunDeberiaRedirigirAHome() {
+
+        Usuario usuarioEncontradoMock = mock(Usuario.class);
+
+        when(usuarioEncontradoMock.getRol()).thenReturn(RolUsuario.USER);
+
+        when(requestMock.getSession()).thenReturn(sessionMock);
+
+        when(servicioLoginMock.consultarUsuario(anyString(), anyString())).thenReturn(usuarioEncontradoMock);
+
+        ModelAndView modelAndView = controladorLogin.validarLogin(datosLoginMock, requestMock);
+
+        assertThat(modelAndView.getViewName(), equalToIgnoringCase("redirect:/home")
+        );
+
+        verify(sessionMock).setAttribute("ROL", usuarioEncontradoMock.getRol()
+        );
     }
 
     @Test
@@ -145,11 +166,11 @@ public class ControladorLoginTest {
     }
 
     @Test
-    public void inicioDeberiaRedirigirALogin() {
+    public void inicioDeberiaRedirigirAVistaLanding() {
         // ejecucion
         ModelAndView modelAndView = controladorLogin.inicio();
 
         // validacion
-        assertThat(modelAndView.getViewName(), equalToIgnoringCase("redirect:/login"));
+        assertThat(modelAndView.getViewName(), equalToIgnoringCase("landing"));
     }
 }

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>UNLAM Basket</title>
+
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Oswald:wght@500;600;700&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet" th:href="@{/css/header.css}"/>
+    <link rel="stylesheet" th:href="@{/css/landing.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}"/>
+</head>
+
+<body>
+
+
+<!--HEADER  LANDING-->
+<div th:replace="layout/header-landing :: header-landing"></div>
+
+<!-- HERO -->
+<section class="hero">
+
+    <div class="hero-imagen">
+        <img th:src="@{/img/fondo.png}" alt="Jugador NBA">
+    </div>
+
+    <div class="hero-overlay"></div>
+
+    <div class="hero-texto">
+
+        <h1>
+            <span class="naranja">VIVÍ</span> LA PASIÓN
+            DE LA NBA
+            COMO NUNCA ANTES
+        </h1>
+
+        <p>
+            Armá tu quintento ideal,
+            seguí su rendimiento real y sumá puntos blabla
+            agregar mas texto
+        </p>
+
+        <div class="hero-buttons">
+
+            <a th:href="@{/nuevo-usuario}" class="btn-principal">
+                CREAR MI EQUIPO
+            </a>
+
+            <a th:href="@{/login}" class="btn-secundario">
+                YA TENGO CUENTA
+            </a>
+
+        </div>
+
+    </div>
+
+
+</section>
+
+<!-- COMO FUNCIONA -->
+<section class="como-funciona">
+
+    <div class="container">
+
+        <h2>ACA HAY Q VER BIEN Q PONEMOS
+        </h2>
+
+        <div class="cards-container">
+
+            <div class="step-card">
+
+                <div class="numero">1</div>
+
+                <h3>ELEGÍ TU PLANTEL</h3>
+
+                <p>
+                    Seleccioná jugadores reales de la NBA
+                    y armá tu equipo ideal.
+                </p>
+
+            </div>
+
+            <div class="step-card">
+
+                <div class="numero">2</div>
+
+                <h3>SUMÁ PUNTOS </h3>
+
+                <p>
+                    Tu equipo suma puntos según
+                    el rendimiento real de cada jugador.
+                </p>
+
+            </div>
+
+            <div class="step-card">
+
+                <div class="numero">3</div>
+
+                <h3>VER</h3>
+
+                <p>
+                    VER Q PONEMOS
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<div th:replace="layout/footer :: footer"></div>
+
+</body>
+</html>
