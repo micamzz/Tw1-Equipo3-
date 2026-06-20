@@ -1,7 +1,8 @@
-/*
 package com.tallerwebi.infraestructura;
 
 import com.tallerwebi.dominio.Jugador;
+import com.tallerwebi.dominio.TipoTorneo;
+import com.tallerwebi.dominio.Torneo;
 import com.tallerwebi.dominio.equipoNBA.EquipoNBA;
 import com.tallerwebi.dominio.equipoNBAJugador.EquipoNBAJugador;
 import com.tallerwebi.dominio.equipoNBAJugador.RepositorioEquipoNBAJugador;
@@ -18,6 +19,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -119,11 +121,10 @@ public class RepositorioEquipoNBAJugadorTest {
         assertThat(listadoJugadoresDeUnEquipo.size(), equalTo(2));
     }
 
-
     @Test
     @Transactional
     @Rollback
-    public void alVerificarSiUnJugadorPerteneceAUnEquipoEnLaTemporadaDevuelveTrue() {
+    public void alVerificarSiUnJugadorPerteneceAUnEquipoEnElTorneoDevuelveTrue() {
 
         EquipoNBA equipo = new EquipoNBA();
         equipo.setNombre("Heat");
@@ -134,26 +135,35 @@ public class RepositorioEquipoNBAJugadorTest {
         Temporada temporada = new Temporada();
         temporada.setNombre("2025-2026");
 
+        /*Se tienen que setear todos los datos porq tiene nullable false*/
+        Torneo torneo = new Torneo();
+        torneo.setNombreTorneo("Torneo Heat 2025-2026");
+        torneo.setTipoTorneo(TipoTorneo.REAL);
+        torneo.setFechaInicio(LocalDate.now());
+        torneo.setFechaFin(LocalDate.now().plusMonths(6));
+        torneo.setTemporada(temporada);
+
         sessionFactory.getCurrentSession().save(equipo);
         sessionFactory.getCurrentSession().save(jugador);
         sessionFactory.getCurrentSession().save(temporada);
+        sessionFactory.getCurrentSession().save(torneo);
 
         EquipoNBAJugador asignacion = new EquipoNBAJugador();
         asignacion.setEquipoNBA(equipo);
         asignacion.setJugador(jugador);
-        asignacion.setTemporada(temporada);
+        asignacion.setTorneo(torneo);
 
         sessionFactory.getCurrentSession().save(asignacion);
 
-        Boolean esJugadorDeTemporada = repositorioEquipoNBAJugador.jugadorPerteneceAUnEquipoEnLaTemporada(jugador.getId(), temporada.getId());
+        boolean esJugadorDelTorneo = repositorioEquipoNBAJugador.jugadorPerteneceAUnEquipoEnElTorneo(jugador.getId(), torneo.getId());
 
-        assertThat(esJugadorDeTemporada, equalTo(true));
+        assertThat(esJugadorDelTorneo, equalTo(true));
     }
 
     @Test
     @Transactional
     @Rollback
-    public void alBuscarAsignacionesPorTemporadaSeDevuelvenLasAsignacionesDeEsaTemporada() {
+    public void alBuscarAsignacionesPorTorneoSeDevuelvenLasAsignacionesDeEseTorneo() {
 
         EquipoNBA equipo = new EquipoNBA();
         equipo.setNombre("Nuggets");
@@ -164,19 +174,27 @@ public class RepositorioEquipoNBAJugadorTest {
         Temporada temporada = new Temporada();
         temporada.setNombre("2025-2026");
 
+        Torneo torneo = new Torneo();
+        torneo.setNombreTorneo("Torneo Nuggets 2025-2026");
+        torneo.setTipoTorneo(TipoTorneo.REAL);
+        torneo.setFechaInicio(LocalDate.now());
+        torneo.setFechaFin(LocalDate.now().plusMonths(6));
+        torneo.setTemporada(temporada);
+
         sessionFactory.getCurrentSession().save(equipo);
         sessionFactory.getCurrentSession().save(jugador);
         sessionFactory.getCurrentSession().save(temporada);
+        sessionFactory.getCurrentSession().save(torneo);
 
         EquipoNBAJugador asignacion = new EquipoNBAJugador();
         asignacion.setEquipoNBA(equipo);
         asignacion.setJugador(jugador);
-        asignacion.setTemporada(temporada);
+        asignacion.setTorneo(torneo);
 
         sessionFactory.getCurrentSession().save(asignacion);
 
-        List<EquipoNBAJugador> resultado = repositorioEquipoNBAJugador.buscarAsignacionesPorTemporada(temporada.getId());
+        List<EquipoNBAJugador> resultado = repositorioEquipoNBAJugador.buscarAsignacionesPorTorneo(torneo.getId());
 
         assertThat(resultado.size(), equalTo(1));
     }
-}*/
+}

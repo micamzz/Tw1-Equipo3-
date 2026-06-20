@@ -34,6 +34,10 @@ public class Torneo {
     public Torneo() {
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public Long getId() {
         return id;
     }
@@ -94,5 +98,9 @@ public class Torneo {
 
     public void setTemporada(Temporada temporada) {
         this.temporada = temporada;
+    }
+
+    {
+
     }
 }
