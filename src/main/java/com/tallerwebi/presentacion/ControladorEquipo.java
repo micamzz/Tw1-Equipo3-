@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 
@@ -35,30 +36,54 @@ public class ControladorEquipo {
 
     // Muestra la vista html para crear un equipo
     @RequestMapping("/crear-equipo")
-    public ModelAndView irACrearEquipo() {
+    public ModelAndView irACrearEquipo(HttpServletRequest request) {
+
+        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+
+        if (usuario == null) {
+            return new ModelAndView("redirect:/login");
+        }
+
+        Equipo equipoExistente = servicioEquipo.obtenerEquipoPorIdUsuario(usuario.getId());
+
+        if (equipoExistente != null) {
+            return new ModelAndView("redirect:/equipo/detalle?id=" + equipoExistente.getId());
+        }
+
         ModelMap modelo = new ModelMap();
         Equipo equipo = new Equipo();
-
-        /* Agregar verificación que si el usuario ya tiene un equipo creado lo redirija a
-        ver equipo */
-        // TORNEO LLAMAR AL TORNEO.buscarTorneoActual();
-        // Se crea un objeto vacio que luego se va a rellenar con los datos del form.
         modelo.put("equipo", equipo);
         modelo.put("torneoActual", servicioTorneo.obtenerTorneoActual(TipoTorneo.VIRTUAL));
         return new ModelAndView("crear-equipo", modelo);
     }
 
-
     // Guarda el nombre del equipo en el servicio
     @RequestMapping(value = "/guardarEquipo", method = RequestMethod.POST)
-    public ModelAndView guardarNombreEquipo(@ModelAttribute Equipo equipoIngresado) {
+    public ModelAndView guardarNombreEquipo(@ModelAttribute Equipo equipoIngresado,
+                                            HttpServletRequest request) {
+
+        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+
+        if (usuario == null) {
+            return new ModelAndView("redirect:/login");
+        }
+
+        Equipo equipoExistente = servicioEquipo.obtenerEquipoPorIdUsuario(usuario.getId());
+
+        if (equipoExistente != null) {
+            return new ModelAndView("redirect:/equipo/detalle?id=" + equipoExistente.getId());
+        }
 
         try {
             if (equipoIngresado.getNombreEquipo() == null || equipoIngresado.getNombreEquipo().isBlank()) {
                 throw new EquipoSinNombreException("El nombre del equipo no puede estar vacío");
             }
 
+            /* SE SETEA ACA O EN EL SERVICE ? preguntar*/
+            equipoIngresado.setUsuario(usuario);
+
             Equipo equipoGuardado = servicioEquipo.guardarEquipo(equipoIngresado);
+
             return new ModelAndView("redirect:/seleccionar-jugadores?id=" + equipoGuardado.getId());
 
         } catch (EquipoSinNombreException | TorneoVirtualActualNoEncontradoException e) {
@@ -141,20 +166,35 @@ public class ControladorEquipo {
 
         try {
             servicioEquipo.validarEquipoCompleto(idEquipo);
-            return new ModelAndView("redirect:/ver-equipo?id=" + idEquipo);
+            return new ModelAndView("redirect:/equipo/detalle?id=" + idEquipo);
         } catch (EquipoSinCompletarException e) {
             return new ModelAndView("redirect:/seleccionar-jugadores?id=" + idEquipo + "&error=" + e.getMessage());
         }
     }
 
-    @RequestMapping("/ver-equipo")
-    public ModelAndView verEquipo(@RequestParam Long id) {
+    @RequestMapping("/equipo/detalle")
+    public ModelAndView verEquipo(@RequestParam Long id,
+                                  HttpServletRequest request) {
+
+        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+
+        if (usuario == null) {
+            return new ModelAndView("redirect:/login");
+        }
+
 
         try {
             ModelMap modelo = new ModelMap();
 
             Equipo equipo = servicioEquipo.buscarEquipoPorId(id);
-            HashMap<Integer, EquipoJugador> listadoDeJugadoresAsociadosAlEquipo = servicioEquipoJugador.buscarJugadoresPorEquipoId(id);
+
+
+            if (!equipo.getUsuario().getId().equals(usuario.getId())) {
+                return new ModelAndView("redirect:/");
+            }
+
+            HashMap<Integer, EquipoJugador> listadoDeJugadoresAsociadosAlEquipo =
+                    servicioEquipoJugador.buscarJugadoresPorEquipoId(id);
 
             modelo.put("equipo", equipo);
             modelo.put("jugadoresEquipo", listadoDeJugadoresAsociadosAlEquipo.values());
@@ -163,8 +203,6 @@ public class ControladorEquipo {
 
         } catch (EquipoNoEncontradoException e) {
             return new ModelAndView("redirect:/crear-equipo");
-
         }
-
     }
 }

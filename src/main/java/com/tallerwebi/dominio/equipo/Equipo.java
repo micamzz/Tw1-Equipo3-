@@ -1,6 +1,7 @@
 package com.tallerwebi.dominio.equipo;
 
 import com.tallerwebi.dominio.Torneo;
+import com.tallerwebi.dominio.Usuario;
 
 import javax.persistence.*;
 
@@ -16,7 +17,9 @@ public class Equipo {
 
     @ManyToOne
     private Torneo torneo;
-    // private Usuario usu;
+
+    @ManyToOne
+    private Usuario usuario;
 
 
     public Equipo() {
@@ -60,6 +63,14 @@ public class Equipo {
 
     public void setPuntaje(Double puntaje) {
         this.puntaje = puntaje;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 }
 

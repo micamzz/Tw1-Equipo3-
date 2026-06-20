@@ -11,4 +11,6 @@ public interface RepositorioEquipo {
     boolean existeEquipoEnTorneo(Long idTorneo);
 
     void actualizarEquipo(Equipo equipo);
+
+    Equipo buscarEquipoPorIdUsuario(Long usuarioId);
 }
