@@ -85,6 +85,16 @@ public class ServicioEquipoImpl implements ServicioEquipo {
     }
 
     @Override
+    public Equipo obtenerEquipoPorIdUsuario(Long usuarioId) {
+        return repositorioEquipo.buscarEquipoPorIdUsuario(usuarioId);
+    }
+
+    @Override
+    public Double obtenerPresupuestoInicial() {
+        return PRESUPUESTO_INICIAL;
+    }
+
+    @Override
     public void agregarJugadorAlEquipo(Long idEquipo, Long idJugador, Integer numeroDeOrden) throws EquipoNoEncontradoException, PresupuestoInsuficienteException, elJugadorYaExisteEnElEquipoException {
 
         Equipo equipo = buscarEquipoPorId(idEquipo);
