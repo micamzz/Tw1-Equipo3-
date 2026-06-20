@@ -1,14 +1,12 @@
-/*
 package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.Jugador;
+import com.tallerwebi.dominio.ServicioTorneo;
 import com.tallerwebi.dominio.equipoNBA.EquipoNBA;
 import com.tallerwebi.dominio.equipoNBA.ServicioEquipoNBA;
 import com.tallerwebi.dominio.equipoNBAJugador.ServicioEquipoNBAJugador;
 import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
-import com.tallerwebi.dominio.excepcion.TemporadaActualNoEncontradaException;
 import com.tallerwebi.dominio.excepcion.elJugadorYaExisteEnElEquipoException;
-import com.tallerwebi.dominio.temporada.ServicioTemporada;
 import org.hamcrest.text.IsEqualIgnoringCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,8 +25,8 @@ public class ControladorEquipoNBATest {
     private ControladorEquipoNBA controladorEquipoNBA;
     private ServicioEquipoNBA servicioEquipoNBAMock;
     private ServicioEquipoNBAJugador servicioEquipoNBAJugadorMock;
-    private ServicioTemporada servicioTemporadaMock;
     private EquipoNBA equipoNBAmock;
+    private ServicioTorneo servicioTorneoMock;
 
 
     // Inicialización de variables
@@ -37,8 +35,8 @@ public class ControladorEquipoNBATest {
         servicioEquipoNBAMock = mock(ServicioEquipoNBA.class);
         servicioEquipoNBAJugadorMock = mock(ServicioEquipoNBAJugador.class);
         equipoNBAmock = mock(EquipoNBA.class);
-        servicioTemporadaMock = mock(ServicioTemporada.class);
-        controladorEquipoNBA = new ControladorEquipoNBA(servicioEquipoNBAMock, servicioEquipoNBAJugadorMock, servicioTemporadaMock);
+        servicioTorneoMock = mock(ServicioTorneo.class);
+        controladorEquipoNBA = new ControladorEquipoNBA(servicioEquipoNBAMock, servicioEquipoNBAJugadorMock, servicioTorneoMock);
 
     }
 
@@ -78,21 +76,10 @@ public class ControladorEquipoNBATest {
         // Ejecución
         ModelAndView mav = controladorEquipoNBA.guardarEquipoNba(equipoNBA1);
         // Verificación
-        assertThat(mav.getModel().get("error").toString(),
-                IsEqualIgnoringCase.equalToIgnoringCase("El nombre del equipo no puede estar vacío")
+        assertThat(mav.getModel().get("error").toString(), IsEqualIgnoringCase.equalToIgnoringCase("El nombre del equipo no puede estar vacío")
         );
     }
 
-    @Test
-    public void irACrearEquipoMuestraErrorSiNoHayTemporadaActual() throws TemporadaActualNoEncontradaException {
-        when(servicioTemporadaMock.obtenerTemporadaActual())
-                .thenThrow(new TemporadaActualNoEncontradaException("No hay ninguna temporada vigente en este momento"));
-
-        ModelAndView mav = controladorEquipoNBA.irAlFormularioEquipoNBA();
-
-        assertThat(mav.getViewName(), equalToIgnoringCase("admin-alta-nombreEquipoNBA"));
-        assertThat(mav.getModel().get("error"), equalTo("No hay ninguna temporada vigente en este momento"));
-    }
 
     @Test
     public void alGuardarEquipoTeRedirigeAAsignarJugadores() {
@@ -235,4 +222,3 @@ public class ControladorEquipoNBATest {
 
 }
 
-*/

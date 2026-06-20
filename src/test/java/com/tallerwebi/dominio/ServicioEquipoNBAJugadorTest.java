@@ -1,12 +1,13 @@
-/*
 package com.tallerwebi.dominio;
 
+import com.tallerwebi.dominio.equipoNBA.EquipoNBA;
+import com.tallerwebi.dominio.equipoNBA.RepositorioEquipoNBA;
 import com.tallerwebi.dominio.equipoNBAJugador.EquipoNBAJugador;
 import com.tallerwebi.dominio.equipoNBAJugador.RepositorioEquipoNBAJugador;
 import com.tallerwebi.dominio.equipoNBAJugador.ServicioEquipoNBAJugadorImpl;
+import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
 import com.tallerwebi.dominio.excepcion.TemporadaActualNoEncontradaException;
-import com.tallerwebi.dominio.temporada.ServicioTemporada;
-import com.tallerwebi.dominio.temporada.Temporada;
+import com.tallerwebi.dominio.excepcion.elJugadorYaExisteEnElEquipoException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,37 +18,138 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class ServicioEquipoNBAJugadorTest {
 
     private RepositorioEquipoNBAJugador repositorioEquipoNBAJugadorMock;
+    private RepositorioEquipoNBA repositorioEquipoNBAMock;
     private RepositorioJugador repositorioJugadorMock;
-    private ServicioTemporada servicioTemporadaMock;
-
+    private ServicioTorneo servicioTorneoMock;
     private ServicioEquipoNBAJugadorImpl servicio;
 
     @BeforeEach
     public void inicializacion() {
-
         repositorioEquipoNBAJugadorMock = mock(RepositorioEquipoNBAJugador.class);
         repositorioJugadorMock = mock(RepositorioJugador.class);
-        servicioTemporadaMock = mock(ServicioTemporada.class);
-
-        servicio = new ServicioEquipoNBAJugadorImpl(repositorioEquipoNBAJugadorMock, repositorioJugadorMock, servicioTemporadaMock);
+        servicioTorneoMock = mock(ServicioTorneo.class);
+        repositorioEquipoNBAMock = mock(RepositorioEquipoNBA.class);
+        servicio = new ServicioEquipoNBAJugadorImpl(repositorioEquipoNBAJugadorMock, repositorioEquipoNBAMock, repositorioJugadorMock, servicioTorneoMock);
     }
 
     @Test
-    public void alObtenerLosJugadoresDeUnEquipoPorIdDevuelveElPlantelCorrectamente() throws TemporadaActualNoEncontradaException {
+    public void cuandoAgregoUnJugadorAUnEquipoSeGuardaLaAsignacion() throws Exception {
+
+        Long idEquipo = 1L;
+        Long idJugador = 2L;
+        Long idTorneo = 3L;
+
+        EquipoNBA equipo = new EquipoNBA();
+        equipo.setId(idEquipo);
+
+        Jugador jugador = new Jugador();
+        jugador.setId(idJugador);
+
+        Torneo torneo = new Torneo();
+        torneo.setId(idTorneo);
+
+        when(repositorioEquipoNBAMock.buscarEquipoPorId(idEquipo)).thenReturn(equipo);
+
+        when(repositorioJugadorMock.buscarJugadorPorId(idJugador)).thenReturn(jugador);
+
+        when(servicioTorneoMock.obtenerTorneoActual(TipoTorneo.REAL)).thenReturn(torneo);
+
+        when(repositorioEquipoNBAJugadorMock.jugadorPerteneceAUnEquipoEnElTorneo(idJugador, idTorneo)).thenReturn(false);
+
+        servicio.agregarJugadorAlEquipo(idEquipo, idJugador);
+
+        verify(repositorioEquipoNBAJugadorMock).asignarJugadorAUnEquipo(any(EquipoNBAJugador.class));
+    }
+
+    @Test
+    public void cuandoAgregoUnJugadorAUnEquipoInexistenteLanzaExcepcion() {
+        Long idEquipo = 1L;
+        Long idJugador = 2L;
+
+        when(repositorioEquipoNBAMock.buscarEquipoPorId(idEquipo)).thenReturn(null);
+
+        assertThrows(EquipoNoEncontradoException.class, () -> servicio.agregarJugadorAlEquipo(idEquipo, idJugador));
+    }
+
+    @Test
+    public void cuandoAgregoUnJugadorQueYaPerteneceAUnEquipoLanzaExcepcion() throws Exception {
+        Long idEquipo = 1L;
+        Long idJugador = 2L;
+        Long idTorneo = 3L;
+
+        EquipoNBA equipo = new EquipoNBA();
+        equipo.setId(idEquipo);
+
+        Jugador jugador = new Jugador();
+        jugador.setId(idJugador);
+
+        Torneo torneo = new Torneo();
+        torneo.setId(idTorneo);
+
+        when(repositorioEquipoNBAMock.buscarEquipoPorId(idEquipo)).thenReturn(equipo);
+
+        when(repositorioJugadorMock.buscarJugadorPorId(idJugador)).thenReturn(jugador);
+
+        when(servicioTorneoMock.obtenerTorneoActual(TipoTorneo.REAL)).thenReturn(torneo);
+
+        when(repositorioEquipoNBAJugadorMock.jugadorPerteneceAUnEquipoEnElTorneo(idJugador, idTorneo)).thenReturn(true);
+     
+        assertThrows(elJugadorYaExisteEnElEquipoException.class, () -> servicio.agregarJugadorAlEquipo(idEquipo, idJugador)
+        );
+    }
+
+    @Test
+    public void cuandoEliminoUnJugadorDelEquipoSeEliminaLaAsignacion() throws Exception {
+
+        Long idEquipo = 1L;
+        Long idJugador = 2L;
+
+        EquipoNBA equipo = new EquipoNBA();
+        equipo.setId(idEquipo);
+
+        EquipoNBAJugador asignacion = new EquipoNBAJugador();
+
+        when(repositorioEquipoNBAMock.buscarEquipoPorId(idEquipo)).thenReturn(equipo);
+
+        when(repositorioEquipoNBAJugadorMock.buscarEquipoYJugadorAsociado(idEquipo, idJugador)).thenReturn(asignacion);
+
+        servicio.eliminarJugadorDelEquipo(idEquipo, idJugador);
+
+        verify(repositorioEquipoNBAJugadorMock).eliminarJugadorDelEquipo(asignacion);
+    }
+
+    @Test
+    public void cuandoSeEliminaUnJugadorDeUnEquipoInexistenteLanzaUnaExcepcion() {
+        // Preparación
+        Long idEquipo = 1L;
+        Long idJugador = 2L;
+
+        when(repositorioEquipoNBAMock.buscarEquipoPorId(idEquipo)).thenReturn(null);
+
+        // Ejecución y Verificación
+        assertThrows(EquipoNoEncontradoException.class, () -> servicio.eliminarJugadorDelEquipo(idEquipo, idJugador));
+
+    }
+
+    @Test
+    public void alObtenerLosJugadoresDeUnEquipoPorIdDevuelveElPlantelCorrectamente() {
 
         Long idEquipo = 1L;
 
-        Temporada temporada = new Temporada();
-        temporada.setId(1L);
+        Torneo torneo = new Torneo();
+        torneo.setId(1L);
 
         Jugador jugador1 = new Jugador();
+        jugador1.setId(1L);
+
         Jugador jugador2 = new Jugador();
+        jugador2.setId(2L);
+
 
         EquipoNBAJugador asignacion1 = new EquipoNBAJugador();
         asignacion1.setJugador(jugador1);
@@ -59,9 +161,9 @@ public class ServicioEquipoNBAJugadorTest {
         asignaciones.add(asignacion1);
         asignaciones.add(asignacion2);
 
-        when(servicioTemporadaMock.obtenerTemporadaActual()).thenReturn(temporada);
+        when(servicioTorneoMock.obtenerTorneoActual(TipoTorneo.REAL)).thenReturn(torneo);
 
-        when(repositorioEquipoNBAJugadorMock.buscarJugadoresDelEquipoNBAEnTemporada(idEquipo, temporada.getId())).thenReturn(asignaciones);
+        when(repositorioEquipoNBAJugadorMock.buscarJugadoresDelEquipoNBAEnTorneo(idEquipo, torneo.getId())).thenReturn(asignaciones);
 
         List<Jugador> resultado = servicio.obtenerJugadoresDelEquipoPorId(idEquipo);
 
@@ -70,19 +172,12 @@ public class ServicioEquipoNBAJugadorTest {
         assertThat(resultado.get(1), equalTo(jugador2));
     }
 
-    @Test
-    public void alObtenerLosJugadoresDeUnEquipoSinTemporadaActualLanzaUnaExcepcion() {
-
-        when(servicioTemporadaMock.obtenerTemporadaActual()).thenThrow(new TemporadaActualNoEncontradaException("No hay temporada"));
-
-        assertThrows(TemporadaActualNoEncontradaException.class, () -> servicio.obtenerJugadoresDelEquipoPorId(1L));
-    }
 
     @Test
-    public void alObtenerLosJugadoresDisponiblesDevuelveSoloLosJugadoresQueNoFueronAsignados() throws TemporadaActualNoEncontradaException {
+    public void alObtenerLosJugadoresDisponiblesDevuelveSoloLosJugadoresQueNoFueronAsignados() {
 
-        Temporada temporada = new Temporada();
-        temporada.setId(1L);
+        Torneo torneo = new Torneo();
+        torneo.setId(1L);
 
         Jugador jugador1 = new Jugador();
         jugador1.setId(1L);
@@ -98,20 +193,16 @@ public class ServicioEquipoNBAJugadorTest {
         listadoJugadoresCompleto.add(jugador2);
         listadoJugadoresCompleto.add(jugador3);
 
-        */
-/* SE ASIGNA SOLO AL JUGADOR 2 A UN EQUIPO*//*
-
+        // SE ASIGNA SOLO AL JUGADOR 2 A UN EQUIPO
         EquipoNBAJugador asignacion = new EquipoNBAJugador();
         asignacion.setJugador(jugador2);
 
         List<EquipoNBAJugador> asignados = new ArrayList<>();
         asignados.add(asignacion);
 
-        when(servicioTemporadaMock.obtenerTemporadaActual()).thenReturn(temporada);
-
+        when(servicioTorneoMock.obtenerTorneoActual(TipoTorneo.REAL)).thenReturn(torneo);
         when(repositorioJugadorMock.buscarTodosLosJugadores()).thenReturn(listadoJugadoresCompleto);
-
-        when(repositorioEquipoNBAJugadorMock.buscarAsignacionesPorTemporada(temporada.getId())).thenReturn(asignados);
+        when(repositorioEquipoNBAJugadorMock.buscarAsignacionesPorTorneo(torneo.getId())).thenReturn(asignados);
 
         List<Jugador> listadoJugadoresDisponibles = servicio.obtenerJugadoresDisponibles();
 
@@ -124,8 +215,7 @@ public class ServicioEquipoNBAJugadorTest {
     @Test
     public void alObtenerJugadoresFiltradosPorPosicionDevuelveSoloLosQueCoinciden() throws TemporadaActualNoEncontradaException {
 
-        Temporada temporada = new Temporada();
-        temporada.setId(1L);
+        Torneo torneo = new Torneo();
 
         Jugador base = new Jugador();
         base.setId(1L);
@@ -139,9 +229,8 @@ public class ServicioEquipoNBAJugadorTest {
         jugadores.add(base);
         jugadores.add(pivot);
 
-        when(servicioTemporadaMock.obtenerTemporadaActual()).thenReturn(temporada);
+        when(servicioTorneoMock.obtenerTorneoActual(TipoTorneo.REAL)).thenReturn(torneo);
         when(repositorioJugadorMock.buscarTodosLosJugadores()).thenReturn(jugadores);
-        when(repositorioEquipoNBAJugadorMock.buscarAsignacionesPorTemporada(temporada.getId())).thenReturn(new ArrayList<>());
 
         List<Jugador> resultado = servicio.obtenerJugadoresFiltrados(Posicion.BASE, null);
 
@@ -152,8 +241,7 @@ public class ServicioEquipoNBAJugadorTest {
     @Test
     public void alObtenerJugadoresFiltradosPorNombreDevuelveSoloLosQueCoinciden() throws TemporadaActualNoEncontradaException {
 
-        Temporada temporada = new Temporada();
-        temporada.setId(1L);
+        Torneo torneo = new Torneo();
 
         Jugador jordan = new Jugador();
         jordan.setId(1L);
@@ -169,9 +257,8 @@ public class ServicioEquipoNBAJugadorTest {
         jugadores.add(jordan);
         jugadores.add(jugador2);
 
-        when(servicioTemporadaMock.obtenerTemporadaActual()).thenReturn(temporada);
+        when(servicioTorneoMock.obtenerTorneoActual(TipoTorneo.REAL)).thenReturn(torneo);
         when(repositorioJugadorMock.buscarTodosLosJugadores()).thenReturn(jugadores);
-        when(repositorioEquipoNBAJugadorMock.buscarAsignacionesPorTemporada(temporada.getId())).thenReturn(new ArrayList<>());
 
         List<Jugador> jugadorBuscado = servicio.obtenerJugadoresFiltrados(null, "Jordan");
 
@@ -179,40 +266,5 @@ public class ServicioEquipoNBAJugadorTest {
         assertThat(jugadorBuscado.get(0), equalTo(jordan));
     }
 
-    @Test
-    public void alObtenerLosJugadoresDeUnEquipoEnUnaTemporadaDevuelveLosJugadoresAsignados() {
 
-        Long idEquipo = 1L;
-        Long idTemporada = 1L;
-
-        Jugador jugador1 = new Jugador();
-        Jugador jugador2 = new Jugador();
-
-        EquipoNBAJugador asignacion1 = new EquipoNBAJugador();
-        asignacion1.setJugador(jugador1);
-
-        EquipoNBAJugador asignacion2 = new EquipoNBAJugador();
-        asignacion2.setJugador(jugador2);
-
-        List<EquipoNBAJugador> asignaciones = new ArrayList<>();
-        asignaciones.add(asignacion1);
-        asignaciones.add(asignacion2);
-
-        when(repositorioEquipoNBAJugadorMock.buscarJugadoresDelEquipoNBAEnTemporada(idEquipo, idTemporada)).thenReturn(asignaciones);
-
-        List<Jugador> resultado = servicio./obtenerJugadoresDelEquipoEnTemporada(idEquipo, idTemporada);
-
-        assertThat(resultado.size(), equalTo(2));
-        assertThat(resultado.get(0), equalTo(jugador1));
-        assertThat(resultado.get(1), equalTo(jugador2));
-    }
-
-    @Test
-    public void alObtenerLosJugadoresDisponiblesSinTemporadaActualLanzaUnaExcepcion() {
-
-        when(servicioTemporadaMock.obtenerTemporadaActual()).thenThrow(new TemporadaActualNoEncontradaException("No hay temporada"));
-
-        assertThrows(TemporadaActualNoEncontradaException.class, () -> servicio.obtenerJugadoresDisponibles()
-        );
-    }
-}*/
+}
