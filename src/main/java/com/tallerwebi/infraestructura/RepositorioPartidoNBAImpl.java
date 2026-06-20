@@ -4,6 +4,7 @@ import com.tallerwebi.dominio.PartidoNBA;
 import com.tallerwebi.dominio.RepositorioPartidoNBA;
 import com.tallerwebi.dominio.equipoNBA.EstadoPartido;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.Projections;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,7 @@ public class RepositorioPartidoNBAImpl implements RepositorioPartidoNBA {
         return sessionFactory.getCurrentSession()
                 .createCriteria(PartidoNBA.class)
                 .add(Restrictions.eq("estadoPartido", EstadoPartido.EN_VIVO))
+                .addOrder(Order.asc("horaInicio"))
                 .list();
     }
 
@@ -55,6 +57,7 @@ public class RepositorioPartidoNBAImpl implements RepositorioPartidoNBA {
         return sessionFactory.getCurrentSession()
                 .createCriteria(PartidoNBA.class)
                 .add(Restrictions.eq("estadoPartido", EstadoPartido.FINALIZADO))
+                .addOrder(Order.asc("horaInicio"))
                 .list();
     }
 
@@ -64,6 +67,7 @@ public class RepositorioPartidoNBAImpl implements RepositorioPartidoNBA {
         return sessionFactory.getCurrentSession()
                 .createCriteria(PartidoNBA.class)
                 .add(Restrictions.eq("estadoPartido", EstadoPartido.PROGRAMADO))
+                .addOrder(Order.asc("horaInicio"))
                 .list();
     }
 
