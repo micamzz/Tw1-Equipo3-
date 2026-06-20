@@ -9,16 +9,12 @@
           crossorigin="anonymous">
     <link rel="stylesheet" th:href="@{/css/main.css}"/>
     <link rel="stylesheet" th:href="@{/css/detalle-jugador.css}"/>
-    <link rel="stylesheet" th:href="@{/css/header.css}" />
+    <link rel="stylesheet" th:href="@{/css/header.css}"/>
 </head>
 <body>
 
 <!--HEADER -->
 <div th:replace="layout/header :: header"></div>
-
-<div class="volver-wrapper">
-    <a th:href="@{/mercado}" class = "btn-volver">Volver al mercado</a>
-</div>
 
 <div class="hero-section">
     <div class="hero-overlay"></div>
@@ -27,7 +23,7 @@
         <p class="hero-posicion" th:text="${jugador.posicion}">POSICION</p>
         <h1 class="hero-nombre" th:text="${jugador.nombre}">Nombre</h1>
         <h1 class="hero-apellido" th:text="${jugador.apellido}">Apellido</h1>
-        <p class = "hero-precio" th:text="${'$' + #numbers.formatInteger(jugador.precio.intValue(), 1, 'COMMA')}">$ 0</p>
+        <p class="hero-precio" th:text="${'$' + #numbers.formatInteger(jugador.precio.intValue(), 1, 'COMMA')}">$ 0</p>
     </div>
 </div>
 <div class="stats-rapidas">
@@ -36,11 +32,11 @@
         <span class="stats-valor" th:text="${rendimiento.puntos}">0</span>
     </div>
     <div class="stats-item">
-        <span class = "stats-label">RPG</span>
+        <span class="stats-label">RPG</span>
         <span class="stats-valor" th:text="${rendimiento.rebotes}">0</span>
     </div>
     <div class="stats-item">
-        <span class = "stats-label">ARP</span>
+        <span class="stats-label">ARP</span>
         <span class="stats-valor" th:text="${rendimiento.asistencias}">0</span>
     </div>
 </div>
@@ -94,15 +90,15 @@
         </div>
     </div>
 </div>
-    <footer class="footer-mercado">
-        <ul class="footer-lista">
-            <li>Federico, Sabrina</li>
-            <li>Lopez, Sofia</li>
-            <li>Mazza, Micaela</li>
-            <li>Moyano Vivas, Matias</li>
-        </ul>
-        <p class="footer-copy">© 2026 - Taller Web</p>
-    </footer>
+<footer class="footer-mercado">
+    <ul class="footer-lista">
+        <li>Federico, Sabrina</li>
+        <li>Lopez, Sofia</li>
+        <li>Mazza, Micaela</li>
+        <li>Moyano Vivas, Matias</li>
+    </ul>
+    <p class="footer-copy">© 2026 - Taller Web</p>
+</footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
         crossorigin="anonymous"></script>

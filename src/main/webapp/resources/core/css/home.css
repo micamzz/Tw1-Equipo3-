@@ -1,0 +1,255 @@
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background: #0a0a0a;
+    color: #fff;
+    font-family: "Inter", sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.color-naranja {
+    color: #ff6b00;
+}
+
+
+/*  HERO */
+.hero {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.1fr 320px;
+    gap: 2.5rem;
+    align-items: center;
+    margin-bottom: 3rem;
+    padding: 3rem 2.5rem;
+    border-radius: 12px;
+    overflow: hidden;
+    min-height: 648px;
+    background: #0a0a0a;
+}
+
+.hero-texto {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    top: -6em;
+}
+
+.hero-imagen {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 0;
+}
+
+.hero-imagen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: right center;
+}
+
+.hero-imagen::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+            90deg,
+            #0a0a0a 0%,
+            rgba(10, 10, 10, 0.85) 28%,
+            rgba(10, 10, 10, 0.35) 55%,
+            rgba(10, 10, 10, 0.05) 75%
+    );
+}
+
+.hero-etiqueta {
+    color: #ff6b00;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.12em;
+    margin: 0;
+}
+
+.hero-titulo {
+    font-size: 3.6rem;
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    margin: 0;
+    line-height: 1;
+}
+
+.hero-texto > strong {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #fff;
+    margin: 4px 0 8px;
+}
+
+.hero-saludo {
+    font-size: 1.1rem;
+    margin: 8px 0 0;
+}
+
+.hero-descripcion {
+    color: #999;
+    font-size: 1rem;
+    line-height: 1.6;
+    max-width: 360px;
+    margin: 0;
+}
+
+.hero-botones {
+    display: flex;
+    gap: 14px;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.boton {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 15px 26px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    transition: background 0.15s, transform 0.1s, border-color 0.15s;
+}
+
+.boton:active {
+    transform: scale(0.97);
+}
+
+.boton-primario {
+    background: #f06829;
+    color: #fff;
+    border: none;
+}
+
+.boton-primario:hover {
+    background: #ff6b00;
+}
+
+.boton-secundario {
+    background: transparent;
+    color: #fff;
+    border: 1px solid #3a3a3a;
+}
+
+.boton-secundario:hover {
+    border-color: #ff6b00;
+    color: #ff6b00;
+}
+
+.hero-imagen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.hero-imagen img {
+    width: 100%;
+    /*  height: 420px;*/
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+/* LATERAL (proxima jornada) */
+.hero-lateral {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    align-self: start;
+}
+
+.card-lateral {
+    background: rgba(20, 20, 20, 0.92);
+    backdrop-filter: blur(4px);
+    border: 1px solid #2a2a2a;
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+
+.titulo-lateral {
+    color: #ff6b00;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    margin: 0 0 14px;
+}
+
+.fecha-jornada {
+    color: #ccc;
+    font-size: 0.9rem;
+    margin: 0 0 16px;
+}
+
+.lista-partidos {
+    list-style: none;
+    margin: 0 0 16px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.item-partido {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.88rem;
+    color: #eee;
+}
+
+.equipo-partido {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+}
+
+.equipo-partido:last-child {
+    justify-content: flex-end;
+}
+
+.escudo-chico {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+
+.vs {
+    color: #666;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 0 10px;
+}
+
+.link-ver-todo {
+    color: #ff6b00;
+    font-size: 0.82rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+
+

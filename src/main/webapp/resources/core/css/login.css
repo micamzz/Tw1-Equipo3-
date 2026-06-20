@@ -1,3 +1,7 @@
+/* ===========================
+   LOGIN — standalone
+   =========================== */
+
 * {
     box-sizing: border-box;
 }
@@ -6,24 +10,8 @@ body {
     background: #111;
     color: #fff;
     font-family: "Inter", sans-serif;
-!important;
     position: relative;
     overflow-x: hidden;
-}
-
-.logo {
-    color: #f1f5f9;
-    font-weight: 800;
-    font-size: 1.2rem;
-    text-decoration: none;
-!important;
-    padding: 0 2rem;
-    height: 30px;
-    margin-top: 0.5em;
-}
-
-.naranja {
-    color: #ff6b00;
 }
 
 /* Pelota de básquet gigante de fondo, decorativa */
@@ -65,7 +53,7 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
-    /*  min-height: 100vh;*/
+    /* min-height: 100vh;*/
     padding: 3rem 1.5rem;
 }
 
@@ -126,7 +114,7 @@ main {
     color: #888;
 }
 
-#btn-registrarme {
+#btn-login {
     width: 100%;
     margin-top: 4px;
     background: #f06829;
@@ -142,12 +130,22 @@ main {
     transform 0.1s;
 }
 
-#btn-registrarme:hover {
+#btn-login:hover {
     background: #ff6b00;
 }
 
-#btn-registrarme:active {
+#btn-login:active {
     transform: scale(0.97);
+}
+
+#btn-login:disabled {
+    background: #5a3520;
+    color: #b0b0b0;
+    cursor: not-allowed;
+}
+
+#btn-login:disabled:hover {
+    background: #5a3520;
 }
 
 #loginbox .alert-danger {
@@ -159,4 +157,20 @@ main {
     font-size: 0.9rem;
     margin-top: 0.5rem;
     margin-bottom: 0;
+}
+
+#btn-register {
+    display: block;
+    text-align: center;
+    margin-top: 1.25rem;
+    color: #ff6b00;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.15s;
+}
+
+#btn-register:hover {
+    color: #ff8a3d;
+    text-decoration: underline;
 }

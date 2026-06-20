@@ -63,7 +63,6 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
         partido.setEstadoPartido(EstadoPartido.PROGRAMADO);
         repositorioPartidoNBA.guardar(partido);
 
-
         repositorioScorePartido.guardar(new ScorePartido(partido, local));
         repositorioScorePartido.guardar(new ScorePartido(partido, visitante));
     }
@@ -117,7 +116,6 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
         cronologia.setPuntosSumados(puntos);
         cronologia.setEquipoBeneficiado(equipo);
         repositorioCronologiaNBA.guardar(cronologia);
-
 
         ScorePartido score = repositorioScorePartido.buscarPorPartidoYEquipo(partidoId, equipoId);
         score.sumarPuntos(puntos);

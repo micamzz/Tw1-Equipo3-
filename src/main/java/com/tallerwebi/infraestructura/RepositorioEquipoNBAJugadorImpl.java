@@ -64,24 +64,15 @@ public class RepositorioEquipoNBAJugadorImpl implements RepositorioEquipoNBAJuga
                 .list();
     }
 
+    /*Comprueba que exista al menos una fila en esta tabla para ese torneo*/
     @Override
-    public EquipoNBAJugador buscarEquipoJugadorYTemporada(Long idEquipo, Long idJugador, Long idTemporada) {
-        return (EquipoNBAJugador) sessionFactory.getCurrentSession()
+    public boolean existenJugadoresAsignadosEnTorneo(Long idTorneo) {
+        List<EquipoNBAJugador> asignaciones = this.sessionFactory.getCurrentSession()
                 .createCriteria(EquipoNBAJugador.class)
-                .add(Restrictions.eq("equipoNBA.id", idEquipo))
-                .add(Restrictions.eq("jugador.id", idJugador))
-                .add(Restrictions.eq("temporada.id", idTemporada))
-                .uniqueResult();
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public List<EquipoNBAJugador> buscarJugadoresDelEquipoNBAEnTemporada(Long idEquipo, Long idTemporada) {
-        return (List<EquipoNBAJugador>) this.sessionFactory.getCurrentSession()
-                .createCriteria(EquipoNBAJugador.class)
-                .add(Restrictions.eq("equipoNBA.id", idEquipo))
-                .add(Restrictions.eq("temporada.id", idTemporada))
+                .add(Restrictions.eq("torneo.id", idTorneo))
                 .list();
+
+        return !asignaciones.isEmpty();
     }
 
     /*VER SI SE BORRA*/

@@ -1,12 +1,9 @@
 :root {
-    --fondo: #0e0e12;
+    --fondo: #111;
     --fondo-card: #16161c;
-    --fondo-card-hover: #1c1c24;
     --borde: #2a2a33;
-    --borde-hover: #3a3a45;
     --texto: #fff;
     --texto-muted: #9a9aa5;
-    --transition: 0.18s;
 
     --c1: #ff6b00;
     --c2: #6366f1;
@@ -103,19 +100,12 @@ body {
 
 .boton-equipo .titulo {
     color: var(--texto-muted);
-    opacity: 0;
     transform: translateX(-4px);
     transition: opacity var(--transition), transform var(--transition), color var(--transition);
     font-size: 1rem;
 }
 
 .boton-equipo .descripcion {
-    color: var(--texto-muted);
-    font-size: 0.82rem;
-    line-height: 1.4;
-}
-
-.boton-equipo:hover {
     background: var(--fondo-card-hover);
     border-color: var(--borde-hover);
     border-left-color: var(--acento);
@@ -123,20 +113,12 @@ body {
 }
 
 .boton-equipo:hover .titulo {
-    opacity: 1;
     transform: translateX(0);
     color: var(--acento);
 }
 
-.boton-equipo:focus-visible {
-    outline: 2px solid var(--acento);
-    outline-offset: 2px;
-}
 
-.boton-equipo:active {
-    transform: translateX(2px) scale(0.995);
-}
-
+/*responsive*/
 @media (max-width: 640px) {
     .container {
         padding: 2.25rem 0.75rem;
