@@ -423,3 +423,17 @@ INSERT INTO CronologiaNBA (partido_id, minuto, tipo, descripcion, puntosSumados,
 VALUES (7, 8, 'PUNTAJE', 'Doble de James', 2, 2);
 INSERT INTO CronologiaNBA (partido_id, minuto, tipo, descripcion, puntosSumados, equipoBeneficiado_id)
 VALUES (7, 31, 'PUNTAJE', 'Triple de Harden', 3, 3);
+
+
+/*  PARTIDOS SÁBADO 27/06/2026
+    LE PUSE ID 20 Y 21 AL PARTIDO*/
+INSERT INTO PartidoNBA (id, equipoLocal_id, equipoVisitante_id, horaInicio, minutoFin, torneo_id, estadoPartido)
+VALUES (20, 1, 2, '2026-06-27 19:00:00', NULL, 1, 'PROGRAMADO'), -- Warriors vs Celtics
+       (21, 3, 4, '2026-06-27 21:00:00', NULL, 1, 'PROGRAMADO');
+-- Lakers vs Heat
+
+/* PARTIDOS DOMINGO 28/06/2026
+   ID 22 Y 23*/
+INSERT INTO PartidoNBA (id, equipoLocal_id, equipoVisitante_id, horaInicio, minutoFin, torneo_id, estadoPartido)
+VALUES (22, 5, 6, '2026-06-28 19:00:00', NULL, 1, 'PROGRAMADO'), -- Spurs vs Knicks
+       (23, 7, 8, '2026-06-28 21:00:00', NULL, 1, 'PROGRAMADO'); -- Nets vs Mavericks
