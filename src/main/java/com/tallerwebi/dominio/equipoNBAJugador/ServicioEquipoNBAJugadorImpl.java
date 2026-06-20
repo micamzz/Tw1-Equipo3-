@@ -1,7 +1,6 @@
 package com.tallerwebi.dominio.equipoNBAJugador;
 
 import com.tallerwebi.dominio.*;
-import com.tallerwebi.dominio.excepcion.TemporadaActualNoEncontradaException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +25,7 @@ public class ServicioEquipoNBAJugadorImpl implements ServicioEquipoNBAJugador {
 
 
     @Override
-    public List<Jugador> obtenerJugadoresDelEquipoPorId(Long id) throws TemporadaActualNoEncontradaException {
+    public List<Jugador> obtenerJugadoresDelEquipoPorId(Long id) {
         Torneo torneoActual = servicioTorneo.obtenerTorneoActual(TipoTorneo.REAL);
         List<EquipoNBAJugador> jugadoresAsignados = repositorioEquipoNBAJugador.buscarJugadoresDelEquipoNBAEnTorneo(id, torneoActual.getId());
 
@@ -40,7 +39,7 @@ public class ServicioEquipoNBAJugadorImpl implements ServicioEquipoNBAJugador {
 
 
     @Override
-    public List<Jugador> obtenerJugadoresDisponibles() throws TemporadaActualNoEncontradaException {
+    public List<Jugador> obtenerJugadoresDisponibles() {
 
         Torneo torneoActual = servicioTorneo.obtenerTorneoActual(TipoTorneo.REAL);
 
@@ -70,7 +69,7 @@ public class ServicioEquipoNBAJugadorImpl implements ServicioEquipoNBAJugador {
     y que ademas cumplen con los filtros para usar en el buscador o en select */
 
     @Override
-    public List<Jugador> obtenerJugadoresFiltrados(Posicion posicionEnum, String nombre) throws TemporadaActualNoEncontradaException {
+    public List<Jugador> obtenerJugadoresFiltrados(Posicion posicionEnum, String nombre) {
 
         List<Jugador> jugadoresDisponibles = obtenerJugadoresDisponibles();
         List<Jugador> jugadoresFiltrados = new ArrayList<>();

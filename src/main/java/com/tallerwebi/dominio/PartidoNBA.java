@@ -85,7 +85,7 @@ public class PartidoNBA {
     }
 
     public boolean estaFinalizado() {
-        return EstadoPartido.CERRADO.equals(this.estadoPartido);
+        return EstadoPartido.FINALIZADO.equals(this.estadoPartido);
     }
 
     public EstadoPartido getEstadoPartido() {

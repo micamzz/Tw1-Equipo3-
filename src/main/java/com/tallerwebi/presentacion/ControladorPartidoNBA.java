@@ -1,4 +1,3 @@
-/*
 package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.*;
@@ -6,8 +5,6 @@ import com.tallerwebi.dominio.equipoNBA.EquipoNBA;
 import com.tallerwebi.dominio.equipoNBA.ServicioEquipoNBA;
 import com.tallerwebi.dominio.equipoNBAJugador.ServicioEquipoNBAJugador;
 import com.tallerwebi.dominio.excepcion.*;
-import com.tallerwebi.dominio.temporada.ServicioTemporada;
-import com.tallerwebi.dominio.temporada.Temporada;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -25,17 +22,14 @@ public class ControladorPartidoNBA {
     private final ServicioPartidoNBA servicioPartidoNBA;
     private final ServicioEquipoNBA servicioEquipoNBA;
     private final ServicioEquipoNBAJugador servicioEquipoNBAJugador;
-    private final ServicioTemporada servicioTemporada;
 
     @Autowired
     public ControladorPartidoNBA(ServicioPartidoNBA servicioPartidoNBA,
                                  ServicioEquipoNBA servicioEquipoNBA,
-                                 ServicioEquipoNBAJugador servicioEquipoNBAJugador,
-                                 ServicioTemporada servicioTemporada) {
+                                 ServicioEquipoNBAJugador servicioEquipoNBAJugador) {
         this.servicioPartidoNBA = servicioPartidoNBA;
         this.servicioEquipoNBA = servicioEquipoNBA;
         this.servicioEquipoNBAJugador = servicioEquipoNBAJugador;
-        this.servicioTemporada = servicioTemporada;
     }
 
     @RequestMapping("/temporada")
@@ -77,7 +71,6 @@ public class ControladorPartidoNBA {
         return new ModelAndView("redirect:/admin/partido?idPartido=" + idPartido);
     }
 
-    // Agregar cronologia tipo PLANTEL (cambio de jugador)
     @RequestMapping(value = "/admin/agregarCronologiaPlantel", method = RequestMethod.POST)
     public ModelAndView agregarCronologiaPlantel(@RequestParam Long idPartido,
                                                  @RequestParam Integer minuto,
@@ -91,15 +84,13 @@ public class ControladorPartidoNBA {
         return new ModelAndView("redirect:/admin/partido?idPartido=" + idPartido);
     }
 
-    // Finalizar partido
     @RequestMapping(value = "/admin/finalizarPartido", method = RequestMethod.POST)
     public ModelAndView finalizarPartido(@RequestParam Long idPartido,
                                          @RequestParam Integer minutoFin) {
         try {
             servicioPartidoNBA.finalizarPartido(idPartido, minutoFin);
         } catch (PartidoFinalizadoException e) {
-            // ya estaba finalizado
         }
         return new ModelAndView("redirect:/admin/partidos");
     }
-}*/
+}

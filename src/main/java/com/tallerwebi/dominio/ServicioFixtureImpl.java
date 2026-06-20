@@ -1,11 +1,8 @@
-/*
 package com.tallerwebi.dominio;
 
 import com.tallerwebi.dominio.equipoNBA.EquipoNBA;
 import com.tallerwebi.dominio.equipoNBA.EstadoPartido;
 import com.tallerwebi.dominio.equipoNBA.RepositorioEquipoNBA;
-import com.tallerwebi.dominio.temporada.RepositorioTemporada;
-import com.tallerwebi.dominio.temporada.Temporada;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,29 +15,29 @@ import java.util.List;
 public class ServicioFixtureImpl implements ServicioFixture{
     private final RepositorioPartidoNBA repositorioPartidoNBA;
     private final RepositorioEquipoNBA repositorioEquipoNBA;
-    private final RepositorioTemporada repositorioTemporada;
+    private final RepositorioTorneo repositorioTorneo;
 
     @Autowired
     public ServicioFixtureImpl(RepositorioPartidoNBA repositorioPartidoNBA,
                                RepositorioEquipoNBA repositorioEquipoNBA,
-                               RepositorioTemporada repositorioTemporada){
+                               RepositorioTorneo repositorioTorneo){
         this.repositorioPartidoNBA = repositorioPartidoNBA;
         this.repositorioEquipoNBA = repositorioEquipoNBA;
-        this.repositorioTemporada = repositorioTemporada;
+        this.repositorioTorneo = repositorioTorneo;
     }
 
     @Override
-    public PartidoNBA crearPartidoNBA(Long idEquipoLocal, Long idEquipoVisitante, LocalDateTime horaInicio, Long idTemporada){
+    public PartidoNBA crearPartidoNBA(Long idEquipoLocal, Long idEquipoVisitante, LocalDateTime horaInicio, Long idTorneo){
         EquipoNBA local = repositorioEquipoNBA.buscarEquipoPorId(idEquipoLocal);
         EquipoNBA visitante = repositorioEquipoNBA.buscarEquipoPorId(idEquipoVisitante);
-        Temporada temporada = repositorioTemporada.obtenerTemporadaPorId(idTemporada);
+        Torneo torneo = repositorioTorneo.buscarTorneoPorId(idTorneo);
 
         PartidoNBA partido = new PartidoNBA();
         partido.setEquipoLocal(local);
         partido.setEquipoVisitante(visitante);
         partido.setHoraInicio(horaInicio);
-        partido.setTemporada(temporada);
-        partido.setEstadoPartido(EstadoPartido.ABIERTO);
+        partido.setTorneo(torneo);
+        partido.setEstadoPartido(EstadoPartido.PROGRAMADO);
 
         repositorioPartidoNBA.guardar(partido);
         return partido;
@@ -52,22 +49,21 @@ public class ServicioFixtureImpl implements ServicioFixture{
     }
 
     @Override
-    public List<PartidoNBA> obtenerPartidosPorTemporada(Long idTemporada) {
-        return repositorioPartidoNBA.buscarPorTemporada(idTemporada);
+    public List<PartidoNBA> obtenerPartidosPorTorneo(Long idTorneo) {
+        return repositorioPartidoNBA.buscarPorTorneo(idTorneo);
     }
 
     @Override
     public void abrirPartido(Long idPartido) {
     PartidoNBA partido = repositorioPartidoNBA.buscarPorId(idPartido);
-    partido.setEstadoPartido(EstadoPartido.ABIERTO);
+    partido.setEstadoPartido(EstadoPartido.EN_VIVO);
     repositorioPartidoNBA.guardar(partido);
     }
 
     @Override
     public void cerrarPartido(Long idPartido) {
     PartidoNBA partido = repositorioPartidoNBA.buscarPorId(idPartido);
-    partido.setEstadoPartido(EstadoPartido.CERRADO);
+    partido.setEstadoPartido(EstadoPartido.FINALIZADO);
     repositorioPartidoNBA.guardar(partido);
     }
 }
-*/
