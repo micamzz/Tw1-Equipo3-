@@ -17,10 +17,8 @@ public class Temporada {
 
     private Integer anio;
 
-
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate fechaInicio;
-
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate fechaFin;

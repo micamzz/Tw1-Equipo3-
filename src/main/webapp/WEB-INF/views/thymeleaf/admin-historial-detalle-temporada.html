@@ -10,7 +10,8 @@
 </head>
 <body>
 
-<div th:replace="layout/header :: header"></div>
+<!--HEADER ADMIN -->
+<div th:replace="layout/admin-header :: header-admin"></div>
 
 <main class="contenedor-admin-vista">
 
@@ -38,7 +39,7 @@
             <td th:text="${equipo.nombre}">Nombre</td>
             <td>
                 <a th:href="@{/admin/historialEquipoEnTemporada(idEquipo=${equipo.id}, idTemporada=${temporada.id})}"
-                   class="btn btn-naranja">VER PLANTEL</a>
+                   class="btn btn-naranja">VER </a>
             </td>
         </tr>
         </tbody>

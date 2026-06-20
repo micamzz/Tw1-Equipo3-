@@ -21,11 +21,13 @@
 </head>
 <body>
 
-<!--HEADER -->
-<div th:replace="layout/header :: header"></div>
+<!--HEADER ADMIN -->
+<div th:replace="layout/admin-header :: header-admin"></div>
 
 <main class="contenedor">
-
+    <p>Temporada vigente <strong th:text="${torneoActual.temporada.nombre}"></strong></p>
+    <p>Estas asignando jugadores para el Torneo: <strong th:text="${torneoActual.nombreTorneo}"></strong></p>
+    <input type="hidden" name="torneoId" th:value="${torneoActual.id}"/>
     <!-- DATOS EQUIPO -->
     <section class="datos-equipo">
         <img th:src="${equipo.escudoImagen}"
@@ -57,173 +59,157 @@
         </form>
     </section>
 
+    <div class="layout-dos-columnas">
 
-    <!-- JUGADORES DISPONIBLES -->
-    <section class="jugadores-disponibles">
+        <!-- JUGADORES DISPONIBLES -->
+        <section class="jugadores-disponibles">
 
 
-        <section class="contenedor-subtitulo">
-            <h2 class="titulo-plantel" th:text="'Jugadores disponibles: ' + ${jugadores.size()}"></h2>
+            <section class="contenedor-subtitulo">
+                <h2 class="titulo-plantel" th:text="'Jugadores disponibles: ' + ${jugadores.size()}"></h2>
 
-            <select id="ordenar-disponibles" class="select-orden"
-                    onchange="ordenarTabla('tabla-disponibles', 'ordenar-disponibles')">
-                <option value="">Ordenar por...</option>
-                <option value="nombre">Nombre A-Z</option>
-                <option value="apellido">Apellido A-Z</option>
-                <option value="edad">Edad</option>
-            </select>
+                <select id="ordenar-disponibles" class="select-orden"
+                        onchange="ordenarTabla('tabla-disponibles', 'ordenar-disponibles')">
+                    <option value="">Ordenar por...</option>
+                    <option value="nombre">Nombre A-Z</option>
+                    <option value="apellido">Apellido A-Z</option>
+                    <option value="edad">Edad</option>
+                </select>
+            </section>
+
+            <p th:if="${jugadores == null || jugadores.isEmpty()}" class="mensaje-vacio">No hay jugadores
+                disponibles</p>
+
+            <table id="tabla-disponibles" th:unless="${jugadores == null || jugadores.isEmpty()}">
+
+
+                <thead>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+
+                <tbody>
+
+                <tr th:each="jugador : ${jugadores}">
+
+                    <td>
+                        <img th:src="${jugador.foto}"
+                             width="90"
+                             height="90"
+                             th:alt="${jugador.nombre}">
+                    </td>
+
+                    <td th:text="|${jugador.nombre} ${jugador.apellido}|">Nombre</td>
+
+
+                    <td th:text="${jugador.posicion}">
+                        Posición
+                    </td>
+
+
+                    <td th:text="${jugador.edad}">
+                        Edad
+                    </td>
+
+                    <td>
+
+                        <form th:action="@{/admin/agregarJugadorAEquipoNBA}" method="post">
+
+                            <input type="hidden"
+                                   name="idEquipo"
+                                   th:value="${equipo.id}">
+
+                            <input type="hidden"
+                                   name="idJugador"
+                                   th:value="${jugador.id}">
+
+                            <button type="submit" class="btn-tabla btn-tabla-agregar">AGREGAR</button>
+                        </form>
+
+                    </td>
+
+                </tr>
+
+                </tbody>
+
+            </table>
+
         </section>
 
-        <p th:if="${jugadores == null || jugadores.isEmpty()}" class="mensaje-vacio">No hay jugadores disponibles</p>
+        <hr>
 
-        <table id="tabla-disponibles" th:unless="${jugadores == null || jugadores.isEmpty()}">
+        <!-- PLANTEL ACTUAL -->
+        <section class="plantel-actual">
 
+            <section class="contenedor-subtitulo">
+                <h2 class="titulo-plantel">PLANTEL</h2>
+                <select id="ordenar-plantel" class="select-orden"
+                        onchange="ordenarTabla('tabla-plantel', 'ordenar-plantel')">
+                    <option value="">Ordenar por...</option>
+                    <option value="nombre">Nombre A-Z</option>
+                    <option value="apellido">Apellido A-Z</option>
+                </select>
+            </section>
 
-            <thead>
-            <tr>
-                <th>Foto</th>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Posición</th>
-                <th>Nacionalidad</th>
-                <th>Edad</th>
-                <th></th>
-            </tr>
-            </thead>
+            <p th:if="${plantel == null || plantel.isEmpty()}" class="mensaje-vacio">No hay jugadores asignados</p>
 
-            <tbody>
+            <table id="tabla-plantel" th:unless="${plantel == null || plantel.isEmpty()}">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
 
-            <tr th:each="jugador : ${jugadores}">
+                <tbody>
+                <tr th:each="jugador : ${plantel}">
 
-                <td>
-                    <img th:src="${jugador.foto}"
-                         width="90"
-                         height="90"
-                         th:alt="${jugador.nombre}">
-                </td>
+                    <td>
+                        <img th:src="${jugador.foto}"
+                             width="90"
+                             height="90"
+                             th:alt="${jugador.nombre}">
+                    </td>
 
-                <td th:text="${jugador.nombre}">
-                    Nombre
-                </td>
+                    <td th:text="|${jugador.nombre} ${jugador.apellido}|">Nombre</td>
 
-                <td th:text="${jugador.apellido}">
-                    Apellido
-                </td>
+                    <td th:text="${jugador.posicion}">Posición</td>
 
-                <td th:text="${jugador.posicion}">
-                    Posición
-                </td>
+                    <td>
+                        <form th:action="@{/admin/quitarJugadorAEquipoNBA}"
+                              method="post">
 
-                <td th:text="${jugador.nacionalidad}">
-                    Nacionalidad
-                </td>
+                            <input type="hidden"
+                                   name="idEquipo"
+                                   th:value="${equipo.id}">
 
-                <td th:text="${jugador.edad}">
-                    Edad
-                </td>
+                            <input type="hidden"
+                                   name="idJugador"
+                                   th:value="${jugador.id}">
 
-                <td>
+                            <button type="submit" class="btn-tabla btn-tabla-quitar">ELIMINAR</button>
 
-                    <form th:action="@{/admin/agregarJugadorAEquipoNBA}" method="post">
+                        </form>
 
-                        <input type="hidden"
-                               name="idEquipo"
-                               th:value="${equipo.id}">
+                    </td>
 
-                        <input type="hidden"
-                               name="idJugador"
-                               th:value="${jugador.id}">
+                </tr>
+                </tbody>
 
-                        <button type="submit" class="btn-tabla btn-tabla-agregar">AGREGAR</button>
-                    </form>
+            </table>
 
-                </td>
-
-            </tr>
-
-            </tbody>
-
-        </table>
-
-    </section>
-
-    <hr>
-
-    <!-- PLANTEL ACTUAL -->
-    <section class="plantel-actual">
-
-        <section class="contenedor-subtitulo">
-            <h2 class="titulo-plantel">PLANTEL</h2>
-            <select id="ordenar-plantel" class="select-orden"
-                    onchange="ordenarTabla('tabla-plantel', 'ordenar-plantel')">
-                <option value="">Ordenar por...</option>
-                <option value="nombre">Nombre A-Z</option>
-                <option value="apellido">Apellido A-Z</option>
-            </select>
         </section>
 
-        <p th:if="${plantel == null || plantel.isEmpty()}" class="mensaje-vacio">No hay jugadores asignados</p>
+        <hr>
 
-        <table id="tabla-plantel" th:unless="${plantel == null || plantel.isEmpty()}">
-            <thead>
-            <tr>
-                <th>Foto</th>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Posición</th>
-                <th></th>
-            </tr>
-            </thead>
-
-            <tbody>
-            <tr th:each="jugador : ${plantel}">
-
-                <td>
-                    <img th:src="${jugador.foto}"
-                         width="90"
-                         height="90"
-                         th:alt="${jugador.nombre}">
-                </td>
-
-                <td th:text="${jugador.nombre}">
-                    Nombre
-                </td>
-
-                <td th:text="${jugador.apellido}">
-                    Apellido
-                </td>
-
-                <td th:text="${jugador.posicion}">
-                    Posición
-                </td>
-
-                <td>
-
-                    <form th:action="@{/admin/quitarJugadorAEquipoNBA}"
-                          method="post">
-
-                        <input type="hidden"
-                               name="idEquipo"
-                               th:value="${equipo.id}">
-
-                        <input type="hidden"
-                               name="idJugador"
-                               th:value="${jugador.id}">
-
-                        <button type="submit" class="btn-tabla btn-tabla-quitar">ELIMINAR</button>
-
-                    </form>
-
-                </td>
-
-            </tr>
-            </tbody>
-
-        </table>
-
-    </section>
-
-    <hr>
+    </div>
 
     <a th:href="@{/admin/listadoEquiposNBA}" class="boton-equipo">CONFIRMAR</a>
 

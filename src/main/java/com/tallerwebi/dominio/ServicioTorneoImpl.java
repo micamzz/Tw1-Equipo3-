@@ -1,6 +1,7 @@
 package com.tallerwebi.dominio;
 
 import com.tallerwebi.dominio.equipo.RepositorioEquipo;
+import com.tallerwebi.dominio.equipoNBAJugador.RepositorioEquipoNBAJugador;
 import com.tallerwebi.dominio.excepcion.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,13 +16,15 @@ public class ServicioTorneoImpl implements ServicioTorneo {
 
     private final RepositorioTorneo repositorioTorneo;
     private final RepositorioEquipo repositorioEquipo;
+    private final RepositorioEquipoNBAJugador repositorioEquipoNBAJugador;
 
     @Autowired
     public ServicioTorneoImpl(
             RepositorioTorneo repositorioTorneo,
-            RepositorioEquipo repositorioEquipo) {
+            RepositorioEquipo repositorioEquipo, RepositorioEquipoNBAJugador repositorioEquipoNBAJugador) {
         this.repositorioTorneo = repositorioTorneo;
         this.repositorioEquipo = repositorioEquipo;
+        this.repositorioEquipoNBAJugador = repositorioEquipoNBAJugador;
     }
 
     private void validarQueNoSeSuperponganFechas(Torneo torneoNuevo) throws FechasSuperpuestasException {
@@ -88,7 +91,11 @@ public class ServicioTorneoImpl implements ServicioTorneo {
         }
 
         if (repositorioEquipo.existeEquipoEnTorneo(id)) {
-            throw new NoSePuedeEliminarUnTorneoSiTieneEquiposAsociadosException("No se puede eliminar el torneo ya que tiene equipos asociados");
+            throw new NoSePuedeEliminarUnTorneoSiTieneEquiposAsociadosException(" No se puede eliminar el torneo ya que tiene equipos NBA asignados");
+        }
+
+        if (repositorioEquipoNBAJugador.existenJugadoresAsignadosEnTorneo(id)) {
+            throw new NoSePuedeEliminarUnTorneoSiTieneEquiposAsociadosException("No se puede eliminar el torneo ya que tiene equipos NBA asignados");
         }
 
         repositorioTorneo.eliminarTorneo(torneo);
@@ -99,6 +106,11 @@ public class ServicioTorneoImpl implements ServicioTorneo {
     public List<Torneo> obtenerTodosLosTorneos() {
 
         return repositorioTorneo.obtenerTodosLosTorneos();
+    }
+
+    @Override
+    public List<Torneo> obtenerTorneosPorTemporada(Long idTemporada) {
+        return repositorioTorneo.obtenerTorneosPorTemporada(idTemporada);
     }
 
 

@@ -2,14 +2,13 @@ package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.Jugador;
 import com.tallerwebi.dominio.Posicion;
+import com.tallerwebi.dominio.ServicioTorneo;
+import com.tallerwebi.dominio.TipoTorneo;
 import com.tallerwebi.dominio.equipoNBA.EquipoNBA;
 import com.tallerwebi.dominio.equipoNBA.ServicioEquipoNBA;
 import com.tallerwebi.dominio.equipoNBAJugador.ServicioEquipoNBAJugador;
 import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
-import com.tallerwebi.dominio.excepcion.JugadorYaExisteEnLaTemporadaException;
-import com.tallerwebi.dominio.excepcion.TemporadaActualNoEncontradaException;
 import com.tallerwebi.dominio.excepcion.elJugadorYaExisteEnElEquipoException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -17,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import com.tallerwebi.dominio.temporada.ServicioTemporada;
+
 import java.util.List;
 
 @Controller
@@ -26,13 +25,12 @@ public class ControladorEquipoNBA {
 
     private final ServicioEquipoNBA servicioEquipoNBA;
     private final ServicioEquipoNBAJugador servicioEquipoNBAJugador;
-    private final ServicioTemporada servicioTemporada;
+    private final ServicioTorneo servicioTorneo;
 
-    @Autowired
-    public ControladorEquipoNBA(ServicioEquipoNBA servicioEquipoNBA, ServicioEquipoNBAJugador servicioEquipoNBAJugador, ServicioTemporada servicioTemporada) {
+    public ControladorEquipoNBA(ServicioEquipoNBA servicioEquipoNBA, ServicioEquipoNBAJugador servicioEquipoNBAJugador, ServicioTorneo servicioTorneo) {
         this.servicioEquipoNBA = servicioEquipoNBA;
         this.servicioEquipoNBAJugador = servicioEquipoNBAJugador;
-        this.servicioTemporada = servicioTemporada;
+        this.servicioTorneo = servicioTorneo;
     }
 
 
@@ -42,11 +40,7 @@ public class ControladorEquipoNBA {
 
         modelo.put("equipoNBA", new EquipoNBA());
 
-        try {
-            modelo.put("temporadaActual", servicioTemporada.obtenerTemporadaActual());
-        } catch (TemporadaActualNoEncontradaException e) {
-            modelo.put("error", e.getMessage());
-        }
+        modelo.put("torneoActual", servicioTorneo.obtenerTorneoActual(TipoTorneo.REAL));
 
         return new ModelAndView("admin-alta-nombreEquipoNBA", modelo);
     }
@@ -58,10 +52,9 @@ public class ControladorEquipoNBA {
         if (equipoNBA.getNombre() == null || equipoNBA.getNombre().isBlank()) {
             ModelMap modelo = new ModelMap();
             modelo.put("equipoNBA", new EquipoNBA());
-            try {
-                modelo.put("temporadaActual", servicioTemporada.obtenerTemporadaActual());
-            } catch (TemporadaActualNoEncontradaException e) {
-            }
+
+            modelo.put("torneoActual", servicioTorneo.obtenerTorneoActual(TipoTorneo.REAL));
+
             modelo.put("error", "El nombre del equipo no puede estar vacío");
             return new ModelAndView("admin-alta-nombreEquipoNBA", modelo);
         }
@@ -105,12 +98,14 @@ public class ControladorEquipoNBA {
 
             List<Jugador> plantel = servicioEquipoNBAJugador.obtenerJugadoresDelEquipoPorId(id);
 
+            modelo.put("torneoActual", servicioTorneo.obtenerTorneoActual(TipoTorneo.REAL));
             modelo.put("equipo", equipoNBA);
             modelo.put("jugadores", listadoJugadores);
             modelo.put("plantel", plantel);
 
             modelo.put("nombre", nombre);
             modelo.put("posicion", posicion);
+
 
             if (error != null) {
                 modelo.put("error", error);
@@ -125,18 +120,16 @@ public class ControladorEquipoNBA {
 
 
     @RequestMapping(value = "/agregarJugadorAEquipoNBA", method = RequestMethod.POST)
-    public ModelAndView agregarJugadorAlEquipo(@RequestParam Long idEquipo, @RequestParam Long idJugador) {
+    public ModelAndView agregarJugadorAlEquipo(@RequestParam Long idEquipo, @RequestParam Long idJugador) throws elJugadorYaExisteEnElEquipoException, EquipoNoEncontradoException {
 
         try {
             servicioEquipoNBA.agregarJugadorAlEquipo(idEquipo, idJugador);
 
         } catch (EquipoNoEncontradoException |
-                 elJugadorYaExisteEnElEquipoException |
-                 JugadorYaExisteEnLaTemporadaException e) {
+                 elJugadorYaExisteEnElEquipoException e) {
 
-            return new ModelAndView(
-                    "redirect:/admin/asignar-jugadoresNBA?id=" + idEquipo
-                            + "&error=" + e.getMessage()
+            return new ModelAndView("redirect:/admin/asignar-jugadoresNBA?id=" + idEquipo
+                    + "&error=" + e.getMessage()
             );
         }
         return new ModelAndView("redirect:/admin/asignar-jugadoresNBA?id=" + idEquipo);
@@ -166,6 +159,7 @@ public class ControladorEquipoNBA {
             List<Jugador> plantel = servicioEquipoNBAJugador.obtenerJugadoresDelEquipoPorId(id);
             modelo.put("equipo", equipo);
             modelo.put("plantel", plantel);
+            modelo.put("torneoActual", servicioTorneo.obtenerTorneoActual(TipoTorneo.REAL));
             return new ModelAndView("admin-detalle-equipoNBA", modelo);
         } catch (EquipoNoEncontradoException e) {
             return new ModelAndView("redirect:/admin/listadoEquiposNBA");

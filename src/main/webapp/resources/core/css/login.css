@@ -1,0 +1,176 @@
+/* ===========================
+   LOGIN — standalone
+   =========================== */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background: #111;
+    color: #fff;
+    font-family: "Inter", sans-serif;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Pelota de básquet gigante de fondo, decorativa */
+body::before {
+    content: "";
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 1400px;
+    height: 1400px;
+    transform: translate(-50%, -50%);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Ccircle cx='100' cy='100' r='98' fill='none' stroke='%23ff6b00' stroke-width='1.2'/%3E%3Cpath d='M100 2 V198' fill='none' stroke='%23ff6b00' stroke-width='1.2'/%3E%3Cpath d='M2 100 H198' fill='none' stroke='%23ff6b00' stroke-width='1.2'/%3E%3Cpath d='M30 18 C 60 55, 60 145, 30 182' fill='none' stroke='%23ff6b00' stroke-width='1.2'/%3E%3Cpath d='M170 18 C 140 55, 140 145, 170 182' fill='none' stroke='%23ff6b00' stroke-width='1.2'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+    opacity: 0.08;
+    z-index: 0;
+    pointer-events: none;
+}
+
+nav,
+main {
+    position: relative;
+    z-index: 1;
+}
+
+/* Navbar oscuro, consistente con header.css */
+.navbar.bg-dark {
+    background: #111 !important;
+    border-bottom: 1px solid #2a2a2a;
+}
+
+.navbar-brand {
+    color: #f1f5f9 !important;
+    font-weight: 800;
+    margin: 0 2rem;
+}
+
+main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* min-height: 100vh;*/
+    padding: 3rem 1.5rem;
+}
+
+#loginbox {
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto !important;
+    background: #141414;
+    border: 1px solid #2a2a2a;
+    border-radius: 12px;
+    padding: 2.5rem 2rem;
+    float: none;
+}
+
+.form-signin-heading {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 0;
+}
+
+.colorgraph {
+    border: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #ff6b00, transparent);
+    margin: 1.25rem 0;
+}
+
+#loginbox form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+#loginbox .form-control {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 1rem;
+    font-family: inherit;
+    padding: 12px 16px;
+    outline: none;
+    box-shadow: none;
+    transition: border-color 0.15s;
+}
+
+#loginbox .form-control:focus {
+    border-color: #ff6b00;
+    background: #1a1a1a;
+    color: #fff;
+    box-shadow: none;
+}
+
+#loginbox .form-control::placeholder {
+    color: #888;
+}
+
+#btn-login {
+    width: 100%;
+    margin-top: 4px;
+    background: #f06829;
+    border: none;
+    color: #fff;
+    padding: 14px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    transition: background 0.15s,
+    transform 0.1s;
+}
+
+#btn-login:hover {
+    background: #ff6b00;
+}
+
+#btn-login:active {
+    transform: scale(0.97);
+}
+
+#btn-login:disabled {
+    background: #5a3520;
+    color: #b0b0b0;
+    cursor: not-allowed;
+}
+
+#btn-login:disabled:hover {
+    background: #5a3520;
+}
+
+#loginbox .alert-danger {
+    background: #2a1212;
+    border: 1px solid #5c1f1f;
+    color: #ff8080;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0;
+}
+
+#btn-register {
+    display: block;
+    text-align: center;
+    margin-top: 1.25rem;
+    color: #ff6b00;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.15s;
+}
+
+#btn-register:hover {
+    color: #ff8a3d;
+    text-decoration: underline;
+}

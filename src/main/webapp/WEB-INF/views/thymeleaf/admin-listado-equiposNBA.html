@@ -10,7 +10,8 @@
 </head>
 <body>
 
-<div th:replace="layout/header :: header"></div>
+<!--HEADER ADMIN -->
+<div th:replace="layout/admin-header :: header-admin"></div>
 
 <main class="contenedor-admin-vista">
 
@@ -19,14 +20,17 @@
         <a th:href="@{/admin/altaEquipoNBA}" class="btn btn-naranja"> NUEVO EQUIPO</a>
     </div>
 
-    <div th:if="${error}" style="background:#f8d7da;color:#721c24;padding:12px;border-radius:6px;margin-bottom:16px;text-align:center;" th:text="${error}">Error</div>
+    <div th:if="${error}"
+         style="background:#f8d7da;color:#721c24;padding:12px;border-radius:6px;margin-bottom:16px;text-align:center;"
+         th:text="${error}">Error
+    </div>
 
     <table class="tabla-torneos">
         <thead>
         <tr>
-            <th>Escudo</th>
-            <th>Nombre</th>
-            <th>Acciones</th>
+            <th></th>
+            <th></th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -44,7 +48,7 @@
 
             <td th:text="${equipo.nombre}">Nombre</td>
 
-            <td>
+            <td class="contenedor-3-botones">
                 <a th:href="@{/admin/detalleEquipoNBA(id=${equipo.id})}" class="btn btn-naranja">VER</a>
 
                 <a th:href="@{/admin/asignar-jugadoresNBA(id=${equipo.id})}" class="btn btn-naranja">EDITAR</a>

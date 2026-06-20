@@ -1,7 +1,7 @@
 package com.tallerwebi.dominio;
 
 
-
+import com.tallerwebi.dominio.temporada.Temporada;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -17,7 +17,7 @@ public class Torneo {
     private String nombreTorneo;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "tipoTorneo",nullable = false)
+    @Column(name = "tipoTorneo", nullable = false)
     private TipoTorneo tipoTorneo;
 
     @Column(name = "fechaInicio", nullable = false)
@@ -28,6 +28,8 @@ public class Torneo {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     protected LocalDate fechaFin;
 
+    @ManyToOne
+    private Temporada temporada;
 
     public Torneo() {
     }
@@ -84,5 +86,13 @@ public class Torneo {
 
         return EstadoTorneo.EN_CURSO;
 
+    }
+
+    public Temporada getTemporada() {
+        return temporada;
+    }
+
+    public void setTemporada(Temporada temporada) {
+        this.temporada = temporada;
     }
 }

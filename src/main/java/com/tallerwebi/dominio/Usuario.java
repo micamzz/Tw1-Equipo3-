@@ -1,63 +1,74 @@
 package com.tallerwebi.dominio;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.tallerwebi.dominio.enums.RolUsuario;
+
+import javax.persistence.*;
 
 @Entity
 public class Usuario {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-  private String email;
-  private String password;
-  private String rol;
-  private Boolean activo = false;
+    private String nombre;
+    private String email;
+    private String password;
 
-  public Long getId() {
-    return id;
-  }
+    @Enumerated(EnumType.STRING)
+    private RolUsuario rol;
+    private Boolean activo = false;
 
-  public void setId(Long id) {
-    this.id = id;
-  }
 
-  public String getEmail() {
-    return email;
-  }
+    public String getNombre() {
+        return nombre;
+    }
 
-  public void setEmail(String email) {
-    this.email = email;
-  }
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
-  public String getPassword() {
-    return password;
-  }
+    public Long getId() {
+        return id;
+    }
 
-  public void setPassword(String password) {
-    this.password = password;
-  }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-  public String getRol() {
-    return rol;
-  }
+    public String getEmail() {
+        return email;
+    }
 
-  public void setRol(String rol) {
-    this.rol = rol;
-  }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-  public Boolean getActivo() {
-    return activo;
-  }
+    public String getPassword() {
+        return password;
+    }
 
-  public void setActivo(Boolean activo) {
-    this.activo = activo;
-  }
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-  public void activar() {
-    activo = true;
-  }
+    public RolUsuario getRol() {
+        return rol;
+    }
+
+    public void setRol(RolUsuario rol) {
+        this.rol = rol;
+    }
+
+    public Boolean getActivo() {
+        return activo;
+    }
+
+    public void setActivo(Boolean activo) {
+        this.activo = activo;
+    }
+
+    public void activar() {
+        activo = true;
+    }
 }

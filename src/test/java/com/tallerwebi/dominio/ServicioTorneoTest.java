@@ -2,6 +2,7 @@ package com.tallerwebi.dominio;
 
 
 import com.tallerwebi.dominio.equipo.RepositorioEquipo;
+import com.tallerwebi.dominio.equipoNBAJugador.RepositorioEquipoNBAJugador;
 import com.tallerwebi.dominio.excepcion.*;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -19,12 +20,14 @@ public class ServicioTorneoTest {
     private ServicioTorneo servicioTorneo;
     private RepositorioTorneo repositorioTorneoMock;
     private RepositorioEquipo repositorioEquipoMock;
+    private RepositorioEquipoNBAJugador repositorioEquipoNBAJugadorMock;
 
     @BeforeEach
     public void init() {
         this.repositorioTorneoMock = mock(RepositorioTorneo.class);
         this.repositorioEquipoMock = mock(RepositorioEquipo.class);
-        this.servicioTorneo = new ServicioTorneoImpl(this.repositorioTorneoMock, this.repositorioEquipoMock);
+        this.repositorioEquipoNBAJugadorMock = mock(RepositorioEquipoNBAJugador.class);
+        this.servicioTorneo = new ServicioTorneoImpl(this.repositorioTorneoMock, this.repositorioEquipoMock, this.repositorioEquipoNBAJugadorMock);
     }
 
 
@@ -97,6 +100,9 @@ public class ServicioTorneoTest {
         when(repositorioEquipoMock.existeEquipoEnTorneo(id))
                 .thenReturn(false);
 
+        when(repositorioEquipoNBAJugadorMock.existenJugadoresAsignadosEnTorneo(id))
+                .thenReturn(false);
+
         servicioTorneo.eliminarTorneo(id);
 
         verify(repositorioTorneoMock, times(1))
@@ -141,5 +147,29 @@ public class ServicioTorneoTest {
         verify(repositorioTorneoMock, never())
                 .eliminarTorneo(any());
     }
-}
 
+    @Test
+    public void eliminarTorneoConJugadoresNBAAsignadosDebeLanzarExcepcion() {
+
+        Long id = 1L;
+
+        Torneo torneo = new Torneo();
+
+        when(repositorioTorneoMock.buscarTorneoPorId(id))
+                .thenReturn(torneo);
+
+        when(repositorioEquipoMock.existeEquipoEnTorneo(id))
+                .thenReturn(false);
+
+        when(repositorioEquipoNBAJugadorMock.existenJugadoresAsignadosEnTorneo(id))
+                .thenReturn(true);
+
+        assertThrows(
+                NoSePuedeEliminarUnTorneoSiTieneEquiposAsociadosException.class,
+                () -> servicioTorneo.eliminarTorneo(id)
+        );
+
+        verify(repositorioTorneoMock, never())
+                .eliminarTorneo(any());
+    }
+}

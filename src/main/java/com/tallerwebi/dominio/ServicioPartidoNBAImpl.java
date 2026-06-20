@@ -3,7 +3,6 @@ package com.tallerwebi.dominio;
 import com.tallerwebi.dominio.equipoNBA.EquipoNBA;
 import com.tallerwebi.dominio.equipoNBA.RepositorioEquipoNBA;
 import com.tallerwebi.dominio.excepcion.*;
-import com.tallerwebi.dominio.temporada.Temporada;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,7 +35,7 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
     }
 
     @Override
-    public void agregarPartido(EquipoNBA local, EquipoNBA visitante, LocalDateTime horaInicio, Temporada temporada) {
+    public void agregarPartido(EquipoNBA local, EquipoNBA visitante, LocalDateTime horaInicio, Torneo torneo) {
 
         if (local == null || visitante == null) {
             throw new EquiposIgualesException("Los equipos no pueden estar vacios");
@@ -56,10 +55,9 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
         partido.setEquipoLocal(local);
         partido.setEquipoVisitante(visitante);
         partido.setHoraInicio(horaInicio);
-        partido.setMinutoFin(null); // activo
-        partido.setTemporada(temporada);
+        partido.setMinutoFin(null);
+        partido.setTorneo(torneo);
         repositorioPartidoNBA.guardar(partido);
-
 
         repositorioScorePartido.guardar(new ScorePartido(partido, local));
         repositorioScorePartido.guardar(new ScorePartido(partido, visitante));
@@ -108,7 +106,6 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
         cronologia.setPuntosSumados(puntos);
         cronologia.setEquipoBeneficiado(equipo);
         repositorioCronologiaNBA.guardar(cronologia);
-
 
         ScorePartido score = repositorioScorePartido.buscarPorPartidoYEquipo(partidoId, equipoId);
         score.sumarPuntos(puntos);

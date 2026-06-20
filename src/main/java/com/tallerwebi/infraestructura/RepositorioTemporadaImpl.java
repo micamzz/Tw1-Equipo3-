@@ -8,6 +8,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -30,12 +31,18 @@ public class RepositorioTemporadaImpl implements RepositorioTemporada {
         sessionFactory.getCurrentSession().update(temporada);
     }
 
-    // La temporada activa es la que tiene fechaFin null
+
+    /* TEMPORADA ACTUAL
+    FECHA INICIO -> ANTERIOR A HOY
+    FECHA FIN TODAVIA NO TERMINO
+     */
     @Override
     public Temporada obtenerTemporadaActual() {
+        LocalDate hoy = LocalDate.now();
         return (Temporada) sessionFactory.getCurrentSession()
                 .createCriteria(Temporada.class)
-                .add(Restrictions.isNull("fechaFin"))
+                .add(Restrictions.le("fechaInicio", hoy))
+                .add(Restrictions.ge("fechaFin", hoy))
                 .uniqueResult();
     }
 

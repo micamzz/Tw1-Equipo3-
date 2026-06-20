@@ -10,9 +10,14 @@
 </head>
 <body>
 
-<div th:replace="layout/header :: header"></div>
+<!--HEADER ADMIN -->
+<div th:replace="layout/admin-header :: header-admin"></div>
 
 <main class="contenedor">
+
+    <p>Temporada: <strong th:text="${torneoActual.temporada.nombre}"></strong></p>
+    <p>Torneo: <strong th:text="${torneoActual.nombreTorneo}"></strong></p>
+    <input type="hidden" name="torneoId" th:value="${torneoActual.id}"/>
 
     <section class="datos-equipo detalle-equipo">
         <img th:src="${equipo.escudoImagen}"
@@ -49,12 +54,12 @@
         <table th:unless="${plantel == null || plantel.isEmpty()}">
             <thead>
             <tr>
-                <th>Foto</th>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Posición</th>
-                <th>Nacionalidad</th>
-                <th>Edad</th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -65,8 +70,7 @@
                          height="90"
                          th:alt="${jugador.nombre}"/>
                 </td>
-                <td th:text="${jugador.nombre}">Nombre</td>
-                <td th:text="${jugador.apellido}">Apellido</td>
+                <td th:text="|${jugador.nombre} ${jugador.apellido}|">Nombre</td>
                 <td th:text="${jugador.posicion}">Posición</td>
                 <td th:text="${jugador.nacionalidad}">Nacionalidad</td>
                 <td th:text="${jugador.edad}">Edad</td>

@@ -2,7 +2,6 @@ package com.tallerwebi.dominio;
 
 import com.tallerwebi.dominio.equipoNBA.EquipoNBA;
 import com.tallerwebi.dominio.equipoNBA.EstadoPartido;
-import com.tallerwebi.dominio.temporada.Temporada;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -28,32 +27,64 @@ public class PartidoNBA {
     private Integer minutoFin;
 
     @ManyToOne
-    private Temporada temporada;
+    private Torneo Torneo;
+    
+    public PartidoNBA() {
+    }
 
+    public Long getId() {
+        return id;
+    }
 
-    public PartidoNBA() {}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public EquipoNBA getEquipoLocal() {
+        return equipoLocal;
+    }
 
-    public EquipoNBA getEquipoLocal() { return equipoLocal; }
-    public void setEquipoLocal(EquipoNBA equipoLocal) { this.equipoLocal = equipoLocal; }
+    public void setEquipoLocal(EquipoNBA equipoLocal) {
+        this.equipoLocal = equipoLocal;
+    }
 
-    public EquipoNBA getEquipoVisitante() { return equipoVisitante; }
-    public void setEquipoVisitante(EquipoNBA equipoVisitante) { this.equipoVisitante = equipoVisitante; }
+    public EquipoNBA getEquipoVisitante() {
+        return equipoVisitante;
+    }
 
-    public LocalDateTime getHoraInicio() { return horaInicio; }
-    public void setHoraInicio(LocalDateTime horaInicio) { this.horaInicio = horaInicio; }
+    public void setEquipoVisitante(EquipoNBA equipoVisitante) {
+        this.equipoVisitante = equipoVisitante;
+    }
 
-    public Integer getMinutoFin() { return minutoFin; }
-    public void setMinutoFin(Integer minutoFin) { this.minutoFin = minutoFin; }
+    public LocalDateTime getHoraInicio() {
+        return horaInicio;
+    }
 
-    public Temporada getTemporada() { return temporada; }
-    public void setTemporada(Temporada temporada) { this.temporada = temporada; }
+    public void setHoraInicio(LocalDateTime horaInicio) {
+        this.horaInicio = horaInicio;
+    }
 
-    public boolean estaActivo() { return minutoFin == null; }
+    public Integer getMinutoFin() {
+        return minutoFin;
+    }
 
-    public boolean estaFinalizado(){
+    public void setMinutoFin(Integer minutoFin) {
+        this.minutoFin = minutoFin;
+    }
+
+    public Torneo getTorneo() {
+        return Torneo;
+    }
+
+    public void setTorneo(Torneo torneo) {
+        Torneo = torneo;
+    }
+
+    public boolean estaActivo() {
+        return minutoFin == null;
+    }
+
+    public boolean estaFinalizado() {
         return EstadoPartido.CERRADO.equals(this.estadoPartido);
     }
 

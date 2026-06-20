@@ -1,14 +1,11 @@
 package com.tallerwebi.dominio.equipoNBAJugador;
 
-import com.tallerwebi.dominio.Jugador;
-import com.tallerwebi.dominio.Posicion;
-import com.tallerwebi.dominio.RepositorioJugador;
+import com.tallerwebi.dominio.*;
 import com.tallerwebi.dominio.excepcion.TemporadaActualNoEncontradaException;
-import com.tallerwebi.dominio.temporada.Temporada;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.tallerwebi.dominio.temporada.ServicioTemporada;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,42 +15,43 @@ public class ServicioEquipoNBAJugadorImpl implements ServicioEquipoNBAJugador {
 
     private final RepositorioEquipoNBAJugador repositorioEquipoNBAJugador;
     private final RepositorioJugador repositorioJugador;
-    private final ServicioTemporada servicioTemporada;
+    private final ServicioTorneo servicioTorneo;
 
     @Autowired
-    public ServicioEquipoNBAJugadorImpl(RepositorioEquipoNBAJugador repositorioEquipoNBAJugador, RepositorioJugador repositorioJugador, ServicioTemporada servicioTemporada) {
+    public ServicioEquipoNBAJugadorImpl(RepositorioEquipoNBAJugador repositorioEquipoNBAJugador, RepositorioJugador repositorioJugador, ServicioTorneo servicioTorneo) {
         this.repositorioEquipoNBAJugador = repositorioEquipoNBAJugador;
         this.repositorioJugador = repositorioJugador;
-        this.servicioTemporada = servicioTemporada;
+        this.servicioTorneo = servicioTorneo;
     }
 
 
     @Override
     public List<Jugador> obtenerJugadoresDelEquipoPorId(Long id) throws TemporadaActualNoEncontradaException {
-        Temporada temporadaActual = servicioTemporada.obtenerTemporadaActual();
-        List<EquipoNBAJugador> jugadoresAsignados = repositorioEquipoNBAJugador.buscarJugadoresDelEquipoNBAEnTemporada(id, temporadaActual.getId());
+        Torneo torneoActual = servicioTorneo.obtenerTorneoActual(TipoTorneo.REAL);
+        List<EquipoNBAJugador> jugadoresAsignados = repositorioEquipoNBAJugador.buscarJugadoresDelEquipoNBAEnTorneo(id, torneoActual.getId());
 
-
-        List<Jugador> plantel = new ArrayList<>();
+        List<Jugador> listadoPlantel = new ArrayList<>();
 
         for (EquipoNBAJugador equipoNBAJugador : jugadoresAsignados) {
-            plantel.add(equipoNBAJugador.getJugador());
+            listadoPlantel.add(equipoNBAJugador.getJugador());
         }
-        return plantel;
+        return listadoPlantel;
     }
 
 
     @Override
     public List<Jugador> obtenerJugadoresDisponibles() throws TemporadaActualNoEncontradaException {
 
-        Temporada temporadaActual = servicioTemporada.obtenerTemporadaActual();
+        Torneo torneoActual = servicioTorneo.obtenerTorneoActual(TipoTorneo.REAL);
 
         List<Jugador> listadoDeTodosLosJugadores = repositorioJugador.buscarTodosLosJugadores();
-        List<EquipoNBAJugador> jugadoresAsignados = repositorioEquipoNBAJugador.buscarAsignacionesPorTemporada(temporadaActual.getId());
+
+        List<EquipoNBAJugador> jugadoresAsignados = repositorioEquipoNBAJugador.buscarAsignacionesPorTorneo(torneoActual.getId());
 
         List<Jugador> jugadoresDisponibles = new ArrayList<>();
 
         List<Long> idsYaAsignados = new ArrayList<>();
+
         for (EquipoNBAJugador asignacion : jugadoresAsignados) {
             idsYaAsignados.add(asignacion.getJugador().getId());
         }
@@ -92,9 +90,8 @@ public class ServicioEquipoNBAJugadorImpl implements ServicioEquipoNBAJugador {
     }
 
     @Override
-    public List<Jugador> obtenerJugadoresDelEquipoEnTemporada(Long idEquipo, Long idTemporada) {
-
-        List<EquipoNBAJugador> asignaciones = repositorioEquipoNBAJugador.buscarJugadoresDelEquipoNBAEnTemporada(idEquipo, idTemporada);
+    public List<Jugador> obtenerJugadoresDelEquipoEnTorneo(Long idEquipo, Long idTorneo) {
+        List<EquipoNBAJugador> asignaciones = repositorioEquipoNBAJugador.buscarJugadoresDelEquipoNBAEnTorneo(idEquipo, idTorneo);
 
         List<Jugador> plantel = new ArrayList<>();
 

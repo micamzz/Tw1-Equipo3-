@@ -16,8 +16,8 @@
     />
 </head>
 <body>
-<!--HEADER -->
-<div th:replace="layout/header :: header"></div>
+<!--HEADER ADMIN -->
+<div th:replace="layout/admin-header :: header-admin"></div>
 
 <main>
     <section class="contenedor-form-equipo">
@@ -30,12 +30,13 @@
 
         <form th:action="@{/admin/guardarEquipoNBA}" method="post" th:object="${equipoNBA}">
 
+            <p>Temporada: <strong th:text="${torneoActual.temporada.nombre}"></strong></p>
 
             <section class="contenedor-nombre-Equipo">
-                <p>Temporada: <strong th:text="${temporadaActual.nombre}"></strong></p>
-                <input type="hidden" name="temporadaId" th:value="${temporadaActual.id}"/>
+                <p>Torneo: <strong th:text="${torneoActual.nombreTorneo}"></strong></p>
+                <input type="hidden" name="torneoId" th:value="${torneoActual.id}"/>
 
-                
+
                 <label for="nombreEquipo"> Ingrese el nombre: </label>
                 <input
                         type="text"
