@@ -81,8 +81,14 @@ public class ControladorLogin {
     }
 
     @RequestMapping(path = "/home", method = RequestMethod.GET)
-    public ModelAndView irAHome() {
-        return new ModelAndView("home");
+    public ModelAndView iraHome(HttpServletRequest request) {
+
+        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+
+        ModelMap modelo = new ModelMap();
+        modelo.put("usuario", usuario);
+
+        return new ModelAndView("home", modelo);
     }
 
     @RequestMapping(path = "/", method = RequestMethod.GET)
@@ -90,25 +96,6 @@ public class ControladorLogin {
         return new ModelAndView("landing");
     }
 
-    /* Para que el administrador pueda crear nuevos admin*/
-    @RequestMapping(path = "/admin/nuevo-admin", method = RequestMethod.GET)
-    public ModelAndView nuevoAdmin() {
-        ModelMap model = new ModelMap();
-        model.put("usuario", new Usuario());
-        return new ModelAndView("admin-nuevo-admin", model);
-    }
-
-    @RequestMapping(path = "/admin/crear-admin", method = RequestMethod.POST)
-    public ModelAndView crearAdmin(@ModelAttribute("usuario") Usuario usuario) {
-        ModelMap model = new ModelMap();
-        try {
-            servicioLogin.registrarAdmin(usuario);
-        } catch (UsuarioExistente e) {
-            model.put("error", "El usuario ya existe");
-            return new ModelAndView("admin-nuevo-admin", model);
-        }
-        return new ModelAndView("redirect:/admin/home");
-    }
 
     /*Parra cerrar sesion */
     @RequestMapping(path = "/salir", method = RequestMethod.GET)
