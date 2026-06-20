@@ -8,13 +8,16 @@ import java.util.List;
 
 public interface ServicioPartidoNBA {
 
-    void agregarPartido(EquipoNBA local, EquipoNBA visitante, LocalDateTime horaInicio, Torneo torneo);
+    void agregarPartido(EquipoNBA local, EquipoNBA visitante, LocalDateTime horaInicio, Torneo torneo)
+            throws FechaAnteriorInvalidaException, FechaDuplicadaException;
 
     void finalizarPartido(Long partidoId, Integer minutoFin);
 
     List<PartidoNBA> obtenerPartidosActivos();
 
     List<PartidoNBA> obtenerPartidosFinalizados();
+
+    List<PartidoNBA> obtenerPartidosProgramados();
 
     PartidoNBA obtenerPorId(Long id);
 
@@ -31,4 +34,11 @@ public interface ServicioPartidoNBA {
     List<PartidoConScoreDTO> obtenerPartidosActivosConScore();
 
     List<PartidoConScoreDTO> obtenerPartidosFinalizadosConScore();
+
+    void iniciarPartido(Long partidoId) throws EquipoJugandoException;
+
+    void reprogramarPartido(Long partidoId, LocalDateTime nuevaHoraInicio)
+            throws FechaAnteriorInvalidaException, FechaDuplicadaException;
+
+    void cancelarPartido(Long partidoId);
 }

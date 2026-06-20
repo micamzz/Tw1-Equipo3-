@@ -2,12 +2,15 @@ package com.tallerwebi.infraestructura;
 
 import com.tallerwebi.dominio.PartidoNBA;
 import com.tallerwebi.dominio.RepositorioPartidoNBA;
+import com.tallerwebi.dominio.equipoNBA.EstadoPartido;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.Projections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -43,7 +46,8 @@ public class RepositorioPartidoNBAImpl implements RepositorioPartidoNBA {
     public List<PartidoNBA> buscarPartidosActivos() {
         return sessionFactory.getCurrentSession()
                 .createCriteria(PartidoNBA.class)
-                .add(Restrictions.isNull("minutoFin"))
+                .add(Restrictions.eq("estadoPartido", EstadoPartido.EN_VIVO))
+                .addOrder(Order.asc("horaInicio"))
                 .list();
     }
 
@@ -52,7 +56,27 @@ public class RepositorioPartidoNBAImpl implements RepositorioPartidoNBA {
     public List<PartidoNBA> buscarPartidosFinalizados() {
         return sessionFactory.getCurrentSession()
                 .createCriteria(PartidoNBA.class)
-                .add(Restrictions.isNotNull("minutoFin"))
+                .add(Restrictions.eq("estadoPartido", EstadoPartido.FINALIZADO))
+                .addOrder(Order.asc("horaInicio"))
+                .list();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<PartidoNBA> buscarPartidosProgramados() {
+        return sessionFactory.getCurrentSession()
+                .createCriteria(PartidoNBA.class)
+                .add(Restrictions.eq("estadoPartido", EstadoPartido.PROGRAMADO))
+                .addOrder(Order.asc("horaInicio"))
+                .list();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<PartidoNBA> buscarPartidosEnVivo() {
+        return sessionFactory.getCurrentSession()
+                .createCriteria(PartidoNBA.class)
+                .add(Restrictions.eq("estadoPartido", EstadoPartido.EN_VIVO))
                 .list();
     }
 
@@ -62,7 +86,7 @@ public class RepositorioPartidoNBAImpl implements RepositorioPartidoNBA {
                 .createCriteria(PartidoNBA.class)
                 .createAlias("equipoLocal", "equipoLocal")
                 .add(Restrictions.eq("equipoLocal.id", equipoId))
-                .add(Restrictions.isNull("minutoFin"))
+                .add(Restrictions.eq("estadoPartido", EstadoPartido.EN_VIVO))
                 .setProjection(Projections.rowCount())
                 .uniqueResult();
 
@@ -71,7 +95,7 @@ public class RepositorioPartidoNBAImpl implements RepositorioPartidoNBA {
                 .createCriteria(PartidoNBA.class)
                 .createAlias("equipoVisitante", "equipoVisitante")
                 .add(Restrictions.eq("equipoVisitante.id", equipoId))
-                .add(Restrictions.isNull("minutoFin"))
+                .add(Restrictions.eq("estadoPartido", EstadoPartido.EN_VIVO))
                 .setProjection(Projections.rowCount())
                 .uniqueResult();
 
@@ -84,6 +108,21 @@ public class RepositorioPartidoNBAImpl implements RepositorioPartidoNBA {
         return sessionFactory.getCurrentSession()
                 .createCriteria(PartidoNBA.class)
                 .list();
+    }
+
+    @Override
+    public void eliminar(PartidoNBA partido) {
+        sessionFactory.getCurrentSession().delete(partido);
+    }
+
+    @Override
+    public boolean existePartidoEnFecha(LocalDateTime horaInicio) {
+        Long count = (Long) sessionFactory.getCurrentSession()
+                .createCriteria(PartidoNBA.class)
+                .add(Restrictions.eq("horaInicio", horaInicio))
+                .setProjection(Projections.rowCount())
+                .uniqueResult();
+        return count > 0;
     }
 
     @Override

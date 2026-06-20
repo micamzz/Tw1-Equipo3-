@@ -1,6 +1,7 @@
 package com.tallerwebi.dominio;
 
 import com.tallerwebi.dominio.equipoNBA.EquipoNBA;
+import com.tallerwebi.dominio.equipoNBA.EstadoPartido;
 import com.tallerwebi.dominio.equipoNBA.RepositorioEquipoNBA;
 import com.tallerwebi.dominio.excepcion.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,20 +36,22 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
     }
 
     @Override
-    public void agregarPartido(EquipoNBA local, EquipoNBA visitante, LocalDateTime horaInicio, Torneo torneo) {
+    public void agregarPartido(EquipoNBA local, EquipoNBA visitante, LocalDateTime horaInicio, Torneo torneo)
+            throws FechaAnteriorInvalidaException, FechaDuplicadaException {
 
         if (local == null || visitante == null) {
-            throw new EquiposIgualesException("Los equipos no pueden estar vacios");
+            throw new EquiposIgualesException("Debe seleccionar dos equipos");
         }
         if (local.getId().equals(visitante.getId())) {
             throw new EquiposIgualesException("El equipo local y visitante no pueden ser el mismo");
         }
 
-        if (repositorioPartidoNBA.equipoTienePartidoActivo(local.getId())) {
-            throw new PartidoYaActivoException("El equipo local ya tiene un partido activo");
+        if (horaInicio.toLocalDate().isBefore(torneo.getFechaInicio())) {
+            throw new FechaAnteriorInvalidaException("La fecha del partido debe ser posterior o igual al inicio del torneo");
         }
-        if (repositorioPartidoNBA.equipoTienePartidoActivo(visitante.getId())) {
-            throw new PartidoYaActivoException("El equipo visitante ya tiene un partido activo");
+
+        if (repositorioPartidoNBA.existePartidoEnFecha(horaInicio)) {
+            throw new FechaDuplicadaException("Ya existe un partido programado en esa fecha y hora");
         }
 
         PartidoNBA partido = new PartidoNBA();
@@ -57,6 +60,7 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
         partido.setHoraInicio(horaInicio);
         partido.setMinutoFin(null);
         partido.setTorneo(torneo);
+        partido.setEstadoPartido(EstadoPartido.PROGRAMADO);
         repositorioPartidoNBA.guardar(partido);
 
         repositorioScorePartido.guardar(new ScorePartido(partido, local));
@@ -70,6 +74,7 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
             throw new PartidoFinalizadoException("El partido ya fue finalizado");
         }
         partido.setMinutoFin(minutoFin);
+        partido.setEstadoPartido(EstadoPartido.FINALIZADO);
         repositorioPartidoNBA.actualizar(partido);
     }
 
@@ -81,6 +86,11 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
     @Override
     public List<PartidoNBA> obtenerPartidosFinalizados() {
         return repositorioPartidoNBA.buscarPartidosFinalizados();
+    }
+
+    @Override
+    public List<PartidoNBA> obtenerPartidosProgramados() {
+        return repositorioPartidoNBA.buscarPartidosProgramados();
     }
 
     @Override
@@ -186,5 +196,36 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
         return resultado;
     }
 
+    @Override
+    public void iniciarPartido(Long partidoId) throws EquipoJugandoException {
+        PartidoNBA partido = repositorioPartidoNBA.buscarPorId(partidoId);
+        if (repositorioPartidoNBA.equipoTienePartidoActivo(partido.getEquipoLocal().getId())) {
+            throw new EquipoJugandoException("El equipo local ya tiene un partido en vivo");
+        }
+        if (repositorioPartidoNBA.equipoTienePartidoActivo(partido.getEquipoVisitante().getId())) {
+            throw new EquipoJugandoException("El equipo visitante ya tiene un partido en vivo");
+        }
+        partido.setEstadoPartido(EstadoPartido.EN_VIVO);
+        repositorioPartidoNBA.actualizar(partido);
+    }
 
+    @Override
+    public void reprogramarPartido(Long partidoId, LocalDateTime nuevaHoraInicio)
+            throws FechaAnteriorInvalidaException, FechaDuplicadaException {
+        PartidoNBA partido = repositorioPartidoNBA.buscarPorId(partidoId);
+        if (nuevaHoraInicio.toLocalDate().isBefore(partido.getTorneo().getFechaInicio())) {
+            throw new FechaAnteriorInvalidaException("La fecha del partido debe ser posterior o igual al inicio del torneo");
+        }
+        if (repositorioPartidoNBA.existePartidoEnFecha(nuevaHoraInicio)) {
+            throw new FechaDuplicadaException("Ya existe un partido programado en esa fecha y hora");
+        }
+        partido.setHoraInicio(nuevaHoraInicio);
+        repositorioPartidoNBA.actualizar(partido);
+    }
+
+    @Override
+    public void cancelarPartido(Long partidoId) {
+        PartidoNBA partido = repositorioPartidoNBA.buscarPorId(partidoId);
+        repositorioPartidoNBA.eliminar(partido);
+    }
 }

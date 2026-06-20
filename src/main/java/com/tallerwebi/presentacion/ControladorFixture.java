@@ -39,11 +39,32 @@ public class ControladorFixture {
         this.servicioFormacion = servicioFormacion;
     }
 
+    @RequestMapping("/partidos")
+    public ModelAndView verPartidos() {
+        ModelMap modelo = new ModelMap();
+        modelo.put("partidosActivos", servicioPartidoNBA.obtenerPartidosActivos());
+        modelo.put("partidosProgramados", servicioPartidoNBA.obtenerPartidosProgramados());
+        modelo.put("partidosFinalizados", servicioPartidoNBA.obtenerPartidosFinalizados());
+        try {
+            Torneo torneoActual = servicioTorneo.obtenerTorneoActual(TipoTorneo.REAL);
+            modelo.put("torneoActual", torneoActual);
+        } catch (Exception e) {
+        }
+        return new ModelAndView("partidos", modelo);
+    }
+
     @RequestMapping("/admin/partidos")
     public ModelAndView adminPartidos() {
         ModelMap modelo = new ModelMap();
         modelo.put("partidosActivos", servicioPartidoNBA.obtenerPartidosActivos());
+        modelo.put("partidosProgramados", servicioPartidoNBA.obtenerPartidosProgramados());
         modelo.put("partidosFinalizados", servicioPartidoNBA.obtenerPartidosFinalizados());
+        try {
+            Torneo torneoActual = servicioTorneo.obtenerTorneoActual(TipoTorneo.REAL);
+            modelo.put("torneoActual", torneoActual);
+        } catch (Exception e) {
+            // si no hay torneo, no se muestra
+        }
         return new ModelAndView("admin-partidos", modelo);
     }
 
@@ -70,7 +91,12 @@ public class ControladorFixture {
             servicioPartidoNBA.agregarPartido(local, visitante, horaInicio, torneo);
             return new ModelAndView("redirect:/admin/partidos");
 
-        } catch (EquiposIgualesException | PartidoYaActivoException e) {
+        } catch (EquiposIgualesException e) {
+            ModelMap modelo = new ModelMap();
+            modelo.put("error", e.getMessage());
+            modelo.put("equipos", servicioEquipoNBA.obtenerTodosLosEquiposOrdenadosDeMenorAMayor());
+            return new ModelAndView("admin-agregarPartido", modelo);
+        } catch (FechaAnteriorInvalidaException | FechaDuplicadaException e) {
             ModelMap modelo = new ModelMap();
             modelo.put("error", e.getMessage());
             modelo.put("equipos", servicioEquipoNBA.obtenerTodosLosEquiposOrdenadosDeMenorAMayor());
@@ -122,6 +148,58 @@ public class ControladorFixture {
     public ModelAndView eliminarJugadorFormacion(@RequestParam Long idFormacion, Long idPartido) {
         servicioFormacion.quitarJugador(idFormacion);
         return new ModelAndView("redirect:/admin/partido?idPartido=" + idPartido);
+    }
+
+    @RequestMapping(value = "/admin/iniciarPartido", method = RequestMethod.POST)
+    public ModelAndView iniciarPartido(@RequestParam Long idPartido) {
+        try {
+            servicioPartidoNBA.iniciarPartido(idPartido);
+        } catch (EquipoJugandoException e) {
+            ModelMap modelo = new ModelMap();
+            modelo.put("error", e.getMessage());
+            modelo.put("partidosActivos", servicioPartidoNBA.obtenerPartidosActivos());
+            modelo.put("partidosProgramados", servicioPartidoNBA.obtenerPartidosProgramados());
+            modelo.put("partidosFinalizados", servicioPartidoNBA.obtenerPartidosFinalizados());
+            try {
+                Torneo torneoActual = servicioTorneo.obtenerTorneoActual(TipoTorneo.REAL);
+                modelo.put("torneoActual", torneoActual);
+            } catch (Exception ignored) {}
+            return new ModelAndView("admin-partidos", modelo);
+        }
+        return new ModelAndView("redirect:/admin/partidos");
+    }
+
+    @RequestMapping(value = "/admin/reprogramarPartido", method = RequestMethod.POST)
+    public ModelAndView reprogramarPartido(@RequestParam Long idPartido,
+                                           @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime nuevaHoraInicio) {
+        try {
+            servicioPartidoNBA.reprogramarPartido(idPartido, nuevaHoraInicio);
+        } catch (FechaAnteriorInvalidaException | FechaDuplicadaException e) {
+            ModelMap modelo = new ModelMap();
+            modelo.put("error", e.getMessage());
+            modelo.put("partidosActivos", servicioPartidoNBA.obtenerPartidosActivos());
+            modelo.put("partidosProgramados", servicioPartidoNBA.obtenerPartidosProgramados());
+            modelo.put("partidosFinalizados", servicioPartidoNBA.obtenerPartidosFinalizados());
+            try {
+                Torneo torneoActual = servicioTorneo.obtenerTorneoActual(TipoTorneo.REAL);
+                modelo.put("torneoActual", torneoActual);
+            } catch (Exception ignored) {}
+            return new ModelAndView("admin-partidos", modelo);
+        }
+        return new ModelAndView("redirect:/admin/partidos");
+    }
+
+    @RequestMapping(value = "/admin/cancelarPartido", method = RequestMethod.POST)
+    public ModelAndView cancelarPartido(@RequestParam Long idPartido) {
+        servicioPartidoNBA.cancelarPartido(idPartido);
+        return new ModelAndView("redirect:/admin/partidos");
+    }
+
+    @RequestMapping(value = "/admin/finalizarPartidoRapido", method = RequestMethod.POST)
+    public ModelAndView finalizarPartidoRapido(@RequestParam Long idPartido,
+                                               @RequestParam Integer minutoFin) {
+        servicioPartidoNBA.finalizarPartido(idPartido, minutoFin);
+        return new ModelAndView("redirect:/admin/partidos");
     }
 
 }

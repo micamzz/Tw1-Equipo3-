@@ -37,7 +37,7 @@ public class ServicioFixtureImpl implements ServicioFixture{
         partido.setEquipoVisitante(visitante);
         partido.setHoraInicio(horaInicio);
         partido.setTorneo(torneo);
-        partido.setEstadoPartido(EstadoPartido.ABIERTO);
+        partido.setEstadoPartido(EstadoPartido.PROGRAMADO);
 
         repositorioPartidoNBA.guardar(partido);
         return partido;
@@ -56,14 +56,14 @@ public class ServicioFixtureImpl implements ServicioFixture{
     @Override
     public void abrirPartido(Long idPartido) {
     PartidoNBA partido = repositorioPartidoNBA.buscarPorId(idPartido);
-    partido.setEstadoPartido(EstadoPartido.ABIERTO);
+    partido.setEstadoPartido(EstadoPartido.EN_VIVO);
     repositorioPartidoNBA.guardar(partido);
     }
 
     @Override
     public void cerrarPartido(Long idPartido) {
     PartidoNBA partido = repositorioPartidoNBA.buscarPorId(idPartido);
-    partido.setEstadoPartido(EstadoPartido.CERRADO);
+    partido.setEstadoPartido(EstadoPartido.FINALIZADO);
     repositorioPartidoNBA.guardar(partido);
     }
 }
