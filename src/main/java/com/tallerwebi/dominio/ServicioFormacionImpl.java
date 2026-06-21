@@ -24,7 +24,7 @@ import java.util.List;
             this.repositorioPartidoNBA = repositorioPartidoNBA;
         }
         @Override
-        public void agregarJugador(Long idPartido, Long idEquipo, Long idJugador, RolFormacion rol) {
+        public void agregarJugador(Long idPartido, Long idEquipo, Long idJugador) {
             if(!repositorioFormacion.jugadorYaEstaEnFormacion(idPartido, idJugador)){
                 PartidoNBA partido = repositorioPartidoNBA.buscarPorId(idPartido);
                 EquipoNBA equipo = repositorioEquipoNBA.buscarEquipoPorId(idEquipo);
@@ -35,7 +35,6 @@ import java.util.List;
                 formacion.setPartido(partido);
                 formacion.setEquipo(equipo);
                 formacion.setJugador(jugador);
-                formacion.setRol(rol);
 
                 repositorioFormacion.guardar(formacion);
             }
@@ -52,14 +51,10 @@ import java.util.List;
         }
 
         @Override
-        public List<FormacionPartido> obtenerTitulares(Long idPartido, Long idEquipo) {
-            return repositorioFormacion.buscarTitularesPorPartidoYEquipo(idPartido, idEquipo);
+        public List<FormacionPartido> obtenerFormacionPorEquipo(Long idPartido, Long idEquipo) {
+            return repositorioFormacion.buscarPorPartidoYEquipo(idPartido, idEquipo);
         }
 
-        @Override
-        public List<FormacionPartido> obtenerSuplentes(Long idPartido, Long idEquipo) {
-            return repositorioFormacion.buscarSuplentesPorPartidoYEquipo(idPartido, idEquipo);
-        }
 
         @Override
         public boolean jugadorYaEstasEnFormacion(Long idPartido, Long idJugador) {

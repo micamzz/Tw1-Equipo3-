@@ -59,9 +59,11 @@
         </div>
 
         <div class="programado-acciones-secundarias">
-            <a class="btn btn-formacion">Formacion</a>
+            <a th:href="@{/admin/partido/{idPartido}/formacion/{idEquipo}(idPartido=${partido.id}, idEquipo=${partido.equipoLocal.id})}"
+               class="btn btn-formacion"> Formacion Local</a>
             <a class="btn btn-cronologia">Cronologia</a>
-            <a class="btn btn-formacion">Formacion</a>
+            <a th:href="@{/admin/partido/{idPartido}/formacion/{idEquipo}(idPartido=${partido.id}, idEquipo=${partido.equipoVisitante.id})}"
+               class="btn btn-formacion">Formacion Visitante</a>
         </div>
 
         <div class="programado-divider"></div>
