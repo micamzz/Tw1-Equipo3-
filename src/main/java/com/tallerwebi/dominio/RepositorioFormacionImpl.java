@@ -32,26 +32,14 @@ public class RepositorioFormacionImpl  implements RepositorioFormacion {
                 .list();
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public List<FormacionPartido> buscarTitularesPorPartidoYEquipo(Long idPartido, Long idEquipo) {
-
-       return sessionFactory.getCurrentSession()
-               .createCriteria(FormacionPartido.class)
-               .add(Restrictions.eq("partido.id", idPartido))
-               .add(Restrictions.eq("equipo.id", idEquipo))
-               .add(Restrictions.eq("rol", RolFormacion.TITULAR))
-               .list();
-    }
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<FormacionPartido> buscarSuplentesPorPartidoYEquipo(Long idPartido, Long idEquipo) {
+    public List<FormacionPartido> buscarPorPartidoYEquipo(Long idPartido, Long idEquipo) {
         return sessionFactory.getCurrentSession()
                 .createCriteria(FormacionPartido.class)
                 .add(Restrictions.eq("partido.id", idPartido))
                 .add(Restrictions.eq("equipo.id", idEquipo))
-                .add(Restrictions.eq("rol", RolFormacion.SUPLENTE))
                 .list();
     }
 
