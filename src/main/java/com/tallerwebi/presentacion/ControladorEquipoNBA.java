@@ -59,7 +59,7 @@ public class ControladorEquipoNBA {
             return new ModelAndView("admin-alta-nombreEquipoNBA", modelo);
         }
 
-        servicioEquipoNBA.guardarEquipoNBA(equipoNBA);
+        servicioEquipoNBA.crearEquipoNBA(equipoNBA);
         Long idEquipoIngresado = equipoNBA.getId();
 
         return new ModelAndView("redirect:/admin/asignar-jugadoresNBA?id=" + idEquipoIngresado);
@@ -123,7 +123,7 @@ public class ControladorEquipoNBA {
     public ModelAndView agregarJugadorAlEquipo(@RequestParam Long idEquipo, @RequestParam Long idJugador) throws elJugadorYaExisteEnElEquipoException, EquipoNoEncontradoException {
 
         try {
-            servicioEquipoNBA.agregarJugadorAlEquipo(idEquipo, idJugador);
+            servicioEquipoNBAJugador.agregarJugadorAlEquipo(idEquipo, idJugador);
 
         } catch (EquipoNoEncontradoException |
                  elJugadorYaExisteEnElEquipoException e) {
@@ -171,7 +171,7 @@ public class ControladorEquipoNBA {
             @RequestParam Long idEquipo,
             @RequestParam Long idJugador) throws EquipoNoEncontradoException {
 
-        servicioEquipoNBA.eliminarJugadorDelEquipo(idEquipo, idJugador);
+        servicioEquipoNBAJugador.eliminarJugadorDelEquipo(idEquipo, idJugador);
 
 
         return new ModelAndView("redirect:/admin/asignar-jugadoresNBA?id=" + idEquipo);

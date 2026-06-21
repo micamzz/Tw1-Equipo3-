@@ -18,6 +18,7 @@
 <!--HEADER -->
 <div th:replace="layout/header :: header"></div>
 
+
 <main class="contenedor-home">
 
     <!-- HERO -->
@@ -27,68 +28,82 @@
             <h1 class="hero-titulo">FANTASY <span class="color-naranja">NBA</span></h1>
 
             <!--    <p th:if="${usuario != null}">
-                <p class="hero-saludo">Hola, <strong class="color-naranja" th:text="${usuario.nombre}"></strong> 👋</p>
-                <p class="hero-descripcion">
-                    Ya podés administrar tu equipo, seguir los partidos y competir en la liga.
-                </p>
-                </p>-->
+               <p class="hero-saludo">Hola, <strong class="color-naranja" th:text="${usuario.nombre}"></strong> 👋</p>
+               <p class="hero-descripcion">
+                   Ya podés administrar tu equipo, seguir los partidos y competir en la liga.
+               </p>
+               </p>-->
 
             <strong th:text="${usuario != null ? usuario.nombre : 'Invitado'}"></strong>
 
-
             <div class="hero-botones">
-                <a th:href="@{/crear-equipo}" class="boton boton-primario">CREAR EQUIPO
+
+                <a th:if="${equipo == null}" th:href="@{/crear-equipo}" class="boton boton-primario">
+                    CREAR EQUIPO
                 </a>
+
+                <a th:if="${equipo != null}"
+                   th:href="@{/equipo/detalle(id=${equipo.id})}"
+                   class="boton boton-primario">
+                    VER MI EQUIPO
+                </a>
+
                 <a th:href="@{/mercado}" class="boton boton-secundario">
                     VER MERCADO
                 </a>
+
             </div>
+
+            <!-- PUNTOS  -->
+            <div class="card-mini">
+                <h3 class="titulo-lateral">PUNTOS</h3>
+                <p class="valor-dato highlight-number">
+                    <span th:text="${equipo != null ? equipo.puntaje : 0}">0</span>
+                </p>
+
+            </div>
+
+            <!-- PRESUPUESTO
+            SI YA TIENE EQUIPO LE MUESTRA EL VALOR QUE LE QUEDA.
+            SI NO LO CREO, LE MUESTRA EL VALOR INICIAL-->
+
+            <div class="card-mini">
+                <h3 class="titulo-lateral">PRESUPUESTO</h3>
+                <p class="valor-dato" th:if="${equipo != null}">
+                    $<span th:text="${equipo.presupuesto}">0</span>
+                </p>
+                <p class="valor-dato-mensaje" th:if="${equipo == null}">
+                    Al crear tu equipo inicias con <strong>$<span th:text="${presupuestoInicial}"></span></strong>
+                    para fichar jugadores.
+                </p>
+            </div>
+
+
         </div>
 
         <div class="hero-imagen">
             <img th:src="@{/img/fondo-home-user.png}" alt="Jugador NBA"/>
         </div>
 
-        <!-- PROXIMA JORNADA / TABLA DE POSICIONES (lateral derecho) -->
+        <!-- Aside ahora solo tiene próximos partidos -->
         <aside class="hero-lateral">
-
             <div class="card-lateral">
-                <h3 class="titulo-lateral">PRÓXIMA JORNADA</h3>
-                <p class="fecha-jornada"> Fecha <span th:text="${jornadaActual}">8</span></p>
-
+                <h3 class="titulo-lateral">PRÓXIMOS PARTIDOS</h3>
                 <ul class="lista-partidos">
                     <li th:each="partido : ${proximosPartidos}" class="item-partido">
-                        <span class="equipo-partido">
-                            <img th:src="${partido.equipoLocal.escudoImagen}" alt="" class="escudo-chico"/>
-                            <span th:text="${partido.equipoLocal.nombre}">Lakers</span>
-                        </span>
+                    <span class="equipo-partido">
+                        <img th:src="${partido.equipoLocal.escudoImagen}" alt="" class="escudo-chico"/>
+                        <span th:text="${partido.equipoLocal.nombre}"></span>
+                    </span>
                         <span class="vs">VS</span>
                         <span class="equipo-partido">
-                            <span th:text="${partido.equipoVisitante.nombre}">Celtics</span>
-                            <img th:src="${partido.equipoVisitante.escudoImagen}" alt="" class="escudo-chico"/>
-                        </span>
+                        <span th:text="${partido.equipoVisitante.nombre}"></span>
+                        <img th:src="${partido.equipoVisitante.escudoImagen}" alt="" class="escudo-chico"/>
+                    </span>
                     </li>
                 </ul>
-
                 <a th:href="@{/partidos}" class="link-ver-todo">Ver todos los partidos </a>
             </div>
-
-            <div class="card-lateral">
-                <h3 class="titulo-lateral">PUNTOS </h3>
-                <p class="fecha-jornada"> Total : <span th:text="${jornadaActual}">8</span></p>
-
-            </div>
-
-            <!--ACA IRIA EL TORNEO REAL DE LA NBA Q SE ESTA JUGANDO-->
-            <div class="card-lateral">
-
-                <p class="titulo-lateral">JORNADA ACTUAL</p>
-                <p class="valor-dato" th:text="${jornadaActual}">8</p>
-                <p class="fecha-jornada" th:text="'Quedan ' + ${jornadasRestantes} + ' jornadas'">Quedan 14
-                    jornadas</p>
-            </div>
-
-
         </aside>
     </section>
 

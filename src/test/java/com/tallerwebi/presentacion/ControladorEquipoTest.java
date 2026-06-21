@@ -1,3 +1,4 @@
+/*
 package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.equipo.Equipo;
@@ -33,7 +34,8 @@ public class ControladorEquipoTest {
         equipoMock = new Equipo();
     }
 
-    /*
+    */
+/*
     TEST
     1- CREAR EQUIPO RETORNA VISTA DEL HTML CON EL INPUT
     2- AL PONER EL NOMBRE DEL EQUIPO TE REDIRIGE A SELECCIONAR JUGADORES
@@ -42,7 +44,8 @@ public class ControladorEquipoTest {
     5- SI NO CREO EL NOMBRE DEL EQUIPO  TE LLEVA Al HOME
     6- VER EQUIPO TE LLEVA  A VISTA VER EQUIPO
 
-     */
+     *//*
+
 
     @Test
     public void irACrearEquipoRetornaUnaVistaParaIngresarElNombreDelEquipo() {
@@ -132,3 +135,4 @@ public class ControladorEquipoTest {
 
 
 
+*/

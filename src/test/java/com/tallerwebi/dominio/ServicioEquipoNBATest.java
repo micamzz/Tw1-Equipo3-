@@ -1,14 +1,10 @@
-/*
 package com.tallerwebi.dominio;
 
 import com.tallerwebi.dominio.equipoNBA.EquipoNBA;
 import com.tallerwebi.dominio.equipoNBA.RepositorioEquipoNBA;
 import com.tallerwebi.dominio.equipoNBA.ServicioEquipoNBAimpl;
-import com.tallerwebi.dominio.equipoNBAJugador.EquipoNBAJugador;
 import com.tallerwebi.dominio.equipoNBAJugador.RepositorioEquipoNBAJugador;
 import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
-import com.tallerwebi.dominio.excepcion.TemporadaActualNoEncontradaException;
-import com.tallerwebi.dominio.temporada.ServicioTemporada;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -34,7 +30,7 @@ public class ServicioEquipoNBATest {
         repositorioJugadorMock = mock(RepositorioJugador.class);
         repositorioEquipoNBAJugadorMock = mock(RepositorioEquipoNBAJugador.class);
         servicioTorneoMock = mock(ServicioTorneo.class);
-        servicioEquipoNBA = new ServicioEquipoNBAimpl(repositorioEquipoNBAMock, repositorioJugadorMock, repositorioEquipoNBAJugadorMock,servicioTorneoMock);
+        servicioEquipoNBA = new ServicioEquipoNBAimpl(repositorioEquipoNBAMock, repositorioJugadorMock, repositorioEquipoNBAJugadorMock, servicioTorneoMock);
     }
 
     @Test
@@ -44,7 +40,7 @@ public class ServicioEquipoNBATest {
         equipo.setNombre("Golden State Warriors");
 
         // Ejecución
-        servicioEquipoNBA.guardarEquipoNBA(equipo);
+        servicioEquipoNBA.crearEquipoNBA(equipo);
 
         // Verificación
         verify(repositorioEquipoNBAMock).crearEquipo(equipo);
@@ -74,70 +70,6 @@ public class ServicioEquipoNBATest {
 
         // Ejecución y Verificación
         assertThrows(EquipoNoEncontradoException.class, () -> servicioEquipoNBA.buscarEquipoPorId(idEquipo));
-    }
-
-    @Test
-    public void cuandoSeAgregaUnJugadorAlEquipoInexistenteLanzaUnaExcepcion() {
-        // Preparación
-        Long idEquipo = 1L;
-        Long idJugador = 2L;
-
-        when(repositorioEquipoNBAMock.buscarEquipoPorId(idEquipo)).thenReturn(null);
-
-        // Ejecución y Verificación
-        assertThrows(EquipoNoEncontradoException.class, () -> servicioEquipoNBA.agregarJugadorAlEquipo(idEquipo, idJugador));
-    }
-
-
-    @Test
-    public void cuandoSeAgregaUnJugadorAlEquipoSinTemporadaActualLanzaUnaExcepcion() {
-        // Preparación
-        Long idEquipo = 1L;
-        Long idJugador = 2L;
-
-        EquipoNBA equipo = new EquipoNBA();
-        equipo.setId(idEquipo);
-
-        when(repositorioEquipoNBAMock.buscarEquipoPorId(idEquipo)).thenReturn(equipo);
-        when(repositorioJugadorMock.buscarJugadorPorId(idJugador)).thenReturn(new Jugador());
-        when(servicioTemporadaMock.obtenerTemporadaActual()).thenThrow(new TemporadaActualNoEncontradaException("No hay ninguna temporada vigente en este momento"));
-
-        // Ejecución y Verificación
-        assertThrows(TemporadaActualNoEncontradaException.class, () -> servicioEquipoNBA.agregarJugadorAlEquipo(idEquipo, idJugador));
-    }
-
-    @Test
-    public void cuandoSeEliminaUnJugadorDelEquipoSeEliminaLaAsignacionCorrectamente() throws EquipoNoEncontradoException {
-        // Preparación
-        Long idEquipo = 1L;
-        Long idJugador = 2L;
-
-        EquipoNBA equipo = new EquipoNBA();
-        equipo.setId(idEquipo);
-
-        EquipoNBAJugador asignacion = new EquipoNBAJugador();
-
-        when(repositorioEquipoNBAMock.buscarEquipoPorId(idEquipo)).thenReturn(equipo);
-        when(repositorioEquipoNBAJugadorMock.buscarEquipoYJugadorAsociado(idEquipo, idJugador)).thenReturn(asignacion);
-
-        // Ejecución
-        servicioEquipoNBA.eliminarJugadorDelEquipo(idEquipo, idJugador);
-
-        // Verificación
-        verify(repositorioEquipoNBAJugadorMock).eliminarJugadorDelEquipo(asignacion);
-    }
-
-    @Test
-    public void cuandoSeEliminaUnJugadorDeUnEquipoInexistenteLanzaUnaExcepcion() {
-        // Preparación
-        Long idEquipo = 1L;
-        Long idJugador = 2L;
-
-        when(repositorioEquipoNBAMock.buscarEquipoPorId(idEquipo)).thenReturn(null);
-
-        // Ejecución y Verificación
-        assertThrows(EquipoNoEncontradoException.class, () -> servicioEquipoNBA.eliminarJugadorDelEquipo(idEquipo, idJugador));
-
     }
 
 
@@ -183,11 +115,9 @@ public class ServicioEquipoNBATest {
         // Ejecución y Verificación
         assertThrows(EquipoNoEncontradoException.class, () -> servicioEquipoNBA.eliminarEquipoNBA(idEquipo));
 
-        */
-/*Verifica que el metodo nunca fue llamado*//*
+        // Verfica que el método nunca fue llamado
 
         verify(repositorioEquipoNBAJugadorMock, never()).eliminarTodasLasAsignacionesDelEquipo(any());
         verify(repositorioEquipoNBAMock, never()).eliminar(any());
     }
 }
-*/

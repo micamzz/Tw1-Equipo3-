@@ -13,6 +13,8 @@ public interface ServicioEquipo {
 
     Equipo guardarEquipo(Equipo equipo) throws TorneoVirtualActualNoEncontradoException;
 
+    /*Equipo guardarEquipo(Equipo equipo, Usuario usuario) throws TorneoVirtualActualNoEncontradoException;
+     */
     List<EquipoJugador> buscarJugadoresDelEquipo(Long idEquipo);
 
     Equipo buscarEquipoPorId(Long id) throws EquipoNoEncontradoException;
@@ -22,5 +24,9 @@ public interface ServicioEquipo {
     void validarEquipoCompleto(Long idEquipo) throws EquipoSinCompletarException;
 
     void actualizarEquipo(Equipo equipo);
+
+    Equipo obtenerEquipoPorIdUsuario(Long usuarioId);
+
+    Double obtenerPresupuestoInicial();
 
 }

@@ -1,10 +1,9 @@
 package com.tallerwebi.dominio.equipoNBA;
 
-import com.tallerwebi.dominio.*;
-import com.tallerwebi.dominio.equipoNBAJugador.EquipoNBAJugador;
+import com.tallerwebi.dominio.RepositorioJugador;
+import com.tallerwebi.dominio.ServicioTorneo;
 import com.tallerwebi.dominio.equipoNBAJugador.RepositorioEquipoNBAJugador;
 import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
-import com.tallerwebi.dominio.excepcion.elJugadorYaExisteEnElEquipoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,41 +27,9 @@ public class ServicioEquipoNBAimpl implements ServicioEquipoNBA {
         this.servicioTorneo = servicioTorneo;
     }
 
-    @Override
-    public void agregarJugadorAlEquipo(Long idEquipo, Long idJugador)
-            throws EquipoNoEncontradoException, elJugadorYaExisteEnElEquipoException {
-
-        EquipoNBA equipoNBA = buscarEquipoPorId(idEquipo);
-        Jugador jugador = repositorioJugador.buscarJugadorPorId(idJugador);
-
-        Torneo torneoActual = servicioTorneo.obtenerTorneoActual(TipoTorneo.REAL);
-
-        if (repositorioEquipoNBAJugador.jugadorPerteneceAUnEquipoEnElTorneo(idJugador, torneoActual.getId())) {
-            throw new elJugadorYaExisteEnElEquipoException("El jugador ya pertenece a un equipo");
-        }
-
-        EquipoNBAJugador asignacion = new EquipoNBAJugador();
-        asignacion.setEquipoNBA(equipoNBA);
-        asignacion.setJugador(jugador);
-        asignacion.setTorneo(torneoActual);
-
-        repositorioEquipoNBAJugador.asignarJugadorAUnEquipo(asignacion);
-    }
 
     @Override
-    public void eliminarJugadorDelEquipo(Long idEquipo, Long idJugador) throws EquipoNoEncontradoException {
-
-        EquipoNBA equipo = repositorioEquipoNba.buscarEquipoPorId(idEquipo);
-        if (equipo == null) {
-            throw new EquipoNoEncontradoException("No existe el equipo con id: " + idEquipo);
-        }
-        EquipoNBAJugador equipoNBAJugador = repositorioEquipoNBAJugador.buscarEquipoYJugadorAsociado(idEquipo, idJugador);
-
-        repositorioEquipoNBAJugador.eliminarJugadorDelEquipo(equipoNBAJugador);
-    }
-
-    @Override
-    public void guardarEquipoNBA(EquipoNBA equipo) {
+    public void crearEquipoNBA(EquipoNBA equipo) {
 
         repositorioEquipoNba.crearEquipo(equipo);
     }

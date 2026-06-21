@@ -80,17 +80,7 @@ public class ControladorLogin {
         return new ModelAndView("nuevo-usuario", model);
     }
 
-    @RequestMapping(path = "/home", method = RequestMethod.GET)
-    public ModelAndView iraHome(HttpServletRequest request) {
-
-        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
-
-        ModelMap modelo = new ModelMap();
-        modelo.put("usuario", usuario);
-
-        return new ModelAndView("home", modelo);
-    }
-
+    /*LANDING PRINCIPAL PARA USER Y ADMIN*/
     @RequestMapping(path = "/", method = RequestMethod.GET)
     public ModelAndView inicio() {
         return new ModelAndView("landing");

@@ -66,6 +66,15 @@ public class RepositorioEquipoImpl implements RepositorioEquipo {
         sessionFactory.getCurrentSession().update(equipo);
     }
 
+    @Override
+    public Equipo buscarEquipoPorIdUsuario(Long usuarioId) {
+        return (Equipo) sessionFactory.getCurrentSession()
+                .createCriteria(Equipo.class)
+                .createAlias("usuario", "u")
+                .add(Restrictions.eq("u.id", usuarioId))
+                .uniqueResult();
+    }
+
 
 }
 

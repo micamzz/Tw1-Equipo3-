@@ -27,7 +27,7 @@ public class PartidoNBA {
     private Integer minutoFin;
 
     @ManyToOne
-    private Torneo Torneo;
+    private Torneo torneo;
     
     public PartidoNBA() {
     }
@@ -73,11 +73,11 @@ public class PartidoNBA {
     }
 
     public Torneo getTorneo() {
-        return Torneo;
+        return torneo;
     }
 
     public void setTorneo(Torneo torneo) {
-        Torneo = torneo;
+        this.torneo = torneo;
     }
 
     public boolean estaActivo() {
