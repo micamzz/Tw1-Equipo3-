@@ -319,7 +319,7 @@ VALUES (1, 1, 1),
 -- quedan disponibles para que un equipo nuevo los pueda fichar
 
 -- TORNEO 2025 - ASOCIADO A TORNEO ID 3
---FALTA ASOCIAR JUGADORES A EQUIPO 1 2 3 4 AL TORNEO VIEJO
+-- FALTA ASOCIAR JUGADORES A EQUIPO 1 2 3 4 AL TORNEO VIEJO
 -- San Antonio Spurs (equipoNBA_id = 5)
 INSERT INTO EquipoNBAJugador(equipoNBA_id, jugador_id, torneo_id)
 VALUES (5, 33, 3),
@@ -351,12 +351,6 @@ VALUES (5, 33, 3),
        (8, 56, 3);
 
 
-
-INSERT INTO Calendario (nombre)
-VALUES ('Temporada 2026');
-
-INSERT INTO FuturosPartidos (nombre)
-VALUES ('Próximos Partidos 2026');
 
 INSERT INTO PartidoNBA (equipoLocal_id, equipoVisitante_id, horaInicio, torneo_id)
 VALUES (1, 2, '2026-06-04 22:30:00', 1);
