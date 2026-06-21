@@ -19,8 +19,6 @@ public class FormacionPartido {
     @ManyToOne
     private EquipoNBA equipo;
 
-    @Enumerated(EnumType.STRING)
-    private RolFormacion rol; //Titular o suplente
 
     public Long getId() {
         return id;
@@ -54,11 +52,4 @@ public class FormacionPartido {
         this.equipo = equipo;
     }
 
-    public RolFormacion getRol() {
-        return rol;
-    }
-
-    public void setRol(RolFormacion rol) {
-        this.rol = rol;
-    }
 }

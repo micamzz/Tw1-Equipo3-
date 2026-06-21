@@ -9,6 +9,7 @@ import com.tallerwebi.dominio.excepcion.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -119,11 +120,6 @@ public class ControladorFixture {
         List<Jugador> jugadoresVisitante = servicioEquipoNBAJugador
                 .obtenerJugadoresDelEquipoEnTorneo(partido.getEquipoVisitante().getId(), partido.getTorneo().getId());
 
-        List<FormacionPartido> titularesLocal = servicioFormacion.obtenerTitulares(idPartido, partido.getEquipoLocal().getId());
-        List<FormacionPartido> suplentesLocal = servicioFormacion.obtenerSuplentes(idPartido, partido.getEquipoLocal().getId());
-        List<FormacionPartido> titularesVisitantes = servicioFormacion.obtenerTitulares(idPartido, partido.getEquipoVisitante().getId());
-        List<FormacionPartido> suplentesVisitantes = servicioFormacion.obtenerSuplentes(idPartido, partido.getEquipoVisitante().getId());
-
         modelo.put("partido", partido);
         modelo.put("cronologia", cronologia);
         modelo.put("scoreLocal", scoreLocal);
@@ -131,24 +127,46 @@ public class ControladorFixture {
         modelo.put("jugadoresLocal", jugadoresLocal);
         modelo.put("jugadoresVisitante", jugadoresVisitante);
 
-        modelo.put("titularesLocal", titularesLocal);
-        modelo.put("suplentesLocal", suplentesLocal);
-        modelo.put("titularesVisitantes", titularesVisitantes);
-        modelo.put("suplentesVisitante", suplentesVisitantes);
         return new ModelAndView("admin-partido", modelo);
     }
+//Formacion SOIFI
+@RequestMapping(value = "/admin/partido/{idPartido}/formacion/{idEquipo}", method = RequestMethod.GET)
+public  ModelAndView verFormacionEquipo(@PathVariable Long idPartido, @PathVariable Long idEquipo) {
+        ModelMap modelo = new ModelMap();
+try {
+    PartidoNBA partido = servicioPartidoNBA.obtenerPorId(idPartido);
+    EquipoNBA equipo = servicioEquipoNBA.buscarEquipoPorId(idEquipo);
 
-    @RequestMapping(value="/admin/agregarJugadorFormacion", method = RequestMethod.POST)
-    public ModelAndView agregarJugadorFormacion(@RequestParam Long idPartido, @RequestParam Long idEquipo, @RequestParam Long idJugador, @RequestParam RolFormacion rol) {
-        servicioFormacion.agregarJugador(idPartido, idEquipo, idJugador, rol);
-        return new ModelAndView("redirect:/admin/partido?idPartido=" + idPartido);
-    }
+    List<Jugador> jugadoresDelEquipo = servicioEquipoNBAJugador.obtenerJugadoresDelEquipoEnTorneo(idEquipo, partido.getTorneo().getId());
 
-    @RequestMapping(value = "/admin/eliminarJugadorFormacion", method = RequestMethod.POST)
-    public ModelAndView eliminarJugadorFormacion(@RequestParam Long idFormacion, Long idPartido) {
+    List<FormacionPartido> formacionActual = servicioFormacion.obtenerFormacionPorEquipo(idPartido, idEquipo);
+
+    modelo.put("partido", partido);
+    modelo.put("equipo", equipo);
+    modelo.put("jugadores", jugadoresDelEquipo);
+    modelo.put("formacionActual", formacionActual);
+    return new ModelAndView("admin-formacion-equipo", modelo);
+}
+catch (EquipoNoEncontradoException e) {
+    return new ModelAndView("redirect:/admin/partidos");
+}
+}
+
+@RequestMapping(value="/admin/partido/{idPartido}/formacion/{idEquipo}/confirmar", method = RequestMethod.POST)
+public ModelAndView confirmarFormacionEquipo(@PathVariable Long idPartido, @PathVariable Long idEquipo, @RequestParam(required = false) List<Long> idsJugadores) {
+        if(idsJugadores != null){
+            for(Long idJugador : idsJugadores){
+                servicioFormacion.agregarJugador(idPartido, idEquipo, idJugador);
+            }
+        }
+        return new ModelAndView("redirect:/admin/partido" +  idPartido + "/formacion/" +  idEquipo);
+}
+@RequestMapping(value = "/admin/eliminarJugadorFormacion", method = RequestMethod.POST)
+public ModelAndView eliminarJugadorFormacion(@RequestParam Long idFormacion, @RequestParam Long idPartido, @RequestParam Long idEquipo) {
         servicioFormacion.quitarJugador(idFormacion);
-        return new ModelAndView("redirect:/admin/partido?idPartido=" + idPartido);
-    }
+        return new ModelAndView("redirect:/admin/partido/" +  idPartido + "/formacion" +  idEquipo);
+}
+    // FIN
 
     @RequestMapping(value = "/admin/iniciarPartido", method = RequestMethod.POST)
     public ModelAndView iniciarPartido(@RequestParam Long idPartido) {
