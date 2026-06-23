@@ -18,45 +18,68 @@
 
 <main role="main" class="container">
 
-    <p th:if="${usuario != null}">
-        Bienvenido/a <span th:text="${usuario.nombre}"></span>
-    </p>
-
-
-    <h1>Panel de administración</h1>
-    <h1>AHORA ESTA ASI, PERO DSP HAY Q MODIFICAR EL CSS SEGUN SEA LA PAGINA</h1>
-    <p class="subtitulo">Gestioná equipos, torneos y el historial de la liga</p>
-
-    <section class="contenedor-boton">
-        <a th:href="@{/admin/altaEquipoNBA}" class="boton-equipo">
-            <span class="titulo">Alta equipo NBA </span>
-
-        </a>
-
-        <a th:href="@{/admin/listadoEquiposNBA}" class="boton-equipo">
-            <span class="titulo">Ver equipos NBA </span>
-
-        </a>
-
-        <a th:href="@{/admin/torneos}" class="boton-equipo">
-            <span class="titulo">Administrar torneos </span>
-
-        </a>
-
-        <a th:href="@{/admin/partidos}" class="boton-equipo">
-            <span class="titulo">partidos </span>
-
-        </a>
-
-        <a th:href="@{/admin/historialTemporadas}" class="boton-equipo">
-            <span class="titulo">Historial temporadas </span>
-        </a>
-
-        <a th:href="@{/admin/nuevo-admin}" class="boton-equipo">
-            <span class="titulo">Registrar nuevo admin</span>
-        </a>
-
+    <section class="bienvenida">
+        <p class="etiqueta-bienvenida">PANEL DE ADMINISTRACIÓN</p>
+        <h1 class="titulo-bienvenida">
+            Hola, <span class="color-naranja" th:text="${usuario != null} ? ${usuario.nombre} : 'Admin'">Admin</span>
+        </h1>
+        <p class="subtitulo">Gestioná equipos, torneos y el historial de la liga desde un solo lugar</p>
     </section>
+
+    <!-- EQUIPOS NBA -->
+    <section class="categoria">
+        <h2 class="titulo-categoria">Equipos NBA</h2>
+        <div class="contenedor-boton">
+
+            <a th:href="@{/admin/altaEquipoNBA}" class="boton-equipo">
+                <span class="titulo">Alta equipo NBA</span>
+                <span class="descripcion">Crear un nuevo equipo NBA y asignarle jugadores</span>
+            </a>
+
+            <a th:href="@{/admin/listadoEquiposNBA}" class="boton-equipo">
+                <span class="titulo">Ver equipos NBA</span>
+                <span class="descripcion">Consultar los equipos NBA existentes y su plantel</span>
+            </a>
+
+        </div>
+    </section>
+
+    <!-- COMPETENCIA -->
+    <section class="categoria">
+        <h2 class="titulo-categoria">Competencia</h2>
+        <div class="contenedor-boton">
+
+            <a th:href="@{/admin/torneos}" class="boton-equipo">
+                <span class="titulo">Administrar torneos</span>
+                <span class="descripcion">Crear, editar o eliminar torneos reales y virtuales</span>
+            </a>
+
+            <a th:href="@{/admin/partidos}" class="boton-equipo">
+                <span class="titulo">Partidos</span>
+                <span class="descripcion">Programar partidos y registrar sus resultados</span>
+            </a>
+
+            <a th:href="@{/admin/historialTemporadas}" class="boton-equipo">
+                <span class="titulo">Historial de temporadas</span>
+                <span class="descripcion">Ver temporadas pasadas, sus torneos y equipos</span>
+            </a>
+
+        </div>
+    </section>
+
+    <!-- ADMINISTRACION -->
+    <section class="categoria">
+        <h2 class="titulo-categoria">Administración</h2>
+        <div class="contenedor-boton">
+
+            <a th:href="@{/admin/nuevo-admin}" class="boton-equipo">
+                <span class="titulo">Registrar nuevo admin</span>
+                <span class="descripcion">Dar de alta una nueva cuenta de administrador</span>
+            </a>
+
+        </div>
+    </section>
+
 </main>
 
 <!-- FOOTER -->

@@ -43,7 +43,7 @@
                 </a>
 
                 <a th:if="${equipo != null}"
-                   th:href="@{/equipo/detalle(id=${equipo.id})}"
+                   th:href="@{/equipo/detalle/{id}(id=${equipo.id})}"
                    class="boton boton-primario">
                     VER MI EQUIPO
                 </a>

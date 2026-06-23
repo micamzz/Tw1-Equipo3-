@@ -17,6 +17,7 @@
 
     <div class="acciones-superiores">
         <h1>HISTORIAL DE TEMPORADAS</h1>
+        <a th:href="@{/admin/home}" class="btn btn-naranja">VOLVER</a>
     </div>
 
     <table class="tabla-torneos">
@@ -36,7 +37,8 @@
             <td th:text="${temporada.fechaInicio}">Inicio</td>
             <td th:text="${temporada.fechaFin}">Fin</td>
             <td>
-                <a th:href="@{/admin/historialTemporada(idTemporada=${temporada.id})}" class="btn btn-naranja"> VER
+                <a th:href="@{/admin/historialTemporada/{idTemporada}(idTemporada=${temporada.id})}"
+                   class="btn btn-naranja"> VER
                     DETALLE</a>
             </td>
         </tr>

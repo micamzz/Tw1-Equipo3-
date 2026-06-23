@@ -9,7 +9,7 @@ VALUES (1, 'Temporada 2025', 2025, '2025-03-08', '2025-12-23');
 
 /* TEMPORADA 2026 DE 01 MARZO A 21 DE DICIEMBRE*/
 INSERT INTO Temporada (id, nombre, anio, fechaInicio, fechaFin)
-VALUES (2, 'Taller Web I', 2026, '2026-03-01', '2026-12-21');
+VALUES (2, 'Temporada 2026', 2026, '2026-03-01', '2026-12-21');
 
 /* TORNEO REAL 07   DE MARZO A 20 DE DICIEMBRE */
 INSERT INTO Torneo (id, fechaFin, fechaInicio, nombreTorneo, tipoTorneo, temporada_id)

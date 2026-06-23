@@ -11,12 +11,10 @@ import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
 import com.tallerwebi.dominio.excepcion.elJugadorYaExisteEnElEquipoException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -33,9 +31,15 @@ public class ControladorEquipoNBA {
         this.servicioTorneo = servicioTorneo;
     }
 
+    private boolean noEstaLogueado(HttpServletRequest request) {
+        return request.getSession().getAttribute("usuario") == null;
+    }
 
     @RequestMapping("/altaEquipoNBA")
-    public ModelAndView irAlFormularioEquipoNBA() {
+    public ModelAndView irAlFormularioEquipoNBA(HttpServletRequest request) {
+
+        if (noEstaLogueado(request)) return new ModelAndView("redirect:/login");
+
         ModelMap modelo = new ModelMap();
 
         modelo.put("equipoNBA", new EquipoNBA());
@@ -47,7 +51,10 @@ public class ControladorEquipoNBA {
 
 
     @RequestMapping("/guardarEquipoNBA")
-    public ModelAndView guardarEquipoNba(@ModelAttribute("equipoNBA") EquipoNBA equipoNBA) {
+    public ModelAndView guardarEquipoNba(HttpServletRequest request,
+                                         @ModelAttribute("equipoNBA") EquipoNBA equipoNBA) {
+        if (noEstaLogueado(request)) return new ModelAndView("redirect:/login");
+
 
         if (equipoNBA.getNombre() == null || equipoNBA.getNombre().isBlank()) {
             ModelMap modelo = new ModelMap();
@@ -62,17 +69,19 @@ public class ControladorEquipoNBA {
         servicioEquipoNBA.crearEquipoNBA(equipoNBA);
         Long idEquipoIngresado = equipoNBA.getId();
 
-        return new ModelAndView("redirect:/admin/asignar-jugadoresNBA?id=" + idEquipoIngresado);
+        return new ModelAndView("redirect:/admin/asignar-jugadoresNBA/" + idEquipoIngresado);
 
     }
 
     // Vista con el form para que seleccione a los jugadores.
     // El request recibe por parámetro el id que es obtenido del método anterior
-    @RequestMapping("/asignar-jugadoresNBA")
-    public ModelAndView asignarJugadores(@RequestParam Long id,
+    @RequestMapping("/asignar-jugadoresNBA/{id}")
+    public ModelAndView asignarJugadores(HttpServletRequest request,
+                                         @PathVariable Long id,
                                          @RequestParam(required = false) String nombre,
                                          @RequestParam(required = false) String posicion,
                                          @RequestParam(required = false) String error) {
+        if (noEstaLogueado(request)) return new ModelAndView("redirect:/login");
 
         try {
             ModelMap modelo = new ModelMap();
@@ -119,8 +128,12 @@ public class ControladorEquipoNBA {
     }
 
 
-    @RequestMapping(value = "/agregarJugadorAEquipoNBA", method = RequestMethod.POST)
-    public ModelAndView agregarJugadorAlEquipo(@RequestParam Long idEquipo, @RequestParam Long idJugador) throws elJugadorYaExisteEnElEquipoException, EquipoNoEncontradoException {
+    @RequestMapping(value = "/agregarJugadorAEquipoNBA/{idEquipo}/{idJugador}", method = RequestMethod.POST)
+    public ModelAndView agregarJugadorAlEquipo(HttpServletRequest request,
+                                               @PathVariable Long idEquipo,
+                                               @PathVariable Long idJugador) throws elJugadorYaExisteEnElEquipoException, EquipoNoEncontradoException {
+        if (noEstaLogueado(request)) return new ModelAndView("redirect:/login");
+
 
         try {
             servicioEquipoNBAJugador.agregarJugadorAlEquipo(idEquipo, idJugador);
@@ -128,16 +141,19 @@ public class ControladorEquipoNBA {
         } catch (EquipoNoEncontradoException |
                  elJugadorYaExisteEnElEquipoException e) {
 
-            return new ModelAndView("redirect:/admin/asignar-jugadoresNBA?id=" + idEquipo
-                    + "&error=" + e.getMessage()
+            return new ModelAndView("redirect:/admin/asignar-jugadoresNBA/" + idEquipo
+                    + "?error=" + e.getMessage()
             );
         }
-        return new ModelAndView("redirect:/admin/asignar-jugadoresNBA?id=" + idEquipo);
+        return new ModelAndView("redirect:/admin/asignar-jugadoresNBA/" + idEquipo);
     }
 
 
     @RequestMapping("/listadoEquiposNBA")
-    public ModelAndView verListadoDeEquiposNBA(@RequestParam(required = false) String error) {
+    public ModelAndView verListadoDeEquiposNBA(HttpServletRequest request,
+                                               @RequestParam(required = false) String error) {
+        if (noEstaLogueado(request)) return new ModelAndView("redirect:/login");
+
         ModelMap modelo = new ModelMap();
 
         List<EquipoNBA> equipos = servicioEquipoNBA.obtenerTodosLosEquiposOrdenadosDeMenorAMayor();
@@ -151,8 +167,11 @@ public class ControladorEquipoNBA {
     }
 
 
-    @RequestMapping("/detalleEquipoNBA")
-    public ModelAndView verDetalleEquipoNBA(@RequestParam Long id) {
+    @RequestMapping("/detalleEquipoNBA/{id}")
+    public ModelAndView verDetalleEquipoNBA(HttpServletRequest request,
+                                            @PathVariable Long id) {
+        if (noEstaLogueado(request)) return new ModelAndView("redirect:/login");
+
         try {
             ModelMap modelo = new ModelMap();
             EquipoNBA equipo = servicioEquipoNBA.buscarEquipoPorId(id);
@@ -166,20 +185,25 @@ public class ControladorEquipoNBA {
         }
     }
 
-    @RequestMapping(value = "/quitarJugadorAEquipoNBA", method = RequestMethod.POST)
-    public ModelAndView quitarJugadorAEquipoNBA(
-            @RequestParam Long idEquipo,
-            @RequestParam Long idJugador) throws EquipoNoEncontradoException {
+    @RequestMapping(value = "/quitarJugadorAEquipoNBA/{idEquipo}/{idJugador}", method = RequestMethod.POST)
+    public ModelAndView quitarJugadorAEquipoNBA(HttpServletRequest request,
+                                                @PathVariable Long idEquipo,
+                                                @PathVariable Long idJugador) throws EquipoNoEncontradoException {
+        if (noEstaLogueado(request)) return new ModelAndView("redirect:/login");
 
         servicioEquipoNBAJugador.eliminarJugadorDelEquipo(idEquipo, idJugador);
 
 
-        return new ModelAndView("redirect:/admin/asignar-jugadoresNBA?id=" + idEquipo);
+        return new ModelAndView("redirect:/admin/asignar-jugadoresNBA/" + idEquipo);
     }
 
 
-    @RequestMapping(value = "/eliminarEquipoNBA", method = RequestMethod.POST)
-    public ModelAndView eliminarEquipoNBA(@RequestParam Long idEquipo) {
+    @RequestMapping(value = "/eliminarEquipoNBA/{idEquipo}", method = RequestMethod.POST)
+    public ModelAndView eliminarEquipoNBA(HttpServletRequest request,
+                                          @PathVariable Long idEquipo) {
+        if (noEstaLogueado(request)) return new ModelAndView("redirect:/login");
+
+
         try {
             servicioEquipoNBA.eliminarEquipoNBA(idEquipo);
         } catch (EquipoNoEncontradoException e) {
@@ -190,6 +214,3 @@ public class ControladorEquipoNBA {
         return new ModelAndView("redirect:/admin/listadoEquiposNBA");
     }
 }
-
-
-
