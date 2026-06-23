@@ -7,8 +7,10 @@
     <!-- Link CSS al Header y Footer-->
     <link rel="stylesheet" th:href="@{/css/header.css}"/>
     <link rel="stylesheet" th:href="@{/css/footer.css}"/>
-    <link rel="stylesheet" th:href="@{/css/crear-equipo.css}"/>
-    <link rel="stylesheet" th:href="@{/css/admin-torneos.css}"/>
+    <!--    <link rel="stylesheet" th:href="@{/css/crear-equipo.css}"/>-->
+    <!--   <link rel="stylesheet" th:href="@{/css/admin-torneos.css}"/>-->
+
+    <link rel="stylesheet" th:href="@{/css/admin-asignar-jugadores.css}"/>
 
     <!-- Fuente INTER   -->
     <link
@@ -22,9 +24,7 @@
 <div th:replace="layout/admin-header :: header-admin"></div>
 
 <main>
-    <section class="contenedor-admin-torneos">
-
-        <h1>ADMINISTRACIÓN DE TORNEOS</h1>
+    <section class="contenedor-admin-vista">
 
         <div th:if="${param.success}" class="mensaje-exito">
             <p th:text="${param.success}"></p>
@@ -35,87 +35,56 @@
         </div>
 
         <div class="acciones-superiores">
-            <a th:href="@{/admin/torneo/crear}"
-               class="boton-crear">
-                CREAR TORNEO
-            </a>
+            <h1>Administración de Torneos</h1>
+            <div>
+                <a th:href="@{/admin/torneo/crear}" class="btn btn-naranja">NUEVO TORNEO</a>
+                <a th:href="@{/admin/home}" class="btn btn-naranja">VOLVER</a>
+            </div>
         </div>
 
-        <table class="tabla-torneos">
+        <div>
+            <table>
+                <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Tipo de torneo</th>
+                    <th>Fecha Inicio</th>
+                    <th>Fecha Fin</th>
+                    <th>Estado</th>
+                    <th></th>
+                </tr>
+                </thead>
 
-            <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Tipo de torneo</th>
-                <th>Fecha Inicio</th>
-                <th>Fecha Fin</th>
-                <th>Estado</th>
-                <th></th>
-            </tr>
-            </thead>
+                <tbody>
+                <tr th:each="torneo : ${torneos}">
+                    <td th:text="${torneo.nombreTorneo}"></td>
+                    <td th:text="${torneo.tipoTorneo}"></td>
+                    <td th:text="${torneo.fechaInicio}"></td>
+                    <td th:text="${torneo.fechaFin}"></td>
 
-            <tbody>
+                    <td>
+                        <span th:if="${torneo.estadoTorneo.name() == 'EN_CURSO'}"
+                              class="estado estado-curso">EN CURSO</span>
+                        <span th:if="${torneo.estadoTorneo.name() == 'FINALIZADO'}"
+                              class="estado estado-finalizado">FINALIZADO</span>
+                        <span th:if="${torneo.estadoTorneo.name() == 'POR_INICIAR'}"
+                              class="estado estado-por-iniciar">POR INICIAR</span>
+                    </td>
 
-            <tr th:each="torneo : ${torneos}">
+                    <td>
+                        <form th:action="@{/admin/torneo/eliminar/{id}(id=${torneo.id})}" method="post">
+                            <button type="submit" class="btn btn-rojo">ELIMINAR</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
 
-                <td th:text="${torneo.nombreTorneo}"></td>
-
-                <td th:text="${torneo.tipoTorneo}"></td>
-
-                <td th:text="${torneo.fechaInicio}"></td>
-
-                <td th:text="${torneo.fechaFin}"></td>
-
-                <td>
-                    <span
-                            th:if="${torneo.estadoTorneo.name() == 'EN_CURSO'}"
-                            class="estado estado-curso">
-                            EN CURSO
-                    </span>
-
-                    <span
-                            th:if="${torneo.estadoTorneo.name() == 'FINALIZADO'}"
-                            class="estado estado-finalizado">
-                            FINALIZADO
-                    </span>
-
-                    <span
-                            th:if="${torneo.estadoTorneo.name() == 'POR_INICIAR'}"
-                            class="estado estado-por-iniciar">
-                    POR INICIAR
-                    </span>
-                </td>
-
-                <td>
-
-                    <form th:action="@{/admin/torneo/eliminar/{id}(id=${torneo.id})}"
-                          method="post">
-
-                        <!--  esto hace q aparezca como un alert
-                        onsubmit="return confirm('¿Seguro que desea eliminar este torneo?');">-->
-
-                        <button type="submit"
-                                class="boton-eliminar">
-                            Eliminar
-                        </button>
-
-                    </form>
-
-                </td>
-
-            </tr>
-
-            </tbody>
-
-        </table>
     </section>
-
 </main>
-<!--FOOTER-->
+
 <div th:replace="layout/footer :: footer"></div>
 
-<!--JAVASCRIPT-->
-<script th:src="@{js/crearEquipo.js}"></script>
 </body>
-
 </html>

@@ -443,3 +443,32 @@ hr {
     padding: 1.5rem 1.75rem;
     overflow-x: auto;
 }
+
+/* HTML TORNEO*/
+.estado {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.estado-curso {
+    background-color: rgba(22, 163, 74, 0.15);
+    color: #22c55e;
+    border: 1px solid #16a34a;
+}
+
+.estado-finalizado {
+    background-color: rgba(234, 179, 8, 0.15);
+    color: #eab308;
+    border: 1px solid #ca8a04;
+}
+
+.estado-por-iniciar {
+    background-color: rgba(99, 102, 241, 0.15);
+    color: #818cf8;
+    border: 1px solid #6366f1;
+}

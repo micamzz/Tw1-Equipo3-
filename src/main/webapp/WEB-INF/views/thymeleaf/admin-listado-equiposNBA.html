@@ -16,8 +16,11 @@
 <main class="contenedor-admin-vista">
 
     <div class="acciones-superiores">
-        <h1>EQUIPOS NBA</h1>
-        <a th:href="@{/admin/altaEquipoNBA}" class="btn btn-naranja"> NUEVO EQUIPO</a>
+        <h1>Equipos NBA</h1>
+        <div>
+            <a th:href="@{/admin/altaEquipoNBA}" class="btn btn-naranja">NUEVO EQUIPO</a>
+            <a th:href="@{/admin/home}" class="btn btn-naranja">VOLVER</a>
+        </div>
     </div>
 
     <div th:if="${error}"
