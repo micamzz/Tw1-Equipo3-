@@ -16,7 +16,11 @@
 <main class="contenedor-admin-vista">
 
     <div class="acciones-superiores">
-        <h1 th:text="${torneo.nombreTorneo}">Torneo</h1>
+        <div>
+            <h1 th:text="${torneo.nombreTorneo}">Torneo</h1>
+            <p>Equipos que participan en este torneo</p>
+        </div>
+        
         <a th:href="@{/admin/historialTemporada/{idTemporada}(idTemporada=${torneo.temporada.id})}"
            class="btn btn-naranja">VOLVER</a>
     </div>

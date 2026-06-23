@@ -16,7 +16,7 @@
 <main class="contenedor-admin-vista">
 
     <div class="acciones-superiores">
-        <h1 th:text="${temporada.nombre}">Temporada</h1>
+        <h1>Torneos de la temporada: <span th:text="${temporada.nombre}"></span></h1>
         <a th:href="@{/admin/historialTemporadas}" class="btn btn-naranja">VOLVER</a>
     </div>
 
