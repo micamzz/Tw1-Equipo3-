@@ -42,8 +42,7 @@
     <!-- FILTROS -->
     <section class="filtros">
 
-        <form th:action="@{/admin/asignar-jugadoresNBA}" method="get">
-            <input type="hidden" name="id" th:value="${equipo.id}">
+        <form th:action="@{/admin/asignar-jugadoresNBA/{id}(id=${equipo.id})}" method="get">
             <input type="text" name="nombre" placeholder="Buscar jugador...">
 
             <select name="posicion">
@@ -118,15 +117,8 @@
 
                     <td>
 
-                        <form th:action="@{/admin/agregarJugadorAEquipoNBA}" method="post">
-
-                            <input type="hidden"
-                                   name="idEquipo"
-                                   th:value="${equipo.id}">
-
-                            <input type="hidden"
-                                   name="idJugador"
-                                   th:value="${jugador.id}">
+                        <form th:action="@{/admin/agregarJugadorAEquipoNBA/{idEquipo}/{idJugador}(idEquipo=${equipo.id},idJugador=${jugador.id})}"
+                              method="post">
 
                             <button type="submit" class="btn-tabla btn-tabla-agregar">AGREGAR</button>
                         </form>
@@ -183,16 +175,8 @@
                     <td th:text="${jugador.posicion}">Posición</td>
 
                     <td>
-                        <form th:action="@{/admin/quitarJugadorAEquipoNBA}"
+                        <form th:action="@{/admin/quitarJugadorAEquipoNBA/{idEquipo}/{idJugador}(idEquipo=${equipo.id},idJugador=${jugador.id})}"
                               method="post">
-
-                            <input type="hidden"
-                                   name="idEquipo"
-                                   th:value="${equipo.id}">
-
-                            <input type="hidden"
-                                   name="idJugador"
-                                   th:value="${jugador.id}">
 
                             <button type="submit" class="btn-tabla btn-tabla-quitar">ELIMINAR</button>
 

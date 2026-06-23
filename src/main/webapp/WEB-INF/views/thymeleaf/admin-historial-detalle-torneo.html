@@ -2,7 +2,7 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>Historial Temporadas</title>
+    <title>Equipos del Torneo</title>
     <link rel="stylesheet" th:href="@{/css/header.css}"/>
     <link rel="stylesheet" th:href="@{/css/footer.css}"/>
     <link rel="stylesheet" th:href="@{/css/admin-asignar-jugadores.css}"/>
@@ -16,29 +16,31 @@
 <main class="contenedor-admin-vista">
 
     <div class="acciones-superiores">
-        <h1>HISTORIAL DE TEMPORADAS</h1>
+        <h1 th:text="${torneo.nombreTorneo}">Torneo</h1>
+        <a th:href="@{/admin/historialTemporada/{idTemporada}(idTemporada=${torneo.temporada.id})}"
+           class="btn btn-naranja">VOLVER</a>
     </div>
 
     <table class="tabla-torneos">
         <thead>
         <tr>
-            <th>Nombre</th>
-            <th>Año</th>
-            <th>Fecha Inicio</th>
-            <th>Fecha Fin</th>
+            <th></th>
+            <th></th>
             <th></th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="temporada : ${temporadas}">
-            <td th:text="${temporada.nombre}">Nombre</td>
-            <td th:text="${temporada.anio}">Año</td>
-            <td th:text="${temporada.fechaInicio}">Inicio</td>
-            <td th:text="${temporada.fechaFin}">Fin</td>
+        <tr th:each="equipo : ${equipos}">
             <td>
-                <a th:href="@{/admin/historialTemporada/{idTemporada}(idTemporada=${temporada.id})}"
-                   class="btn btn-naranja"> VER
-                    DETALLE</a>
+                <img th:src="${equipo.escudoImagen}"
+                     th:alt="${equipo.nombre}"
+                     width="80"
+                     th:if="${equipo.escudoImagen != null}"/>
+            </td>
+            <td th:text="${equipo.nombre}">Nombre</td>
+            <td>
+                <a th:href="@{/admin/historialEquipoEnTorneo/{idTorneo}/{idEquipo}(idTorneo=${torneo.id},idEquipo=${equipo.id})}"
+                   class="btn btn-naranja">VER</a>
             </td>
         </tr>
         </tbody>

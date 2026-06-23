@@ -37,7 +37,7 @@
         <tr th:each="equipo : ${equipos}">
 
             <td>
-                <a th:href="@{/admin/detalleEquipoNBA(id=${equipo.id})}">
+                <a th:href="@{/admin/detalleEquipoNBA/{id}(id=${equipo.id})}">
                     <img th:src="${equipo.escudoImagen}"
                          th:alt="${equipo.nombre}"
                          width="80"
@@ -49,12 +49,12 @@
             <td th:text="${equipo.nombre}">Nombre</td>
 
             <td class="contenedor-3-botones">
-                <a th:href="@{/admin/detalleEquipoNBA(id=${equipo.id})}" class="btn btn-naranja">VER</a>
+                <a th:href="@{/admin/detalleEquipoNBA/{id}(id=${equipo.id})}" class="btn btn-naranja">VER</a>
 
-                <a th:href="@{/admin/asignar-jugadoresNBA(id=${equipo.id})}" class="btn btn-naranja">EDITAR</a>
+                <a th:href="@{/admin/asignar-jugadoresNBA/{id}(id=${equipo.id})}" class="btn btn-naranja">EDITAR</a>
 
-                <form th:action="@{/admin/eliminarEquipoNBA}" method="post" style="display:inline">
-                    <input type="hidden" name="idEquipo" th:value="${equipo.id}">
+                <form th:action="@{/admin/eliminarEquipoNBA/{idEquipo}(idEquipo=${equipo.id})}" method="post"
+                      style="display:inline">
                     <button type="submit" class="btn btn-rojo">BORRAR</button>
                 </form>
             </td>

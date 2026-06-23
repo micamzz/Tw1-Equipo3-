@@ -88,15 +88,11 @@
 
                 <td>
 
-                    <form th:action="@{/admin/torneo/eliminar}"
+                    <form th:action="@{/admin/torneo/eliminar/{id}(id=${torneo.id})}"
                           method="post">
 
-                        <!--  esto hace q aparezca como un alert 
+                        <!--  esto hace q aparezca como un alert
                         onsubmit="return confirm('¿Seguro que desea eliminar este torneo?');">-->
-
-                        <input type="hidden"
-                               name="id"
-                               th:value="${torneo.id}"/>
 
                         <button type="submit"
                                 class="boton-eliminar">

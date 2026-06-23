@@ -2,7 +2,7 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>Equipos de la Temporada</title>
+    <title>Torneos de la Temporada</title>
     <link rel="stylesheet" th:href="@{/css/header.css}"/>
     <link rel="stylesheet" th:href="@{/css/footer.css}"/>
     <link rel="stylesheet" th:href="@{/css/admin-asignar-jugadores.css}"/>
@@ -23,23 +23,22 @@
     <table class="tabla-torneos">
         <thead>
         <tr>
-            <th></th>
-            <th></th>
+            <th>Nombre</th>
+            <th>Tipo</th>
+            <th>Fecha Inicio</th>
+            <th>Fecha Fin</th>
             <th></th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="equipo : ${equipos}">
+        <tr th:each="torneo : ${torneos}">
+            <td th:text="${torneo.nombreTorneo}">Nombre</td>
+            <td th:text="${torneo.tipoTorneo}">Tipo</td>
+            <td th:text="${torneo.fechaInicio}">Inicio</td>
+            <td th:text="${torneo.fechaFin}">Fin</td>
             <td>
-                <img th:src="${equipo.escudoImagen}"
-                     th:alt="${equipo.nombre}"
-                     width="80"
-                     th:if="${equipo.escudoImagen != null}"/>
-            </td>
-            <td th:text="${equipo.nombre}">Nombre</td>
-            <td>
-                <a th:href="@{/admin/historialEquipoEnTemporada(idEquipo=${equipo.id}, idTemporada=${temporada.id})}"
-                   class="btn btn-naranja">VER </a>
+                <a th:href="@{/admin/historialTorneo/{idTorneo}(idTorneo=${torneo.id})}"
+                   class="btn btn-naranja">VER DETALLE</a>
             </td>
         </tr>
         </tbody>
