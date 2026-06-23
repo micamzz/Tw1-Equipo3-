@@ -22,27 +22,34 @@ public class ControladorAdminHome {
         this.servicioLogin = servicioLogin;
     }
 
+    private boolean noEstaLogueado(HttpServletRequest request) {
+        return request.getSession().getAttribute("usuario") == null;
+    }
 
     @RequestMapping("/home")
     public ModelAndView iraHome(HttpServletRequest request) {
-        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+        if (noEstaLogueado(request)) return new ModelAndView("redirect:/login");
 
+        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
         ModelMap modelo = new ModelMap();
         modelo.put("usuario", usuario);
-
         return new ModelAndView("admin-home", modelo);
     }
 
-    /* Para que el administrador pueda crear nuevos admin*/
     @RequestMapping(path = "/nuevo-admin", method = RequestMethod.GET)
-    public ModelAndView nuevoAdmin() {
+    public ModelAndView nuevoAdmin(HttpServletRequest request) {
+        if (noEstaLogueado(request)) return new ModelAndView("redirect:/login");
+
         ModelMap model = new ModelMap();
         model.put("usuario", new Usuario());
         return new ModelAndView("admin-nuevo-admin", model);
     }
 
     @RequestMapping(path = "/crear-admin", method = RequestMethod.POST)
-    public ModelAndView crearAdmin(@ModelAttribute("usuario") Usuario usuario) {
+    public ModelAndView crearAdmin(HttpServletRequest request,
+                                   @ModelAttribute("usuario") Usuario usuario) {
+        if (noEstaLogueado(request)) return new ModelAndView("redirect:/login");
+
         ModelMap model = new ModelMap();
         try {
             servicioLogin.registrarAdmin(usuario);
