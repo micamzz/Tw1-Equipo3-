@@ -31,28 +31,39 @@ public class ControladorEventoPartido {
         this.servicioFormacion = servicioFormacion;
     }
 
-    @GetMapping("/partidos/{id}/eventos")
+    @GetMapping("/admin/partido/{idPartido}/eventos")
     public ModelAndView irARegistrarEventos(
-            @PathVariable Long id,
+            @PathVariable Long idPartido,
             @RequestParam(required = false) String error,
             @RequestParam(required = false) String success) {
 
         ModelMap modelo = new ModelMap();
 
-        modelo.put("partido", servicioPartidoNBA.obtenerPorId(id));
+        modelo.put("partido", servicioPartidoNBA.obtenerPorId(idPartido));
 
         modelo.put("evento", new EventoPartido());
 
         modelo.put("jugadores",
-                servicioFormacion.obtenerFormacionPorPartido(id));
+                servicioFormacion.obtenerFormacionPorPartido(idPartido));
 
         modelo.put("tipos", TipoEstadistica.values());
 
+        modelo.put("scoreLocal", servicioPartidoNBA.obtenerScoreLocal(idPartido));
+
+        modelo.put("scoreVisitante", servicioPartidoNBA.obtenerScoreVisitante(idPartido));
+
+        modelo.put("formacionLocal", servicioFormacion.obtenerFormacionPorPartidoYEquipo(idPartido, servicioPartidoNBA.obtenerPorId(idPartido).getEquipoLocal().getId()));
+
+        modelo.put("formacionVisitante", servicioFormacion.obtenerFormacionPorPartidoYEquipo(idPartido, servicioPartidoNBA.obtenerPorId(idPartido).getEquipoVisitante().getId()));
+
+        modelo.put("eventos", servicioEventoPartido.buscarEventosPorPartido(idPartido));
+
         modelo.put("error", error);
+
         modelo.put("success", success);
 
         return new ModelAndView(
-                "registrar-evento",
+                "admin-estadisticas",
                 modelo
         );
     }

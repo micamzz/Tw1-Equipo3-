@@ -24,27 +24,51 @@
 
 <main>
 
+    <a th:href="@{/admin/partidos}"
+       class="volver-link">
+        &larr; Volver a partidos
+    </a>
+
+    <h1>REGISTRAR EVENTO</h1>
+
+    <h2 class="titulo-partido"
+        th:text="${partido.equipoLocal.nombre + ' vs ' + partido.equipoVisitante.nombre}">
+        Lakers vs Celtics
+    </h2>
+
+    <div th:if="${error}" class="mensaje-error">
+        <p th:text="${error}"></p>
+    </div>
+
+    <div th:if="${success}" class="mensaje-exito">
+        <p th:text="${success}"></p>
+    </div>
+
+
+    <div class="header-partido">
+
+        <div class="equipo">
+            <span th:text="${partido.equipoLocal.nombre}"></span>
+        </div>
+
+        <div class="resultado">
+
+            <span th:text="${scoreLocal.puntos}"></span>
+
+            <span> - </span>
+
+            <span th:text="${scoreVisitante.puntos}"></span>
+
+        </div>
+
+        <div class="equipo">
+            <span th:text="${partido.equipoVisitante.nombre}"></span>
+        </div>
+
+    </div>
+
     <section class="contenedor-form-evento">
 
-        <a th:href="@{/partidos}"
-           class="volver-link">
-            &larr; Volver a partidos
-        </a>
-
-        <h1>REGISTRAR EVENTO</h1>
-
-        <h2 class="titulo-partido"
-            th:text="${partido.equipoLocal.nombre + ' vs ' + partido.equipoVisitante.nombre}">
-            Lakers vs Celtics
-        </h2>
-
-        <div th:if="${error}" class="mensaje-error">
-            <p th:text="${error}"></p>
-        </div>
-
-        <div th:if="${success}" class="mensaje-exito">
-            <p th:text="${success}"></p>
-        </div>
 
         <form th:action="@{/partidos/{id}/eventos(id=${partido.id})}"
               th:object="${evento}"
@@ -64,9 +88,10 @@
                         Seleccione un jugador
                     </option>
 
-                    <option th:each="formacion : ${jugadores}"
-                            th:value="${formacion.jugador.id}"
-                            th:text="${formacion.jugador.nombre + ' ' + formacion.jugador.apellido}">
+                    <option
+                            th:each="f : ${formacionLocal}"
+                            th:value="${f.jugador.id}"
+                            th:text="${f.jugador.nombre + ' ' + f.jugador.apellido}">
                     </option>
 
                 </select>
@@ -120,6 +145,33 @@
         </form>
 
     </section>
+
+    <div class="cronologia">
+
+        <h2>Cronología</h2>
+
+        <div
+                class="evento"
+                th:each="evento : ${eventos}">
+
+        <span
+                class="momento"
+                th:text="${evento.momentoPartido}">
+        </span>
+
+            <span
+                    class="jugador"
+                    th:text="${evento.jugador.nombre}">
+        </span>
+
+            <span
+                    class="tipo"
+                    th:text="${evento.tipoEstadistica}">
+        </span>
+
+        </div>
+
+    </div>
 
 </main>
 

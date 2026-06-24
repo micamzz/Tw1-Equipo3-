@@ -61,7 +61,8 @@
         <div class="programado-acciones-secundarias">
             <a th:href="@{/admin/partido/{idPartido}/formacion/{idEquipo}(idPartido=${partido.id}, idEquipo=${partido.equipoLocal.id})}"
                class="btn btn-formacion"> Formacion Local</a>
-            <a class="btn btn-cronologia">Cronologia</a>
+            <a th:href="@{/admin/partido/{idPartido}/eventos(idPartido=${partido.id})}"
+                    class="btn btn-cronologia">Estadisticas</a>
             <a th:href="@{/admin/partido/{idPartido}/formacion/{idEquipo}(idPartido=${partido.id}, idEquipo=${partido.equipoVisitante.id})}"
                class="btn btn-formacion">Formacion Visitante</a>
         </div>
