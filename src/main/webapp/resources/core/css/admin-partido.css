@@ -305,8 +305,11 @@
 .btn-rojo { background: #dc3545; color: #fff; }
 .btn-secundario { background: #16213e; color: #eee; border: 1px solid #0f3460; }
 
+
+
 @media (max-width: 700px) {
     .formacion-grid { grid-template-columns: 1fr; }
     .card-partido-vivo { flex-direction: column; gap: 1rem; }
     .score-vivo { font-size: 2rem; }
 }
+

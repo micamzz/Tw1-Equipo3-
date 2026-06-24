@@ -2,6 +2,7 @@ package com.tallerwebi.dominio;
 
 import com.sun.istack.NotNull;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.time.LocalTime;
 
@@ -16,6 +17,7 @@ public class EventoPartido {
     private PartidoNBA partido;
 
     @Column (nullable = false)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     private LocalTime momentoPartido;
 
     @NotNull

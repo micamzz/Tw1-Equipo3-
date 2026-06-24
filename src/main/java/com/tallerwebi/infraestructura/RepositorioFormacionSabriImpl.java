@@ -1,3 +1,4 @@
+/*
 package com.tallerwebi.infraestructura;
 
 import com.tallerwebi.dominio.*;
@@ -68,3 +69,4 @@ public class RepositorioFormacionSabriImpl implements RepositorioFormacionSabri 
     }
 }
 
+*/

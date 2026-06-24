@@ -3,10 +3,7 @@ package com.tallerwebi.presentacion;
 
 
 import com.tallerwebi.dominio.*;
-import com.tallerwebi.dominio.excepcion.JugadorNoConvocadoException;
-import com.tallerwebi.dominio.excepcion.JugadorNoEncontradoException;
-import com.tallerwebi.dominio.excepcion.MomentoPartidoInvalidoException;
-import com.tallerwebi.dominio.excepcion.PartidoNoEncontradoException;
+import com.tallerwebi.dominio.excepcion.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -18,13 +15,13 @@ public class ControladorEventoPartido {
 
     private final ServicioEventoPartido servicioEventoPartido;
     private final ServicioPartidoNBA servicioPartidoNBA;
-    private final ServicioFormacionSabri servicioFormacion;
+    private final ServicioFormacion servicioFormacion;
 
     @Autowired
     public ControladorEventoPartido(
             ServicioEventoPartido servicioEventoPartido,
             ServicioPartidoNBA servicioPartidoNBA,
-            ServicioFormacionSabri servicioFormacion) {
+            ServicioFormacion servicioFormacion) {
 
         this.servicioEventoPartido = servicioEventoPartido;
         this.servicioPartidoNBA = servicioPartidoNBA;
@@ -39,12 +36,14 @@ public class ControladorEventoPartido {
 
         ModelMap modelo = new ModelMap();
 
-        modelo.put("partido", servicioPartidoNBA.obtenerPorId(idPartido));
+        PartidoNBA partido = servicioPartidoNBA.obtenerPorId(idPartido);
+
+        modelo.put("partido", partido);
 
         modelo.put("evento", new EventoPartido());
 
         modelo.put("jugadores",
-                servicioFormacion.obtenerFormacionPorPartido(idPartido));
+                servicioFormacion.obtenerFormacion(idPartido));
 
         modelo.put("tipos", TipoEstadistica.values());
 
@@ -52,9 +51,9 @@ public class ControladorEventoPartido {
 
         modelo.put("scoreVisitante", servicioPartidoNBA.obtenerScoreVisitante(idPartido));
 
-        modelo.put("formacionLocal", servicioFormacion.obtenerFormacionPorPartidoYEquipo(idPartido, servicioPartidoNBA.obtenerPorId(idPartido).getEquipoLocal().getId()));
+        modelo.put("formacionLocal", servicioFormacion.obtenerFormacionPorEquipo(idPartido, servicioPartidoNBA.obtenerPorId(idPartido).getEquipoLocal().getId()));
 
-        modelo.put("formacionVisitante", servicioFormacion.obtenerFormacionPorPartidoYEquipo(idPartido, servicioPartidoNBA.obtenerPorId(idPartido).getEquipoVisitante().getId()));
+        modelo.put("formacionVisitante", servicioFormacion.obtenerFormacionPorEquipo(idPartido, servicioPartidoNBA.obtenerPorId(idPartido).getEquipoVisitante().getId()));
 
         modelo.put("eventos", servicioEventoPartido.buscarEventosPorPartido(idPartido));
 
@@ -68,32 +67,30 @@ public class ControladorEventoPartido {
         );
     }
 
-    @PostMapping("/partidos/{id}/eventos")
+    @PostMapping("/admin/partido/{idPartido}/eventos")
     public ModelAndView registrarEvento(
-            @PathVariable Long id,
+            @PathVariable Long idPartido,
             @ModelAttribute("evento") EventoPartido evento) {
 
         try {
 
             servicioEventoPartido.registrarEvento(
-                    id,
+                    idPartido,
                     evento.getJugador().getId(),
                     evento.getMomentoPartido(),
                     evento.getTipoEstadistica()
             );
 
             return new ModelAndView(
-                    "redirect:/partidos/" + id +
+                    "redirect:/admin/partido/" + idPartido +
                             "/eventos?success=Evento registrado correctamente"
             );
 
-        } catch (PartidoNoEncontradoException
-                 | JugadorNoEncontradoException
-                 | JugadorNoConvocadoException
-                 | MomentoPartidoInvalidoException e) {
+        } catch (PartidoNoEncontradoException | JugadorNoEncontradoException | JugadorNoConvocadoException |
+                 MomentoPartidoInvalidoException | PartidoNoEnCursoException e) {
 
             return new ModelAndView(
-                    "redirect:/partidos/" + id +
+                    "redirect:/admin/partido/" + idPartido +
                             "/eventos?error=" + e.getMessage()
             );
         }
