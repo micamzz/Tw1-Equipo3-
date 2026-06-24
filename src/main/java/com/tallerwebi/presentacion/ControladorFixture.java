@@ -138,7 +138,6 @@ try {
     EquipoNBA equipo = servicioEquipoNBA.buscarEquipoPorId(idEquipo);
 
     List<Jugador> jugadoresDelEquipo = servicioEquipoNBAJugador.obtenerJugadoresDelEquipoEnTorneo(idEquipo, partido.getTorneo().getId());
-
     List<FormacionPartido> formacionActual = servicioFormacion.obtenerFormacionPorEquipo(idPartido, idEquipo);
 
     modelo.put("partido", partido);
@@ -159,12 +158,12 @@ public ModelAndView confirmarFormacionEquipo(@PathVariable Long idPartido, @Path
                 servicioFormacion.agregarJugador(idPartido, idEquipo, idJugador);
             }
         }
-        return new ModelAndView("redirect:/admin/partido" +  idPartido + "/formacion/" +  idEquipo);
+        return new ModelAndView("redirect:/admin/partido/" +  idPartido + "/formacion/" +  idEquipo);
 }
 @RequestMapping(value = "/admin/eliminarJugadorFormacion", method = RequestMethod.POST)
 public ModelAndView eliminarJugadorFormacion(@RequestParam Long idFormacion, @RequestParam Long idPartido, @RequestParam Long idEquipo) {
         servicioFormacion.quitarJugador(idFormacion);
-        return new ModelAndView("redirect:/admin/partido/" +  idPartido + "/formacion" +  idEquipo);
+        return new ModelAndView("redirect:/admin/partido/" +  idPartido + "/formacion/" +  idEquipo);
 }
     // FIN
 
