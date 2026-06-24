@@ -25,13 +25,16 @@
     <a class="navbar-brand" href="#">UNLAM</a>
 </nav>
 
+
 <main role="main" class="container">
     <div class="container">
-        <div
-                id="loginbox"
-                style="margin-top: 50px"
-                class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2"
-        >
+        <div id="loginbox" style="margin-top: 50px"
+             class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+
+            <div class="volver-header">
+                <a th:href="@{/admin/home}" class="btn-volver"> Volver</a>
+            </div>
+
             <form
                     action="#"
                     th:action="@{/admin/crear-admin}"

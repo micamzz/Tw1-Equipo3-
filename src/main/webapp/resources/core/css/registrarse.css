@@ -160,3 +160,24 @@ main {
     margin-top: 0.5rem;
     margin-bottom: 0;
 }
+
+/*BOTON VOLVER*/
+.volver-header {
+    margin-bottom: 1rem;
+}
+
+.btn-volver {
+    display: inline-block;
+    color: #ff6b00;
+!important;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+!important;
+    transition: color 0.15s;
+}
+
+.btn-volver:hover {
+    color: #ff8c00;
+!important;
+}
