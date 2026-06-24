@@ -48,9 +48,6 @@ public class ControladorUserHome {
         modelo.put("torneoActual", servicioTorneo.obtenerTorneoActual(TipoTorneo.REAL));
         modelo.put("proximosPartidos", servicioPartidoNBA.obtenerPartidosProgramados());
 
-        System.out.println("Usuario: " + usuario.getId());
-        System.out.println("Equipo encontrado: " + equipo);
-
         return new ModelAndView("home", modelo);
     }
 
