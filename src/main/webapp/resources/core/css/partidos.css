@@ -598,11 +598,11 @@ body {
     border-radius: 6px;
     font-size: 0.8rem;
     font-weight: 600;
-    cursor: default;
     text-decoration: none;
     font-family: "Inter", Arial, sans-serif;
     display: inline-block;
     width: auto;
+    cursor: pointer;
 }
 
 /* ── Modal reprogramar ── */

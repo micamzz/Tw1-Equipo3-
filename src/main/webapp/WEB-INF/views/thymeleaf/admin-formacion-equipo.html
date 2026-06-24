@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Formación del equipo</title>
+    <link rel="stylesheet" th:href="@{/css/header.css}"/>
+    <link rel="stylesheet" th:href="@{/css/footer.css}"/>
+    <link rel="stylesheet" th:href="@{/css/admin-asignar-jugadores.css}"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+</head>
+<body>
+<!--HEADER ADMIN -->
+<div th:replace="layout/admin-header :: header-admin"></div>
+
+<main class ="contenedor">
+    <p>Partido: <strong th:text="${partido.equipoLocal.nombre} + ' vs ' + ${partido.equipoVisitante.nombre}"></strong></p>
+    <section class="datos-equipo">
+        <img th:src="${equipo.escudoImagen}" th:alt="${equipo.nombre}" width="100" height="100" th:if="${equipo.escudoImagen != null }"/>
+        <h2 th:text="${equipo.nombre}">Equipo</h2>
+    </section>
+
+    <div class="layout-dos-columnas">
+        <!-- Marcar quienes juegan-->
+        <section class="jugadores-disponibles">
+            <h2 class="titulo-plantel">Plantel - seleccioná los convocados</h2>
+
+            <p th:if="${#lists.isEmpty(jugadores)}" class="mensaje-vacio"> No hay jugadores en este equipo</p>
+
+            <form th:action="@{/admin/partido/{idPartido}/formacion/{idEquipo}/confirmar(idPartido=${partido.id}, idEquipo=${equipo.id})}"
+                  method="post" th:unless="${#lists.isEmpty(jugadores)}">
+
+             <table>
+                 <tbody>
+                 <tr th:each="jugador : ${jugadores}">
+                     <td>
+                         <input type="checkbox" name="idsJugadores" th:value="${jugador.id}"/>
+                     </td>
+                     <td>
+                         <img th:src="${jugador.foto}" width="60" height="60" th:alt="${jugador.nombre}" />
+                     </td>
+                     <td th:text="|${jugador.nombre} ${jugador.apellido}|">Nombre</td>
+                     <td th:text="${jugador.posicion}">Posición</td>
+                 </tr>
+                 </tbody>
+             </table>
+                <button type="submit" class="boton-equipo" style="margin-top:1rem;">
+                    CONFIRMAR FORMACIÓN
+                </button>
+            </form>
+        </section>
+
+        <hr>
+        <!-- Seleccionados -->
+        <section class="plantel-actual">
+            <h2 class="titulo-plantel">Seleccionados</h2>
+            <p th:if="${#lists.isEmpty(formacionActual)}" class="mensaje-vacio">Nadie seleccionado</p>
+
+            <table th:unless="${#lists.isEmpty(formacionActual)}">
+                <tbody>
+                <tr th:each="f : ${formacionActual}">
+                    <td>
+                        <img th:src="${f.jugador.foto}" width="60" height="60" th:alt="${f.jugador.nombre}" />
+                    </td>
+                    <td th:text="|${f.jugador.nombre} ${f.jugador.apellido}|">Nombre</td>
+                    <td th:text="${f.jugador.posicion}">Posición</td>
+                    <td>
+                        <form th:action="@{/admin/eliminarJugadorFormacion}" method="post" style="display: inline;">
+                            <input type="hidden" name="idFormacion" th:value="${f.id}"/>
+                            <input type="hidden" name="idPartido" th:value="${partido.id}"/>
+                            <input type="hidden" name="idEquipo" th:value="${equipo.id}"/>
+                            <button type="submit" class="btn-tabla btn-tabla-quitar">
+                                QUITAR
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+    <a th:href="@{/admin/partidos}" class="btn btn-secundario" style="margin-top:1.5rem; display:inline-block;"> Volver</a>
+</main>
+<div th:replace="layout/footer :: footer"></div>
+</body>
+
+</html>
