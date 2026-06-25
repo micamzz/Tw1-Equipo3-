@@ -1,5 +1,6 @@
 package com.tallerwebi.dominio;
 
+import com.tallerwebi.dominio.equipoNBA.EquipoNBA;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class RepositorioFormacionImpl  implements RepositorioFormacion {
+public class RepositorioFormacionImpl implements RepositorioFormacion {
 
     private final SessionFactory sessionFactory;
 
@@ -20,7 +21,7 @@ public class RepositorioFormacionImpl  implements RepositorioFormacion {
 
     @Override
     public void guardar(FormacionPartido formacion) {
-    sessionFactory.getCurrentSession().save(formacion);
+        sessionFactory.getCurrentSession().save(formacion);
     }
 
     @Override
@@ -28,7 +29,7 @@ public class RepositorioFormacionImpl  implements RepositorioFormacion {
     public List<FormacionPartido> buscarPorPartido(Long idPartido) {
         return sessionFactory.getCurrentSession()
                 .createCriteria(FormacionPartido.class)
-                .add(Restrictions.eq("partido", idPartido))
+                .add(Restrictions.eq("partido.id", idPartido))
                 .list();
     }
 
@@ -56,13 +57,28 @@ public class RepositorioFormacionImpl  implements RepositorioFormacion {
     }
 
     @Override
-    public void eliminar(Long idFormacion) {
-    Criteria criteria = sessionFactory.getCurrentSession().createCriteria(FormacionPartido.class);
-    criteria.add(Restrictions.eq("id", idFormacion));
+    public EquipoNBA buscarEquipo(Long idPartido, Long idJugador) {
+        List<FormacionPartido> resultados = sessionFactory.getCurrentSession()
+                .createCriteria(FormacionPartido.class)
+                .add(Restrictions.eq("partido.id", idPartido))
+                .add(Restrictions.eq("jugador.id", idJugador))
+                .list();
 
-    FormacionPartido formacionPartido = (FormacionPartido) criteria.uniqueResult();
-    if(formacionPartido!=null){
-        sessionFactory.getCurrentSession().delete(formacionPartido);
+        if (resultados.isEmpty()) {
+            return null; // or throw a specific exception
+        }
+
+        return resultados.get(0).getEquipo();
     }
+
+    @Override
+    public void eliminar(Long idFormacion) {
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(FormacionPartido.class);
+        criteria.add(Restrictions.eq("id", idFormacion));
+
+        FormacionPartido formacionPartido = (FormacionPartido) criteria.uniqueResult();
+        if (formacionPartido != null) {
+            sessionFactory.getCurrentSession().delete(formacionPartido);
+        }
     }
 }

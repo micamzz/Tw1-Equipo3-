@@ -1,5 +1,7 @@
 package com.tallerwebi.dominio;
 
+import com.tallerwebi.dominio.equipoNBA.EquipoNBA;
+
 import java.util.List;
 
 public interface ServicioFormacion {

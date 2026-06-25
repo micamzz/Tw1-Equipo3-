@@ -1,5 +1,7 @@
 package com.tallerwebi.dominio;
 
+import com.tallerwebi.dominio.equipoNBA.EquipoNBA;
+
 import java.util.List;
 
 public interface RepositorioFormacion {
@@ -8,5 +10,6 @@ public interface RepositorioFormacion {
     List<FormacionPartido> buscarPorPartido(Long idPartido); //Todos los jugadores ya asignados a la formacion de un partido
     List<FormacionPartido> buscarPorPartidoYEquipo(Long idPartido, Long idEquipo);
     boolean jugadorYaEstaEnFormacion(Long idPartido, Long idJugador);
+    EquipoNBA buscarEquipo(Long idPartido, Long idJugador);
     void eliminar (Long idFormacion);
 }

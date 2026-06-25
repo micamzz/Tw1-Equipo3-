@@ -1,0 +1,45 @@
+.contenedor-formaciones {
+    display: flex;
+    gap: 2rem;
+
+    width: 90%;
+    max-width: 1400px;
+
+    margin: 2rem auto;
+}
+
+.panel-equipo {
+    flex: 1;
+
+    background-color: #111;
+    color: white;
+
+    border-radius: 16px;
+
+    padding: 2rem;
+}
+
+.panel-equipo h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.panel-equipo ul {
+    list-style: none;
+    padding: 0;
+}
+
+.panel-equipo li {
+    padding: 0.75rem;
+
+    border-bottom: 1px solid #333;
+}
+
+.panel-equipo,
+.panel-equipo h2,
+.panel-equipo h3,
+.panel-equipo ul,
+.panel-equipo li,
+.panel-equipo span {
+    color: white !important;
+}
