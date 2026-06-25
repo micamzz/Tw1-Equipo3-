@@ -30,9 +30,7 @@ public class ControladorEventoPartido {
 
     @GetMapping("/admin/partido/{idPartido}/eventos")
     public ModelAndView irARegistrarEventos(
-            @PathVariable Long idPartido,
-            @RequestParam(required = false) String error,
-            @RequestParam(required = false) String success) {
+            @PathVariable Long idPartido) {
 
         ModelMap modelo = new ModelMap();
 
@@ -57,9 +55,7 @@ public class ControladorEventoPartido {
 
         modelo.put("eventos", servicioEventoPartido.buscarEventosPorPartido(idPartido));
 
-        modelo.put("error", error);
 
-        modelo.put("success", success);
 
         return new ModelAndView(
                 "admin-estadisticas",
@@ -83,7 +79,7 @@ public class ControladorEventoPartido {
 
             return new ModelAndView(
                     "redirect:/admin/partido/" + idPartido +
-                            "/eventos?success=Evento registrado correctamente"
+                            "/eventos"
             );
 
         } catch (PartidoNoEncontradoException | JugadorNoEncontradoException | JugadorNoConvocadoException |
@@ -91,7 +87,7 @@ public class ControladorEventoPartido {
 
             return new ModelAndView(
                     "redirect:/admin/partido/" + idPartido +
-                            "/eventos?error=" + e.getMessage()
+                            "/eventos"
             );
         }
     }
