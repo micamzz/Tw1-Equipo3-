@@ -45,10 +45,10 @@ import java.util.List;
             repositorioFormacion.eliminar(idFormacion);
         }
 
-        @Override
-        public List<FormacionPartido> obtenerFormacion(Long idPartido) {
-            return repositorioFormacion.buscarPorPartido(idPartido);
-        }
+      @Override
+         public List<FormacionPartido> obtenerFormacion(Long idPartido) {
+        return repositorioFormacion.buscarPorPartido(idPartido);
+       }
 
         @Override
         public List<FormacionPartido> obtenerFormacionPorEquipo(Long idPartido, Long idEquipo) {
@@ -56,10 +56,27 @@ import java.util.List;
         }
 
 
-        @Override
+         @Override
         public boolean jugadorYaEstasEnFormacion(Long idPartido, Long idJugador) {
             return repositorioFormacion.jugadorYaEstaEnFormacion(idPartido, idJugador);
+      }
+
+        @Override
+        public EquipoRol obtenerRolJugadorEnFormacion(Long idPartido, Long idJugador) {
+            PartidoNBA partido = repositorioPartidoNBA.buscarPorId(idPartido);
+
+            FormacionPartido formacion = repositorioFormacion.buscarPorPartidoYJugador(idPartido,idJugador);
+
+            if(formacion==null){
+                return null; // el jugador no esta en la formacion
+            }
+            if(formacion.getEquipo().getId().equals(partido.getEquipoLocal().getId())){
+                return EquipoRol.LOCAL;
+            }else{
+                return EquipoRol.VISITANTE;
+            }
         }
+
     }
 
 

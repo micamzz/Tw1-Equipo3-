@@ -81,4 +81,13 @@ public class RepositorioFormacionImpl implements RepositorioFormacion {
             sessionFactory.getCurrentSession().delete(formacionPartido);
         }
     }
+
+    @Override
+    public FormacionPartido buscarPorPartidoYJugador(Long idPartido, Long idJugador) {
+        return (FormacionPartido) sessionFactory.getCurrentSession()
+                .createCriteria(FormacionPartido.class)
+                .add(Restrictions.eq("partido.id", idPartido))
+                .add(Restrictions.eq("jugador.id", idJugador))
+                .uniqueResult();
+    }
 }

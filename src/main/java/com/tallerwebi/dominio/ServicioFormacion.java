@@ -1,7 +1,5 @@
 package com.tallerwebi.dominio;
 
-import com.tallerwebi.dominio.equipoNBA.EquipoNBA;
-
 import java.util.List;
 
 public interface ServicioFormacion {
@@ -10,4 +8,5 @@ public interface ServicioFormacion {
     List<FormacionPartido> obtenerFormacion(Long idPartido);
     List<FormacionPartido> obtenerFormacionPorEquipo(Long idPartido, Long idEquipo);
     boolean jugadorYaEstasEnFormacion(Long idPartido, Long idJugador);
+    EquipoRol obtenerRolJugadorEnFormacion(Long idPartido, Long idJugador);
 }

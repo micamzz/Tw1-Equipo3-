@@ -19,7 +19,6 @@ public class FormacionPartido {
     @ManyToOne
     private EquipoNBA equipo;
 
-
     public Long getId() {
         return id;
     }
