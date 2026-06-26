@@ -10,4 +10,6 @@ public interface RepositorioJugador {
     RendimientoJugador buscarRendimientoPorJugador(long jugadorId);
 
     List<Jugador> buscarTodosLosJugadores();
+
+    void guardarRendimiento(RendimientoJugador rendimiento);
 }

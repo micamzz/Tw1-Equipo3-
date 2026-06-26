@@ -65,5 +65,10 @@ public class RepositorioJugadorImpl implements RepositorioJugador {
                 .createCriteria(Jugador.class)
                 .list();
     }
+
+    @Override
+    public void guardarRendimiento(RendimientoJugador rendimiento) {
+        sessionFactory.getCurrentSession().saveOrUpdate(rendimiento);
+    }
 }
 

@@ -47,6 +47,8 @@ public class RendimientoJugador {
     public void setJugador(Jugador jugador){
         this.jugador = jugador;
     }
+    public PartidoNBA getPartidoNBA() {return partidoNBA;}
+    public void setPartidoNBA(PartidoNBA partidoNBA) {this.partidoNBA = partidoNBA;}
     public Integer getBloqueos() {
         return bloqueos;
     }
