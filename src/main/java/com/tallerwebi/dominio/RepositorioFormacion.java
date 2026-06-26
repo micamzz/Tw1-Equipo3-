@@ -12,4 +12,6 @@ public interface RepositorioFormacion {
     boolean jugadorYaEstaEnFormacion(Long idPartido, Long idJugador);
     EquipoNBA buscarEquipo(Long idPartido, Long idJugador);
     void eliminar (Long idFormacion);
+
+    FormacionPartido buscarPorPartidoYJugador(Long idPartido, Long idJugador);
 }
