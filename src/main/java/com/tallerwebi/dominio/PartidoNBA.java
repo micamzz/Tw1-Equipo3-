@@ -19,6 +19,9 @@ public class PartidoNBA {
     @ManyToOne
     private EquipoNBA equipoLocal;
 
+    private Integer puntosLocal = 0;
+    private Integer puntosVisitante = 0;
+
     @ManyToOne
     private EquipoNBA equipoVisitante;
 
@@ -107,5 +110,21 @@ public class PartidoNBA {
     public String getHoraFormateada() {
         if (horaInicio == null) return "";
         return String.format("%02d:%02d", horaInicio.getHour(), horaInicio.getMinute());
+    }
+
+    public Integer getPuntosLocal() {
+        return puntosLocal;
+    }
+
+    public void setPuntosLocal(Integer puntosLocal) {
+        this.puntosLocal += puntosLocal;
+    }
+
+    public Integer getPuntosVisitante() {
+        return puntosVisitante;
+    }
+
+    public void setPuntosVisitante(Integer puntosVisitante) {
+        this.puntosVisitante += puntosVisitante;
     }
 }
