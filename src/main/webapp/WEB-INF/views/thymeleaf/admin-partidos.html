@@ -47,21 +47,25 @@
             </div>
 
             <div class="programado-score">
-                <span class="programado-puntos">0 - 0</span>
-                <span class="programado-minuto">0'</span>
+                <span class="programado-puntos">Hora inicio</span>
+                <span class="programado-minuto"
+                      th:text="${partido.getHoraFormateada()}"></span>
             </div>
+
 
             <div class="programado-equipo programado-equipo-visitante">
                 <img th:src="${partido.equipoVisitante.escudoImagen}" class="escudo"
                      th:alt="${partido.equipoVisitante.nombre}"/>
-                <span class="programado-equipo-nombre" th:text="${partido.equipoVisitante.nombre}">Equipo Visitante</span>
+                <span class="programado-equipo-nombre"
+                      th:text="${partido.equipoVisitante.nombre}">Equipo Visitante</span>
             </div>
         </div>
+
 
         <div class="programado-acciones-secundarias">
             <a th:href="@{/admin/partido/{idPartido}/formacion/{idEquipo}(idPartido=${partido.id}, idEquipo=${partido.equipoLocal.id})}"
                class="btn btn-formacion"> Formacion Local</a>
-            <a class="btn btn-cronologia">Cronologia</a>
+            <span class="btn btn-formacion"></span>
             <a th:href="@{/admin/partido/{idPartido}/formacion/{idEquipo}(idPartido=${partido.id}, idEquipo=${partido.equipoVisitante.id})}"
                class="btn btn-formacion">Formacion Visitante</a>
         </div>
@@ -74,9 +78,13 @@
                 <button type="submit" class="btn btn-verde">Iniciar Partida</button>
             </form>
 
-            <button type="button" class="btn btn-amarillo" onclick="abrirModalReprogramar(this)" th:attr="data-id=${partido.id}">Reprogramar</button>
+            <button type="button" class="btn btn-amarillo" onclick="abrirModalReprogramar(this)"
+                    th:attr="data-id=${partido.id}">Reprogramar
+            </button>
 
-            <button type="button" class="btn btn-rojo" onclick="abrirModalCancelar(this)" th:attr="data-id=${partido.id}">Cancelar</button>
+            <button type="button" class="btn btn-rojo" onclick="abrirModalCancelar(this)"
+                    th:attr="data-id=${partido.id}">Cancelar
+            </button>
         </div>
     </div>
 
@@ -104,6 +112,11 @@
                 <span class="vivo-equipo-nombre" th:text="${partido.equipoLocal.nombre}">Local</span>
             </div>
 
+            <div class="programado-score">
+                <span class="programado-puntos">0 - 0</span>
+                <span class="programado-minuto">0'</span>
+            </div>
+
             <div class="vivo-score">
                 <span class="vivo-estado">EN VIVO</span>
             </div>
@@ -118,7 +131,11 @@
         <div class="programado-divider"></div>
 
         <div class="vivo-acciones">
-            <button type="button" class="btn btn-rojo" onclick="abrirModalFinalizar(this)" th:attr="data-id=${partido.id}">Finalizar</button>
+            <a th:href="@{/admin/partido/{idPartido}/eventos(idPartido=${partido.id})}"
+               class="btn btn-cronologia">Estadisticas</a>
+            <button type="button" class="btn btn-rojo" onclick="abrirModalFinalizar(this)"
+                    th:attr="data-id=${partido.id}">Finalizar
+            </button>
         </div>
     </div>
 
@@ -166,10 +183,12 @@
         <form th:action="@{/admin/reprogramarPartido}" method="post" class="form-reprogramar-modal">
             <input type="hidden" name="idPartido" id="modal-idPartido"/>
             <label for="modal-nuevaHora">Nueva fecha y hora</label>
-            <input type="datetime-local" id="modal-nuevaHora" name="nuevaHoraInicio" required class="input-reprogramar"/>
+            <input type="datetime-local" id="modal-nuevaHora" name="nuevaHoraInicio" required
+                   class="input-reprogramar"/>
             <div class="modal-botones">
                 <button type="submit" class="btn btn-amarillo">Confirmar</button>
-                <button type="button" class="btn btn-secundario" onclick="cerrarModal('modal-reprogramar')">Cancelar</button>
+                <button type="button" class="btn btn-secundario" onclick="cerrarModal('modal-reprogramar')">Cancelar
+                </button>
             </div>
         </form>
     </div>
@@ -182,10 +201,12 @@
         <form th:action="@{/admin/finalizarPartidoRapido}" method="post" class="form-reprogramar-modal">
             <input type="hidden" name="idPartido" id="modal-finalizar-idPartido"/>
             <label for="modal-minutoFin">Duracion del partido (minutos)</label>
-            <input type="number" id="modal-minutoFin" name="minutoFin" value="48" min="1" required class="input-reprogramar"/>
+            <input type="number" id="modal-minutoFin" name="minutoFin" value="48" min="1" required
+                   class="input-reprogramar"/>
             <div class="modal-botones">
                 <button type="submit" class="btn btn-rojo">Confirmar</button>
-                <button type="button" class="btn btn-secundario" onclick="cerrarModal('modal-finalizar')">Cancelar</button>
+                <button type="button" class="btn btn-secundario" onclick="cerrarModal('modal-finalizar')">Cancelar
+                </button>
             </div>
         </form>
     </div>
@@ -200,7 +221,8 @@
             <input type="hidden" name="idPartido" id="modal-cancelar-idPartido"/>
             <div class="modal-botones">
                 <button type="submit" class="btn btn-rojo">Confirmar</button>
-                <button type="button" class="btn btn-secundario" onclick="cerrarModal('modal-cancelar')">Cancelar</button>
+                <button type="button" class="btn btn-secundario" onclick="cerrarModal('modal-cancelar')">Cancelar
+                </button>
             </div>
         </form>
     </div>
@@ -228,7 +250,7 @@
         document.getElementById(id).style.display = 'none';
     }
 
-    window.addEventListener('click', function(e) {
+    window.addEventListener('click', function (e) {
         if (e.target === document.getElementById('modal-reprogramar')) {
             document.getElementById('modal-reprogramar').style.display = 'none';
         }

@@ -151,13 +151,29 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
     @Override
     public ScorePartido obtenerScoreLocal(Long partidoId) {
         PartidoNBA partido = repositorioPartidoNBA.buscarPorId(partidoId);
-        return repositorioScorePartido.buscarPorPartidoYEquipo(partidoId, partido.getEquipoLocal().getId());
+
+        ScorePartido scoreLocal = repositorioScorePartido.buscarPorPartidoYEquipo(partidoId, partido.getEquipoLocal().getId());
+
+        if (scoreLocal == null) {
+            scoreLocal = new ScorePartido(partido, partido.getEquipoLocal());
+            repositorioScorePartido.guardar(scoreLocal);
+        }
+
+        return scoreLocal;
     }
 
     @Override
     public ScorePartido obtenerScoreVisitante(Long partidoId) {
         PartidoNBA partido = repositorioPartidoNBA.buscarPorId(partidoId);
-        return repositorioScorePartido.buscarPorPartidoYEquipo(partidoId, partido.getEquipoVisitante().getId());
+        ScorePartido scoreVisitante = repositorioScorePartido.buscarPorPartidoYEquipo(partidoId, partido.getEquipoVisitante().getId());
+
+        if (scoreVisitante == null) {
+            scoreVisitante = new ScorePartido(partido, partido.getEquipoVisitante());
+            repositorioScorePartido.guardar(scoreVisitante);
+        }
+
+        return scoreVisitante;
+
     }
 
     @Override

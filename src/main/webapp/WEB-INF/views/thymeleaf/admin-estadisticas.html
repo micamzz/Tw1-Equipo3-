@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>Registrar evento</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
+    <link rel="stylesheet" th:href="@{/css/admin-estadisticas.css}">
+
+    <!-- Fuente -->
+    <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+            rel="stylesheet">
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div th:replace="layout/header :: header"></div>
+
+<main>
+
+    <a th:href="@{/admin/partidos}"
+       class="volver-link">
+        &larr; Volver a partidos
+    </a>
+
+    <h1>REGISTRAR EVENTO</h1>
+
+
+    <div class="card-partido-vivo">
+
+        <div class="vivo-header">
+
+        <span class="vivo-fecha"
+              th:text="${partido.fechaFormateada}">
+            27/06/2026
+        </span>
+
+            <span class="vivo-torneo"
+                  th:text="${partido.torneo.nombreTorneo}">
+            NBA 2026
+        </span>
+
+        </div>
+
+        <div class="programado-divider"></div>
+
+        <div class="vivo-cuerpo">
+
+            <div class="vivo-equipo">
+
+                <img th:src="${partido.equipoLocal.escudoImagen}"
+                     class="escudo"
+                     th:alt="${partido.equipoLocal.nombre}"/>
+
+                <span class="vivo-equipo-nombre"
+                      th:text="${partido.equipoLocal.nombre}">
+            </span>
+
+            </div>
+
+            <div class="vivo-score">
+
+            <span class="vivo-estado">
+                EN VIVO
+            </span>
+
+                <div class="marcador">
+
+                <span th:text="${scoreLocal.puntos}">
+                    0
+                </span>
+
+                    <span>-</span>
+
+                    <span th:text="${scoreVisitante.puntos}">
+                    0
+                </span>
+
+                </div>
+
+            </div>
+
+            <div class="vivo-equipo">
+
+                <img th:src="${partido.equipoVisitante.escudoImagen}"
+                     class="escudo"
+                     th:alt="${partido.equipoVisitante.nombre}"/>
+
+                <span class="vivo-equipo-nombre"
+                      th:text="${partido.equipoVisitante.nombre}">
+            </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- MENSAJES -->
+
+    <div class="mensaje-error"
+         th:if="${error}">
+        <span th:text="${error}"></span>
+    </div>
+
+    <div class="mensaje-exito"
+         th:if="${success}">
+        <span th:text="${success}"></span>
+    </div>
+
+    <!-- CONTENIDO -->
+
+    <div class="contenedor-estadisticas">
+
+        <!-- LOCAL -->
+
+        <section class="panel-equipo">
+
+            <h2 th:text="${partido.equipoLocal.nombre}">
+                Equipo Local
+            </h2>
+
+            <form th:action="@{/admin/partido/{id}/eventos(id=${partido.id})}"
+                  th:object="${evento}"
+                  method="post">
+
+                <label>Jugador</label>
+
+                <select th:field="*{jugador.id}" required>
+
+                    <option value="">
+                        Seleccione un jugador
+                    </option>
+
+                    <option th:each="f : ${formacionLocal}"
+                            th:value="${f.jugador.id}"
+                            th:text="${f.jugador.nombre + ' ' + f.jugador.apellido}">
+                    </option>
+
+                </select>
+
+                <label>Evento</label>
+
+                <select th:field="*{tipoEstadistica}" required>
+
+                    <option value="">
+                        Seleccione un evento
+                    </option>
+
+                    <option th:each="tipo : ${tipos}"
+                            th:value="${tipo}"
+                            th:text="${tipo}">
+                    </option>
+
+                </select>
+
+                <label>Momento</label>
+
+                <input type="time"
+                       th:field="*{momentoPartido}"
+                       step="1"
+                       required>
+
+                <button type="submit"
+                        class="btn btn-verde">
+
+                    Registrar
+
+                </button>
+
+            </form>
+
+        </section>
+
+        <!-- CRONOLOGIA -->
+
+        <section class="panel-cronologia">
+
+            <h2>Cronología</h2>
+
+            <div class="lista-eventos">
+
+                <div class="evento"
+                     th:each="evento : ${eventos}">
+
+                <span class="evento-tiempo"
+                      th:text="${evento.momentoPartido}">
+                </span>
+
+                    <span class="evento-jugador"
+                          th:text="${evento.jugador.nombre + ' ' + evento.jugador.apellido}">
+                </span>
+
+                    <span class="evento-tipo"
+                          th:text="${evento.tipoEstadistica}">
+                </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- VISITANTE -->
+
+        <section class="panel-equipo">
+
+            <h2 th:text="${partido.equipoVisitante.nombre}">
+                Equipo Visitante
+            </h2>
+
+            <form th:action="@{/admin/partido/{id}/eventos(id=${partido.id})}"
+                  th:object="${evento}"
+                  method="post">
+
+                <label>Jugador</label>
+
+                <select th:field="*{jugador.id}" required>
+
+                    <option value="">
+                        Seleccione un jugador
+                    </option>
+
+                    <option th:each="f : ${formacionVisitante}"
+                            th:value="${f.jugador.id}"
+                            th:text="${f.jugador.nombre + ' ' + f.jugador.apellido}">
+                    </option>
+
+                </select>
+
+                <label>Evento</label>
+
+                <select th:field="*{tipoEstadistica}" required>
+
+                    <option value="">
+                        Seleccione un evento
+                    </option>
+
+                    <option th:each="tipo : ${tipos}"
+                            th:value="${tipo}"
+                            th:text="${tipo}">
+                    </option>
+
+                </select>
+
+                <label>Momento</label>
+
+                <input type="time"
+                       th:field="*{momentoPartido}"
+                       step="1"
+                       required>
+
+                <button type="submit"
+                        class="btn btn-verde">
+
+                    Registrar
+
+                </button>
+
+            </form>
+
+        </section>
+
+        <div style="display: flex; justify-content: center; margin: 2rem 0;">
+            <button type="button" class="btn btn-rojo btn-finalizar-principal" onclick="abrirModalFinalizar(this)"
+                    th:attr="data-id=${partido.id}">Finalizar Partido
+            </button>
+        </div>
+
+    </div>
+    <!-- Modal finalizar -->
+    <div id="modal-finalizar" class="modal-overlay" style="display:none;">
+        <div class="modal-contenido">
+            <h3>Finalizar partido</h3>
+            <form th:action="@{/admin/finalizarPartidoRapido}" method="post" class="form-modal">
+                <input type="hidden" name="idPartido" id="modal-finalizar-idPartido"/>
+
+                <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                    <label for="modal-minutoFin">Duración del partido (minutos)</label>
+                    <input type="number" id="modal-minutoFin" name="minutoFin" value="48" min="1" required
+                           class="input-modal"/>
+                </div>
+
+                <div class="modal-botones">
+                    <button type="button" class="btn btn-secundario" onclick="cerrarModal('modal-finalizar')">Cancelar</button>
+                    <button type="submit" class="btn btn-rojo">Confirmar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</main>
+
+
+<!-- FOOTER -->
+<div th:replace="layout/footer :: footer"></div>
+
+
+
+<script>
+    function abrirModalReprogramar(btn) {
+        document.getElementById('modal-idPartido').value = btn.getAttribute('data-id');
+        document.getElementById('modal-reprogramar').style.display = 'flex';
+    }
+
+    function abrirModalFinalizar(btn) {
+        document.getElementById('modal-finalizar-idPartido').value = btn.getAttribute('data-id');
+        document.getElementById('modal-finalizar').style.display = 'flex';
+    }
+
+    function abrirModalCancelar(btn) {
+        document.getElementById('modal-cancelar-idPartido').value = btn.getAttribute('data-id');
+        document.getElementById('modal-cancelar').style.display = 'flex';
+    }
+
+    function cerrarModal(id) {
+        document.getElementById(id).style.display = 'none';
+    }
+
+    window.addEventListener('click', function (e) {
+        if (e.target === document.getElementById('modal-reprogramar')) {
+            document.getElementById('modal-reprogramar').style.display = 'none';
+        }
+        if (e.target === document.getElementById('modal-finalizar')) {
+            document.getElementById('modal-finalizar').style.display = 'none';
+        }
+        if (e.target === document.getElementById('modal-cancelar')) {
+            document.getElementById('modal-cancelar').style.display = 'none';
+        }
+    });
+</script>
+
+</body>
+
+</html>

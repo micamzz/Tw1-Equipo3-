@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Formación</title>
+
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
+    <link rel="stylesheet" th:href="@{/css/admin-formacion.css}">
+</head>
+
+<body>
+
+<div th:replace="layout/header :: header"></div>
+
+<main class="contenedor-formaciones">
+
+
+    <section class="panel-equipo">
+
+        <h2 th:text="${partido.equipoLocal.nombre}"></h2>
+
+        <h3>Jugadores convocados</h3>
+
+        <ul>
+            <li th:each="f : ${formacionLocal}">
+                <span th:text="${f.jugador.nombre + ' ' + f.jugador.apellido}"></span>
+            </li>
+        </ul>
+
+        <h3>Agregar jugador</h3>
+
+        <form th:action="@{/admin/formacion/agregar}" method="POST">
+
+            <input type="hidden" name="idPartido" th:value="${partido.id}">
+
+            <input type="hidden" name="idEquipo" th:value="${partido.equipoLocal.id}">
+
+                <select name="idJugador">
+
+                    <option value="">
+                        Seleccionar jugador
+                    </option>
+
+                    <option th:each="jugador : ${jugadoresLocalesDisponibles}"
+                    th:value="${jugador.id}"
+                    th:text="${jugador.nombre + ' ' + jugador.apellido}">
+                    </option>
+                </select>
+
+            <button type="submit">
+                Agregar a la formacion
+            </button>
+
+        </form>
+
+    </section>
+
+    <section class="panel-equipo">
+
+        <h2 th:text="${partido.equipoVisitante.nombre}"></h2>
+
+        <h3>Jugadores convocados</h3>
+
+        <ul>
+            <li th:each="f : ${formacionVisitante}">
+                <span th:text="${f.jugador.nombre + ' ' + f.jugador.apellido}"></span>
+            </li>
+        </ul>
+
+        <h3>Agregar jugador local</h3>
+
+        <form th:action="@{/admin/formacion/agregar}" method="POST">
+
+            <input type="hidden" name="idPartido" th:value="${partido.id}">
+
+            <input type="hidden" name="idEquipo" th:value="${partido.equipoVisitante.id}">
+
+            <select name="idJugador">
+
+                <option value="">
+                    Seleccionar jugador
+                </option>
+
+                <option th:each="jugador : ${jugadoresVisitantesDisponibles}"
+                        th:value="${jugador.id}"
+                        th:text="${jugador.nombre + ' ' + jugador.apellido}">
+                </option>
+            </select>
+
+            <button type="submit">
+                Agregar a la formacion
+            </button>
+
+        </form>
+    </section>
+
+</main>
+
+<div th:replace="layout/footer :: footer"></div>
+
+</body>
+</html>
