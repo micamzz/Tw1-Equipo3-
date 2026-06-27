@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -57,5 +58,18 @@ public class ServicioMercadoImpl implements ServicioMercado {
     @Override
     public Jugador buscarJugadorPorId(long id) {
         return repositorioJugador.buscarJugadorPorId(id);
+    }
+
+    @Override
+    public List<RendimientoJugador> obtenerRendimientosPorTorneo(Long torneoId) {
+        return repositorioJugador.buscarRendimientosPorTorneo(torneoId);
+    }
+
+    @Override
+    public List<RendimientoJugador> obtenerTopJugadoresPorTorneo(Long torneoId, int limite) {
+        List<RendimientoJugador> todos = repositorioJugador.buscarRendimientosPorTorneo(torneoId);
+        if (todos == null || todos.isEmpty()) return List.of();
+        todos.sort((a, b) -> Double.compare(calcularPuntajeJugador(b), calcularPuntajeJugador(a)));
+        return todos.subList(0, Math.min(limite, todos.size()));
     }
 }

@@ -281,10 +281,54 @@ body {
     margin: 0;
 }
 
+.lista-ranking {
+    list-style: none;
+    margin: 0 0 16px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.item-ranking {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.82rem;
+    color: #eee;
+    padding: 6px 8px;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 6px;
+}
+
+.item-ranking::before {
+    content: counter(ranking-counter);
+    counter-increment: ranking-counter;
+    font-weight: 700;
+    color: #ff6b00;
+    margin-right: 8px;
+    min-width: 16px;
+}
+
+.lista-ranking {
+    counter-reset: ranking-counter;
+}
+
+.ranking-nombre {
+    flex: 1;
+    font-weight: 500;
+}
+
+.ranking-puntaje {
+    font-weight: 700;
+    color: #ff6b00;
+    font-size: 0.9rem;
+}
+
 /* Empuja la tarjeta de próximos partidos más abajo */
 .hero-lateral {
     align-self: start;
-    margin-top: 8rem;
+    margin-top: 4rem;
 }
 
 

@@ -114,12 +114,14 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
                 }
             }
 
-            RendimientoJugador rend = repositorioJugador.buscarRendimientoPorJugador(jugadorId);
+            Torneo torneo = partido.getTorneo();
+            RendimientoJugador rend = repositorioJugador.buscarRendimientoPorJugadorYTorneo(jugadorId, torneo.getId());
             if (rend == null) {
                 Jugador jugador = repositorioJugador.buscarJugadorPorId(jugadorId);
                 rend = new RendimientoJugador();
                 rend.setJugador(jugador);
                 rend.setPartidoNBA(partido);
+                rend.setTorneo(torneo);
                 rend.setNombreCompleto(jugador.getNombre() + " " + jugador.getApellido());
                 rend.setPuntos(0);
                 rend.setRebotes(0);

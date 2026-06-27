@@ -95,6 +95,38 @@ public class ServicioEquipoImpl implements ServicioEquipo {
     }
 
     @Override
+    public Double calcularPuntajeTotalDelEquipo(Long equipoId) {
+        List<EquipoJugador> jugadoresDelEquipo = repositorioEquipoJugador.buscarPorEquipoId(equipoId);
+        if (jugadoresDelEquipo == null || jugadoresDelEquipo.isEmpty()) return 0.0;
+
+        Long torneoId = jugadoresDelEquipo.get(0).getEquipo().getTorneo().getId();
+
+        double total = 0.0;
+        for (EquipoJugador eqj : jugadoresDelEquipo) {
+            RendimientoJugador rend = repositorioJugador.buscarRendimientoPorJugadorYTorneo(eqj.getJugador().getId(), torneoId);
+            if (rend == null) continue;
+
+            double base = rend.getPuntos()
+                    + 1.2 * rend.getRebotes()
+                    + 1.5 * rend.getAsistencias()
+                    + 3.0 * rend.getRobos()
+                    + 3.0 * rend.getBloqueos()
+                    - 2.0 * rend.getPerdidas();
+
+            double multiplicador;
+            switch (eqj.getPosicionDelJugador()) {
+                case CAPITAN:      multiplicador = 2.0; break;
+                case SEXTO_HOMBRE: multiplicador = 0.8; break;
+                case SUPLENTE:     multiplicador = 0.5; break;
+                default:           multiplicador = 1.0; break;
+            }
+
+            total += base * multiplicador;
+        }
+        return total;
+    }
+
+    @Override
     public void agregarJugadorAlEquipo(Long idEquipo, Long idJugador, Integer numeroDeOrden) throws EquipoNoEncontradoException, PresupuestoInsuficienteException, elJugadorYaExisteEnElEquipoException {
 
         Equipo equipo = buscarEquipoPorId(idEquipo);

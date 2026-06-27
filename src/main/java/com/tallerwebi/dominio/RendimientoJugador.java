@@ -14,6 +14,8 @@ public class RendimientoJugador {
     @ManyToOne
     private PartidoNBA partidoNBA;
 
+    @ManyToOne
+    private Torneo torneo;
 
     private Integer perdidas;
     private Integer robos;
@@ -49,6 +51,8 @@ public class RendimientoJugador {
     }
     public PartidoNBA getPartidoNBA() {return partidoNBA;}
     public void setPartidoNBA(PartidoNBA partidoNBA) {this.partidoNBA = partidoNBA;}
+    public Torneo getTorneo() {return torneo;}
+    public void setTorneo(Torneo torneo) {this.torneo = torneo;}
     public Integer getBloqueos() {
         return bloqueos;
     }

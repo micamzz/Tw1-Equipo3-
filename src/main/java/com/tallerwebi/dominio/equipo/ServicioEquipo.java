@@ -29,4 +29,5 @@ public interface ServicioEquipo {
 
     Double obtenerPresupuestoInicial();
 
+    Double calcularPuntajeTotalDelEquipo(Long equipoId);
 }
