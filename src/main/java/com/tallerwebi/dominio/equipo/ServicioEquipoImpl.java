@@ -20,9 +20,7 @@ public class ServicioEquipoImpl implements ServicioEquipo {
     private final RepositorioEquipoJugador repositorioEquipoJugador;
     private final RepositorioTorneo repositorioTorneo;
     private static final Double PRESUPUESTO_INICIAL = 2000000D;
-    private static final Integer NUMERO_ORDEN_CAPITAN = 11;
-    private static final Integer NUMERO_ORDEN_SEXTO_HOMBRE = 12;
-    private static final Integer CANTIDAD_JUGADORES_EQUIPO_COMPLETO = 12;
+    private static final Integer CANTIDAD_JUGADORES_EQUIPO_COMPLETO = 10;
 
 
     @Autowired
@@ -75,8 +73,25 @@ public class ServicioEquipoImpl implements ServicioEquipo {
         List<EquipoJugador> listadoDeJugadores = buscarJugadoresDelEquipo(idEquipo);
 
         if (listadoDeJugadores == null || listadoDeJugadores.size() < CANTIDAD_JUGADORES_EQUIPO_COMPLETO) {
-            throw new EquipoSinCompletarException("El equipo debe estar completo para poder confirmarlo ");
+            throw new EquipoSinCompletarException("El equipo debe tener 10 jugadores para poder confirmarlo ");
         }
+
+        Boolean tieneCapitan = false;
+        Boolean tieneSextoHombre = false;
+
+        for (EquipoJugador ej : listadoDeJugadores) {
+            if (ej.getPosicionDelJugador() == PosicionJugadorEquipo.CAPITAN) {
+                tieneCapitan = true;
+            }
+            if (ej.getPosicionDelJugador() == PosicionJugadorEquipo.SEXTO_HOMBRE) {
+                tieneSextoHombre = true;
+            }
+        }
+
+        if (!tieneCapitan || !tieneSextoHombre) {
+            throw new EquipoSinCompletarException("Debés asignar un capitán y un sexto hombre");
+        }
+
     }
 
     @Override
@@ -177,16 +192,15 @@ public class ServicioEquipoImpl implements ServicioEquipo {
         equipoJugador.setEquipo(equipo);
         equipoJugador.setJugador(jugador);
         equipoJugador.setNumeroOrden(numeroDeOrden);
+
+        // Primero asigna a jugadores titulares y suplentes
         if (numeroDeOrden <= 5) {
             equipoJugador.setPosicionDelJugador(PosicionJugadorEquipo.TITULAR);
-        } else if (numeroDeOrden <= 10) {
+        } else {
             equipoJugador.setPosicionDelJugador(PosicionJugadorEquipo.SUPLENTE);
-        } else if (numeroDeOrden.equals(NUMERO_ORDEN_CAPITAN)) {
-            equipoJugador.setPosicionDelJugador(PosicionJugadorEquipo.CAPITAN);
-        } else if (numeroDeOrden.equals(NUMERO_ORDEN_SEXTO_HOMBRE)) {
-            equipoJugador.setPosicionDelJugador(PosicionJugadorEquipo.SEXTO_HOMBRE);
         }
         repositorioEquipoJugador.guardarEquipoJugador(equipoJugador);
+
     }
 
     /* SI EL SALDO DEL EQUIPO ES MENOR AL VALOR DEL JUGADOR EXCEPCION, NO PUEDE COMPRARLO.*/
@@ -206,6 +220,34 @@ public class ServicioEquipoImpl implements ServicioEquipo {
         if (equipoJugador != null) {
             throw new elJugadorYaExisteEnElEquipoException("El jugador ya esta fichado en el equipo");
         }
+    }
+
+
+    //    Actualiza el enum del jugador ya elegido.
+    @Override
+    public void asignarRolEspecial(Long idEquipo, Long idJugador, PosicionJugadorEquipo rol)
+            throws EquipoNoEncontradoException {
+
+        // Si ya había otro con ese rol, lo resetea
+        List<EquipoJugador> todos = repositorioEquipoJugador.buscarPorEquipoId(idEquipo);
+        for (EquipoJugador ej : todos) {
+            if (ej.getPosicionDelJugador() == rol) {
+                if (ej.getNumeroOrden() <= 5) {
+                    ej.setPosicionDelJugador(PosicionJugadorEquipo.TITULAR);
+                } else {
+                    ej.setPosicionDelJugador(PosicionJugadorEquipo.SUPLENTE);
+                }
+                repositorioEquipoJugador.actualizarEquipoJugador(ej);
+            }
+        }
+
+        // Asigna el rol al jugador elegido
+        EquipoJugador equipoJugador = repositorioEquipoJugador.buscarEquipoYJugadorAsociado(idEquipo, idJugador);
+        if (equipoJugador == null) {
+            throw new EquipoNoEncontradoException("El jugador no pertenece al equipo");
+        }
+        equipoJugador.setPosicionDelJugador(rol);
+        repositorioEquipoJugador.actualizarEquipoJugador(equipoJugador);
     }
 
 }

@@ -2,7 +2,7 @@ let numeroOrdenSeleccionado = null;
 let puestoActivo = null;
 
 document.addEventListener("DOMContentLoaded", function () {
-  document.getElementById("scrollJugadores").style.display = "none";
+  document.getElementById("scrollJugadores").style.display = "flex";
   document.getElementById("placeholder-lista").style.display = "flex";
 
   document.querySelectorAll(".tarjeta-jugador").forEach((card) => {
@@ -18,7 +18,7 @@ document.getElementById("campoBuscar").addEventListener("input", function (e) {
     const nombre = card.dataset.nombre.toLowerCase();
     const coincideNombre = nombre.includes(busqueda);
     const coincidePuesto =
-      puestoActivo === "TODOS" || card.dataset.puesto === puestoActivo;
+            puestoActivo === "TODOS" || card.dataset.puesto === puestoActivo;
 
     if (coincideNombre && coincidePuesto) {
       card.classList.remove("oculto");

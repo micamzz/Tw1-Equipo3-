@@ -2,9 +2,9 @@ package com.tallerwebi.dominio;
 
 public class PartidoConScoreDTO {
 
-    private PartidoNBA partido;
-    private ScorePartido scoreLocal;
-    private ScorePartido scoreVisitante;
+    private final PartidoNBA partido;
+    private final ScorePartido scoreLocal;
+    private final ScorePartido scoreVisitante;
 
     public PartidoConScoreDTO(
             PartidoNBA partido,

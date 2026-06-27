@@ -1,8 +1,8 @@
 package com.tallerwebi.dominio.equipoJugador;
 
 import com.tallerwebi.dominio.Jugador;
-import com.tallerwebi.dominio.equipo.Equipo;
 import com.tallerwebi.dominio.enums.PosicionJugadorEquipo;
+import com.tallerwebi.dominio.equipo.Equipo;
 
 import javax.persistence.*;
 
@@ -21,6 +21,8 @@ public class EquipoJugador {
 
     //numeroOrden es el valor que le voy a asignar para saber si es titular (1 a 5), suplente (6 a 10) y 6to (6) para luego calcular los puntos del equipo.
     private Integer numeroOrden;
+    
+    @Enumerated(EnumType.STRING)
     private PosicionJugadorEquipo posicionDelJugador;
 
 
