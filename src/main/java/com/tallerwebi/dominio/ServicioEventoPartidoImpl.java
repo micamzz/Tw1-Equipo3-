@@ -18,11 +18,11 @@ public class ServicioEventoPartidoImpl implements ServicioEventoPartido {
 
     private final ServicioPartidoNBA servicioPartidoNBA;
     private final ServicioEquipoNBA servicioEquipoNBA;
-    private RepositorioEventoPartido repositorioEventoPartido;
-    private RepositorioPartidoNBA repositorioPartidoNBA;
-    private RepositorioJugador repositorioJugador;
-    private RepositorioFormacion repositorioFormacion;
-    private RepositorioScorePartido repositorioScorePartido;
+    private final RepositorioEventoPartido repositorioEventoPartido;
+    private final RepositorioPartidoNBA repositorioPartidoNBA;
+    private final RepositorioJugador repositorioJugador;
+    private final RepositorioFormacion repositorioFormacion;
+    private final RepositorioScorePartido repositorioScorePartido;
 
 
     @Autowired
