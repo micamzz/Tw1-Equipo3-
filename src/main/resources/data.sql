@@ -1,7 +1,16 @@
 INSERT INTO Usuario(id, nombre, email, password, rol, activo)
 VALUES (null, 'Admin Test', 'test@unlam.edu.ar', 'test', 'ADMIN', true),
        (null, 'Micaela', 'mica@unlam.com', 'test', 'ADMIN', true),
-       (null, 'Lucas', 'lucas@unlam.com', 'test', 'USER', true);
+
+-- USUARIOS
+       (3, 'Lucas', 'lucas@unlam.com', 'test', 'USER', true),
+
+       (4, 'Juan', 'juan@unlam.com', 'test', 'USER', true),
+
+       (5, 'Marcos', 'marcos@unlam.com', 'test', 'USER', true),
+
+       (6, 'Sofia', 'sofia@unlam.com', 'test', 'USER', true),
+       (7, 'Valentina', 'valentina@unlam.com', 'test', 'USER', true);
 
 /* TEMPORADA 2025 08 DE MARZO A 22 DE DICIEMBRE*/
 INSERT INTO Temporada (id, nombre, anio, fechaInicio, fechaFin)
@@ -430,4 +439,89 @@ VALUES (20, 1, 2, '2026-06-27 19:00:00', NULL, 1, 'PROGRAMADO'), -- Warriors vs 
    ID 22 Y 23*/
 INSERT INTO PartidoNBA (id, equipoLocal_id, equipoVisitante_id, horaInicio, minutoFin, torneo_id, estadoPartido)
 VALUES (22, 5, 6, '2026-06-28 19:00:00', NULL, 1, 'PROGRAMADO'), -- Spurs vs Knicks
-       (23, 7, 8, '2026-06-28 21:00:00', NULL, 1, 'PROGRAMADO'); -- Nets vs Mavericks
+       (23, 7, 8, '2026-06-28 21:00:00', NULL, 1, 'PROGRAMADO');
+-- Nets vs Mavericks
+
+-- EQUIPOS USUARIO
+INSERT INTO equipo (id, nombreEquipo, presupuesto, puntaje, torneo_id, usuario_id)
+VALUES (1, 'Paren La Mano', 0, 0, 1, 3);
+
+
+INSERT INTO equipo (id, nombreEquipo, presupuesto, puntaje, torneo_id, usuario_id)
+VALUES (2, 'Winter is coming', 0, 0, 1, 4);
+
+INSERT INTO equipo (id, nombreEquipo, presupuesto, puntaje, torneo_id, usuario_id)
+VALUES (3, 'Dracarys', 0, 0, 1, 5);
+
+INSERT INTO equipo (id, nombreEquipo, presupuesto, puntaje, torneo_id, usuario_id)
+VALUES (4, 'Los Condores', 0, 0, 1, 6);
+
+INSERT INTO equipo (id, nombreEquipo, presupuesto, puntaje, torneo_id, usuario_id)
+VALUES (5, 'Los Dragones', 0, 0, 1, 7);
+
+-- EQUIPOS USUARIO CON SUS JUGADORES ASOCIADOS
+
+INSERT INTO equipojugador (id, numeroOrden, posicionDelJugador, equipo_id, jugador_id)
+VALUES
+    -- Equipo de LUCAS
+    (1, 1, 'CAPITAN', 1, 1),
+    (2, 2, 'TITULAR', 1, 2),
+    (3, 3, 'TITULAR', 1, 3),
+    (4, 4, 'TITULAR', 1, 4),
+    (5, 5, 'TITULAR', 1, 5),
+    (6, 6, 'SEXTO_HOMBRE', 1, 6),
+    (7, 7, 'SUPLENTE', 1, 7),
+    (8, 8, 'SUPLENTE', 1, 8),
+    (9, 9, 'SUPLENTE', 1, 9),
+    (10, 10, 'SUPLENTE', 1, 10),
+-- Equipo de JUAN
+    (11, 1, 'CAPITAN', 2, 11),
+    (12, 2, 'TITULAR', 2, 12),
+    (13, 3, 'TITULAR', 2, 13),
+    (14, 4, 'TITULAR', 2, 14),
+    (15, 5, 'TITULAR', 2, 15),
+    (16, 6, 'SEXTO_HOMBRE', 2, 16),
+    (17, 7, 'SUPLENTE', 2, 17),
+    (18, 8, 'SUPLENTE', 2, 18),
+    (19, 9, 'SUPLENTE', 2, 19),
+    (20, 10, 'SUPLENTE', 2, 20),
+-- Equipo de Marcos
+    (21, 1, 'CAPITAN', 3, 21),
+    (22, 2, 'TITULAR', 3, 22),
+    (23, 3, 'TITULAR', 3, 23),
+    (24, 4, 'TITULAR', 3, 24),
+    (25, 5, 'TITULAR', 3, 25),
+    (26, 6, 'SEXTO_HOMBRE', 3, 26),
+    (27, 7, 'SUPLENTE', 3, 27),
+    (28, 8, 'SUPLENTE', 3, 28),
+    (29, 9, 'SUPLENTE', 3, 29),
+    (30, 10, 'SUPLENTE', 3, 30),
+-- Equipo de Sofia
+    (31, 1, 'CAPITAN', 4, 31),
+    (32, 2, 'TITULAR', 4, 32),
+    (33, 3, 'TITULAR', 4, 33),
+    (34, 4, 'TITULAR', 4, 34),
+    (35, 5, 'TITULAR', 4, 35),
+    (36, 6, 'SEXTO_HOMBRE', 4, 36),
+    (37, 7, 'SUPLENTE', 4, 37),
+    (38, 8, 'SUPLENTE', 4, 38),
+    (39, 9, 'SUPLENTE', 4, 39),
+    (40, 10, 'SUPLENTE', 4, 40),
+-- Equipo de Valentina
+    (41, 1, 'CAPITAN', 5, 41),
+    (42, 2, 'TITULAR', 5, 42),
+    (43, 3, 'TITULAR', 5, 43),
+    (44, 4, 'TITULAR', 5, 44),
+    (45, 5, 'TITULAR', 5, 45),
+    (46, 6, 'SEXTO_HOMBRE', 5, 46),
+    (47, 7, 'SUPLENTE', 5, 47),
+    (48, 8, 'SUPLENTE', 5, 48),
+    (49, 9, 'SUPLENTE', 5, 49),
+    (50, 10, 'SUPLENTE', 5, 50);
+
+-- NO BORRAR POR AHORA - ES PARA QUE CALCULE EL PRESUPUESTO Y NO SE MUESTRE EN CERO
+UPDATE equipo e
+SET e.presupuesto = 2000000 - (SELECT COALESCE(SUM(j.precio), 0)
+                               FROM equipojugador ej
+                                        JOIN Jugador j ON ej.jugador_id = j.id
+                               WHERE ej.equipo_id = e.id);

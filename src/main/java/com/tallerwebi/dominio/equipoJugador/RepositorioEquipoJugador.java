@@ -13,4 +13,5 @@ public interface RepositorioEquipoJugador {
     void eliminarEquipoJugador(EquipoJugador equipoJugador);
 
 
+    void actualizarEquipoJugador(EquipoJugador ej);
 }
