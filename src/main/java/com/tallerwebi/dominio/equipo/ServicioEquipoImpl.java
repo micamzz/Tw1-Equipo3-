@@ -114,11 +114,22 @@ public class ServicioEquipoImpl implements ServicioEquipo {
         List<EquipoJugador> jugadoresDelEquipo = repositorioEquipoJugador.buscarPorEquipoId(equipoId);
         if (jugadoresDelEquipo == null || jugadoresDelEquipo.isEmpty()) return 0.0;
 
-        Long torneoId = jugadoresDelEquipo.get(0).getEquipo().getTorneo().getId();
+        Long torneoEquipoId = jugadoresDelEquipo.get(0).getEquipo().getTorneo().getId();
+        Torneo torneoEquipo = repositorioTorneo.buscarTorneoPorId(torneoEquipoId);
+        Long torneoRealId = torneoEquipoId;
+        if (torneoEquipo != null && torneoEquipo.getTipoTorneo() == TipoTorneo.VIRTUAL) {
+            List<Torneo> mismos = repositorioTorneo.obtenerTorneosPorTemporada(torneoEquipo.getTemporada().getId());
+            for (Torneo t : mismos) {
+                if (t.getTipoTorneo() == TipoTorneo.REAL) {
+                    torneoRealId = t.getId();
+                    break;
+                }
+            }
+        }
 
         double total = 0.0;
         for (EquipoJugador eqj : jugadoresDelEquipo) {
-            RendimientoJugador rend = repositorioJugador.buscarRendimientoPorJugadorYTorneo(eqj.getJugador().getId(), torneoId);
+            RendimientoJugador rend = repositorioJugador.buscarRendimientoPorJugadorYTorneo(eqj.getJugador().getId(), torneoRealId);
             if (rend == null) continue;
 
             double base = rend.getPuntos()
@@ -248,6 +259,22 @@ public class ServicioEquipoImpl implements ServicioEquipo {
         }
         equipoJugador.setPosicionDelJugador(rol);
         repositorioEquipoJugador.actualizarEquipoJugador(equipoJugador);
+    }
+
+    @Override
+    public List<Equipo> obtenerTopEquiposPorTorneo(Long torneoId, int limite) {
+        List<Equipo> equipos = repositorioEquipo.buscarEquiposPorTorneo(torneoId);
+        if (equipos == null || equipos.isEmpty()) return List.of();
+
+        equipos.sort((a, b) -> Double.compare(
+                calcularPuntajeTotalDelEquipo(b.getId()),
+                calcularPuntajeTotalDelEquipo(a.getId())));
+        List<Equipo> top = equipos.subList(0, Math.min(limite, equipos.size()));
+
+        for (Equipo e : top) {
+            e.setPuntaje(calcularPuntajeTotalDelEquipo(e.getId()));
+        }
+        return top;
     }
 
 }

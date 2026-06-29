@@ -2,9 +2,10 @@ INSERT INTO Usuario(id, nombre, email, password, rol, activo)
 VALUES (null, 'Admin Test', 'test@unlam.edu.ar', 'test', 'ADMIN', true),
        (null, 'Micaela', 'mica@unlam.com', 'test', 'ADMIN', true),
        (null, 'Lucas', 'lucas@unlam.com', 'test', 'USER', true),
-       (10, 'Pepito', 'pepito@unlam.com', 'test', 'USER', true),
-       (11, 'Pancho', 'pancho@unlam.com', 'test', 'USER', true),
-       (12, 'Destroyer', 'destroyer@unlam.com', 'test', 'USER', true);
+       (4, 'Juan', 'juan@unlam.com', 'test', 'USER', true),
+       (5, 'Marcos', 'marcos@unlam.com', 'test', 'USER', true),
+       (6, 'Sofia', 'sofia@unlam.com', 'test', 'USER', true),
+       (7, 'Valentina', 'valentina@unlam.com', 'test', 'USER', true);
 
 
 /* TEMPORADA 2025 08 DE MARZO A 22 DE DICIEMBRE*/
@@ -449,54 +450,76 @@ VALUES (30, 1, 110), (30, 2, 102),
        (32, 5, 115), (32, 6, 100),
        (33, 7, 88),  (33, 8, 95);
 
--- 3 EQUIPOS FANTASY
-INSERT INTO Equipo (id, nombreEquipo, presupuesto, puntaje, torneo_id, usuario_id)
-VALUES (10, 'Los Pepes', 2000000, 0, 2, 10),
-       (11, 'Panchito FC', 2000000, 0, 2, 11),
-       (12, 'Destroyers', 2000000, 0, 2, 12);
+-- EQUIPOS USUARIO (torneo virtual id = 2)
+INSERT INTO equipo (id, nombreEquipo, presupuesto, puntaje, torneo_id, usuario_id)
+VALUES (1, 'Paren La Mano', 0, 0, 2, 3),
+       (2, 'Winter is coming', 0, 0, 2, 4),
+       (3, 'Dracarys', 0, 0, 2, 5),
+       (4, 'Los Condores', 0, 0, 2, 6),
+       (5, 'Los Dragones', 0, 0, 2, 7);
 
--- EquipoJugador:
--- Pepito ->
-INSERT INTO EquipoJugador (equipo_id, jugador_id, numeroOrden, posicionDelJugador)
-VALUES (10, 1, 1, 0),
-       (10, 2, 2, 0),
-       (10, 3, 3, 0),
-       (10, 4, 4, 0),
-       (10, 5, 5, 0),
-       (10, 6, 6, 1),
-       (10, 7, 7, 1),
-       (10, 8, 8, 1),
-       (10, 9, 9, 1),
-       (10, 10, 10, 1),
-       (10, 11, 11, 2),
-       (10, 12, 12, 3);
+-- EQUIPOS USUARIO CON SUS JUGADORES ASOCIADOS
+INSERT INTO equipojugador (id, numeroOrden, posicionDelJugador, equipo_id, jugador_id)
+VALUES
+    -- Equipo de LUCAS (equipo 1)
+    (1, 1, 'CAPITAN', 1, 1),
+    (2, 2, 'TITULAR', 1, 2),
+    (3, 3, 'TITULAR', 1, 3),
+    (4, 4, 'TITULAR', 1, 4),
+    (5, 5, 'TITULAR', 1, 5),
+    (6, 6, 'SEXTO_HOMBRE', 1, 6),
+    (7, 7, 'SUPLENTE', 1, 7),
+    (8, 8, 'SUPLENTE', 1, 8),
+    (9, 9, 'SUPLENTE', 1, 9),
+    (10, 10, 'SUPLENTE', 1, 10),
+    -- Equipo de JUAN (equipo 2)
+    (11, 1, 'CAPITAN', 2, 11),
+    (12, 2, 'TITULAR', 2, 12),
+    (13, 3, 'TITULAR', 2, 13),
+    (14, 4, 'TITULAR', 2, 14),
+    (15, 5, 'TITULAR', 2, 15),
+    (16, 6, 'SEXTO_HOMBRE', 2, 16),
+    (17, 7, 'SUPLENTE', 2, 17),
+    (18, 8, 'SUPLENTE', 2, 18),
+    (19, 9, 'SUPLENTE', 2, 19),
+    (20, 10, 'SUPLENTE', 2, 20),
+    -- Equipo de Marcos (equipo 3)
+    (21, 1, 'CAPITAN', 3, 21),
+    (22, 2, 'TITULAR', 3, 22),
+    (23, 3, 'TITULAR', 3, 23),
+    (24, 4, 'TITULAR', 3, 24),
+    (25, 5, 'TITULAR', 3, 25),
+    (26, 6, 'SEXTO_HOMBRE', 3, 26),
+    (27, 7, 'SUPLENTE', 3, 27),
+    (28, 8, 'SUPLENTE', 3, 28),
+    (29, 9, 'SUPLENTE', 3, 29),
+    (30, 10, 'SUPLENTE', 3, 30),
+    -- Equipo de Sofia (equipo 4)
+    (31, 1, 'CAPITAN', 4, 31),
+    (32, 2, 'TITULAR', 4, 32),
+    (33, 3, 'TITULAR', 4, 33),
+    (34, 4, 'TITULAR', 4, 34),
+    (35, 5, 'TITULAR', 4, 35),
+    (36, 6, 'SEXTO_HOMBRE', 4, 36),
+    (37, 7, 'SUPLENTE', 4, 37),
+    (38, 8, 'SUPLENTE', 4, 38),
+    (39, 9, 'SUPLENTE', 4, 39),
+    (40, 10, 'SUPLENTE', 4, 40),
+    -- Equipo de Valentina (equipo 5)
+    (41, 1, 'CAPITAN', 5, 41),
+    (42, 2, 'TITULAR', 5, 42),
+    (43, 3, 'TITULAR', 5, 43),
+    (44, 4, 'TITULAR', 5, 44),
+    (45, 5, 'TITULAR', 5, 45),
+    (46, 6, 'SEXTO_HOMBRE', 5, 46),
+    (47, 7, 'SUPLENTE', 5, 47),
+    (48, 8, 'SUPLENTE', 5, 48),
+    (49, 9, 'SUPLENTE', 5, 49),
+    (50, 10, 'SUPLENTE', 5, 50);
 
--- Pancho ->
-INSERT INTO EquipoJugador (equipo_id, jugador_id, numeroOrden, posicionDelJugador)
-VALUES (11, 13, 1, 0),
-       (11, 14, 2, 0),
-       (11, 15, 3, 0),
-       (11, 16, 4, 0),
-       (11, 17, 5, 0),
-       (11, 18, 6, 1),
-       (11, 19, 7, 1),
-       (11, 20, 8, 1),
-       (11, 21, 9, 1),
-       (11, 22, 10, 1),
-       (11, 23, 11, 2),
-       (11, 24, 12, 3);
-
--- Destroyer ->
-INSERT INTO EquipoJugador (equipo_id, jugador_id, numeroOrden, posicionDelJugador)
-VALUES (12, 25, 1, 0),
-       (12, 26, 2, 0),
-       (12, 27, 3, 0),
-       (12, 28, 4, 0),
-       (12, 29, 5, 0),
-       (12, 30, 6, 1),
-       (12, 31, 7, 1),
-       (12, 32, 8, 1),
-       (12, 33, 9, 1),
-       (12, 34, 10, 1),
-       (12, 35, 11, 2),
-       (12, 36, 12, 3);
+-- NO BORRAR POR AHORA - ES PARA QUE CALCULE EL PRESUPUESTO Y NO SE MUESTRE EN CERO
+UPDATE equipo e
+SET e.presupuesto = 2000000 - (SELECT COALESCE(SUM(j.precio), 0)
+                               FROM equipojugador ej
+                                        JOIN Jugador j ON ej.jugador_id = j.id
+                               WHERE ej.equipo_id = e.id);

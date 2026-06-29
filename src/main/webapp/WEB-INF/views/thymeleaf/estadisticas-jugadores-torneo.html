@@ -151,7 +151,7 @@
     <h1>Mis jugadores en <span class="color-naranja" th:text="${torneoActual.nombreTorneo}">Torneo</span></h1>
     <p class="subtitulo">Rendimiento de tus jugadores en <strong th:text="${torneoActual.nombreTorneo}">Torneo</strong></p>
 
-    <table class="tabla-estadisticas" th:if="${jugadoresData != null and !jugadoresData.isEmpty()}">
+    <table class="tabla-estadisticas" th:if="${jugadoresConStats != null and !jugadoresConStats.isEmpty()}">
         <thead>
         <tr>
             <th>Jugador</th>
@@ -166,26 +166,26 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="jd : ${jugadoresData}">
+        <tr th:each="item : ${jugadoresConStats}">
             <td>
                 <span class="jugador-nombre">
-                    <img th:if="${jd.foto}" th:src="${jd.foto}" alt="" class="jugador-foto"/>
-                    <span th:text="${jd.nombreCompleto}">Jugador</span>
+                    <img th:if="${item.jugador.foto}" th:src="${item.jugador.foto}" alt="" class="jugador-foto"/>
+                    <span th:text="${item.rend.nombreCompleto != null ? item.rend.nombreCompleto : (item.jugador.nombre + ' ' + item.jugador.apellido)}">Jugador</span>
                 </span>
             </td>
-            <td class="rol-col" th:text="${jd.rol}">TITULAR</td>
-            <td th:text="${jd.rendimiento != null ? jd.rendimiento.puntos : 0}">0</td>
-            <td th:text="${jd.rendimiento != null ? jd.rendimiento.rebotes : 0}">0</td>
-            <td th:text="${jd.rendimiento != null ? jd.rendimiento.asistencias : 0}">0</td>
-            <td th:text="${jd.rendimiento != null ? jd.rendimiento.robos : 0}">0</td>
-            <td th:text="${jd.rendimiento != null ? jd.rendimiento.bloqueos : 0}">0</td>
-            <td th:text="${jd.rendimiento != null ? jd.rendimiento.perdidas : 0}">0</td>
-            <td class="puntaje-col" th:text="${#numbers.formatDecimal(jd.puntaje, 1, 1)}">0.0</td>
+            <td class="rol-col" th:text="${item.rol}">TITULAR</td>
+            <td th:text="${item.rend.puntos}">0</td>
+            <td th:text="${item.rend.rebotes}">0</td>
+            <td th:text="${item.rend.asistencias}">0</td>
+            <td th:text="${item.rend.robos}">0</td>
+            <td th:text="${item.rend.bloqueos}">0</td>
+            <td th:text="${item.rend.perdidas}">0</td>
+            <td class="puntaje-col" th:text="${#numbers.formatDecimal(item.puntaje, 1, 1)}">0.0</td>
         </tr>
         </tbody>
     </table>
 
-    <div class="sin-datos-msg" th:if="${jugadoresData == null or jugadoresData.isEmpty()}">
+    <div class="sin-datos-msg" th:if="${jugadoresConStats == null or jugadoresConStats.isEmpty()}">
         No tienes jugadores en tu equipo. <a th:href="@{/mercado}" class="link-ver-todo">Ir al mercado</a>
     </div>
 

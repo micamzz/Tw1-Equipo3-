@@ -61,6 +61,11 @@ public class ServicioMercadoImpl implements ServicioMercado {
     }
 
     @Override
+    public RendimientoJugador obtenerRendimientoPorJugadorYTorneo(Long jugadorId, Long torneoId) {
+        return repositorioJugador.buscarRendimientoPorJugadorYTorneo(jugadorId, torneoId);
+    }
+
+    @Override
     public List<RendimientoJugador> obtenerRendimientosPorTorneo(Long torneoId) {
         return repositorioJugador.buscarRendimientosPorTorneo(torneoId);
     }

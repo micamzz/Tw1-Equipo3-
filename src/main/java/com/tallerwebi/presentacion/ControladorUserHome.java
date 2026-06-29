@@ -1,8 +1,10 @@
 package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.*;
+import com.tallerwebi.dominio.enums.PosicionJugadorEquipo;
 import com.tallerwebi.dominio.equipo.Equipo;
 import com.tallerwebi.dominio.equipo.ServicioEquipo;
+import com.tallerwebi.dominio.equipoJugador.EquipoJugador;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -58,19 +60,60 @@ public class ControladorUserHome {
             modelo.put("topRendimientos", top3);
         }
 
+        List<Equipo> topEquipos = List.of();
+        try {
+            Torneo torneoVirtual = servicioTorneo.obtenerTorneoActual(TipoTorneo.VIRTUAL);
+            if (torneoVirtual != null) {
+                List<Equipo> resultado = servicioEquipo.obtenerTopEquiposPorTorneo(torneoVirtual.getId(), 5);
+                if (resultado != null) {
+                    topEquipos = resultado;
+                }
+            }
+        } catch (Exception ignored) {}
+        modelo.put("topEquipos", topEquipos);
+
         return new ModelAndView("home", modelo);
     }
 
-    @GetMapping("/estadisticas-torneo")
-    public ModelAndView verEstadisticasTorneo(HttpServletRequest request) {
+    @GetMapping("/estadisticas-jugadores-torneo")
+    public ModelAndView verEstadisticasJugadoresTorneo(HttpServletRequest request) {
         Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
         if (usuario == null) return new ModelAndView("redirect:/login");
 
         Torneo torneoActual = servicioTorneo.obtenerTorneoActual(TipoTorneo.REAL);
         if (torneoActual == null) return new ModelAndView("redirect:/home");
 
-        List<RendimientoJugador> rendimientos = servicioMercado.obtenerRendimientosPorTorneo(torneoActual.getId());
-        rendimientos.sort((a, b) -> Double.compare(servicioMercado.calcularPuntajeJugador(b), servicioMercado.calcularPuntajeJugador(a)));
+        Equipo equipo = servicioEquipo.obtenerEquipoPorIdUsuario(usuario.getId());
+
+        List<HashMap<String, Object>> jugadoresConStats = new ArrayList<>();
+
+        if (equipo != null) {
+            List<EquipoJugador> equipoJugadores = servicioEquipo.buscarJugadoresDelEquipo(equipo.getId());
+
+            for (EquipoJugador ej : equipoJugadores) {
+                RendimientoJugador rend = servicioMercado.obtenerRendimientoPorJugadorYTorneo(ej.getJugador().getId(), torneoActual.getId());
+                if (rend == null) continue;
+
+                HashMap<String, Object> item = new HashMap<>();
+                item.put("jugador", ej.getJugador());
+                item.put("rend", rend);
+                PosicionJugadorEquipo rolEnum = ej.getPosicionDelJugador();
+                String mostrarNombre;
+                switch (rolEnum) {
+                    case CAPITAN:       mostrarNombre = "Capitán"; break;
+                    case SEXTO_HOMBRE:  mostrarNombre = "Sexto hombre"; break;
+                    case SUPLENTE:      mostrarNombre = "Suplente"; break;
+                    default:            mostrarNombre = "Titular"; break;
+                }
+                item.put("rol", mostrarNombre);
+                double puntaje = servicioMercado.calcularPuntajeJugador(rend);
+                item.put("puntaje", puntaje);
+
+                jugadoresConStats.add(item);
+            }
+
+            jugadoresConStats.sort((a, b) -> Double.compare((Double) b.get("puntaje"), (Double) a.get("puntaje")));
+        }
 
         List<Torneo> torneosReales = servicioTorneo.obtenerTodosLosTorneos().stream()
                 .filter(t -> t.getTipoTorneo() == TipoTorneo.REAL && !t.getId().equals(torneoActual.getId()))
@@ -78,11 +121,12 @@ public class ControladorUserHome {
 
         ModelMap modelo = new ModelMap();
         modelo.put("usuario", usuario);
+        modelo.put("equipo", equipo);
         modelo.put("torneoActual", torneoActual);
-        modelo.put("rendimientos", rendimientos);
+        modelo.put("jugadoresConStats", jugadoresConStats);
         modelo.put("torneosPasados", torneosReales);
         modelo.put("servicioMercado", servicioMercado);
-        return new ModelAndView("estadisticas-torneo", modelo);
+        return new ModelAndView("estadisticas-jugadores-torneo", modelo);
     }
 
 }
