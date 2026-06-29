@@ -21,18 +21,20 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
     private final RepositorioScorePartido repositorioScorePartido;
     private final RepositorioEquipoNBA repositorioEquipoNBA;
     private final RepositorioJugador repositorioJugador;
+    private final ServicioEventoPartido servicioEventoPartido;
 
     @Autowired
     public ServicioPartidoNBAImpl(RepositorioPartidoNBA repositorioPartidoNBA,
                                   RepositorioCronologiaNBA repositorioCronologiaNBA,
                                   RepositorioScorePartido repositorioScorePartido,
                                   RepositorioEquipoNBA repositorioEquipoNBA,
-                                  RepositorioJugador repositorioJugador) {
+                                  RepositorioJugador repositorioJugador, ServicioEventoPartido servicioEventoPartido) {
         this.repositorioPartidoNBA = repositorioPartidoNBA;
         this.repositorioCronologiaNBA = repositorioCronologiaNBA;
         this.repositorioScorePartido = repositorioScorePartido;
         this.repositorioEquipoNBA = repositorioEquipoNBA;
         this.repositorioJugador = repositorioJugador;
+        this.servicioEventoPartido = servicioEventoPartido;
     }
 
     @Override
@@ -148,70 +150,70 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
         return repositorioCronologiaNBA.buscarPorPartido(partidoId);
     }
 
-    @Override
-    public ScorePartido obtenerScoreLocal(Long partidoId) {
-        PartidoNBA partido = repositorioPartidoNBA.buscarPorId(partidoId);
+    /*  @Override
+      public ScorePartido obtenerScoreLocal(Long partidoId) {
+          PartidoNBA partido = repositorioPartidoNBA.buscarPorId(partidoId);
 
-        ScorePartido scoreLocal = repositorioScorePartido.buscarPorPartidoYEquipo(partidoId, partido.getEquipoLocal().getId());
+          ScorePartido scoreLocal = repositorioScorePartido.buscarPorPartidoYEquipo(partidoId, partido.getEquipoLocal().getId());
 
-        if (scoreLocal == null) {
-            scoreLocal = new ScorePartido(partido, partido.getEquipoLocal());
-            repositorioScorePartido.guardar(scoreLocal);
-        }
+          if (scoreLocal == null) {
+              scoreLocal = new ScorePartido(partido, partido.getEquipoLocal());
+              repositorioScorePartido.guardar(scoreLocal);
+          }
 
-        return scoreLocal;
-    }
+          return scoreLocal;
+      }
 
-    @Override
-    public ScorePartido obtenerScoreVisitante(Long partidoId) {
-        PartidoNBA partido = repositorioPartidoNBA.buscarPorId(partidoId);
-        ScorePartido scoreVisitante = repositorioScorePartido.buscarPorPartidoYEquipo(partidoId, partido.getEquipoVisitante().getId());
+      @Override
+      public ScorePartido obtenerScoreVisitante(Long partidoId) {
+          PartidoNBA partido = repositorioPartidoNBA.buscarPorId(partidoId);
+          ScorePartido scoreVisitante = repositorioScorePartido.buscarPorPartidoYEquipo(partidoId, partido.getEquipoVisitante().getId());
 
-        if (scoreVisitante == null) {
-            scoreVisitante = new ScorePartido(partido, partido.getEquipoVisitante());
-            repositorioScorePartido.guardar(scoreVisitante);
-        }
+          if (scoreVisitante == null) {
+              scoreVisitante = new ScorePartido(partido, partido.getEquipoVisitante());
+              repositorioScorePartido.guardar(scoreVisitante);
+          }
 
-        return scoreVisitante;
+          return scoreVisitante;
 
-    }
+      }
 
-    @Override
-    public List<PartidoConScoreDTO> obtenerPartidosActivosConScore() {
+      @Override
+      public List<PartidoConScoreDTO> obtenerPartidosActivosConScore() {
 
-        List<PartidoConScoreDTO> resultado = new ArrayList<>();
+          List<PartidoConScoreDTO> resultado = new ArrayList<>();
 
-        for (PartidoNBA partido : obtenerPartidosActivos()) {
-            resultado.add(
-                    new PartidoConScoreDTO(
-                            partido,
-                            obtenerScoreLocal(partido.getId()),
-                            obtenerScoreVisitante(partido.getId())
-                    )
-            );
-        }
+          for (PartidoNBA partido : obtenerPartidosActivos()) {
+              resultado.add(
+                      new PartidoConScoreDTO(
+                              partido,
+                              obtenerScoreLocal(partido.getId()),
+                              obtenerScoreVisitante(partido.getId())
+                      )
+              );
+          }
 
-        return resultado;
-    }
+          return resultado;
+      }
 
-    @Override
-    public List<PartidoConScoreDTO> obtenerPartidosFinalizadosConScore() {
+      @Override
+      public List<PartidoConScoreDTO> obtenerPartidosFinalizadosConScore() {
 
-        List<PartidoConScoreDTO> resultado = new ArrayList<>();
+          List<PartidoConScoreDTO> resultado = new ArrayList<>();
 
-        for (PartidoNBA partido : obtenerPartidosFinalizados()) {
-            resultado.add(
-                    new PartidoConScoreDTO(
-                            partido,
-                            obtenerScoreLocal(partido.getId()),
-                            obtenerScoreVisitante(partido.getId())
-                    )
-            );
-        }
+          for (PartidoNBA partido : obtenerPartidosFinalizados()) {
+              resultado.add(
+                      new PartidoConScoreDTO(
+                              partido,
+                              obtenerScoreLocal(partido.getId()),
+                              obtenerScoreVisitante(partido.getId())
+                      )
+              );
+          }
 
-        return resultado;
-    }
-
+          return resultado;
+      }
+  */
     @Override
     public void iniciarPartido(Long partidoId) throws EquipoJugandoException {
         PartidoNBA partido = repositorioPartidoNBA.buscarPorId(partidoId);
@@ -243,5 +245,40 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
     public void cancelarPartido(Long partidoId) {
         PartidoNBA partido = repositorioPartidoNBA.buscarPorId(partidoId);
         repositorioPartidoNBA.eliminar(partido);
+    }
+
+    @Override
+    public Integer obtenerPuntosLocal(Long partidoId, Long equipoId) {
+        List<EventoPartido> listaEventosLocal = servicioEventoPartido.obtenerEventosPorPartidoYEquipo(partidoId, equipoId);
+        Integer puntosLocal = 0;
+
+        for (EventoPartido evento : listaEventosLocal) {
+            if (evento.getTipoEstadistica() == TipoEstadistica.DOBLE) {
+                puntosLocal += 2;
+            } else if (evento.getTipoEstadistica() == TipoEstadistica.TRIPLE) {
+                puntosLocal += 3;
+            } else if (evento.getTipoEstadistica() == TipoEstadistica.TIRO_LIBRE) {
+                puntosLocal += 1;
+            }
+
+        }
+        return puntosLocal;
+    }
+
+
+    public Integer obtenerPuntosVisitante(Long partidoId, Long equipoId) {
+        List<EventoPartido> listaEventosVisitante = servicioEventoPartido.obtenerEventosPorPartidoYEquipo(partidoId, equipoId);
+        Integer puntosVisitante = 0;
+
+        for (EventoPartido evento : listaEventosVisitante) {
+            if (evento.getTipoEstadistica() == TipoEstadistica.DOBLE) {
+                puntosVisitante += 2;
+            } else if (evento.getTipoEstadistica() == TipoEstadistica.TRIPLE) {
+                puntosVisitante += 3;
+            } else if (evento.getTipoEstadistica() == TipoEstadistica.TIRO_LIBRE) {
+                puntosVisitante += 1;
+            }
+        }
+        return puntosVisitante;
     }
 }

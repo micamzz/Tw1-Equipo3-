@@ -15,4 +15,6 @@ public interface ServicioEventoPartido {
     List<EventoPartido> buscarEventosPorPartido(Long idPartido);
 
     List<EventoPartido> buscarEventosPorPartidoYJugador(Long idPartido, Long idJugador);
+
+    List<EventoPartido> obtenerEventosPorPartidoYEquipo(Long partidoId, Long equipoId);
 }

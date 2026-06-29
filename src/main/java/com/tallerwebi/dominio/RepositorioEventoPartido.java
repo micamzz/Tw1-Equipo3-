@@ -11,6 +11,6 @@ public interface RepositorioEventoPartido {
 
     List<EventoPartido> buscarEventosPorPartidoYJugador(Long partidoId, Long jugadorId);
 
-
+    List<EventoPartido> buscarEventosPorPartidoYEquipo(Long partidoId, Long equipoId);
 
 }

@@ -1,8 +1,10 @@
 package com.tallerwebi.infraestructura;
 
 import com.tallerwebi.dominio.EventoPartido;
+import com.tallerwebi.dominio.FormacionPartido;
 import com.tallerwebi.dominio.RepositorioEventoPartido;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -54,6 +56,19 @@ public class RepositorioEventoPartidoImpl implements RepositorioEventoPartido {
                 .setParameter("partidoId", partidoId)
                 .setParameter("jugadorId", jugadorId)
                 .list();
+    }
+
+    @Override
+    public List<EventoPartido> buscarEventosPorPartidoYEquipo(Long partidoId, Long equipoId) {
+
+        List<EventoPartido> eventos = sessionFactory.getCurrentSession()
+                .createCriteria(EventoPartido.class)
+                .add(Restrictions.eq("partido.id", partidoId))
+                .add(Restrictions.eq("jugador.id", equipoId))
+                .list();
+
+        return eventos;
+
     }
 
 
