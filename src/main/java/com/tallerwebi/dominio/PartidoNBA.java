@@ -19,11 +19,17 @@ public class PartidoNBA {
     @ManyToOne
     private EquipoNBA equipoLocal;
 
+    @Column(nullable = false)
+    @Transient
     private Integer puntosLocal = 0;
+
+    @Column(nullable = false)
+    @Transient
     private Integer puntosVisitante = 0;
 
     @ManyToOne
     private EquipoNBA equipoVisitante;
+
 
     private LocalDateTime horaInicio;
 
