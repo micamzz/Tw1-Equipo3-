@@ -40,7 +40,7 @@ public class ControladorFixture {
         this.servicioFormacion = servicioFormacion;
     }
 
-    @RequestMapping("/partidos")
+    @RequestMapping({"/partidos", "/fixture"})
     public ModelAndView verPartidos() {
         ModelMap modelo = new ModelMap();
         modelo.put("partidosActivos", servicioPartidoNBA.obtenerPartidosActivos());

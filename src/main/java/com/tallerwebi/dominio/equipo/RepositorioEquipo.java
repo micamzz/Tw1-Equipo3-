@@ -1,5 +1,7 @@
 package com.tallerwebi.dominio.equipo;
 
+import java.util.List;
+
 public interface RepositorioEquipo {
 
     void guardarEquipo(Equipo equipo);
@@ -13,4 +15,6 @@ public interface RepositorioEquipo {
     void actualizarEquipo(Equipo equipo);
 
     Equipo buscarEquipoPorIdUsuario(Long usuarioId);
+
+    List<Equipo> buscarEquiposPorTorneo(Long torneoId);
 }

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Estadísticas de mis jugadores</title>
+
+    <link rel="stylesheet" th:href="@{/css/header.css}"/>
+    <link rel="stylesheet" th:href="@{/css/footer.css}"/>
+    <link rel="stylesheet" th:href="@{/css/home.css}"/>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet"/>
+    <style>
+        .estadisticas-page {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .estadisticas-page h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin: 0 0 0.25rem;
+        }
+
+        .estadisticas-page .subtitulo {
+            color: #999;
+            margin-bottom: 2rem;
+        }
+
+        .tabla-estadisticas {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(20, 20, 20, 0.92);
+            border: 1px solid #2a2a2a;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .tabla-estadisticas th {
+            background: #1a1a1a;
+            color: #ff6b00;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            padding: 12px 10px;
+            text-align: center;
+            border-bottom: 1px solid #2a2a2a;
+        }
+
+        .tabla-estadisticas th:first-child {
+            text-align: left;
+            padding-left: 16px;
+        }
+
+        .tabla-estadisticas td {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid #1a1a1a;
+            font-size: 0.85rem;
+            vertical-align: middle;
+        }
+
+        .tabla-estadisticas td:first-child {
+            text-align: left;
+            padding-left: 16px;
+            font-weight: 600;
+        }
+
+        .tabla-estadisticas tr:hover {
+            background: rgba(255, 107, 0, 0.06);
+        }
+
+        .tabla-estadisticas .puntaje-col {
+            color: #ff6b00;
+            font-weight: 700;
+        }
+
+        .tabla-estadisticas .rol-col {
+            color: #aaa;
+            font-size: 0.78rem;
+        }
+
+        .tabla-estadisticas .sin-datos {
+            color: #666;
+            font-style: italic;
+        }
+
+        .jugador-foto {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        .jugador-nombre {
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .seccion-pasada {
+            margin-top: 3rem;
+        }
+
+        .seccion-pasada h2 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .card-pasada {
+            background: rgba(20, 20, 20, 0.92);
+            border: 1px solid #2a2a2a;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-pasada h3 {
+            color: #ff6b00;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            margin: 0 0 1rem;
+        }
+
+        .sin-datos-msg {
+            color: #666;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .volver-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #ff6b00;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+
+<div th:replace="layout/header :: header"></div>
+
+<main class="estadisticas-page">
+    <a th:href="@{/home}" class="volver-link">&larr; Volver al inicio</a>
+    <h1>Mis jugadores en <span class="color-naranja" th:text="${torneoActual.nombreTorneo}">Torneo</span></h1>
+    <p class="subtitulo">Rendimiento de tus jugadores en <strong th:text="${torneoActual.nombreTorneo}">Torneo</strong></p>
+
+    <table class="tabla-estadisticas" th:if="${jugadoresConStats != null and !jugadoresConStats.isEmpty()}">
+        <thead>
+        <tr>
+            <th>Jugador</th>
+            <th>Rol</th>
+            <th>PTS</th>
+            <th>REB</th>
+            <th>AST</th>
+            <th>ROB</th>
+            <th>BLO</th>
+            <th>PER</th>
+            <th>PUNTAJE</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${jugadoresConStats}">
+            <td>
+                <span class="jugador-nombre">
+                    <img th:if="${item.jugador.foto}" th:src="${item.jugador.foto}" alt="" class="jugador-foto"/>
+                    <span th:text="${item.rend.nombreCompleto != null ? item.rend.nombreCompleto : (item.jugador.nombre + ' ' + item.jugador.apellido)}">Jugador</span>
+                </span>
+            </td>
+            <td class="rol-col" th:text="${item.rol}">TITULAR</td>
+            <td th:text="${item.rend.puntos}">0</td>
+            <td th:text="${item.rend.rebotes}">0</td>
+            <td th:text="${item.rend.asistencias}">0</td>
+            <td th:text="${item.rend.robos}">0</td>
+            <td th:text="${item.rend.bloqueos}">0</td>
+            <td th:text="${item.rend.perdidas}">0</td>
+            <td class="puntaje-col" th:text="${#numbers.formatDecimal(item.puntaje, 1, 1)}">0.0</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="sin-datos-msg" th:if="${jugadoresConStats == null or jugadoresConStats.isEmpty()}">
+        No tienes jugadores en tu equipo. <a th:href="@{/mercado}" class="link-ver-todo">Ir al mercado</a>
+    </div>
+
+    <div class="seccion-pasada" th:if="${torneosPasados != null and !torneosPasados.isEmpty()}">
+        <h2>Temporadas pasadas</h2>
+        <div class="card-pasada" th:each="pasado : ${torneosPasados}">
+            <h3 th:text="${pasado.nombreTorneo}">Torneo pasado</h3>
+            <p class="sin-datos-msg">Datos de temporadas anteriores próximamente.</p>
+        </div>
+    </div>
+</main>
+
+<div th:replace="layout/footer :: footer"></div>
+
+</body>
+</html>
