@@ -1,20 +1,22 @@
-/*
-
 package com.tallerwebi.presentacion;
 
+import com.tallerwebi.dominio.Posicion;
+import com.tallerwebi.dominio.ServicioTorneo;
+import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.equipo.Equipo;
 import com.tallerwebi.dominio.equipo.ServicioEquipo;
 import com.tallerwebi.dominio.equipoJugador.ServicioEquipoJugador;
-import com.tallerwebi.dominio.ServicioTorneo;
 import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
 import com.tallerwebi.dominio.excepcion.TorneoVirtualActualNoEncontradoException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalToIgnoringCase;
-import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -22,121 +24,151 @@ public class ControladorEquipoTest {
 
     private ControladorEquipo controladorEquipo;
     private ServicioEquipo servicioEquipoMock;
+    private ServicioEquipoJugador servicioEquipoJugadorMock;
+    private ServicioTorneo servicioTorneoMock;
     private Equipo equipoMock;
 
-
-    // Inicializacion de variables
     @BeforeEach
     public void inicializacion() {
         servicioEquipoMock = mock(ServicioEquipo.class);
-        ServicioEquipoJugador servicioEquipoJugadorMock = mock(ServicioEquipoJugador.class);
-        ServicioTorneo servicioTorneo = mock(ServicioTorneo.class);
-        controladorEquipo = new ControladorEquipo(servicioEquipoMock, servicioEquipoJugadorMock, servicioTorneo);
+        servicioEquipoJugadorMock = mock(ServicioEquipoJugador.class);
+        servicioTorneoMock = mock(ServicioTorneo.class);
+
+        controladorEquipo = new ControladorEquipo(
+                servicioEquipoMock,
+                servicioEquipoJugadorMock,
+                servicioTorneoMock
+        );
+
         equipoMock = new Equipo();
     }
 
-
-*/
-/*
-    TEST
-    1- CREAR EQUIPO RETORNA VISTA DEL HTML CON EL INPUT
-    2- AL PONER EL NOMBRE DEL EQUIPO TE REDIRIGE A SELECCIONAR JUGADORES
-    3- SI SE INTENTA APRETAR EL BOTON DE "SUBMIT" Y EL ESTA VACIO LANZA EXCEPCION
-    4- SI SE CREO EL NOMBRE DEL EQUIPO CORRECTAMENTE(ID VALIDO) TE LLEVA A SELECCIONAR JUGADORES.
-    5- SI NO CREO EL NOMBRE DEL EQUIPO  TE LLEVA Al HOME
-    6- VER EQUIPO TE LLEVA  A VISTA VER EQUIPO
-
-     *//*
- */
-/*
-
-
     @Test
     public void irACrearEquipoRetornaUnaVistaParaIngresarElNombreDelEquipo() {
-        // Ejecucion
+
+        /* Ejecución */
         ModelAndView mav = controladorEquipo.irACrearEquipo();
 
-        //Se encuentra el input para poner ingresar el nombre del equipo?
+        /* Validación */
         assertThat(mav.getViewName(), equalToIgnoringCase("crear-equipo"));
-
-        // Verifica si se crea el objeto vacio
         assertThat(mav.getModel().get("equipo"), instanceOf(Equipo.class));
     }
 
-
     @Test
-    public void alApretarElBotonDeCrearNombreDebeRedirigirASeleccionarJugadores() throws TorneoVirtualActualNoEncontradoException {
-        // Preparacion
+    public void alGuardarNombreDeEquipoConNombreValidoRedirigeASeleccionarJugadores() throws TorneoVirtualActualNoEncontradoException {
+
+        /* Preparación */
+        Usuario usuario = new Usuario();
+        usuario.setId(1L);
+
+        equipoMock.setUsuario(usuario);
         equipoMock.setNombreEquipo("PLM");
         equipoMock.setId(1L);
+
+        when(servicioEquipoMock.obtenerEquipoPorIdUsuario(1L)).thenReturn(null);
         when(servicioEquipoMock.guardarEquipo(equipoMock)).thenReturn(equipoMock);
 
-        // Ejecucion
-
+        /* Ejecución */
         ModelAndView mav = controladorEquipo.guardarNombreEquipo(equipoMock);
 
-        // Verificacion
-        assertThat(mav.getViewName(), equalToIgnoringCase("redirect:/seleccionar-jugadores?id=1"));
+        /* Validación */
+        assertThat(mav.getViewName(), equalToIgnoringCase("redirect:/seleccionar-jugadores/1"));
     }
 
     @Test
-    public void guardarNombreDeEquipoVacioLanzaException() {
+    public void guardarNombreDeEquipoVacioRetornaLaVistaCrearEquipo() {
+
+        Usuario usuario = new Usuario();
+        usuario.setId(1L);
+
         Equipo equipo = new Equipo();
+        equipo.setUsuario(usuario);
         equipo.setNombreEquipo("");
 
+        when(servicioEquipoMock.obtenerEquipoPorIdUsuario(1L)).thenReturn(null);
+
+        /* Ejecución */
         ModelAndView mav = controladorEquipo.guardarNombreEquipo(equipo);
 
+        /* Validación */
         assertThat(mav.getViewName(), equalToIgnoringCase("crear-equipo"));
-        assertThat(mav.getModel().get("error").toString(), equalToIgnoringCase("El nombre del equipo no puede estar vacío")
+        assertThat(mav.getModel().get("error").toString(), equalToIgnoringCase("El nombre del equipo no puede estar vacio")
         );
     }
 
-
     @Test
-    public void alRedirigirLaVistaConIdValidoDevuelveLaVistaSeleccionarJugadores() throws EquipoNoEncontradoException {
+    public void seleccionarJugadoresConIdValidoRetornaLaVistaSeleccionarJugadores() throws EquipoNoEncontradoException {
 
-        // preparacion
+        /* Preparación */
         Long idEquipo = 1L;
+
         when(servicioEquipoMock.buscarEquipoPorId(idEquipo)).thenReturn(equipoMock);
 
-        //ejecucion
+        when(servicioEquipoJugadorMock.obtenerJugadoresDisponiblesPorPosicion(idEquipo, Posicion.BASE)).thenReturn(new ArrayList<>());
+
+        when(servicioEquipoJugadorMock.obtenerJugadoresDisponiblesPorPosicion(idEquipo, Posicion.ALERO)).thenReturn(new ArrayList<>());
+
+        when(servicioEquipoJugadorMock.obtenerJugadoresDisponiblesPorPosicion(idEquipo, Posicion.PIVOT)).thenReturn(new ArrayList<>());
+
+        when(servicioEquipoJugadorMock.buscarJugadoresPorEquipoId(idEquipo)).thenReturn(new HashMap<>());
+
+        when(servicioEquipoMock.buscarJugadoresDelEquipo(idEquipo)).thenReturn(new ArrayList<>());
+
+        /* Ejecución */
         ModelAndView mav = controladorEquipo.seleccionarJugadores(idEquipo, null);
 
-        // Verificacion
+        /* Validación */
         assertThat(mav.getViewName(), equalToIgnoringCase("seleccionar-jugadores"));
+        assertThat(mav.getModel().get("equipo"), equalTo(equipoMock));
     }
 
-
     @Test
-    public void alRedirigirLaVistaConIdInvalidoRedireccionaACrearEquipo() throws EquipoNoEncontradoException {
+    public void seleccionarJugadoresConIdInvalidoRedireccionaAlHome() throws EquipoNoEncontradoException {
 
-        // preparacion
+        /* Preparación */
         Long idEquipo = 1L;
-        when(servicioEquipoMock.buscarEquipoPorId(1L)).thenThrow(EquipoNoEncontradoException.class);
 
-        //ejecucion
+        when(servicioEquipoMock.buscarEquipoPorId(idEquipo)).thenThrow(new EquipoNoEncontradoException(""));
+
+        /* Ejecución */
         ModelAndView mav = controladorEquipo.seleccionarJugadores(idEquipo, null);
 
-        // Verificacion
+        /* Validación */
         assertThat(mav.getViewName(), equalToIgnoringCase("redirect:/home"));
     }
 
     @Test
     public void verEquipoDebeRetornarLaVistaVerEquipo() throws EquipoNoEncontradoException {
-        //preparacion
+
+        /* Preparación */
         Long idEquipo = 1L;
+
         when(servicioEquipoMock.buscarEquipoPorId(idEquipo)).thenReturn(equipoMock);
 
-        //ejecucion
+        when(servicioEquipoJugadorMock.buscarJugadoresPorEquipoId(idEquipo)).thenReturn(new HashMap<>());
+
+        when(servicioEquipoMock.buscarJugadoresDelEquipo(idEquipo)).thenReturn(new ArrayList<>());
+
+        /* Ejecución */
         ModelAndView mav = controladorEquipo.verEquipo(idEquipo);
 
-        //verificacion
+        /* Validación */
         assertThat(mav.getViewName(), equalToIgnoringCase("ver-equipo"));
+        assertThat(mav.getModel().get("equipo"), equalTo(equipoMock));
     }
 
+    @Test
+    public void verEquipoConIdInvalidoRedireccionaACrearEquipo() throws EquipoNoEncontradoException {
 
+        /* Preparación */
+        Long idEquipo = 1L;
+
+        when(servicioEquipoMock.buscarEquipoPorId(idEquipo)).thenThrow(new EquipoNoEncontradoException(""));
+
+        /* Ejecución */
+        ModelAndView mav = controladorEquipo.verEquipo(idEquipo);
+
+        /* Validación */
+        assertThat(mav.getViewName(), equalToIgnoringCase("redirect:/crear-equipo"));
+    }
 }
-
-
-
-*/
