@@ -10,7 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -79,6 +81,65 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
         partido.setMinutoFin(minutoFin);
         partido.setEstadoPartido(EstadoPartido.FINALIZADO);
         repositorioPartidoNBA.actualizar(partido);
+        actualizarRendimientos(partido);
+    }
+
+    private void actualizarRendimientos(PartidoNBA partido) {
+        List<EventoPartido> eventos = repositorioEventoPartido.buscarEventosPorPartido(partido.getId());
+        if (eventos == null || eventos.isEmpty()) return;
+
+        Map<Long, List<EventoPartido>> eventosPorJugador = new HashMap<>();
+        for (EventoPartido e : eventos) {
+            Long jugadorId = e.getJugador().getId();
+            eventosPorJugador.computeIfAbsent(jugadorId, k -> new ArrayList<>()).add(e);
+        }
+
+        for (Map.Entry<Long, List<EventoPartido>> entry : eventosPorJugador.entrySet()) {
+            Long jugadorId = entry.getKey();
+            List<EventoPartido> eventosJugador = entry.getValue();
+
+            int puntos = 0, rebotes = 0, asistencias = 0;
+            int robos = 0, bloqueos = 0, perdidas = 0;
+
+            for (EventoPartido e : eventosJugador) {
+                switch (e.getTipoEstadistica()) {
+                    case TIRO_LIBRE:  puntos += 1; break;
+                    case DOBLE:       puntos += 2; break;
+                    case TRIPLE:      puntos += 3; break;
+                    case REBOTE:      rebotes++; break;
+                    case ASISTENCIA:  asistencias++; break;
+                    case ROBO:        robos++; break;
+                    case TAPA:        bloqueos++; break;
+                    case PERDIDA:     perdidas++; break;
+                }
+            }
+
+            Torneo torneo = partido.getTorneo();
+            RendimientoJugador rend = repositorioJugador.buscarRendimientoPorJugadorYTorneo(jugadorId, torneo.getId());
+            if (rend == null) {
+                Jugador jugador = repositorioJugador.buscarJugadorPorId(jugadorId);
+                rend = new RendimientoJugador();
+                rend.setJugador(jugador);
+                rend.setPartidoNBA(partido);
+                rend.setTorneo(torneo);
+                rend.setNombreCompleto(jugador.getNombre() + " " + jugador.getApellido());
+                rend.setPuntos(0);
+                rend.setRebotes(0);
+                rend.setAsistencias(0);
+                rend.setRobos(0);
+                rend.setBloqueos(0);
+                rend.setPerdidas(0);
+            }
+
+            rend.setPuntos(rend.getPuntos() + puntos);
+            rend.setRebotes(rend.getRebotes() + rebotes);
+            rend.setAsistencias(rend.getAsistencias() + asistencias);
+            rend.setRobos(rend.getRobos() + robos);
+            rend.setBloqueos(rend.getBloqueos() + bloqueos);
+            rend.setPerdidas(rend.getPerdidas() + perdidas);
+
+            repositorioJugador.guardarRendimiento(rend);
+        }
     }
 
     @Override

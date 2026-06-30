@@ -16,4 +16,10 @@ public interface ServicioMercado {
     RendimientoJugador obtenerRendimiento(long jugadorId);
 
     double calcularPuntajeJugador(RendimientoJugador rendimiento);
+
+    RendimientoJugador obtenerRendimientoPorJugadorYTorneo(Long jugadorId, Long torneoId);
+
+    List<RendimientoJugador> obtenerRendimientosPorTorneo(Long torneoId);
+
+    List<RendimientoJugador> obtenerTopJugadoresPorTorneo(Long torneoId, int limite);
 }

@@ -31,7 +31,6 @@ public class ServicioPartidoNBATest {
         repositorioEquipoNBAMock = mock(RepositorioEquipoNBA.class);
         repositorioJugadorMock = mock(RepositorioJugador.class);
         repositorioEventoPartidoMock = mock(RepositorioEventoPartido.class);
-
         servicioPartidoNBA = new ServicioPartidoNBAImpl(
                 repositorioPartidoNBAMock,
                 repositorioCronologiaNBAMock,

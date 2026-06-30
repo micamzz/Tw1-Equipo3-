@@ -1,16 +1,12 @@
 INSERT INTO Usuario(id, nombre, email, password, rol, activo)
 VALUES (null, 'Admin Test', 'test@unlam.edu.ar', 'test', 'ADMIN', true),
        (null, 'Micaela', 'mica@unlam.com', 'test', 'ADMIN', true),
-
--- USUARIOS
-       (3, 'Lucas', 'lucas@unlam.com', 'test', 'USER', true),
-
+       (null, 'Lucas', 'lucas@unlam.com', 'test', 'USER', true),
        (4, 'Juan', 'juan@unlam.com', 'test', 'USER', true),
-
        (5, 'Marcos', 'marcos@unlam.com', 'test', 'USER', true),
-
        (6, 'Sofia', 'sofia@unlam.com', 'test', 'USER', true),
        (7, 'Valentina', 'valentina@unlam.com', 'test', 'USER', true);
+
 
 /* TEMPORADA 2025 08 DE MARZO A 22 DE DICIEMBRE*/
 INSERT INTO Temporada (id, nombre, anio, fechaInicio, fechaFin)
@@ -190,75 +186,75 @@ VALUES (1, 'Stephen', 'Curry', 'BASE', 175000, 1, 'https://cdn.nba.com/headshots
         '6''10\" (2.08m)', '220lb (100kg)', 'USA', 23, 'November 27, 2002', '2022 R1 Pick 3', 3);
 
 
-INSERT INTO RendimientoJugador(jugador_id, puntos, rebotes, asistencias, robos, bloqueos, perdidas)
-VALUES (1, 27, 4, 5, 1, 0, 3),
-       (2, 8, 6, 6, 1, 1, 2),
-       (3, 12, 3, 2, 1, 0, 1),
-       (4, 14, 5, 4, 1, 0, 2),
-       (5, 12, 6, 3, 1, 0, 2),
-       (6, 9, 4, 2, 1, 0, 1),
-       (7, 6, 7, 1, 0, 1, 1),
-       (8, 8, 4, 1, 0, 1, 1),
-       (9, 29, 7, 5, 1, 0, 2),
-       (10, 22, 10, 5, 1, 1, 2),
-       (11, 17, 4, 5, 1, 0, 2),
-       (12, 17, 4, 5, 1, 1, 1),
-       (13, 8, 6, 3, 1, 1, 1),
-       (14, 10, 8, 2, 1, 2, 1),
-       (15, 9, 4, 2, 0, 0, 1),
-       (16, 12, 4, 5, 2, 0, 1),
-       (17, 21, 6, 7, 1, 1, 3),
-       (18, 34, 8, 8, 1, 0, 4),
-       (19, 23, 5, 6, 1, 0, 2),
-       (20, 12, 3, 1, 1, 0, 1),
-       (21, 13, 8, 1, 1, 1, 2),
-       (22, 10, 4, 2, 1, 0, 1),
-       (23, 4, 5, 1, 1, 1, 1),
-       (24, 8, 4, 2, 1, 0, 1),
-       (25, 20, 10, 3, 1, 1, 2),
-       (26, 21, 5, 4, 1, 0, 2),
-       (27, 15, 5, 5, 2, 0, 2),
-       (28, 22, 4, 3, 1, 0, 2),
-       (29, 11, 9, 1, 0, 2, 1),
-       (30, 9, 3, 7, 2, 0, 2),
-       (31, 7, 3, 2, 1, 0, 1),
-       (32, 14, 4, 2, 1, 0, 1),
-       (33, 28, 11, 6, 1, 2, 3),
-       (34, 26, 7, 4, 1, 2, 2),
-       (35, 29, 13, 9, 1, 1, 3),
-       (36, 32, 5, 7, 2, 1, 3),
-       (37, 27, 5, 4, 2, 0, 3),
-       (38, 24, 10, 3, 1, 3, 2),
-       (39, 15, 4, 3, 1, 0, 2),
-       (40, 12, 5, 3, 1, 0, 2),
-       (41, 8, 3, 8, 2, 0, 2),
-       (42, 26, 4, 7, 1, 0, 3),
-       (43, 24, 9, 3, 1, 1, 2),
-       (44, 17, 5, 2, 2, 1, 1),
-       (45, 19, 4, 3, 2, 0, 2),
-       (46, 22, 4, 3, 1, 0, 2),
-       (47, 12, 9, 1, 1, 3, 1),
-       (48, 10, 7, 8, 2, 1, 3),
-       (49, 8, 8, 1, 0, 2, 1),
-       (50, 14, 3, 6, 2, 0, 2),
-       (51, 24, 5, 6, 2, 0, 3),
-       (52, 15, 6, 3, 1, 0, 2),
-       (53, 13, 4, 3, 1, 0, 1),
-       (54, 11, 7, 1, 0, 2, 1),
-       (55, 10, 4, 2, 1, 0, 1),
-       (56, 18, 4, 2, 1, 0, 1),
-       (57, 22, 8, 4, 1, 1, 2),
-       (58, 26, 5, 7, 2, 0, 3),
-       (59, 18, 9, 2, 1, 3, 1),
-       (60, 20, 6, 4, 1, 1, 2),
-       (61, 19, 7, 4, 2, 1, 2),
-       (62, 16, 7, 2, 1, 2, 1),
-       (63, 26, 7, 5, 1, 1, 3),
-       (64, 28, 4, 10, 1, 0, 4),
-       (65, 27, 5, 6, 2, 0, 3),
-       (66, 22, 8, 2, 1, 3, 2),
-       (67, 29, 4, 7, 2, 0, 3),
-       (68, 22, 3, 8, 1, 0, 3);
+INSERT INTO RendimientoJugador(jugador_id, puntos, rebotes, asistencias, robos, bloqueos, perdidas, torneo_id)
+VALUES (1, 27, 4, 5, 1, 0, 3, 1),
+       (2, 8, 6, 6, 1, 1, 2, 1),
+       (3, 12, 3, 2, 1, 0, 1, 1),
+       (4, 14, 5, 4, 1, 0, 2, 1),
+       (5, 12, 6, 3, 1, 0, 2, 1),
+       (6, 9, 4, 2, 1, 0, 1, 1),
+       (7, 6, 7, 1, 0, 1, 1, 1),
+       (8, 8, 4, 1, 0, 1, 1, 1),
+       (9, 29, 7, 5, 1, 0, 2, 1),
+       (10, 22, 10, 5, 1, 1, 2, 1),
+       (11, 17, 4, 5, 1, 0, 2, 1),
+       (12, 17, 4, 5, 1, 1, 1, 1),
+       (13, 8, 6, 3, 1, 1, 1, 1),
+       (14, 10, 8, 2, 1, 2, 1, 1),
+       (15, 9, 4, 2, 0, 0, 1, 1),
+       (16, 12, 4, 5, 2, 0, 1, 1),
+       (17, 21, 6, 7, 1, 1, 3, 1),
+       (18, 34, 8, 8, 1, 0, 4, 1),
+       (19, 23, 5, 6, 1, 0, 2, 1),
+       (20, 12, 3, 1, 1, 0, 1, 1),
+       (21, 13, 8, 1, 1, 1, 2, 1),
+       (22, 10, 4, 2, 1, 0, 1, 1),
+       (23, 4, 5, 1, 1, 1, 1, 1),
+       (24, 8, 4, 2, 1, 0, 1, 1),
+       (25, 20, 10, 3, 1, 1, 2, 1),
+       (26, 21, 5, 4, 1, 0, 2, 1),
+       (27, 15, 5, 5, 2, 0, 2, 1),
+       (28, 22, 4, 3, 1, 0, 2, 1),
+       (29, 11, 9, 1, 0, 2, 1, 1),
+       (30, 9, 3, 7, 2, 0, 2, 1),
+       (31, 7, 3, 2, 1, 0, 1, 1),
+       (32, 14, 4, 2, 1, 0, 1, 1),
+       (33, 28, 11, 6, 1, 2, 3, 1),
+       (34, 26, 7, 4, 1, 2, 2, 1),
+       (35, 29, 13, 9, 1, 1, 3, 1),
+       (36, 32, 5, 7, 2, 1, 3, 1),
+       (37, 27, 5, 4, 2, 0, 3, 1),
+       (38, 24, 10, 3, 1, 3, 2, 1),
+       (39, 15, 4, 3, 1, 0, 2, 1),
+       (40, 12, 5, 3, 1, 0, 2, 1),
+       (41, 8, 3, 8, 2, 0, 2, 1),
+       (42, 26, 4, 7, 1, 0, 3, 1),
+       (43, 24, 9, 3, 1, 1, 2, 1),
+       (44, 17, 5, 2, 2, 1, 1, 1),
+       (45, 19, 4, 3, 2, 0, 2, 1),
+       (46, 22, 4, 3, 1, 0, 2, 1),
+       (47, 12, 9, 1, 1, 3, 1, 1),
+       (48, 10, 7, 8, 2, 1, 3, 1),
+       (49, 8, 8, 1, 0, 2, 1, 1),
+       (50, 14, 3, 6, 2, 0, 2, 1),
+       (51, 24, 5, 6, 2, 0, 3, 1),
+       (52, 15, 6, 3, 1, 0, 2, 1),
+       (53, 13, 4, 3, 1, 0, 1, 1),
+       (54, 11, 7, 1, 0, 2, 1, 1),
+       (55, 10, 4, 2, 1, 0, 1, 1),
+       (56, 18, 4, 2, 1, 0, 1, 1),
+       (57, 22, 8, 4, 1, 1, 2, 1),
+       (58, 26, 5, 7, 2, 0, 3, 1),
+       (59, 18, 9, 2, 1, 3, 1, 1),
+       (60, 20, 6, 4, 1, 1, 2, 1),
+       (61, 19, 7, 4, 2, 1, 2, 1),
+       (62, 16, 7, 2, 1, 2, 1, 1),
+       (63, 26, 7, 5, 1, 1, 3, 1),
+       (64, 28, 4, 10, 1, 0, 4, 1),
+       (65, 27, 5, 6, 2, 0, 3, 1),
+       (66, 22, 8, 2, 1, 3, 2, 1),
+       (67, 29, 4, 7, 2, 0, 3, 1),
+       (68, 22, 3, 8, 1, 0, 3, 1);
 
 
 /* JUGADORES ASOCIADO A EQUIPO EN TORNEO VIGENTE (2026)*/
@@ -439,31 +435,33 @@ VALUES (20, 1, 2, '2026-06-27 19:00:00', NULL, 1, 'PROGRAMADO'), -- Warriors vs 
    ID 22 Y 23*/
 INSERT INTO PartidoNBA (id, equipoLocal_id, equipoVisitante_id, horaInicio, minutoFin, torneo_id, estadoPartido)
 VALUES (22, 5, 6, '2026-06-28 19:00:00', NULL, 1, 'PROGRAMADO'), -- Spurs vs Knicks
-       (23, 7, 8, '2026-06-28 21:00:00', NULL, 1, 'PROGRAMADO');
--- Nets vs Mavericks
+       (23, 7, 8, '2026-06-28 21:00:00', NULL, 1, 'PROGRAMADO'); -- Nets vs Mavericks
 
--- EQUIPOS USUARIO
+-- 4 PARTIDOS FINALIZADOS (IDs 30-33)
+INSERT INTO PartidoNBA (id, equipoLocal_id, equipoVisitante_id, horaInicio, minutoFin, torneo_id, estadoPartido)
+VALUES (30, 1, 2, '2026-06-20 20:00:00', 48, 1, 'FINALIZADO'),
+       (31, 3, 4, '2026-06-21 21:00:00', 52, 1, 'FINALIZADO'),
+       (32, 5, 6, '2026-06-22 19:30:00', 48, 1, 'FINALIZADO'),
+       (33, 7, 8, '2026-06-23 22:00:00', 50, 1, 'FINALIZADO');
+
+INSERT INTO ScorePartido (partido_id, equipo_id, puntos)
+VALUES (30, 1, 110), (30, 2, 102),
+       (31, 3, 98),  (31, 4, 105),
+       (32, 5, 115), (32, 6, 100),
+       (33, 7, 88),  (33, 8, 95);
+
+-- EQUIPOS USUARIO (torneo virtual id = 2)
 INSERT INTO equipo (id, nombreEquipo, presupuesto, puntaje, torneo_id, usuario_id)
-VALUES (1, 'Paren La Mano', 0, 0, 1, 3);
-
-
-INSERT INTO equipo (id, nombreEquipo, presupuesto, puntaje, torneo_id, usuario_id)
-VALUES (2, 'Winter is coming', 0, 0, 1, 4);
-
-INSERT INTO equipo (id, nombreEquipo, presupuesto, puntaje, torneo_id, usuario_id)
-VALUES (3, 'Dracarys', 0, 0, 1, 5);
-
-INSERT INTO equipo (id, nombreEquipo, presupuesto, puntaje, torneo_id, usuario_id)
-VALUES (4, 'Los Condores', 0, 0, 1, 6);
-
-INSERT INTO equipo (id, nombreEquipo, presupuesto, puntaje, torneo_id, usuario_id)
-VALUES (5, 'Los Dragones', 0, 0, 1, 7);
+VALUES (1, 'Paren La Mano', 0, 0, 2, 3),
+       (2, 'Winter is coming', 0, 0, 2, 4),
+       (3, 'Dracarys', 0, 0, 2, 5),
+       (4, 'Los Condores', 0, 0, 2, 6),
+       (5, 'Los Dragones', 0, 0, 2, 7);
 
 -- EQUIPOS USUARIO CON SUS JUGADORES ASOCIADOS
-
 INSERT INTO equipojugador (id, numeroOrden, posicionDelJugador, equipo_id, jugador_id)
 VALUES
-    -- Equipo de LUCAS
+    -- Equipo de LUCAS (equipo 1)
     (1, 1, 'CAPITAN', 1, 1),
     (2, 2, 'TITULAR', 1, 2),
     (3, 3, 'TITULAR', 1, 3),
@@ -474,7 +472,7 @@ VALUES
     (8, 8, 'SUPLENTE', 1, 8),
     (9, 9, 'SUPLENTE', 1, 9),
     (10, 10, 'SUPLENTE', 1, 10),
--- Equipo de JUAN
+    -- Equipo de JUAN (equipo 2)
     (11, 1, 'CAPITAN', 2, 11),
     (12, 2, 'TITULAR', 2, 12),
     (13, 3, 'TITULAR', 2, 13),
@@ -485,7 +483,7 @@ VALUES
     (18, 8, 'SUPLENTE', 2, 18),
     (19, 9, 'SUPLENTE', 2, 19),
     (20, 10, 'SUPLENTE', 2, 20),
--- Equipo de Marcos
+    -- Equipo de Marcos (equipo 3)
     (21, 1, 'CAPITAN', 3, 21),
     (22, 2, 'TITULAR', 3, 22),
     (23, 3, 'TITULAR', 3, 23),
@@ -496,7 +494,7 @@ VALUES
     (28, 8, 'SUPLENTE', 3, 28),
     (29, 9, 'SUPLENTE', 3, 29),
     (30, 10, 'SUPLENTE', 3, 30),
--- Equipo de Sofia
+    -- Equipo de Sofia (equipo 4)
     (31, 1, 'CAPITAN', 4, 31),
     (32, 2, 'TITULAR', 4, 32),
     (33, 3, 'TITULAR', 4, 33),
@@ -507,7 +505,7 @@ VALUES
     (38, 8, 'SUPLENTE', 4, 38),
     (39, 9, 'SUPLENTE', 4, 39),
     (40, 10, 'SUPLENTE', 4, 40),
--- Equipo de Valentina
+    -- Equipo de Valentina (equipo 5)
     (41, 1, 'CAPITAN', 5, 41),
     (42, 2, 'TITULAR', 5, 42),
     (43, 3, 'TITULAR', 5, 43),

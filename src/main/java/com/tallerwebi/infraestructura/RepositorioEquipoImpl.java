@@ -7,6 +7,8 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class RepositorioEquipoImpl implements RepositorioEquipo {
 
@@ -75,6 +77,13 @@ public class RepositorioEquipoImpl implements RepositorioEquipo {
                 .uniqueResult();
     }
 
-
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<Equipo> buscarEquiposPorTorneo(Long torneoId) {
+        return sessionFactory.getCurrentSession()
+                .createCriteria(Equipo.class)
+                .add(Restrictions.eq("torneo.id", torneoId))
+                .list();
+    }
 }
 

@@ -6,10 +6,13 @@ import com.tallerwebi.dominio.equipo.ServicioEquipo;
 import com.tallerwebi.dominio.equipo.ServicioEquipoImpl;
 import com.tallerwebi.dominio.equipoJugador.EquipoJugador;
 import com.tallerwebi.dominio.equipoJugador.RepositorioEquipoJugador;
+import com.tallerwebi.dominio.enums.PosicionJugadorEquipo;
 import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
 import com.tallerwebi.dominio.excepcion.PresupuestoInsuficienteException;
 import com.tallerwebi.dominio.excepcion.TorneoVirtualActualNoEncontradoException;
 import com.tallerwebi.dominio.excepcion.elJugadorYaExisteEnElEquipoException;
+
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -291,6 +294,124 @@ public class ServicioEquipoTest {
 
         // ejecución y verificación
         assertThrows(TorneoVirtualActualNoEncontradoException.class, () -> servicioEquipo.guardarEquipo(equipo));
+    }
+
+    @Test
+    public void calcularPuntajeTotalDeEquipoSinJugadoresDevuelveCero() {
+        Long equipoId = 1L;
+        when(repositorioEquipoJugadorMock.buscarPorEquipoId(equipoId)).thenReturn(List.of());
+
+        Double total = servicioEquipo.calcularPuntajeTotalDelEquipo(equipoId);
+
+        assertEquals(0.0, total);
+    }
+
+    @Test
+    public void calcularPuntajeTotalDeEquipoConJugadoresAplicaMultiplicadorDeRol() {
+        Long equipoId = 1L;
+
+        RendimientoJugador rend = new RendimientoJugador();
+        rend.setPuntos(10);
+        rend.setRebotes(5);
+        rend.setAsistencias(4);
+        rend.setRobos(2);
+        rend.setBloqueos(1);
+        rend.setPerdidas(3);
+        // base = 10 + 1.2*5 + 1.5*4 + 3*2 + 3*1 - 2*3 = 10 + 6 + 6 + 6 + 3 - 6 = 25
+
+        Jugador jugador = new Jugador();
+        jugador.setId(1L);
+
+        EquipoJugador ej = mock(EquipoJugador.class);
+        when(ej.getJugador()).thenReturn(jugador);
+        when(ej.getPosicionDelJugador()).thenReturn(PosicionJugadorEquipo.CAPITAN); // x2
+
+        Equipo mockEquipo = mock(Equipo.class);
+        Torneo mockTorneo = mock(Torneo.class);
+        when(mockEquipo.getTorneo()).thenReturn(mockTorneo);
+        when(mockTorneo.getId()).thenReturn(1L);
+        when(ej.getEquipo()).thenReturn(mockEquipo);
+
+        when(repositorioEquipoJugadorMock.buscarPorEquipoId(equipoId)).thenReturn(List.of(ej));
+        when(repositorioJugadorMock.buscarRendimientoPorJugadorYTorneo(1L, 1L)).thenReturn(rend);
+
+        Double total = servicioEquipo.calcularPuntajeTotalDelEquipo(equipoId);
+
+        assertEquals(50.0, total); // 25 * 2
+    }
+
+    @Test
+    public void calcularPuntajeTotalDeEquipoConJugadorSinRendimientoNoAportaPuntos() {
+        Long equipoId = 1L;
+
+        Jugador jugador = new Jugador();
+        jugador.setId(1L);
+
+        EquipoJugador ej = mock(EquipoJugador.class);
+        when(ej.getJugador()).thenReturn(jugador);
+        when(ej.getPosicionDelJugador()).thenReturn(PosicionJugadorEquipo.TITULAR);
+
+        Equipo mockEquipo = mock(Equipo.class);
+        Torneo mockTorneo = mock(Torneo.class);
+        when(mockEquipo.getTorneo()).thenReturn(mockTorneo);
+        when(mockTorneo.getId()).thenReturn(1L);
+        when(ej.getEquipo()).thenReturn(mockEquipo);
+
+        when(repositorioEquipoJugadorMock.buscarPorEquipoId(equipoId)).thenReturn(List.of(ej));
+        when(repositorioJugadorMock.buscarRendimientoPorJugadorYTorneo(1L, 1L)).thenReturn(null);
+
+        Double total = servicioEquipo.calcularPuntajeTotalDelEquipo(equipoId);
+
+        assertEquals(0.0, total);
+    }
+
+    @Test
+    public void calcularPuntajeTotalDeEquipoAplicaMultiplicadoresCorrectosPorRol() {
+        Long equipoId = 1L;
+
+        RendimientoJugador rend = new RendimientoJugador();
+        rend.setPuntos(10);
+        rend.setRebotes(0);
+        rend.setAsistencias(0);
+        rend.setRobos(0);
+        rend.setBloqueos(0);
+        rend.setPerdidas(0);
+        // base = 10
+
+        Jugador jug1 = new Jugador(); jug1.setId(1L);
+        Jugador jug2 = new Jugador(); jug2.setId(2L);
+        Jugador jug3 = new Jugador(); jug3.setId(3L);
+        Jugador jug4 = new Jugador(); jug4.setId(4L);
+
+        EquipoJugador titular = mock(EquipoJugador.class);
+        when(titular.getJugador()).thenReturn(jug1);
+        when(titular.getPosicionDelJugador()).thenReturn(PosicionJugadorEquipo.TITULAR);
+
+        EquipoJugador capitan = mock(EquipoJugador.class);
+        when(capitan.getJugador()).thenReturn(jug2);
+        when(capitan.getPosicionDelJugador()).thenReturn(PosicionJugadorEquipo.CAPITAN);
+
+        EquipoJugador sexto = mock(EquipoJugador.class);
+        when(sexto.getJugador()).thenReturn(jug3);
+        when(sexto.getPosicionDelJugador()).thenReturn(PosicionJugadorEquipo.SEXTO_HOMBRE);
+
+        EquipoJugador suplente = mock(EquipoJugador.class);
+        when(suplente.getJugador()).thenReturn(jug4);
+        when(suplente.getPosicionDelJugador()).thenReturn(PosicionJugadorEquipo.SUPLENTE);
+
+        Equipo mockEquipo = mock(Equipo.class);
+        Torneo mockTorneo = mock(Torneo.class);
+        when(mockEquipo.getTorneo()).thenReturn(mockTorneo);
+        when(mockTorneo.getId()).thenReturn(1L);
+        when(titular.getEquipo()).thenReturn(mockEquipo);
+
+        when(repositorioEquipoJugadorMock.buscarPorEquipoId(equipoId))
+                .thenReturn(List.of(titular, capitan, sexto, suplente));
+        when(repositorioJugadorMock.buscarRendimientoPorJugadorYTorneo(anyLong(), anyLong())).thenReturn(rend);
+
+        Double total = servicioEquipo.calcularPuntajeTotalDelEquipo(equipoId);
+
+        assertEquals(10*1.0 + 10*2.0 + 10*0.8 + 10*0.5, total);
     }
 
 }

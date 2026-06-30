@@ -9,5 +9,11 @@ public interface RepositorioJugador {
 
     RendimientoJugador buscarRendimientoPorJugador(long jugadorId);
 
+    RendimientoJugador buscarRendimientoPorJugadorYTorneo(long jugadorId, long torneoId);
+
+    List<RendimientoJugador> buscarRendimientosPorTorneo(Long torneoId);
+
     List<Jugador> buscarTodosLosJugadores();
+
+    void guardarRendimiento(RendimientoJugador rendimiento);
 }

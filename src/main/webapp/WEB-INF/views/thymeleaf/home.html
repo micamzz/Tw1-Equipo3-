@@ -104,6 +104,28 @@
                 </ul>
                 <a th:href="@{/partidos}" class="link-ver-todo">Ver todos los partidos </a>
             </div>
+
+            <div class="card-lateral" th:if="${topRendimientos != null and !topRendimientos.isEmpty()}">
+                <h3 class="titulo-lateral">TOP JUGADORES</h3>
+                <ol class="lista-ranking">
+                    <li th:each="rend : ${topRendimientos}" class="item-ranking">
+                        <span class="ranking-nombre" th:text="${rend.nombreCompleto != null ? rend.nombreCompleto : (rend.jugador.nombre + ' ' + rend.jugador.apellido)}">Jugador</span>
+                        <span class="ranking-puntaje" th:text="${#numbers.formatDecimal(servicioMercado.calcularPuntajeJugador(rend), 1, 1)}">0.0</span>
+                    </li>
+                </ol>
+                <a th:href="@{/estadisticas-jugadores-torneo}" class="link-ver-todo">Ver estadísticas de mis jugadores</a>
+            </div>
+
+            <div class="card-lateral" th:if="${not #lists.isEmpty(topEquipos)}">
+                <h3 class="titulo-lateral">TOP EQUIPOS</h3>
+                <ol class="lista-ranking">
+                    <li th:each="equipo : ${topEquipos}" class="item-ranking">
+                        <span class="ranking-usuario" th:text="${equipo.usuario.nombre}">Usuario</span>
+                        <span class="ranking-nombre" th:text="${equipo.nombreEquipo}">Equipo</span>
+                        <span class="ranking-puntaje" th:text="${#numbers.formatDecimal(equipo.puntaje, 1, 1)}">0.0</span>
+                    </li>
+                </ol>
+            </div>
         </aside>
     </section>
 
