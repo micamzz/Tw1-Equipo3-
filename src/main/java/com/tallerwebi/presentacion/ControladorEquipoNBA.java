@@ -31,14 +31,13 @@ public class ControladorEquipoNBA {
         this.servicioTorneo = servicioTorneo;
     }
 
-    private boolean noEstaLogueado(HttpServletRequest request) {
-        return request.getSession().getAttribute("usuario") == null;
-    }
 
     @RequestMapping("/altaEquipoNBA")
     public ModelAndView irAlFormularioEquipoNBA(HttpServletRequest request) {
 
-        if (noEstaLogueado(request)) return new ModelAndView("redirect:/login");
+        if (request.getSession().getAttribute("usuario") == null) {
+            return new ModelAndView("redirect:/login");
+        }
 
         ModelMap modelo = new ModelMap();
 
@@ -53,7 +52,10 @@ public class ControladorEquipoNBA {
     @RequestMapping("/guardarEquipoNBA")
     public ModelAndView guardarEquipoNba(HttpServletRequest request,
                                          @ModelAttribute("equipoNBA") EquipoNBA equipoNBA) {
-        if (noEstaLogueado(request)) return new ModelAndView("redirect:/login");
+
+        if (request.getSession().getAttribute("usuario") == null) {
+            return new ModelAndView("redirect:/login");
+        }
 
 
         if (equipoNBA.getNombre() == null || equipoNBA.getNombre().isBlank()) {
@@ -81,8 +83,10 @@ public class ControladorEquipoNBA {
                                          @RequestParam(required = false) String nombre,
                                          @RequestParam(required = false) String posicion,
                                          @RequestParam(required = false) String error) {
-        if (noEstaLogueado(request)) return new ModelAndView("redirect:/login");
 
+        if (request.getSession().getAttribute("usuario") == null) {
+            return new ModelAndView("redirect:/login");
+        }
         try {
             ModelMap modelo = new ModelMap();
 
@@ -132,8 +136,10 @@ public class ControladorEquipoNBA {
     public ModelAndView agregarJugadorAlEquipo(HttpServletRequest request,
                                                @PathVariable Long idEquipo,
                                                @PathVariable Long idJugador) throws elJugadorYaExisteEnElEquipoException, EquipoNoEncontradoException {
-        if (noEstaLogueado(request)) return new ModelAndView("redirect:/login");
 
+        if (request.getSession().getAttribute("usuario") == null) {
+            return new ModelAndView("redirect:/login");
+        }
 
         try {
             servicioEquipoNBAJugador.agregarJugadorAlEquipo(idEquipo, idJugador);
@@ -152,7 +158,10 @@ public class ControladorEquipoNBA {
     @RequestMapping("/listadoEquiposNBA")
     public ModelAndView verListadoDeEquiposNBA(HttpServletRequest request,
                                                @RequestParam(required = false) String error) {
-        if (noEstaLogueado(request)) return new ModelAndView("redirect:/login");
+
+        if (request.getSession().getAttribute("usuario") == null) {
+            return new ModelAndView("redirect:/login");
+        }
 
         ModelMap modelo = new ModelMap();
 
@@ -170,7 +179,10 @@ public class ControladorEquipoNBA {
     @RequestMapping("/detalleEquipoNBA/{id}")
     public ModelAndView verDetalleEquipoNBA(HttpServletRequest request,
                                             @PathVariable Long id) {
-        if (noEstaLogueado(request)) return new ModelAndView("redirect:/login");
+
+        if (request.getSession().getAttribute("usuario") == null) {
+            return new ModelAndView("redirect:/login");
+        }
 
         try {
             ModelMap modelo = new ModelMap();
@@ -189,7 +201,10 @@ public class ControladorEquipoNBA {
     public ModelAndView quitarJugadorAEquipoNBA(HttpServletRequest request,
                                                 @PathVariable Long idEquipo,
                                                 @PathVariable Long idJugador) throws EquipoNoEncontradoException {
-        if (noEstaLogueado(request)) return new ModelAndView("redirect:/login");
+
+        if (request.getSession().getAttribute("usuario") == null) {
+            return new ModelAndView("redirect:/login");
+        }
 
         servicioEquipoNBAJugador.eliminarJugadorDelEquipo(idEquipo, idJugador);
 
@@ -201,7 +216,10 @@ public class ControladorEquipoNBA {
     @RequestMapping(value = "/eliminarEquipoNBA/{idEquipo}", method = RequestMethod.POST)
     public ModelAndView eliminarEquipoNBA(HttpServletRequest request,
                                           @PathVariable Long idEquipo) {
-        if (noEstaLogueado(request)) return new ModelAndView("redirect:/login");
+        
+        if (request.getSession().getAttribute("usuario") == null) {
+            return new ModelAndView("redirect:/login");
+        }
 
 
         try {

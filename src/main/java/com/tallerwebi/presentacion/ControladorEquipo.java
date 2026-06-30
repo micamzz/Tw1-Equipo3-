@@ -97,6 +97,7 @@ public class ControladorEquipo {
     public ModelAndView seleccionarJugadores(HttpServletRequest request,
                                              @PathVariable Long id,
                                              @RequestParam(required = false) String error) {
+
         if (request.getSession().getAttribute("usuario") == null) {
             return new ModelAndView("redirect:/login");
         }
