@@ -24,10 +24,10 @@ body {
     gap: 2.5rem;
     align-items: center;
     margin-bottom: 3rem;
-    padding: 3rem 2.5rem;
+    padding: 2rem 2.5rem;
     border-radius: 12px;
     overflow: hidden;
-    min-height: 648px;
+    min-height: 480px;
     background: #0a0a0a;
 }
 
@@ -37,7 +37,6 @@ body {
     display: flex;
     flex-direction: column;
     gap: 14px;
-    top: -1em;
 }
 
 .hero-imagen {
@@ -151,22 +150,6 @@ body {
 .boton-secundario:hover {
     border-color: #ff6b00;
     color: #ff6b00;
-}
-
-.hero-imagen {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    overflow: hidden;
-    border-radius: 12px;
-}
-
-.hero-imagen img {
-    width: 100%;
-    /*  height: 420px;*/
-    object-fit: cover;
-    border-radius: 12px;
 }
 
 /* LATERAL (proxima jornada) */
@@ -330,10 +313,8 @@ body {
     font-size: 0.9rem;
 }
 
-/* Empuja la tarjeta de próximos partidos más abajo */
 .hero-lateral {
     align-self: start;
-    margin-top: 4rem;
 }
 
 
