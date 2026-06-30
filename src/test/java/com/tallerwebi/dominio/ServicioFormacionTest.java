@@ -5,6 +5,10 @@ import com.tallerwebi.dominio.equipoNBA.EquipoNBA;
 import com.tallerwebi.dominio.equipoNBA.RepositorioEquipoNBA;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Mockito.mock;
@@ -117,5 +121,100 @@ public class ServicioFormacionTest {
         Boolean resultado = servicio.jugadorYaEstasEnFormacion(1L, 10L);
 
         assertThat(resultado, equalTo(false));
+    }
+
+    //partidoTieneJugadoresEnFormacion
+    private PartidoNBA unPartidoConEquipos(){
+        EquipoNBA local = new EquipoNBA();
+        local.setId(1L);
+        EquipoNBA visitante = new EquipoNBA();
+        visitante.setId(2L);
+
+        PartidoNBA p = new PartidoNBA();
+        p.setEquipoLocal(local);
+        p.setEquipoVisitante(visitante);
+        return p;
+    }
+
+    private List<FormacionPartido> unaFormacionDe(int cantidad){
+        List<FormacionPartido> lista= new ArrayList<>();
+        for(int i=0;i<cantidad;i++){
+            lista.add(unaFormacion());
+        }return lista;
+    }
+
+    private FormacionPartido unaFormacion() {
+        FormacionPartido f = new FormacionPartido();
+        f.setJugador(new Jugador());
+        f.setEquipo(new EquipoNBA());
+        f.setPartido(new PartidoNBA());
+        return f;
+    }
+    @Test
+    public void dadoQueAmbosEquiposTienen5JugadoresElPartidoPuedeIniciar(){
+        RepositorioFormacion repositorioFormacion = mock(RepositorioFormacion.class);
+        RepositorioJugador repositorioJugador = mock(RepositorioJugador.class);
+        RepositorioEquipoNBA repositorioEquipo = mock(RepositorioEquipoNBA.class);
+        RepositorioPartidoNBA repositorioPartido = mock(RepositorioPartidoNBA.class);
+
+        ServicioFormacion servicio = new ServicioFormacionImpl(
+                repositorioFormacion,
+                repositorioJugador,
+                repositorioEquipo,
+                repositorioPartido
+        );
+
+        when(repositorioPartido.buscarPorId(1L)).thenReturn(unPartidoConEquipos());
+        when(repositorioFormacion.buscarPorPartidoYEquipo(1L, 1L)).thenReturn(unaFormacionDe(5));
+        when(repositorioFormacion.buscarPorPartidoYEquipo(1L, 2L)).thenReturn(unaFormacionDe(5));
+
+        boolean resultado = servicio.partidoTieneJugadoresEnFormacion(1L);
+
+        assertThat(resultado, is(true));
+    }
+    @Test
+    public void dadoQueAmbosEquiposTienenMenosDe5JugadoresElPartidoNOPuedeIniciar(){
+        RepositorioFormacion repositorioFormacion = mock(RepositorioFormacion.class);
+        RepositorioJugador repositorioJugador = mock(RepositorioJugador.class);
+        RepositorioEquipoNBA repositorioEquipo = mock(RepositorioEquipoNBA.class);
+        RepositorioPartidoNBA repositorioPartido = mock(RepositorioPartidoNBA.class);
+
+        ServicioFormacion servicio = new ServicioFormacionImpl(
+                repositorioFormacion,
+                repositorioJugador,
+                repositorioEquipo,
+                repositorioPartido
+        );
+
+        when(repositorioPartido.buscarPorId(1L)).thenReturn(unPartidoConEquipos());
+        when(repositorioFormacion.buscarPorPartidoYEquipo(1L, 1L)).thenReturn(unaFormacionDe(4));
+        when(repositorioFormacion.buscarPorPartidoYEquipo(1L, 2L)).thenReturn(unaFormacionDe(5));
+
+        boolean resultado = servicio.partidoTieneJugadoresEnFormacion(1L);
+
+        assertThat(resultado, is(false));
+    }
+
+    @Test
+    public void dadoQueNingunoDeLosEquiposTienenAlMenos5JugadoresElPartidoNOPuedeIniciar(){
+        RepositorioFormacion repositorioFormacion = mock(RepositorioFormacion.class);
+        RepositorioJugador repositorioJugador = mock(RepositorioJugador.class);
+        RepositorioEquipoNBA repositorioEquipo = mock(RepositorioEquipoNBA.class);
+        RepositorioPartidoNBA repositorioPartido = mock(RepositorioPartidoNBA.class);
+
+        ServicioFormacion servicio = new ServicioFormacionImpl(
+                repositorioFormacion,
+                repositorioJugador,
+                repositorioEquipo,
+                repositorioPartido
+        );
+
+        when(repositorioPartido.buscarPorId(1L)).thenReturn(unPartidoConEquipos());
+        when(repositorioFormacion.buscarPorPartidoYEquipo(1L, 1L)).thenReturn(unaFormacionDe(4));
+        when(repositorioFormacion.buscarPorPartidoYEquipo(1L, 2L)).thenReturn(unaFormacionDe(3));
+
+        boolean resultado = servicio.partidoTieneJugadoresEnFormacion(1L);
+
+        assertThat(resultado, is(false));
     }
 }
