@@ -1,8 +1,8 @@
 package com.tallerwebi.infraestructura;
 
+import com.tallerwebi.dominio.Jugador;
 import com.tallerwebi.dominio.equipo.Equipo;
 import com.tallerwebi.dominio.equipoJugador.EquipoJugador;
-import com.tallerwebi.dominio.Jugador;
 import com.tallerwebi.dominio.equipoJugador.RepositorioEquipoJugador;
 import com.tallerwebi.integracion.config.HibernateTestConfig;
 import com.tallerwebi.integracion.config.SpringWebTestConfig;
@@ -16,10 +16,11 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 @ExtendWith(SpringExtension.class)
 @WebAppConfiguration
@@ -32,9 +33,6 @@ public class RepositorioEquipoJugadorTest {
     @Autowired
     private SessionFactory sessionFactory;
 
-    /*
-     * 1- Se puede guardar un EquipoJugador en la BDD
-     * 2- Al buscar un EquipoJugador se obtiene resultado exitoso. */
     @Test
     @Transactional
     @Rollback
@@ -76,5 +74,115 @@ public class RepositorioEquipoJugadorTest {
         assertThat(equipoJugadorBuscado.getJugador().getId(), equalTo(jugador1.getId()));
     }
 
+    @Test
+    @Transactional
+    @Rollback
+    public void buscarPorEquipoIdDevuelveTodosLosEquipoJugadorDeEseEquipo() {
+        // preparación
+        Equipo equipo = new Equipo();
+        this.sessionFactory.getCurrentSession().save(equipo);
+
+        Jugador jugador1 = new Jugador();
+        jugador1.setDni(38662);
+        Jugador jugador2 = new Jugador();
+        jugador2.setDni(40123);
+        this.sessionFactory.getCurrentSession().save(jugador1);
+        this.sessionFactory.getCurrentSession().save(jugador2);
+
+        EquipoJugador equipoJugador1 = new EquipoJugador();
+        equipoJugador1.setEquipo(equipo);
+        equipoJugador1.setJugador(jugador1);
+
+        EquipoJugador equipoJugador2 = new EquipoJugador();
+        equipoJugador2.setEquipo(equipo);
+        equipoJugador2.setJugador(jugador2);
+
+        this.sessionFactory.getCurrentSession().save(equipoJugador1);
+        this.sessionFactory.getCurrentSession().save(equipoJugador2);
+
+        // ejecución
+        List<EquipoJugador> equipoJugadores = repositorioEquipoJugador.buscarPorEquipoId(equipo.getId());
+
+        // Verificación
+        assertThat(equipoJugadores, hasSize(2));
+        assertThat(equipoJugadores, containsInAnyOrder(equipoJugador1, equipoJugador2));
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void buscarPorEquipoIdSinEquipoJugadorAsociadosDevuelveListaVacia() {
+        // preparación
+        Equipo equipo = new Equipo();
+        this.sessionFactory.getCurrentSession().save(equipo);
+
+        // ejecución
+        List<EquipoJugador> equipoJugadores = repositorioEquipoJugador.buscarPorEquipoId(equipo.getId());
+
+        // Verificación
+        assertThat(equipoJugadores, empty());
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void eliminarEquipoJugadorEliminaElRegistroDeLaBdd() {
+        // preparación
+        Equipo equipo = new Equipo();
+        Jugador jugador = new Jugador();
+        jugador.setDni(38662);
+        this.sessionFactory.getCurrentSession().save(equipo);
+        this.sessionFactory.getCurrentSession().save(jugador);
+
+        EquipoJugador equipoJugador = new EquipoJugador();
+        equipoJugador.setEquipo(equipo);
+        equipoJugador.setJugador(jugador);
+        this.sessionFactory.getCurrentSession().save(equipoJugador);
+
+        Long idEquipoJugador = equipoJugador.getId();
+
+        // ejecución
+        repositorioEquipoJugador.eliminarEquipoJugador(equipoJugador);
+        this.sessionFactory.getCurrentSession().flush();
+        this.sessionFactory.getCurrentSession().clear();
+
+        EquipoJugador equipoJugadorEliminado = this.sessionFactory.getCurrentSession().get(EquipoJugador.class, idEquipoJugador);
+
+        // Verificación
+        assertNull(equipoJugadorEliminado);
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void actualizarEquipoJugadorActualizaElJugadorAsociado() {
+        // preparación
+        Equipo equipo = new Equipo();
+        Jugador jugadorOriginal = new Jugador();
+        jugadorOriginal.setDni(38662);
+        Jugador jugadorNuevo = new Jugador();
+        jugadorNuevo.setDni(40123);
+
+        this.sessionFactory.getCurrentSession().save(equipo);
+        this.sessionFactory.getCurrentSession().save(jugadorOriginal);
+        this.sessionFactory.getCurrentSession().save(jugadorNuevo);
+
+        EquipoJugador equipoJugador = new EquipoJugador();
+        equipoJugador.setEquipo(equipo);
+        equipoJugador.setJugador(jugadorOriginal);
+        this.sessionFactory.getCurrentSession().save(equipoJugador);
+
+        equipoJugador.setJugador(jugadorNuevo);
+
+        // ejecución
+        repositorioEquipoJugador.actualizarEquipoJugador(equipoJugador);
+        this.sessionFactory.getCurrentSession().flush();
+        this.sessionFactory.getCurrentSession().clear();
+
+        EquipoJugador equipoJugadorActualizado = this.sessionFactory.getCurrentSession().get(EquipoJugador.class, equipoJugador.getId());
+
+        // Verificación
+        assertThat(equipoJugadorActualizado.getJugador().getId(), equalTo(jugadorNuevo.getId()));
+    }
 
 }
