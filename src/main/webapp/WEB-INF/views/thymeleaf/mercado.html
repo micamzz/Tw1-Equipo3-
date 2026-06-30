@@ -21,102 +21,108 @@
     <link rel="stylesheet" th:href="@{/css/mercado.css}" />
   </head>
   <body>
+  <header th:fragment="header">
     <nav class="navbar-mercado">
-        <span class="nav-brand-text">UNLAM Basket</span>
+      <a class="logo" th:href="@{/home}">
+        <span class="color-naranja"> Unlam </span> Basket</a>
+      <!-- <span class="nav-brand-text">UNLAM Basket</span> -->
         <form class ="form-busqueda" th:action= "@{/mercado}" method="get">
             <input type="hidden" name="posicion" th:value="${posicion}"/>
             <div class="search-wrapper">
                 <input type="text" name="nombre" th:value="${nombre}" placeholder="Buscar por nombre o apellido..." class="input-busqueda"/>
             </div>
         </form>
-        <nav class="nav-links-mercado">
-            <a th:href="@{/ver-equipo.html}" class="nav-link-mercado">Ver equipo</a>
-            <a th:href="@{/index}" class="nav-link-mercado">Mi perfil</a>
-        </nav>
-    </nav>
-    <main class="contenido-principal">
-      <div class="filtros-section">
-        <form th:action="@{/mercado}" method="get">
-          <input type="hidden" name="nombre" th:value="${nombre}" />
-          <label for="posicion" class="filtro-label">Posición: </label>
-          <select
-            name="posicion"
-            id="posicion"
-            class="filtro-select"
-            onchange="this.form.submit()"
-          >
-            <option value="" th:selected="${posicion ==null}">Todos</option>
-            <option
-              value="BASE"
-              th:selected="${posicion != null and posicion == 'BASE'}"
-            >
-              Base
-            </option>
-            <option
-              value="ALERO"
-              th:selected="${posicion != null and posicion == 'ALERO'}"
-            >
-              Alero
-            </option>
-            <option
-              value="PIVOT"
-              th:selected="${posicion != null and posicion == 'PIVOT'}"
-            >
-              Pivot
-            </option>
-          </select>
-        </form>
-      </div>
-      <div class="jugadores-grid">
-        <div class="jugador-card" th:each="jugador:${jugadores}">
-          <img
-            th:src="${jugador.foto}"
-            th:alt="${jugador.nombre + ' ' + jugador.apellido}"
-            class="jugador-avatar"
-          />
-          <p
-            class="jugador-nombre"
-            th:text="${jugador.nombre + ' ' + jugador.apellido}"
-          >
-            Nombre Apellido
-          </p>
-          <span
-            class="posicion-badge"
-            th:classappend="${jugador.posicion.name() == 'BASE' ? 'badge-base':
-                                                        (jugador.posicion.name() == 'ALERO' ? 'badge-alero' : 'badge-pivot')}"
-            th:text="${jugador.posicion}"
-          >
-          </span>
-          <p
-            class="jugador-precio"
-            th:text="${'$ ' + #numbers.formatInteger(jugador.precio, 1, 'COMMA')}"
-          >
-            $ 0
-          </p>
+        <nav class="nav-links">
+          <!--  <a th:href="@{/ver-equipo.html}" class="nav-link-mercado">Ver equipo</a> -->
+          <!-- <a th:href="@{/index}" class="nav-link-mercado">Mi perfil</a> -->
+         <a th:href="@{/home}" class="link">Home</a>
+         <a th:href="@{/mercado}" class="link">Mercado</a>
+         <a th:href="@{/reglas}" class="link">Reglas</a>
+         <a th:href="@{/salir}" class="link">Cerrar sesión</a>
+       </nav>
+   </nav>
+ </header>
+   <main class="contenido-principal">
+     <div class="filtros-section">
+       <form th:action="@{/mercado}" method="get">
+         <input type="hidden" name="nombre" th:value="${nombre}" />
+         <label for="posicion" class="filtro-label">Posición: </label>
+         <select
+           name="posicion"
+           id="posicion"
+           class="filtro-select"
+           onchange="this.form.submit()"
+         >
+           <option value="" th:selected="${posicion ==null}">Todos</option>
+           <option
+             value="BASE"
+             th:selected="${posicion != null and posicion == 'BASE'}"
+           >
+             Base
+           </option>
+           <option
+             value="ALERO"
+             th:selected="${posicion != null and posicion == 'ALERO'}"
+           >
+             Alero
+           </option>
+           <option
+             value="PIVOT"
+             th:selected="${posicion != null and posicion == 'PIVOT'}"
+           >
+             Pivot
+           </option>
+         </select>
+       </form>
+     </div>
+     <div class="jugadores-grid">
+       <div class="jugador-card" th:each="jugador:${jugadores}">
+         <img
+           th:src="${jugador.foto}"
+           th:alt="${jugador.nombre + ' ' + jugador.apellido}"
+           class="jugador-avatar"
+         />
+         <p
+           class="jugador-nombre"
+           th:text="${jugador.nombre + ' ' + jugador.apellido}"
+         >
+           Nombre Apellido
+         </p>
+         <span
+           class="posicion-badge"
+           th:classappend="${jugador.posicion.name() == 'BASE' ? 'badge-base':
+                                                       (jugador.posicion.name() == 'ALERO' ? 'badge-alero' : 'badge-pivot')}"
+           th:text="${jugador.posicion}"
+         >
+         </span>
+         <p
+           class="jugador-precio"
+           th:text="${'$ ' + #numbers.formatInteger(jugador.precio, 1, 'COMMA')}"
+         >
+           $ 0
+         </p>
 
-          <a th:href = "@{/jugador/{id}(id=${jugador.id})}" class="btn-detalle">Ver detalle</a>
+         <a th:href = "@{/jugador/{id}(id=${jugador.id})}" class="btn-detalle">Ver detalle</a>
 
-          <!--Mica fijate que este boton sirve para poner a cada jugador con su equipo deberias conectarlo con la clase que se muestre en el equipo o que se guarde en algun lado esta info -->
-            <button type="submit" class="btn-fichar">Fichar</button>
 
-        </div>
-        <p th:if="${#lists.isEmpty(jugadores)}" class="sin-resultados">
-          No se encontraron jugadores.
-        </p>
-      </div>
+       </div>
+       <p th:if="${#lists.isEmpty(jugadores)}" class="sin-resultados">
+         No se encontraron jugadores.
+       </p>
+     </div>
 
-      <script>
-        document
-          .querySelector(".form-busqueda")
-          .addEventListener("submit", function (e) {
-            const nombre = this.querySelector('input[name="nombre"]').value;
-            if (!nombre || nombre.trim() === "") {
-              e.preventDefault();
-              window.location.href = "/tallerwebi_base_war_exploded/mercado";
-            }
-          });
-      </script>
-      <!-- Boostrap core js -->
+     <script>
+       document
+         .querySelector(".form-busqueda")
+         .addEventListener("submit", function (e) {
+           const nombre = this.querySelector('input[name="nombre"]').value;
+           if (!nombre || nombre.trim() === "") {
+             e.preventDefault();
+             window.location.href = "/tallerwebi_base_war_exploded/mercado";
+           }
+         });
+     </script>
+     <!-- Boostrap core js -->
       <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"

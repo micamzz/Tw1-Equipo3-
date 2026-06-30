@@ -10,9 +10,10 @@ public interface ServicioEventoPartido {
     void registrarEvento (Long idPartido,
                           Long idJugador,
                           LocalTime momentoPartido,
-                          TipoEstadistica tipoEstadistica) throws PartidoNoEncontradoException, JugadorNoEncontradoException, JugadorNoConvocadoException, MomentoPartidoInvalidoException, PartidoNoEnCursoException;
+                          TipoEstadistica tipoEstadistica,
+                          Boolean esLocal) throws PartidoNoEncontradoException, JugadorNoEncontradoException, JugadorNoConvocadoException, MomentoPartidoInvalidoException, PartidoNoEnCursoException;
 
     List<EventoPartido> buscarEventosPorPartido(Long idPartido);
 
-    List<EventoPartido> buscarEventosPorPartidoYJugador(Long idPartido, Long idJugador);
+
 }

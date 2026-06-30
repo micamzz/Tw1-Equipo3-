@@ -52,12 +52,6 @@ body {
   color: #e5dcdc;
 }
 
-.nav-brand-text {
-  color: #ff7a1a;
-  font-weight: 600;
-  font-size: 15px;
-  white-space: nowrap;
-}
 
 .contenido-principal {
   padding: 20px 24px;
@@ -205,19 +199,43 @@ body {
     color:white;
     font-size: 12px;
 }
-.nav-links-mercado {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-}
 
-.nav-link-mercado {
-    color: #aaa;
-    font-size: 14px;
+a {
     text-decoration: none;
 }
 
-.nav-link-mercado:hover {
-    color: #FF7A1A;
-    border-bottom: 1.5px solid #FF7A1A;
+
+.logo {
+    color: #f1f5f9;
+    font-weight: 800;
+    font-size: 1.2rem;
+}
+
+.color-naranja {
+    color: #ff6b00;
+    text-transform: uppercase;
+}
+
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.link {
+    color: #888;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: color 0.15s,
+    box-shadow 0.15s;
+    height: 60px;
+    display: flex;
+    align-items: center;
+}
+
+.link:hover {
+    color: #ff6b00;
+    box-shadow: inset 0 2px 0 #ff6b00,
+    inset 0 -2px 0 #ff6b00;
 }

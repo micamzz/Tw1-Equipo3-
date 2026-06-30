@@ -28,6 +28,9 @@ public class EventoPartido {
     @Enumerated(EnumType.STRING)
     private TipoEstadistica tipoEstadistica;
 
+    @Column (nullable = false)
+    private Boolean esLocal;
+
 
     public EventoPartido() {
     }
@@ -68,5 +71,13 @@ public class EventoPartido {
 
     public void setTipoEstadistica(TipoEstadistica tipoEstadistica) {
         this.tipoEstadistica = tipoEstadistica;
+    }
+
+    public Boolean getEsLocal() {
+        return esLocal;
+    }
+
+    public void setEsLocal(Boolean esLocal) {
+        this.esLocal = esLocal;
     }
 }

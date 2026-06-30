@@ -22,13 +22,13 @@ public class ControladorAdminHome {
         this.servicioLogin = servicioLogin;
     }
 
-    private boolean noEstaLogueado(HttpServletRequest request) {
-        return request.getSession().getAttribute("usuario") == null;
-    }
 
     @RequestMapping("/home")
     public ModelAndView iraHome(HttpServletRequest request) {
-        if (noEstaLogueado(request)) return new ModelAndView("redirect:/login");
+
+        if (request.getSession().getAttribute("usuario") == null) {
+            return new ModelAndView("redirect:/login");
+        }
 
         Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
         ModelMap modelo = new ModelMap();
@@ -38,7 +38,10 @@ public class ControladorAdminHome {
 
     @RequestMapping(path = "/nuevo-admin", method = RequestMethod.GET)
     public ModelAndView nuevoAdmin(HttpServletRequest request) {
-        if (noEstaLogueado(request)) return new ModelAndView("redirect:/login");
+
+        if (request.getSession().getAttribute("usuario") == null) {
+            return new ModelAndView("redirect:/login");
+        }
 
         ModelMap model = new ModelMap();
         model.put("usuario", new Usuario());
@@ -48,7 +51,10 @@ public class ControladorAdminHome {
     @RequestMapping(path = "/crear-admin", method = RequestMethod.POST)
     public ModelAndView crearAdmin(HttpServletRequest request,
                                    @ModelAttribute("usuario") Usuario usuario) {
-        if (noEstaLogueado(request)) return new ModelAndView("redirect:/login");
+
+        if (request.getSession().getAttribute("usuario") == null) {
+            return new ModelAndView("redirect:/login");
+        }
 
         ModelMap model = new ModelMap();
         try {

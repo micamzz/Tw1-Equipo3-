@@ -16,8 +16,6 @@ import java.util.List;
 @Transactional
 public class ServicioEventoPartidoImpl implements ServicioEventoPartido {
 
-    private final ServicioPartidoNBA servicioPartidoNBA;
-    private final ServicioEquipoNBA servicioEquipoNBA;
     private final RepositorioEventoPartido repositorioEventoPartido;
     private final RepositorioPartidoNBA repositorioPartidoNBA;
     private final RepositorioJugador repositorioJugador;
@@ -30,15 +28,11 @@ public class ServicioEventoPartidoImpl implements ServicioEventoPartido {
             , RepositorioPartidoNBA repositorioPartidoNBA
             , RepositorioJugador repositorioJugador
             , RepositorioFormacion repositorioFormacion
-            , ServicioPartidoNBA servicioPartidoNBA
-            , ServicioEquipoNBA servicioEquipoNBA
             , RepositorioScorePartido repositorioScorePartido) {
         this.repositorioEventoPartido = repositorioEventoPartido;
         this.repositorioPartidoNBA = repositorioPartidoNBA;
         this.repositorioJugador = repositorioJugador;
         this.repositorioFormacion = repositorioFormacion;
-        this.servicioPartidoNBA = servicioPartidoNBA;
-        this.servicioEquipoNBA = servicioEquipoNBA;
         this.repositorioScorePartido = repositorioScorePartido;
     }
 
@@ -60,7 +54,7 @@ public class ServicioEventoPartidoImpl implements ServicioEventoPartido {
     }
 
     @Override
-    public void registrarEvento(Long idPartido, Long idJugador, LocalTime momentoPartido, TipoEstadistica tipoEstadistica) throws PartidoNoEncontradoException, JugadorNoEncontradoException, JugadorNoConvocadoException, MomentoPartidoInvalidoException, PartidoNoEnCursoException {
+    public void registrarEvento(Long idPartido, Long idJugador, LocalTime momentoPartido, TipoEstadistica tipoEstadistica, Boolean esLocal) throws PartidoNoEncontradoException, JugadorNoEncontradoException, JugadorNoConvocadoException, MomentoPartidoInvalidoException, PartidoNoEnCursoException {
 
         // Valido que exista el partido
         PartidoNBA partidoNBA = repositorioPartidoNBA.buscarPorId(idPartido);
@@ -90,6 +84,7 @@ public class ServicioEventoPartidoImpl implements ServicioEventoPartido {
         evento.setJugador(jugador);
         evento.setMomentoPartido(momentoPartido);
         evento.setTipoEstadistica(tipoEstadistica);
+        evento.setEsLocal(esLocal);
 
         EquipoNBA equipo = repositorioFormacion.buscarEquipo(idPartido, idJugador);
 
@@ -117,8 +112,7 @@ public class ServicioEventoPartidoImpl implements ServicioEventoPartido {
         return repositorioEventoPartido.buscarEventosPorPartido(idPartido);
     }
 
-    @Override
-    public List<EventoPartido> buscarEventosPorPartidoYJugador(Long idPartido, Long idJugador) {
-        return repositorioEventoPartido.buscarEventosPorPartidoYJugador(idPartido, idJugador);
-    }
+
+
+
 }
