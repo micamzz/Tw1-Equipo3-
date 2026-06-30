@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-
 @Controller
 @RequestMapping("/admin")
 public class ControladorAdminHome {
@@ -22,47 +20,32 @@ public class ControladorAdminHome {
         this.servicioLogin = servicioLogin;
     }
 
-
     @RequestMapping("/home")
-    public ModelAndView iraHome(HttpServletRequest request) {
-
-        if (request.getSession().getAttribute("usuario") == null) {
-            return new ModelAndView("redirect:/login");
-        }
-
-        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
-        ModelMap modelo = new ModelMap();
-        modelo.put("usuario", usuario);
-        return new ModelAndView("admin-home", modelo);
+    public ModelAndView iraHome() {
+        return new ModelAndView("admin-home");
     }
 
     @RequestMapping(path = "/nuevo-admin", method = RequestMethod.GET)
-    public ModelAndView nuevoAdmin(HttpServletRequest request) {
-
-        if (request.getSession().getAttribute("usuario") == null) {
-            return new ModelAndView("redirect:/login");
-        }
+    public ModelAndView nuevoAdmin() {
 
         ModelMap model = new ModelMap();
         model.put("usuario", new Usuario());
+
         return new ModelAndView("admin-nuevo-admin", model);
     }
 
     @RequestMapping(path = "/crear-admin", method = RequestMethod.POST)
-    public ModelAndView crearAdmin(HttpServletRequest request,
-                                   @ModelAttribute("usuario") Usuario usuario) {
-
-        if (request.getSession().getAttribute("usuario") == null) {
-            return new ModelAndView("redirect:/login");
-        }
+    public ModelAndView crearAdmin(@ModelAttribute("usuario") Usuario usuario) {
 
         ModelMap model = new ModelMap();
+
         try {
             servicioLogin.registrarAdmin(usuario);
         } catch (UsuarioExistente e) {
             model.put("error", "El usuario ya existe");
             return new ModelAndView("admin-nuevo-admin", model);
         }
+
         return new ModelAndView("redirect:/admin/home");
     }
 }

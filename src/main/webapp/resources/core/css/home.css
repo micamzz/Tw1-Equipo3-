@@ -67,6 +67,7 @@ body {
     flex-direction: column;
     gap: 1rem;
     max-width: 480px;
+    margin-top: -26em;
 }
 
 .hero-etiqueta {
@@ -274,6 +275,7 @@ body {
 .link-ver-todo:hover {
     opacity: 0.8;
 }
+
 /* Fila de Puntos + Torneo vigente, debajo de los botones */
 .hero-stats-row {
     display: flex;
