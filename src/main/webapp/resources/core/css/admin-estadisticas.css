@@ -323,3 +323,86 @@ main {
     width: 100%;
     max-width: 200px;
 }
+
+/* Contenedor principal de la lista */
+.lista-eventos {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 10px;
+}
+
+/* Estructura base de cada tarjeta de evento */
+.evento {
+    display: flex;
+    width: 80%; /* Para que no ocupe todo el ancho y se note el alineado */
+    border-radius: 8px;
+    padding: 12px;
+    transition: all 0.3s ease;
+}
+
+.evento-contenido {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+/* ===================================================
+   ESTILOS PARA EL EQUIPO LOCAL (Izquierda)
+   =================================================== */
+.evento-local {
+    align-self: flex-start;
+    background-color: rgba(26, 54, 93, 0.4); /* Un fondo azul muy sutil */
+    border-left: 4px solid #1d4ed8; /* Línea azul fuerte del lado local */
+    text-align: left;
+}
+
+.evento-local .evento-tiempo {
+    color: #60a5fa; /* Tiempo color azul claro */
+}
+
+
+/* ===================================================
+   ESTILOS PARA EL EQUIPO VISITANTE (Derecha)
+   =================================================== */
+.evento-visitante {
+    align-self: flex-end;
+    background-color: rgba(20, 83, 45, 0.4); /* Un fondo verde muy sutil */
+    border-right: 4px solid #15803d; /* Línea verde fuerte del lado visitante */
+    text-align: right;
+}
+
+.evento-visitante .evento-tiempo {
+    color: #4ade80; /* Tiempo color verde claro */
+}
+
+
+/* ===================================================
+   DETALLES TIPOGRÁFICOS COMUNES
+   =================================================== */
+.evento-tiempo {
+    font-weight: 700;
+    font-size: 0.85rem;
+    margin-bottom: 4px;
+}
+
+.evento-jugador {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.evento-tipo {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    color: #9ca3af; /* Gris claro para la acción */
+    margin-top: 2px;
+}
+
+/* El tag sutil del nombre del equipo */
+.evento-equipo-tag {
+    font-size: 0.75rem;
+    color: #6b7280; /* Gris más oscuro */
+    margin-top: 6px;
+    font-style: italic;
+}

@@ -131,9 +131,10 @@
                 Equipo Local
             </h2>
 
-            <form th:action="@{/admin/partido/{id}/eventos(id=${partido.id})}" th:object="${evento}" method="post">
-            <input type="hidden" th:attr="name='esLocal'" value="true" />
 
+            <form th:action="@{/admin/partido/{id}/eventos(id=${partido.id})}"
+                  th:object="${evento}" method="post">
+                <input type="hidden" th:attr="name='esLocal'" value="true"/>
 
 
                 <label>Jugador</label>
@@ -172,7 +173,7 @@
                        th:field="*{momentoPartido}"
                        step="1"
                        required>
-<!-- BOTON REGISTRAR EVENTO LOCAL -->
+                <!-- BOTON REGISTRAR EVENTO LOCAL -->
 
                 <button type="submit"
                         class="btn btn-verde">
@@ -194,19 +195,21 @@
             <div class="lista-eventos">
 
                 <div class="evento"
-                     th:each="evento : ${eventos}">
+                     th:each="evento : ${eventos}"
+                     th:classappend="${evento.esLocal} ? 'evento-local' : 'evento-visitante'">
 
-                <span class="evento-tiempo"
-                      th:text="${evento.momentoPartido}">
-                </span>
+                    <div class="evento-contenido">
+                        <span class="evento-tiempo" th:text="${evento.momentoPartido}">00:00:10</span>
 
-                    <span class="evento-jugador"
-                          th:text="${evento.jugador.nombre + ' ' + evento.jugador.apellido}">
-                </span>
+                        <span class="evento-jugador" th:text="${evento.jugador.nombre + ' ' + evento.jugador.apellido}">Kevin Durant</span>
 
-                    <span class="evento-tipo"
-                          th:text="${evento.tipoEstadistica}">
-                </span>
+                        <span class="evento-tipo" th:text="${evento.tipoEstadistica}">ASISTENCIA</span>
+
+                        <span class="evento-equipo-tag"
+                              th:text="${evento.esLocal} ? ${partido.equipoLocal.nombre} :
+                              ${partido.equipoVisitante.nombre}"> Nombre del Equipo
+                        </span>
+                    </div>
 
                 </div>
 
@@ -222,8 +225,10 @@
                 Equipo Visitante
             </h2>
 
-            <form th:action="@{/admin/partido/{id}/eventos(id=${partido.id})}" th:object="${evento}" method="post">
-                <input type="hidden" th:attr="name='esLocal'" value="false" />
+
+            <form th:action="@{/admin/partido/{id}/eventos(id=${partido.id})}"
+                  th:object="${evento}" method="post">
+                <input type="hidden" th:attr="name='esLocal'" value="false"/>
 
                 <label>Jugador</label>
 
@@ -262,7 +267,7 @@
                        step="1"
                        required>
 
- <!-- BOTON REGISTRAR EVENTO LOCAL -->
+                <!-- BOTON REGISTRAR EVENTO LOCAL -->
 
                 <button type="submit"
                         class="btn btn-verde">

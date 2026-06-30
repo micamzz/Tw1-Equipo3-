@@ -123,7 +123,7 @@ public class PartidoNBA {
     }
 
     public void setPuntosLocal(Integer puntosLocal) {
-        this.puntosLocal += puntosLocal;
+        this.puntosLocal = puntosLocal;
     }
 
     public Integer getPuntosVisitante() {
@@ -131,6 +131,6 @@ public class PartidoNBA {
     }
 
     public void setPuntosVisitante(Integer puntosVisitante) {
-        this.puntosVisitante += puntosVisitante;
+        this.puntosVisitante = puntosVisitante;
     }
 }
