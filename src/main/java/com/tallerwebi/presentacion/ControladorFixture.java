@@ -114,8 +114,6 @@ public class ControladorFixture {
         EquipoNBA equipoLocal = partido.getEquipoLocal();
         EquipoNBA equipoVisitante = partido.getEquipoVisitante();
         List<CronologiaNBA> cronologia = servicioPartidoNBA.obtenerCronologiaDePartido(idPartido);
-        Integer tanteadorLocal = servicioPartidoNBA.obtenerPuntosLocal(idPartido,equipoLocal.getId());
-        Integer tanteadorVisitante = servicioPartidoNBA.obtenerPuntosVisitante(idPartido,equipoVisitante.getId());
 
         List<Jugador> jugadoresLocal = servicioEquipoNBAJugador
                 .obtenerJugadoresDelEquipoEnTorneo(partido.getEquipoLocal().getId(), partido.getTorneo().getId());
@@ -124,8 +122,8 @@ public class ControladorFixture {
 
         modelo.put("partido", partido);
         modelo.put("cronologia", cronologia);
-        modelo.put("scoreLocal", tanteadorLocal);
-        modelo.put("scoreVisitante", tanteadorVisitante);
+        modelo.put("scoreLocal", partido.getPuntosLocal());
+        modelo.put("scoreVisitante", partido.getPuntosVisitante());
         modelo.put("jugadoresLocal", jugadoresLocal);
         modelo.put("jugadoresVisitante", jugadoresVisitante);
 

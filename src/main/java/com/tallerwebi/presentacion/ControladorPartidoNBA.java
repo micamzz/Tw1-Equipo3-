@@ -45,13 +45,11 @@ public class ControladorPartidoNBA {
         ModelMap modelo = new ModelMap();
         PartidoNBA partido = servicioPartidoNBA.obtenerPorId(idPartido);
         List<CronologiaNBA> cronologia = servicioPartidoNBA.obtenerCronologiaDePartido(idPartido);
-        Integer tanteadorLocal = servicioPartidoNBA.obtenerPuntosLocal(idPartido,partido.getEquipoLocal().getId());
-        Integer tanteadorVisitante = servicioPartidoNBA.obtenerPuntosVisitante(idPartido,partido.getEquipoVisitante().getId());
 
         modelo.put("partido", partido);
         modelo.put("cronologia", cronologia);
-        modelo.put("scoreLocal", tanteadorLocal);
-        modelo.put("scoreVisitante", tanteadorVisitante);
+        modelo.put("scoreLocal", partido.getPuntosLocal());
+        modelo.put("scoreVisitante", partido.getPuntosVisitante());
         return new ModelAndView("partido-cronologia", modelo);
     }
 

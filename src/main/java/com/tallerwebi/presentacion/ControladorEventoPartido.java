@@ -45,9 +45,9 @@ public class ControladorEventoPartido {
 
         modelo.put("tipos", TipoEstadistica.values());
 
-        modelo.put("tanteadorLocal", servicioPartidoNBA.obtenerPuntosLocal(idPartido, partido.getEquipoLocal().getId()));
+        modelo.put("tanteadorLocal", partido.getPuntosLocal());
 
-        modelo.put("tanteadorVisitante", servicioPartidoNBA.obtenerPuntosVisitante(idPartido, partido.getEquipoVisitante().getId()));
+        modelo.put("tanteadorVisitante", partido.getPuntosVisitante());
 
         modelo.put("formacionLocal", servicioFormacion.obtenerFormacionPorEquipo(idPartido, partido.getEquipoLocal().getId()));
 

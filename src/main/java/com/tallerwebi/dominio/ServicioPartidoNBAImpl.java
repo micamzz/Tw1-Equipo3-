@@ -153,7 +153,6 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
 
     @Override
     public List<PartidoNBA> obtenerPartidosFinalizados() {
-
         List<PartidoNBA> partidos = repositorioPartidoNBA.buscarPartidosFinalizados();
         for (PartidoNBA partido : partidos) {
            calcularPuntaje(partido);
