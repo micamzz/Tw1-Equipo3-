@@ -146,8 +146,7 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
     public List<PartidoNBA> obtenerPartidosActivos() {
         List<PartidoNBA> partidosActivos = repositorioPartidoNBA.buscarPartidosActivos();
         for (PartidoNBA partido : partidosActivos) {
-            partido.setPuntosLocal(obtenerPuntosLocal(partido.getId(), partido.getEquipoLocal().getId()));
-            partido.setPuntosVisitante(obtenerPuntosVisitante(partido.getId(), partido.getEquipoVisitante().getId()));
+           calcularPuntaje(partido);
         }
         return partidosActivos;
     }
@@ -157,8 +156,7 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
 
         List<PartidoNBA> partidos = repositorioPartidoNBA.buscarPartidosFinalizados();
         for (PartidoNBA partido : partidos) {
-            partido.setPuntosLocal(obtenerPuntosLocal(partido.getId(), partido.getEquipoLocal().getId()));
-            partido.setPuntosVisitante(obtenerPuntosVisitante(partido.getId(), partido.getEquipoVisitante().getId()));
+           calcularPuntaje(partido);
         }
 
         return partidos;
@@ -257,38 +255,27 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
         repositorioPartidoNBA.eliminar(partido);
     }
 
-    @Override
-    public Integer obtenerPuntosLocal(Long partidoId, Long equipoId) {
-        List<EventoPartido> listaEventosLocal = repositorioEventoPartido.buscarEventosPorPartidoYEquipo(partidoId, equipoId);
-        Integer puntosLocal = 0;
 
-        for (EventoPartido evento : listaEventosLocal) {
+    public void calcularPuntaje(PartidoNBA partido) {
+
+        List<EventoPartido> listaEventosPartido = repositorioEventoPartido.buscarEventosPorPartido(partido.getId());
+        Integer puntaje = 0;
+
+        for (EventoPartido evento : listaEventosPartido){
             if (evento.getTipoEstadistica() == TipoEstadistica.DOBLE) {
-                puntosLocal += 2;
+                puntaje = 2;
             } else if (evento.getTipoEstadistica() == TipoEstadistica.TRIPLE) {
-                puntosLocal += 3;
+                puntaje = 3;
             } else if (evento.getTipoEstadistica() == TipoEstadistica.TIRO_LIBRE) {
-                puntosLocal += 1;
+                puntaje = 1;
             }
 
-        }
-        return puntosLocal;
-    }
-
-
-    public Integer obtenerPuntosVisitante(Long partidoId, Long equipoId) {
-        List<EventoPartido> listaEventosVisitante = repositorioEventoPartido.buscarEventosPorPartidoYEquipo(partidoId, equipoId);
-        Integer puntosVisitante = 0;
-
-        for (EventoPartido evento : listaEventosVisitante) {
-            if (evento.getTipoEstadistica() == TipoEstadistica.DOBLE) {
-                puntosVisitante += 2;
-            } else if (evento.getTipoEstadistica() == TipoEstadistica.TRIPLE) {
-                puntosVisitante += 3;
-            } else if (evento.getTipoEstadistica() == TipoEstadistica.TIRO_LIBRE) {
-                puntosVisitante += 1;
+            if (evento.getEsLocal()) {
+                partido.setPuntosLocal(partido.getPuntosLocal() + puntaje);
+            } else {
+                partido.setPuntosVisitante(partido.getPuntosVisitante() + puntaje);
             }
         }
-        return puntosVisitante;
+
     }
 }

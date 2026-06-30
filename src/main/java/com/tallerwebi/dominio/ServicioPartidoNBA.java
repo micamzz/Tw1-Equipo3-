@@ -34,7 +34,5 @@ public interface ServicioPartidoNBA {
 
     void cancelarPartido(Long partidoId);
 
-    Integer obtenerPuntosLocal(Long partidoId, Long equipoId);
-
-    Integer obtenerPuntosVisitante(Long partidoId, Long equipoId);
+    void calcularPuntaje(PartidoNBA partido);
 }
