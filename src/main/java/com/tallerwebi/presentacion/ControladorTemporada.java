@@ -38,13 +38,12 @@ public class ControladorTemporada {
         this.servicioEquipoNBAJugador = servicioEquipoNBAJugador;
     }
 
-    private boolean noEstaLogueado(HttpServletRequest request) {
-        return request.getSession().getAttribute("usuario") == null;
-    }
 
     @RequestMapping("/historialTemporadas")
     public ModelAndView verHistorialTemporadas(HttpServletRequest request) {
-        if (noEstaLogueado(request)) return new ModelAndView("redirect:/login");
+        if (request.getSession().getAttribute("usuario") == null) {
+            return new ModelAndView("redirect:/login");
+        }
 
         ModelMap modelo = new ModelMap();
         List<Temporada> temporadas = servicioTemporada.obtenerTodasLasTemporadas();
@@ -54,7 +53,10 @@ public class ControladorTemporada {
 
     @RequestMapping("/historialTemporada/{idTemporada}")
     public ModelAndView verTorneosDeTemporada(HttpServletRequest request, @PathVariable Long idTemporada) {
-        if (noEstaLogueado(request)) return new ModelAndView("redirect:/login");
+
+        if (request.getSession().getAttribute("usuario") == null) {
+            return new ModelAndView("redirect:/login");
+        }
 
         ModelMap modelo = new ModelMap();
         Temporada temporada = servicioTemporada.obtenerTemporadaPorId(idTemporada);
@@ -66,7 +68,10 @@ public class ControladorTemporada {
 
     @RequestMapping("/historialTorneo/{idTorneo}")
     public ModelAndView verEquiposDeTorneo(HttpServletRequest request, @PathVariable Long idTorneo) {
-        if (noEstaLogueado(request)) return new ModelAndView("redirect:/login");
+
+        if (request.getSession().getAttribute("usuario") == null) {
+            return new ModelAndView("redirect:/login");
+        }
 
         ModelMap modelo = new ModelMap();
         Torneo torneo = servicioTorneo.buscarTorneoPorId(idTorneo);
@@ -80,8 +85,10 @@ public class ControladorTemporada {
     public ModelAndView verJugadoresDeEquipoEnTorneo(HttpServletRequest request,
                                                      @PathVariable Long idEquipo,
                                                      @PathVariable Long idTorneo) {
-        if (noEstaLogueado(request)) return new ModelAndView("redirect:/login");
 
+        if (request.getSession().getAttribute("usuario") == null) {
+            return new ModelAndView("redirect:/login");
+        }
         try {
             ModelMap modelo = new ModelMap();
             EquipoNBA equipo = servicioEquipoNBA.buscarEquipoPorId(idEquipo);

@@ -25,13 +25,12 @@ public class ControladorTorneo {
         this.servicioTorneo = servicioTorneo;
     }
 
-    private boolean noEstaLogueado(HttpServletRequest request) {
-        return request.getSession().getAttribute("usuario") == null;
-    }
 
     @GetMapping("/torneo")
     public ModelAndView verTorneoActual(HttpServletRequest request) {
-        if (noEstaLogueado(request)) return new ModelAndView("redirect:/login");
+        if (request.getSession().getAttribute("usuario") == null) {
+            return new ModelAndView("redirect:/login");
+        }
 
         ModelMap modelo = new ModelMap();
         modelo.put("torneo", servicioTorneo.obtenerTorneoActual(TipoTorneo.VIRTUAL));
@@ -40,7 +39,9 @@ public class ControladorTorneo {
 
     @GetMapping("/admin/torneo/crear")
     public ModelAndView crearTorneo(HttpServletRequest request) {
-        if (noEstaLogueado(request)) return new ModelAndView("redirect:/login");
+        if (request.getSession().getAttribute("usuario") == null) {
+            return new ModelAndView("redirect:/login");
+        }
 
         ModelMap modelo = new ModelMap();
         modelo.put("torneo", new Torneo());
@@ -51,7 +52,9 @@ public class ControladorTorneo {
     @PostMapping("/admin/torneo/guardar")
     public ModelAndView guardarTorneo(HttpServletRequest request,
                                       @ModelAttribute("torneo") Torneo torneo) {
-        if (noEstaLogueado(request)) return new ModelAndView("redirect:/login");
+        if (request.getSession().getAttribute("usuario") == null) {
+            return new ModelAndView("redirect:/login");
+        }
 
         try {
             servicioTorneo.crearTorneo(torneo);
@@ -68,7 +71,9 @@ public class ControladorTorneo {
 
     @PostMapping("/admin/torneo/eliminar/{id}")
     public ModelAndView eliminarTorneo(HttpServletRequest request, @PathVariable Long id) {
-        if (noEstaLogueado(request)) return new ModelAndView("redirect:/login");
+        if (request.getSession().getAttribute("usuario") == null) {
+            return new ModelAndView("redirect:/login");
+        }
 
         try {
             servicioTorneo.eliminarTorneo(id);
@@ -80,7 +85,9 @@ public class ControladorTorneo {
 
     @GetMapping("/admin/torneos")
     public ModelAndView verTodosLosTorneos(HttpServletRequest request) {
-        if (noEstaLogueado(request)) return new ModelAndView("redirect:/login");
+        if (request.getSession().getAttribute("usuario") == null) {
+            return new ModelAndView("redirect:/login");
+        }
 
         ModelMap modelo = new ModelMap();
         modelo.put("torneos", servicioTorneo.obtenerTodosLosTorneos());

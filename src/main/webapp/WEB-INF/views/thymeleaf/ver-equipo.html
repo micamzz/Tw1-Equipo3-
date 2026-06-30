@@ -18,7 +18,15 @@
 <div th:replace="layout/header :: header"></div>
 
 <main>
-    <h1 class="titulo-equipo" th:text="${equipo.nombreEquipo}"></h1>
+
+    <div class="titulo-subtitulo-equipo">
+        <h1 class="titulo-equipo" th:text="${equipo.nombreEquipo}"></h1>
+        <p class="texto-aviso">
+            Este es el equipo actual para la próxima jornada. Para realizar cambios en la alineación, presioná el
+            botón <strong>Gestionar Equipo</strong>.
+        </p>
+    </div>
+
     <div class="contenedor-equipo">
         <!-- COLUMNA IZQUIERDA -->
         <div class="contenedor-cancha">
@@ -46,7 +54,7 @@
                     id="ranura-pivot"
                     class="ranura-absoluta"
             >
-                <span class="ranura-etiqueta-puesto">Pivot</span>
+                <span class="ranura-puesto-titular">Pivot</span>
                 <img
                         class="ranura-foto"
                         th:src="${ej.jugador.foto}"
@@ -64,7 +72,7 @@
                     id="ranura-alero1"
                     class="ranura-absoluta"
             >
-                <span class="ranura-etiqueta-puesto">Alero</span>
+                <span class="ranura-puesto-titular">Alero</span>
                 <img
                         class="ranura-foto"
                         th:src="${ej.jugador.foto}"
@@ -82,7 +90,7 @@
                     id="ranura-alero2"
                     class="ranura-absoluta"
             >
-                <span class="ranura-etiqueta-puesto">Alero</span>
+                <span class="ranura-puesto-titular">Alero</span>
                 <img
                         class="ranura-foto"
                         th:src="${ej.jugador.foto}"
@@ -100,7 +108,7 @@
                     id="ranura-base1"
                     class="ranura-absoluta"
             >
-                <span class="ranura-etiqueta-puesto">Base</span>
+                <span class="ranura-puesto-titular">Base</span>
                 <img
                         class="ranura-foto"
                         th:src="${ej.jugador.foto}"
@@ -118,7 +126,7 @@
                     id="ranura-base2"
                     class="ranura-absoluta"
             >
-                <span class="ranura-etiqueta-puesto">Base</span>
+                <span class="ranura-puesto-titular">Base</span>
                 <img
                         class="ranura-foto"
                         th:src="${ej.jugador.foto}"
