@@ -35,9 +35,22 @@ public class SpringWebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        // TODO usuario logueado
+        registry.addInterceptor(new LoginInterceptor())
+                .addPathPatterns(
+                        "/crear-equipo/**",
+                        "/seleccionar-jugadores/**",
+                        "/equipo/**",
+                        "/reglas/",
+                        "/torneo/**",
+                        "/partidos/**"
+                );
+
+        // SOLO ADMIN
         registry.addInterceptor(new AdminInterceptor())
                 .addPathPatterns("/admin/**");
     }
+
 
     // https://www.thymeleaf.org/doc/tutorials/3.0/thymeleafspring.html
     // Spring + Thymeleaf
