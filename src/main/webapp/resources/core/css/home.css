@@ -274,3 +274,90 @@ body {
 .link-ver-todo:hover {
     opacity: 0.8;
 }
+/* Fila de Puntos + Torneo vigente, debajo de los botones */
+.hero-stats-row {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.card-mini {
+    flex: 1;
+    background: rgba(20, 20, 20, 0.92);
+    border: 1px solid #2a2a2a;
+    border-radius: 12px;
+    padding: 1.25rem;
+    width: 36.5%;
+}
+
+.card-mini .titulo-lateral {
+    margin: 0 0 8px;
+}
+
+.card-mini .fecha-jornada {
+    margin: 0;
+}
+
+.card-mini .valor-dato {
+    color: #fff;
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.lista-ranking {
+    list-style: none;
+    margin: 0 0 16px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    counter-reset: ranking-counter;
+}
+
+.item-ranking {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    font-size: 0.82rem;
+    color: #eee;
+    padding: 6px 8px;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 6px;
+}
+
+.item-ranking::before {
+    content: counter(ranking-counter) ".";
+    counter-increment: ranking-counter;
+    font-weight: 700;
+    color: #ff6b00;
+    margin-right: 6px;
+    min-width: 16px;
+}
+
+.ranking-usuario {
+    width: 100%;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #ff6b00;
+    margin-bottom: 2px;
+}
+
+.ranking-nombre {
+    flex: 1;
+    font-weight: 500;
+}
+
+.ranking-puntaje {
+    font-weight: 700;
+    color: #ff6b00;
+    font-size: 0.9rem;
+}
+
+/* Empuja la tarjeta de próximos partidos más abajo */
+.hero-lateral {
+    align-self: start;
+    margin-top: 4rem;
+}
+
+

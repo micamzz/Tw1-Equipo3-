@@ -112,8 +112,12 @@
                 <span class="vivo-equipo-nombre" th:text="${partido.equipoLocal.nombre}">Local</span>
             </div>
 
+
+            <!-- TANTEADOR EN VIVO   - agrego llamado a thymeleaf para llevar el tanteador en tiempo real -->
+
             <div class="programado-score">
-                <span class="programado-puntos">0 - 0</span>
+                <span class="programado-puntos"
+                      th:text="${partido.puntosLocal} + ' - ' + ${partido.puntosVisitante}">0 - 0</span>
                 <span class="programado-minuto">0'</span>
             </div>
 
@@ -163,7 +167,10 @@
 
             <div class="finalizado-score">
                 <span class="finalizado-estado">FINALIZADO</span>
-                <span class="finalizado-duracion" th:text="'Duración: ' + ${partido.minutoFin} + ' min'">48 min</span>
+                <!-- TANTEADOR FINALIZADO   - agrego llamado a thymeleaf para mostrar el resultado del partido -->
+                <span class="finalizado-puntos" th:text="${partido.puntosLocal} + ' - ' + ${partido.puntosVisitante}"></span>
+                <!-- <span class="finalizado-duracion" th:text="'Duración: ' + ${partido.minutoFin} + ' min'">48 min</span> -->
+                <span class="finalizado-duracion" th:text="'Duración: ' + ${partido.minutoFin} + ' min'"></span>
             </div>
 
             <div class="finalizado-equipo">

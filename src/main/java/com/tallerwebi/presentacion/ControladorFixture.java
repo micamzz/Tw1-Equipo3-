@@ -40,7 +40,7 @@ public class ControladorFixture {
         this.servicioFormacion = servicioFormacion;
     }
 
-    @RequestMapping("/partidos")
+    @RequestMapping({"/partidos", "/fixture"})
     public ModelAndView verPartidos() {
         ModelMap modelo = new ModelMap();
         modelo.put("partidosActivos", servicioPartidoNBA.obtenerPartidosActivos());
@@ -111,9 +111,9 @@ public class ControladorFixture {
     public ModelAndView adminPartido(@RequestParam Long idPartido) {
         ModelMap modelo = new ModelMap();
         PartidoNBA partido = servicioPartidoNBA.obtenerPorId(idPartido);
+        EquipoNBA equipoLocal = partido.getEquipoLocal();
+        EquipoNBA equipoVisitante = partido.getEquipoVisitante();
         List<CronologiaNBA> cronologia = servicioPartidoNBA.obtenerCronologiaDePartido(idPartido);
-        ScorePartido scoreLocal = servicioPartidoNBA.obtenerScoreLocal(idPartido);
-        ScorePartido scoreVisitante = servicioPartidoNBA.obtenerScoreVisitante(idPartido);
 
         List<Jugador> jugadoresLocal = servicioEquipoNBAJugador
                 .obtenerJugadoresDelEquipoEnTorneo(partido.getEquipoLocal().getId(), partido.getTorneo().getId());
@@ -122,8 +122,8 @@ public class ControladorFixture {
 
         modelo.put("partido", partido);
         modelo.put("cronologia", cronologia);
-        modelo.put("scoreLocal", scoreLocal);
-        modelo.put("scoreVisitante", scoreVisitante);
+        modelo.put("scoreLocal", partido.getPuntosLocal());
+        modelo.put("scoreVisitante", partido.getPuntosVisitante());
         modelo.put("jugadoresLocal", jugadoresLocal);
         modelo.put("jugadoresVisitante", jugadoresVisitante);
 
@@ -169,9 +169,26 @@ public ModelAndView eliminarJugadorFormacion(@RequestParam Long idFormacion, @Re
 
     @RequestMapping(value = "/admin/iniciarPartido", method = RequestMethod.POST)
     public ModelAndView iniciarPartido(@RequestParam Long idPartido) {
+        //sofi para validacion
         try {
+            if(!servicioFormacion.partidoTieneJugadoresEnFormacion(idPartido)){
+                ModelMap modelo = new ModelMap();
+                modelo.put("error", "Cada equipo debe tener al menos 5 jugadores en la formacion");
+                modelo.put("partidosActivos", servicioPartidoNBA.obtenerPartidosActivos());
+                modelo.put("partidosProgramados", servicioPartidoNBA.obtenerPartidosProgramados());
+                modelo.put("partidosFinalizados", servicioPartidoNBA.obtenerPartidosFinalizados());
+            try{
+                Torneo torneoActual = servicioTorneo.obtenerTorneoActual(TipoTorneo.REAL);
+                modelo.put("torneoActual", torneoActual);
+            } catch (Exception ignored) {}
+                return new ModelAndView("admin-partidos", modelo);
+            }
+
             servicioPartidoNBA.iniciarPartido(idPartido);
-        } catch (EquipoJugandoException e) {
+        }
+        //sofi para validacion
+
+        catch (EquipoJugandoException e) {
             ModelMap modelo = new ModelMap();
             modelo.put("error", e.getMessage());
             modelo.put("partidosActivos", servicioPartidoNBA.obtenerPartidosActivos());

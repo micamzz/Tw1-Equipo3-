@@ -110,6 +110,49 @@ public class ServicioEquipoImpl implements ServicioEquipo {
     }
 
     @Override
+    public Double calcularPuntajeTotalDelEquipo(Long equipoId) {
+        List<EquipoJugador> jugadoresDelEquipo = repositorioEquipoJugador.buscarPorEquipoId(equipoId);
+        if (jugadoresDelEquipo == null || jugadoresDelEquipo.isEmpty()) return 0.0;
+
+        Long torneoEquipoId = jugadoresDelEquipo.get(0).getEquipo().getTorneo().getId();
+        Torneo torneoEquipo = repositorioTorneo.buscarTorneoPorId(torneoEquipoId);
+        Long torneoRealId = torneoEquipoId;
+        if (torneoEquipo != null && torneoEquipo.getTipoTorneo() == TipoTorneo.VIRTUAL) {
+            List<Torneo> mismos = repositorioTorneo.obtenerTorneosPorTemporada(torneoEquipo.getTemporada().getId());
+            for (Torneo t : mismos) {
+                if (t.getTipoTorneo() == TipoTorneo.REAL) {
+                    torneoRealId = t.getId();
+                    break;
+                }
+            }
+        }
+
+        double total = 0.0;
+        for (EquipoJugador eqj : jugadoresDelEquipo) {
+            RendimientoJugador rend = repositorioJugador.buscarRendimientoPorJugadorYTorneo(eqj.getJugador().getId(), torneoRealId);
+            if (rend == null) continue;
+
+            double base = rend.getPuntos()
+                    + 1.2 * rend.getRebotes()
+                    + 1.5 * rend.getAsistencias()
+                    + 3.0 * rend.getRobos()
+                    + 3.0 * rend.getBloqueos()
+                    - 2.0 * rend.getPerdidas();
+
+            double multiplicador;
+            switch (eqj.getPosicionDelJugador()) {
+                case CAPITAN:      multiplicador = 2.0; break;
+                case SEXTO_HOMBRE: multiplicador = 0.8; break;
+                case SUPLENTE:     multiplicador = 0.5; break;
+                default:           multiplicador = 1.0; break;
+            }
+
+            total += base * multiplicador;
+        }
+        return total;
+    }
+
+    @Override
     public void agregarJugadorAlEquipo(Long idEquipo, Long idJugador, Integer numeroDeOrden) throws EquipoNoEncontradoException, PresupuestoInsuficienteException, elJugadorYaExisteEnElEquipoException {
 
         Equipo equipo = buscarEquipoPorId(idEquipo);
@@ -216,6 +259,22 @@ public class ServicioEquipoImpl implements ServicioEquipo {
         }
         equipoJugador.setPosicionDelJugador(rol);
         repositorioEquipoJugador.actualizarEquipoJugador(equipoJugador);
+    }
+
+    @Override
+    public List<Equipo> obtenerTopEquiposPorTorneo(Long torneoId, int limite) {
+        List<Equipo> equipos = repositorioEquipo.buscarEquiposPorTorneo(torneoId);
+        if (equipos == null || equipos.isEmpty()) return List.of();
+
+        equipos.sort((a, b) -> Double.compare(
+                calcularPuntajeTotalDelEquipo(b.getId()),
+                calcularPuntajeTotalDelEquipo(a.getId())));
+        List<Equipo> top = equipos.subList(0, Math.min(limite, equipos.size()));
+
+        for (Equipo e : top) {
+            e.setPuntaje(calcularPuntajeTotalDelEquipo(e.getId()));
+        }
+        return top;
     }
 
 }

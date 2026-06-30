@@ -35,8 +35,8 @@ public class ControladorPartidoNBA {
     @RequestMapping("/temporada")
     public ModelAndView verTemporada() {
         ModelMap modelo = new ModelMap();
-        modelo.put("partidosActivos", servicioPartidoNBA.obtenerPartidosActivosConScore());
-        modelo.put("partidosFinalizados", servicioPartidoNBA.obtenerPartidosFinalizadosConScore());
+        modelo.put("partidosActivos", servicioPartidoNBA.obtenerPartidosActivos());
+        modelo.put("partidosFinalizados", servicioPartidoNBA.obtenerPartidosFinalizados());
         return new ModelAndView("temporada", modelo);
     }
 
@@ -45,13 +45,11 @@ public class ControladorPartidoNBA {
         ModelMap modelo = new ModelMap();
         PartidoNBA partido = servicioPartidoNBA.obtenerPorId(idPartido);
         List<CronologiaNBA> cronologia = servicioPartidoNBA.obtenerCronologiaDePartido(idPartido);
-        ScorePartido scoreLocal = servicioPartidoNBA.obtenerScoreLocal(idPartido);
-        ScorePartido scoreVisitante = servicioPartidoNBA.obtenerScoreVisitante(idPartido);
 
         modelo.put("partido", partido);
         modelo.put("cronologia", cronologia);
-        modelo.put("scoreLocal", scoreLocal);
-        modelo.put("scoreVisitante", scoreVisitante);
+        modelo.put("scoreLocal", partido.getPuntosLocal());
+        modelo.put("scoreVisitante", partido.getPuntosVisitante());
         return new ModelAndView("partido-cronologia", modelo);
     }
 

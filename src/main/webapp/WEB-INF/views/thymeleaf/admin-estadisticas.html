@@ -70,15 +70,19 @@
                 EN VIVO
             </span>
 
+
+                <!-- TANTEADOR DEL PARTIDO -->
+
+
                 <div class="marcador">
 
-                <span th:text="${scoreLocal.puntos}">
+                <span th:text="${tanteadorLocal}">
                     0
                 </span>
 
                     <span>-</span>
 
-                    <span th:text="${scoreVisitante.puntos}">
+                    <span th:text="${tanteadorVisitante}">
                     0
                 </span>
 
@@ -127,9 +131,10 @@
                 Equipo Local
             </h2>
 
-            <form th:action="@{/admin/partido/{id}/eventos(id=${partido.id})}"
-                  th:object="${evento}"
-                  method="post">
+            <form th:action="@{/admin/partido/{id}/eventos(id=${partido.id})}" th:object="${evento}" method="post">
+            <input type="hidden" th:attr="name='esLocal'" value="true" />
+
+
 
                 <label>Jugador</label>
 
@@ -167,11 +172,12 @@
                        th:field="*{momentoPartido}"
                        step="1"
                        required>
+<!-- BOTON REGISTRAR EVENTO LOCAL -->
 
                 <button type="submit"
                         class="btn btn-verde">
 
-                    Registrar
+                    Registrar evento
 
                 </button>
 
@@ -216,9 +222,8 @@
                 Equipo Visitante
             </h2>
 
-            <form th:action="@{/admin/partido/{id}/eventos(id=${partido.id})}"
-                  th:object="${evento}"
-                  method="post">
+            <form th:action="@{/admin/partido/{id}/eventos(id=${partido.id})}" th:object="${evento}" method="post">
+                <input type="hidden" th:attr="name='esLocal'" value="false" />
 
                 <label>Jugador</label>
 
@@ -257,10 +262,12 @@
                        step="1"
                        required>
 
+ <!-- BOTON REGISTRAR EVENTO LOCAL -->
+
                 <button type="submit"
                         class="btn btn-verde">
 
-                    Registrar
+                    Registrar evento
 
                 </button>
 
@@ -289,7 +296,8 @@
                 </div>
 
                 <div class="modal-botones">
-                    <button type="button" class="btn btn-secundario" onclick="cerrarModal('modal-finalizar')">Cancelar</button>
+                    <button type="button" class="btn btn-secundario" onclick="cerrarModal('modal-finalizar')">Cancelar
+                    </button>
                     <button type="submit" class="btn btn-rojo">Confirmar</button>
                 </div>
             </form>
@@ -301,7 +309,6 @@
 
 <!-- FOOTER -->
 <div th:replace="layout/footer :: footer"></div>
-
 
 
 <script>
