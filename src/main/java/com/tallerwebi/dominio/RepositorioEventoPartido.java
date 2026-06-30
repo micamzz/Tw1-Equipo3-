@@ -6,11 +6,6 @@ public interface RepositorioEventoPartido {
 
     void guardarEventoPartido(EventoPartido evento);
 
-
     List<EventoPartido> buscarEventosPorPartido(Long partidoId);
-
-    List<EventoPartido> buscarEventosPorPartidoYJugador(Long partidoId, Long jugadorId);
-
-
 
 }

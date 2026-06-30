@@ -45,16 +45,15 @@ public class ControladorEventoPartido {
 
         modelo.put("tipos", TipoEstadistica.values());
 
-        modelo.put("scoreLocal", servicioPartidoNBA.obtenerScoreLocal(idPartido));
+        modelo.put("tanteadorLocal", partido.getPuntosLocal());
 
-        modelo.put("scoreVisitante", servicioPartidoNBA.obtenerScoreVisitante(idPartido));
+        modelo.put("tanteadorVisitante", partido.getPuntosVisitante());
 
-        modelo.put("formacionLocal", servicioFormacion.obtenerFormacionPorEquipo(idPartido, servicioPartidoNBA.obtenerPorId(idPartido).getEquipoLocal().getId()));
+        modelo.put("formacionLocal", servicioFormacion.obtenerFormacionPorEquipo(idPartido, partido.getEquipoLocal().getId()));
 
-        modelo.put("formacionVisitante", servicioFormacion.obtenerFormacionPorEquipo(idPartido, servicioPartidoNBA.obtenerPorId(idPartido).getEquipoVisitante().getId()));
+        modelo.put("formacionVisitante", servicioFormacion.obtenerFormacionPorEquipo(idPartido, partido.getEquipoVisitante().getId()));
 
         modelo.put("eventos", servicioEventoPartido.buscarEventosPorPartido(idPartido));
-
 
 
         return new ModelAndView(
@@ -74,7 +73,8 @@ public class ControladorEventoPartido {
                     idPartido,
                     evento.getJugador().getId(),
                     evento.getMomentoPartido(),
-                    evento.getTipoEstadistica()
+                    evento.getTipoEstadistica(),
+                    evento.getEsLocal()
             );
 
             return new ModelAndView(
