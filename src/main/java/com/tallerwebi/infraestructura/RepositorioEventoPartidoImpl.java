@@ -42,47 +42,9 @@ public class RepositorioEventoPartidoImpl implements RepositorioEventoPartido {
 
     }
 
-    @Override
-    public List<EventoPartido> buscarEventosPorPartidoYJugador(Long partidoId, Long jugadorId) {
-
-        String hql =
-                "FROM EventoPartido e " +
-                        "WHERE e.partido.id = :partidoId " +
-                        "AND e.jugador.id = :jugadorId";
-
-        return sessionFactory
-                .getCurrentSession()
-                .createQuery(hql, EventoPartido.class)
-                .setParameter("partidoId", partidoId)
-                .setParameter("jugadorId", jugadorId)
-                .list();
-    }
-
-    @Override
-    public List<EventoPartido> buscarEventosPorPartidoYEquipo(Long partidoId, Long equipoId) {
-
-      /*  List<EventoPartido> eventos = sessionFactory.getCurrentSession()
-                .createCriteria(EventoPartido.class)
-
-                .add(Restrictions.eq("partido.id", partidoId))
-                .add(Restrictions.eq("equipo.id", equipoId))
-                .list();
-
-        return eventos;
-*/
-        String hql = "SELECT e FROM EventoPartido e " +
-                "JOIN FormacionPartido f ON e.jugador.id = f.jugador.id " +
-                "WHERE e.partido.id = :partidoId " +
-                "AND f.partido.id = :partidoId " +
-                "AND f.equipo.id = :equipoId";
-
-        return sessionFactory.getCurrentSession()
-                .createQuery(hql, EventoPartido.class)
-                .setParameter("partidoId", partidoId)
-                .setParameter("equipoId", equipoId)
-                .list();
-    }
 }
+
+
 
 
 

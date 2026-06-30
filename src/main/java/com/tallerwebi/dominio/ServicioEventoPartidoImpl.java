@@ -112,13 +112,7 @@ public class ServicioEventoPartidoImpl implements ServicioEventoPartido {
         return repositorioEventoPartido.buscarEventosPorPartido(idPartido);
     }
 
-    @Override
-    public List<EventoPartido> buscarEventosPorPartidoYJugador(Long idPartido, Long idJugador) {
-        return repositorioEventoPartido.buscarEventosPorPartidoYJugador(idPartido, idJugador);
-    }
 
-    @Override
-    public List<EventoPartido> obtenerEventosPorPartidoYEquipo(Long partidoId, Long equipoId) {
-        return repositorioEventoPartido.buscarEventosPorPartidoYEquipo(partidoId, equipoId);
-    }
+
+
 }
