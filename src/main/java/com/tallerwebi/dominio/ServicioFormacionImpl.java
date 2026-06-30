@@ -77,6 +77,7 @@ public class ServicioFormacionImpl implements ServicioFormacion {
         } else {
             return EquipoRol.VISITANTE;
         }
+    }
 
         @Override
         public boolean partidoTieneJugadoresEnFormacion(Long idPartido) { //cada equipo necesita al menos 5 jugadores para iniciar el partido
@@ -88,6 +89,6 @@ public class ServicioFormacionImpl implements ServicioFormacion {
 
     }
 
-}
+
 
 
