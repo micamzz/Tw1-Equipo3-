@@ -86,15 +86,35 @@
                 <span class="programado-equipo-nombre" th:text="${partido.equipoLocal.nombre}">Equipo Local</span>
             </div>
 
-            <div class="programado-score">
-                <span class="programado-puntos">0 - 0</span>
-                <span class="programado-minuto">0'</span>
-            </div>
 
+            <!-- TANTEADOR EN VIVO  -->
+
+
+            <div class="marcador">
+
+                <span th:text="${tanteadorLocal}">
+                    0
+                </span>
+
+                <span>-</span>
+
+                <span th:text="${tanteadorVisitante}">
+                    0
+                </span>
+
+            </div>
+<!--
+            <div class="programado-score">
+                <span class="programado-puntos" th:text="${}">0</span>
+                <span class="programado-separador">-</span>
+                <span class="programado-puntos" th:text="${partido.puntosVisitante}">0</span>
+            </div>
+-->
             <div class="programado-equipo programado-equipo-visitante">
                 <img th:src="${partido.equipoVisitante.escudoImagen}" class="escudo"
                      th:alt="${partido.equipoVisitante.nombre}"/>
-                <span class="programado-equipo-nombre" th:text="${partido.equipoVisitante.nombre}">Equipo Visitante</span>
+                <span class="programado-equipo-nombre"
+                      th:text="${partido.equipoVisitante.nombre}">Equipo Visitante</span>
             </div>
         </div>
 

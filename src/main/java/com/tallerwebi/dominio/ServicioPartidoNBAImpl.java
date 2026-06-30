@@ -21,20 +21,21 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
     private final RepositorioScorePartido repositorioScorePartido;
     private final RepositorioEquipoNBA repositorioEquipoNBA;
     private final RepositorioJugador repositorioJugador;
-    private final ServicioEventoPartido servicioEventoPartido;
+    private final RepositorioEventoPartido repositorioEventoPartido;
 
     @Autowired
     public ServicioPartidoNBAImpl(RepositorioPartidoNBA repositorioPartidoNBA,
                                   RepositorioCronologiaNBA repositorioCronologiaNBA,
                                   RepositorioScorePartido repositorioScorePartido,
                                   RepositorioEquipoNBA repositorioEquipoNBA,
-                                  RepositorioJugador repositorioJugador, ServicioEventoPartido servicioEventoPartido) {
+                                  RepositorioJugador repositorioJugador,
+                                  RepositorioEventoPartido repositorioEventoPartido) {
         this.repositorioPartidoNBA = repositorioPartidoNBA;
         this.repositorioCronologiaNBA = repositorioCronologiaNBA;
         this.repositorioScorePartido = repositorioScorePartido;
         this.repositorioEquipoNBA = repositorioEquipoNBA;
         this.repositorioJugador = repositorioJugador;
-        this.servicioEventoPartido = servicioEventoPartido;
+        this.repositorioEventoPartido = repositorioEventoPartido;
     }
 
     @Override
@@ -82,12 +83,24 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
 
     @Override
     public List<PartidoNBA> obtenerPartidosActivos() {
-        return repositorioPartidoNBA.buscarPartidosActivos();
+        List<PartidoNBA> partidosActivos = repositorioPartidoNBA.buscarPartidosActivos();
+        for (PartidoNBA partido : partidosActivos) {
+            partido.setPuntosLocal(obtenerPuntosLocal(partido.getId(), partido.getEquipoLocal().getId()));
+            partido.setPuntosVisitante(obtenerPuntosVisitante(partido.getId(), partido.getEquipoVisitante().getId()));
+        }
+        return partidosActivos;
     }
 
     @Override
     public List<PartidoNBA> obtenerPartidosFinalizados() {
-        return repositorioPartidoNBA.buscarPartidosFinalizados();
+
+        List<PartidoNBA> partidos = repositorioPartidoNBA.buscarPartidosFinalizados();
+        for (PartidoNBA partido : partidos) {
+            partido.setPuntosLocal(obtenerPuntosLocal(partido.getId(), partido.getEquipoLocal().getId()));
+            partido.setPuntosVisitante(obtenerPuntosVisitante(partido.getId(), partido.getEquipoVisitante().getId()));
+        }
+
+        return partidos;
     }
 
     @Override
@@ -150,70 +163,6 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
         return repositorioCronologiaNBA.buscarPorPartido(partidoId);
     }
 
-    /*  @Override
-      public ScorePartido obtenerScoreLocal(Long partidoId) {
-          PartidoNBA partido = repositorioPartidoNBA.buscarPorId(partidoId);
-
-          ScorePartido scoreLocal = repositorioScorePartido.buscarPorPartidoYEquipo(partidoId, partido.getEquipoLocal().getId());
-
-          if (scoreLocal == null) {
-              scoreLocal = new ScorePartido(partido, partido.getEquipoLocal());
-              repositorioScorePartido.guardar(scoreLocal);
-          }
-
-          return scoreLocal;
-      }
-
-      @Override
-      public ScorePartido obtenerScoreVisitante(Long partidoId) {
-          PartidoNBA partido = repositorioPartidoNBA.buscarPorId(partidoId);
-          ScorePartido scoreVisitante = repositorioScorePartido.buscarPorPartidoYEquipo(partidoId, partido.getEquipoVisitante().getId());
-
-          if (scoreVisitante == null) {
-              scoreVisitante = new ScorePartido(partido, partido.getEquipoVisitante());
-              repositorioScorePartido.guardar(scoreVisitante);
-          }
-
-          return scoreVisitante;
-
-      }
-
-      @Override
-      public List<PartidoConScoreDTO> obtenerPartidosActivosConScore() {
-
-          List<PartidoConScoreDTO> resultado = new ArrayList<>();
-
-          for (PartidoNBA partido : obtenerPartidosActivos()) {
-              resultado.add(
-                      new PartidoConScoreDTO(
-                              partido,
-                              obtenerScoreLocal(partido.getId()),
-                              obtenerScoreVisitante(partido.getId())
-                      )
-              );
-          }
-
-          return resultado;
-      }
-
-      @Override
-      public List<PartidoConScoreDTO> obtenerPartidosFinalizadosConScore() {
-
-          List<PartidoConScoreDTO> resultado = new ArrayList<>();
-
-          for (PartidoNBA partido : obtenerPartidosFinalizados()) {
-              resultado.add(
-                      new PartidoConScoreDTO(
-                              partido,
-                              obtenerScoreLocal(partido.getId()),
-                              obtenerScoreVisitante(partido.getId())
-                      )
-              );
-          }
-
-          return resultado;
-      }
-  */
     @Override
     public void iniciarPartido(Long partidoId) throws EquipoJugandoException {
         PartidoNBA partido = repositorioPartidoNBA.buscarPorId(partidoId);
@@ -249,7 +198,7 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
 
     @Override
     public Integer obtenerPuntosLocal(Long partidoId, Long equipoId) {
-        List<EventoPartido> listaEventosLocal = servicioEventoPartido.obtenerEventosPorPartidoYEquipo(partidoId, equipoId);
+        List<EventoPartido> listaEventosLocal = repositorioEventoPartido.buscarEventosPorPartidoYEquipo(partidoId, equipoId);
         Integer puntosLocal = 0;
 
         for (EventoPartido evento : listaEventosLocal) {
@@ -267,7 +216,7 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
 
 
     public Integer obtenerPuntosVisitante(Long partidoId, Long equipoId) {
-        List<EventoPartido> listaEventosVisitante = servicioEventoPartido.obtenerEventosPorPartidoYEquipo(partidoId, equipoId);
+        List<EventoPartido> listaEventosVisitante = repositorioEventoPartido.buscarEventosPorPartidoYEquipo(partidoId, equipoId);
         Integer puntosVisitante = 0;
 
         for (EventoPartido evento : listaEventosVisitante) {

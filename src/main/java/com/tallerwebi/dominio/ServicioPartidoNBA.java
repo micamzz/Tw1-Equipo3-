@@ -27,15 +27,6 @@ public interface ServicioPartidoNBA {
 
     List<CronologiaNBA> obtenerCronologiaDePartido(Long partidoId);
 
-    /*
-    ScorePartido obtenerScoreLocal(Long partidoId);
-
-    //ScorePartido obtenerScoreVisitante(Long partidoId);
-
-    List<PartidoConScoreDTO> obtenerPartidosActivosConScore();
-
-    List<PartidoConScoreDTO> obtenerPartidosFinalizadosConScore();
-*/
     void iniciarPartido(Long partidoId) throws EquipoJugandoException;
 
     void reprogramarPartido(Long partidoId, LocalDateTime nuevaHoraInicio)
