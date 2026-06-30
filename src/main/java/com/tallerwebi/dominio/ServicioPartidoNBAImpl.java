@@ -168,7 +168,9 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
 
     @Override
     public PartidoNBA obtenerPorId(Long id) {
-        return repositorioPartidoNBA.buscarPorId(id);
+        PartidoNBA partido = repositorioPartidoNBA.buscarPorId(id);
+        calcularPuntaje(partido);
+        return partido;
     }
 
     @Override
