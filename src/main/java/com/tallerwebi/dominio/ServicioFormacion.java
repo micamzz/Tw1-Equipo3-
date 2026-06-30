@@ -9,4 +9,5 @@ public interface ServicioFormacion {
     List<FormacionPartido> obtenerFormacionPorEquipo(Long idPartido, Long idEquipo);
     boolean jugadorYaEstasEnFormacion(Long idPartido, Long idJugador);
     EquipoRol obtenerRolJugadorEnFormacion(Long idPartido, Long idJugador);
+    boolean partidoTieneJugadoresEnFormacion(Long idPartido);
 }

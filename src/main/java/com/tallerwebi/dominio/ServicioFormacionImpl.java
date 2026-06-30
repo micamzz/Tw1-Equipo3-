@@ -77,6 +77,14 @@ import java.util.List;
             }
         }
 
+        @Override
+        public boolean partidoTieneJugadoresEnFormacion(Long idPartido) { //cada equipo necesita al menos 5 jugadores para iniciar el partido
+           PartidoNBA partido = repositorioPartidoNBA.buscarPorId(idPartido);
+           List<FormacionPartido> formacionLocal = repositorioFormacion.buscarPorPartidoYEquipo(idPartido, partido.getEquipoLocal().getId());
+           List<FormacionPartido> formacionVisitante = repositorioFormacion.buscarPorPartidoYEquipo(idPartido, partido.getEquipoVisitante().getId());
+            return formacionLocal.size()>=5 && formacionVisitante.size()>=5;
+        }
+
     }
 
 

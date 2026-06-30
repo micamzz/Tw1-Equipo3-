@@ -169,9 +169,26 @@ public ModelAndView eliminarJugadorFormacion(@RequestParam Long idFormacion, @Re
 
     @RequestMapping(value = "/admin/iniciarPartido", method = RequestMethod.POST)
     public ModelAndView iniciarPartido(@RequestParam Long idPartido) {
+        //sofi para validacion
         try {
+            if(!servicioFormacion.partidoTieneJugadoresEnFormacion(idPartido)){
+                ModelMap modelo = new ModelMap();
+                modelo.put("error", "Cada equipo debe tener al menos 5 jugadores en la formacion");
+                modelo.put("partidosActivos", servicioPartidoNBA.obtenerPartidosActivos());
+                modelo.put("partidosProgramados", servicioPartidoNBA.obtenerPartidosProgramados());
+                modelo.put("partidosFinalizados", servicioPartidoNBA.obtenerPartidosFinalizados());
+            try{
+                Torneo torneoActual = servicioTorneo.obtenerTorneoActual(TipoTorneo.REAL);
+                modelo.put("torneoActual", torneoActual);
+            } catch (Exception ignored) {}
+                return new ModelAndView("admin-partidos", modelo);
+            }
+
             servicioPartidoNBA.iniciarPartido(idPartido);
-        } catch (EquipoJugandoException e) {
+        }
+        //sofi para validacion
+
+        catch (EquipoJugandoException e) {
             ModelMap modelo = new ModelMap();
             modelo.put("error", e.getMessage());
             modelo.put("partidosActivos", servicioPartidoNBA.obtenerPartidosActivos());
