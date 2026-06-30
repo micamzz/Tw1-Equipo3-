@@ -58,5 +58,9 @@ public class RepositorioEquipoJugadorImpl implements RepositorioEquipoJugador {
         sessionFactory.getCurrentSession().delete(equipoJugador);
     }
 
+    @Override
+    public void actualizarEquipoJugador(EquipoJugador equipoJugador) {
+        sessionFactory.getCurrentSession().update(equipoJugador);
+    }
 
 }

@@ -134,41 +134,39 @@
         <!-- COLUMNA DERECHA -->
         <div class="columna-info">
             <!-- CAPITÁN + SEXTO HOMBRE -->
+            <!-- CAPITÁN + SEXTO HOMBRE -->
             <div>
                 <p class="seccion-titulo">CAPITAN Y SEXTO HOMBRE</p>
                 <div class="contenedor-especiales">
-                    <div
-                            th:each="ej : ${jugadoresEquipo}"
-                            th:if="${ej.numeroOrden == 11}"
-                            class="tarjeta-jugador-sm"
-                    >
-                        <span class="ranura-etiqueta-puesto">Capitán</span>
-                        <img
-                                class="ranura-foto"
-                                th:src="${ej.jugador.foto}"
-                                th:alt="${ej.jugador.nombre}"
-                        />
-                        <span
-                                class="ranura-nombre"
-                                th:text="${ej.jugador.nombre} + ' ' + ${ej.jugador.apellido}"
-                        ></span>
+
+                    <div th:if="${capitan != null}" class="tarjeta-jugador-sm">
+                        <span class="ranura-etiqueta-puesto">Capitan</span>
+                        <img class="ranura-foto"
+                             th:src="${capitan.jugador.foto}"
+                             th:alt="${capitan.jugador.nombre}"/>
+                        <span class="ranura-nombre"
+                              th:text="${capitan.jugador.nombre + ' ' + capitan.jugador.apellido}"></span>
                     </div>
-                    <div
-                            th:each="ej : ${jugadoresEquipo}"
-                            th:if="${ej.numeroOrden == 12}"
-                            class="tarjeta-jugador-sm"
-                    >
-                        <span class="ranura-etiqueta-puesto">Sexto hombre</span>
-                        <img
-                                class="ranura-foto"
-                                th:src="${ej.jugador.foto}"
-                                th:alt="${ej.jugador.nombre}"
-                        />
-                        <span
-                                class="ranura-nombre"
-                                th:text="${ej.jugador.nombre} + ' ' + ${ej.jugador.apellido}"
-                        ></span>
+
+                    <div th:if="${capitan == null}" class="tarjeta-jugador-sm">
+                        <span class="ranura-etiqueta-puesto">Capitan</span>
+                        <span class="ranura-nombre">Sin asignar</span>
                     </div>
+
+                    <div th:if="${sextoHombre != null}" class="tarjeta-jugador-sm">
+                        <span class="ranura-etiqueta-puesto">Sexto Hombre</span>
+                        <img class="ranura-foto"
+                             th:src="${sextoHombre.jugador.foto}"
+                             th:alt="${sextoHombre.jugador.nombre}"/>
+                        <span class="ranura-nombre"
+                              th:text="${sextoHombre.jugador.nombre + ' ' + sextoHombre.jugador.apellido}"></span>
+                    </div>
+
+                    <div th:if="${sextoHombre == null}" class="tarjeta-jugador-sm">
+                        <span class="ranura-etiqueta-puesto">Sexto Hombre</span>
+                        <span class="ranura-nombre">Sin asignar</span>
+                    </div>
+
                 </div>
             </div>
 

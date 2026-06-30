@@ -1,5 +1,6 @@
 package com.tallerwebi.dominio.equipo;
 
+import com.tallerwebi.dominio.enums.PosicionJugadorEquipo;
 import com.tallerwebi.dominio.equipoJugador.EquipoJugador;
 import com.tallerwebi.dominio.excepcion.*;
 
@@ -29,4 +30,9 @@ public interface ServicioEquipo {
 
     Double obtenerPresupuestoInicial();
 
+    Double calcularPuntajeTotalDelEquipo(Long equipoId);
+
+    void asignarRolEspecial(Long idEquipo, Long idJugador, PosicionJugadorEquipo rol) throws EquipoNoEncontradoException;
+
+    List<Equipo> obtenerTopEquiposPorTorneo(Long torneoId, int limite);
 }
