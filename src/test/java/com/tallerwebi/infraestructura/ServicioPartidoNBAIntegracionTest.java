@@ -205,6 +205,7 @@ public class ServicioPartidoNBAIntegracionTest {
         evento.setJugador(jugador);
         evento.setTipoEstadistica(tipo);
         evento.setMomentoPartido(momento);
+        evento.setEsLocal(true);
         repositorioEventoPartido.guardarEventoPartido(evento);
     }
 }
