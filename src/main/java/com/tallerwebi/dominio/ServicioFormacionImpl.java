@@ -17,15 +17,16 @@ import java.util.List;
         private RepositorioPartidoNBA repositorioPartidoNBA;
 
         @Autowired
-        public ServicioFormacionImpl(RepositorioFormacion repositorioFormacion,RepositorioJugador repositorioJugador, RepositorioEquipoNBA repositorioEquipoNBA, RepositorioPartidoNBA repositorioPartidoNBA) {
+        public ServicioFormacionImpl(RepositorioFormacion repositorioFormacion, RepositorioJugador repositorioJugador, RepositorioEquipoNBA repositorioEquipoNBA, RepositorioPartidoNBA repositorioPartidoNBA) {
             this.repositorioFormacion = repositorioFormacion;
             this.repositorioJugador = repositorioJugador;
             this.repositorioEquipoNBA = repositorioEquipoNBA;
             this.repositorioPartidoNBA = repositorioPartidoNBA;
         }
+
         @Override
         public void agregarJugador(Long idPartido, Long idEquipo, Long idJugador) {
-            if(!repositorioFormacion.jugadorYaEstaEnFormacion(idPartido, idJugador)){
+            if (!repositorioFormacion.jugadorYaEstaEnFormacion(idPartido, idJugador)) {
                 PartidoNBA partido = repositorioPartidoNBA.buscarPorId(idPartido);
                 EquipoNBA equipo = repositorioEquipoNBA.buscarEquipoPorId(idEquipo);
                 Jugador jugador = repositorioJugador.buscarJugadorPorId(idJugador);
@@ -45,10 +46,10 @@ import java.util.List;
             repositorioFormacion.eliminar(idFormacion);
         }
 
-      @Override
-         public List<FormacionPartido> obtenerFormacion(Long idPartido) {
-        return repositorioFormacion.buscarPorPartido(idPartido);
-       }
+        @Override
+        public List<FormacionPartido> obtenerFormacion(Long idPartido) {
+            return repositorioFormacion.buscarPorPartido(idPartido);
+        }
 
         @Override
         public List<FormacionPartido> obtenerFormacionPorEquipo(Long idPartido, Long idEquipo) {
@@ -56,26 +57,27 @@ import java.util.List;
         }
 
 
-         @Override
+        @Override
         public boolean jugadorYaEstasEnFormacion(Long idPartido, Long idJugador) {
             return repositorioFormacion.jugadorYaEstaEnFormacion(idPartido, idJugador);
-      }
+        }
 
         @Override
         public EquipoRol obtenerRolJugadorEnFormacion(Long idPartido, Long idJugador) {
             PartidoNBA partido = repositorioPartidoNBA.buscarPorId(idPartido);
 
-            FormacionPartido formacion = repositorioFormacion.buscarPorPartidoYJugador(idPartido,idJugador);
+            FormacionPartido formacion = repositorioFormacion.buscarPorPartidoYJugador(idPartido, idJugador);
 
-            if(formacion==null){
+            if (formacion == null) {
                 return null; // el jugador no esta en la formacion
             }
-            if(formacion.getEquipo().getId().equals(partido.getEquipoLocal().getId())){
+            if (formacion.getEquipo().getId().equals(partido.getEquipoLocal().getId())) {
                 return EquipoRol.LOCAL;
-            }else{
+            } else {
                 return EquipoRol.VISITANTE;
             }
         }
+
 
         @Override
         public boolean partidoTieneJugadoresEnFormacion(Long idPartido) { //cada equipo necesita al menos 5 jugadores para iniciar el partido
