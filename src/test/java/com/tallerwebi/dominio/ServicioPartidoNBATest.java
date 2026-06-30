@@ -4,6 +4,7 @@ import com.tallerwebi.dominio.equipoNBA.EquipoNBA;
 import com.tallerwebi.dominio.equipoNBA.EstadoPartido;
 import com.tallerwebi.dominio.equipoNBA.RepositorioEquipoNBA;
 import com.tallerwebi.dominio.excepcion.*;
+import com.tallerwebi.dominio.RepositorioEventoPartido;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,6 +22,7 @@ public class ServicioPartidoNBATest {
     private RepositorioJugador repositorioJugadorMock;
     private RepositorioScorePartido repositorioScorePartidoMock;
     private RepositorioCronologiaNBA repositorioCronologiaNBAMock;
+    private RepositorioEventoPartido repositorioEventoPartidoMock;
 
     @BeforeEach
     public void init() {
@@ -29,12 +31,14 @@ public class ServicioPartidoNBATest {
         repositorioScorePartidoMock = mock(RepositorioScorePartido.class);
         repositorioEquipoNBAMock = mock(RepositorioEquipoNBA.class);
         repositorioJugadorMock = mock(RepositorioJugador.class);
+        repositorioEventoPartidoMock = mock(RepositorioEventoPartido.class);
         servicioPartidoNBA = new ServicioPartidoNBAImpl(
                 repositorioPartidoNBAMock,
                 repositorioCronologiaNBAMock,
                 repositorioScorePartidoMock,
                 repositorioEquipoNBAMock,
-                repositorioJugadorMock
+                repositorioJugadorMock,
+                repositorioEventoPartidoMock
         );
     }
 

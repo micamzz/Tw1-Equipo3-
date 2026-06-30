@@ -20,9 +20,7 @@ public class ServicioEquipoImpl implements ServicioEquipo {
     private final RepositorioEquipoJugador repositorioEquipoJugador;
     private final RepositorioTorneo repositorioTorneo;
     private static final Double PRESUPUESTO_INICIAL = 2000000D;
-    private static final Integer NUMERO_ORDEN_CAPITAN = 11;
-    private static final Integer NUMERO_ORDEN_SEXTO_HOMBRE = 12;
-    private static final Integer CANTIDAD_JUGADORES_EQUIPO_COMPLETO = 12;
+    private static final Integer CANTIDAD_JUGADORES_EQUIPO_COMPLETO = 10;
 
 
     @Autowired
@@ -75,8 +73,25 @@ public class ServicioEquipoImpl implements ServicioEquipo {
         List<EquipoJugador> listadoDeJugadores = buscarJugadoresDelEquipo(idEquipo);
 
         if (listadoDeJugadores == null || listadoDeJugadores.size() < CANTIDAD_JUGADORES_EQUIPO_COMPLETO) {
-            throw new EquipoSinCompletarException("El equipo debe estar completo para poder confirmarlo ");
+            throw new EquipoSinCompletarException("El equipo debe tener 10 jugadores para poder confirmarlo ");
         }
+
+        Boolean tieneCapitan = false;
+        Boolean tieneSextoHombre = false;
+
+        for (EquipoJugador ej : listadoDeJugadores) {
+            if (ej.getPosicionDelJugador() == PosicionJugadorEquipo.CAPITAN) {
+                tieneCapitan = true;
+            }
+            if (ej.getPosicionDelJugador() == PosicionJugadorEquipo.SEXTO_HOMBRE) {
+                tieneSextoHombre = true;
+            }
+        }
+
+        if (!tieneCapitan || !tieneSextoHombre) {
+            throw new EquipoSinCompletarException("Debés asignar un capitán y un sexto hombre");
+        }
+
     }
 
     @Override
@@ -92,6 +107,49 @@ public class ServicioEquipoImpl implements ServicioEquipo {
     @Override
     public Double obtenerPresupuestoInicial() {
         return PRESUPUESTO_INICIAL;
+    }
+
+    @Override
+    public Double calcularPuntajeTotalDelEquipo(Long equipoId) {
+        List<EquipoJugador> jugadoresDelEquipo = repositorioEquipoJugador.buscarPorEquipoId(equipoId);
+        if (jugadoresDelEquipo == null || jugadoresDelEquipo.isEmpty()) return 0.0;
+
+        Long torneoEquipoId = jugadoresDelEquipo.get(0).getEquipo().getTorneo().getId();
+        Torneo torneoEquipo = repositorioTorneo.buscarTorneoPorId(torneoEquipoId);
+        Long torneoRealId = torneoEquipoId;
+        if (torneoEquipo != null && torneoEquipo.getTipoTorneo() == TipoTorneo.VIRTUAL) {
+            List<Torneo> mismos = repositorioTorneo.obtenerTorneosPorTemporada(torneoEquipo.getTemporada().getId());
+            for (Torneo t : mismos) {
+                if (t.getTipoTorneo() == TipoTorneo.REAL) {
+                    torneoRealId = t.getId();
+                    break;
+                }
+            }
+        }
+
+        double total = 0.0;
+        for (EquipoJugador eqj : jugadoresDelEquipo) {
+            RendimientoJugador rend = repositorioJugador.buscarRendimientoPorJugadorYTorneo(eqj.getJugador().getId(), torneoRealId);
+            if (rend == null) continue;
+
+            double base = rend.getPuntos()
+                    + 1.2 * rend.getRebotes()
+                    + 1.5 * rend.getAsistencias()
+                    + 3.0 * rend.getRobos()
+                    + 3.0 * rend.getBloqueos()
+                    - 2.0 * rend.getPerdidas();
+
+            double multiplicador;
+            switch (eqj.getPosicionDelJugador()) {
+                case CAPITAN:      multiplicador = 2.0; break;
+                case SEXTO_HOMBRE: multiplicador = 0.8; break;
+                case SUPLENTE:     multiplicador = 0.5; break;
+                default:           multiplicador = 1.0; break;
+            }
+
+            total += base * multiplicador;
+        }
+        return total;
     }
 
     @Override
@@ -145,16 +203,15 @@ public class ServicioEquipoImpl implements ServicioEquipo {
         equipoJugador.setEquipo(equipo);
         equipoJugador.setJugador(jugador);
         equipoJugador.setNumeroOrden(numeroDeOrden);
+
+        // Primero asigna a jugadores titulares y suplentes
         if (numeroDeOrden <= 5) {
             equipoJugador.setPosicionDelJugador(PosicionJugadorEquipo.TITULAR);
-        } else if (numeroDeOrden <= 10) {
+        } else {
             equipoJugador.setPosicionDelJugador(PosicionJugadorEquipo.SUPLENTE);
-        } else if (numeroDeOrden.equals(NUMERO_ORDEN_CAPITAN)) {
-            equipoJugador.setPosicionDelJugador(PosicionJugadorEquipo.CAPITAN);
-        } else if (numeroDeOrden.equals(NUMERO_ORDEN_SEXTO_HOMBRE)) {
-            equipoJugador.setPosicionDelJugador(PosicionJugadorEquipo.SEXTO_HOMBRE);
         }
         repositorioEquipoJugador.guardarEquipoJugador(equipoJugador);
+
     }
 
     /* SI EL SALDO DEL EQUIPO ES MENOR AL VALOR DEL JUGADOR EXCEPCION, NO PUEDE COMPRARLO.*/
@@ -174,6 +231,50 @@ public class ServicioEquipoImpl implements ServicioEquipo {
         if (equipoJugador != null) {
             throw new elJugadorYaExisteEnElEquipoException("El jugador ya esta fichado en el equipo");
         }
+    }
+
+
+    //    Actualiza el enum del jugador ya elegido.
+    @Override
+    public void asignarRolEspecial(Long idEquipo, Long idJugador, PosicionJugadorEquipo rol)
+            throws EquipoNoEncontradoException {
+
+        // Si ya había otro con ese rol, lo resetea
+        List<EquipoJugador> todos = repositorioEquipoJugador.buscarPorEquipoId(idEquipo);
+        for (EquipoJugador ej : todos) {
+            if (ej.getPosicionDelJugador() == rol) {
+                if (ej.getNumeroOrden() <= 5) {
+                    ej.setPosicionDelJugador(PosicionJugadorEquipo.TITULAR);
+                } else {
+                    ej.setPosicionDelJugador(PosicionJugadorEquipo.SUPLENTE);
+                }
+                repositorioEquipoJugador.actualizarEquipoJugador(ej);
+            }
+        }
+
+        // Asigna el rol al jugador elegido
+        EquipoJugador equipoJugador = repositorioEquipoJugador.buscarEquipoYJugadorAsociado(idEquipo, idJugador);
+        if (equipoJugador == null) {
+            throw new EquipoNoEncontradoException("El jugador no pertenece al equipo");
+        }
+        equipoJugador.setPosicionDelJugador(rol);
+        repositorioEquipoJugador.actualizarEquipoJugador(equipoJugador);
+    }
+
+    @Override
+    public List<Equipo> obtenerTopEquiposPorTorneo(Long torneoId, int limite) {
+        List<Equipo> equipos = repositorioEquipo.buscarEquiposPorTorneo(torneoId);
+        if (equipos == null || equipos.isEmpty()) return List.of();
+
+        equipos.sort((a, b) -> Double.compare(
+                calcularPuntajeTotalDelEquipo(b.getId()),
+                calcularPuntajeTotalDelEquipo(a.getId())));
+        List<Equipo> top = equipos.subList(0, Math.min(limite, equipos.size()));
+
+        for (Equipo e : top) {
+            e.setPuntaje(calcularPuntajeTotalDelEquipo(e.getId()));
+        }
+        return top;
     }
 
 }

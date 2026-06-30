@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public class RepositorioEventoPartidoImpl implements RepositorioEventoPartido {
 
-    private SessionFactory sessionFactory;
+    private final SessionFactory sessionFactory;
 
     @Autowired
     public RepositorioEventoPartidoImpl(SessionFactory sessionFactory) {
