@@ -199,11 +199,11 @@
                      th:classappend="${evento.esLocal} ? 'evento-local' : 'evento-visitante'">
 
                     <div class="evento-contenido">
-                        <span class="evento-tiempo" th:text="${evento.momentoPartido}">00:00:10</span>
+                        <span class="evento-tiempo" th:text="${evento.getMomentoFormateado()}">00:00:10</span>
 
                         <span class="evento-jugador" th:text="${evento.jugador.nombre + ' ' + evento.jugador.apellido}">Kevin Durant</span>
 
-                        <span class="evento-tipo" th:text="${evento.tipoEstadistica}">ASISTENCIA</span>
+                        <span class="evento-tipo" th:text="${evento.tipoEstadistica.descripcion}">ASISTENCIA</span>
 
                         <span class="evento-equipo-tag"
                               th:text="${evento.esLocal} ? ${partido.equipoLocal.nombre} :

@@ -1,24 +1,31 @@
+/* ===================================================
+   VARIABLES DE DISEÑO - UNLaM Basket (Consistencia)
+   =================================================== */
+:root {
+    --color-fondo: #111116;          /* Fondo oscuro profundo unificado */
+    --color-secundario: #16161c;     /* Fondo de las tarjetas y paneles */
+    --color-borde: rgba(255, 255, 255, 0.08); /* Borde sutil */
+    --color-texto: #ffffff;
+    --color-terciario: #9a9aa5;     /* Gris para textos mutados */
+    --color-activo: #ff6b00;         /* Naranja UNLaM Basket */
+
+    --color-rojo: #c0392b;
+    --color-verde: #27ae60;
+}
+
+/* ===================================================
+   RESET Y CONFIGURACIÓN GLOBAL
+   =================================================== */
 *,
 *::before,
 *::after {
     box-sizing: border-box;
 }
 
-:root {
-    --color-fondo: #252422;
-    --color-texto: #fff;
-    --color-secundario: #403d39;
-    --color-terciario: #ccc5b9;
-    --color-activo: #eb5e28;
-    --color-neutro: #fffcf2;
-    --color-rojo: #c0392b;
-    --color-verde: #27ae60;
-}
-
-body {
-    font-family: "Inter", Arial, sans-serif;
-    background-color: var(--color-fondo);
+html, body {
+    background-color: var(--color-fondo) !important;
     color: var(--color-texto);
+    font-family: "Inter", Arial, sans-serif;
     margin: 0;
     padding: 0;
     display: flex;
@@ -26,266 +33,365 @@ body {
     min-height: 100vh;
 }
 
-.contenedor-estadisticas{
-    width: 95%;
-    max-width: 1600px;
-
-    margin: 2rem auto;
-
-    display: grid;
-    grid-template-columns: 320px 1fr 320px;
-    gap: 2rem;
-}
-
-.panel-equipo,
-.panel-cronologia{
-    background:#403d39;
-    border:1px solid rgba(255,255,255,.08);
-}
-
-.panel-equipo h2,
-.panel-cronologia h2{
-    color: #ff6600;
-    text-align: center;
-    margin-bottom: 1.5rem;
-}
-
-.panel-equipo form{
-    display:flex;
-    flex-direction:column;
-    gap:1rem;
-}
-
-.panel-equipo label{
-    color:#ddd;
-    font-size:0.9rem;
-}
-
-.panel-equipo select,
-.panel-equipo input{
-    background:#252422;
-    color:white;
-
-    border:1px solid #555;
-    border-radius:8px;
-    padding:0.75rem;
-}
-
-.btn-verde{
-    background:#28a745;
-    color:white;
-    border:none;
-    border-radius:8px;
-    padding:0.9rem;
-    font-weight:600;
-    cursor:pointer;
-}
-
-.lista-eventos{
-    display:flex;
-    flex-direction:column;
-    gap:0.75rem;
-}
-
-.evento{
-    display:flex;
-    flex-direction:column;
-
-    background:#2f2d2a;
-
-    border-radius:8px;
-
-    padding:0.75rem;
-}
-
-.evento-tiempo{
-    color:#ff6600;
-    font-weight:700;
-}
-
-.evento-jugador{
-    color:white;
-    font-weight:600;
-}
-
-.evento-tipo{
-    color:#bbb;
-    font-size:0.9rem;
-}
-
-.vivo-cuerpo{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
-.vivo-score{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    gap:0.75rem;
-    flex: 1;
-    min-width:250px;
-}
-
-.vivo-estado{
-    color:#00d26a;
-    font-size:1.5rem;
-    font-weight:700;
-}
-
-.marcador{
-    display:flex;
-    align-items:center;
-    gap:1rem;
-
-    font-size:3rem;
-    font-weight:800;
-    color:#fff;
-}
-
-.card-partido-vivo {
-    background: #403d39;
-    border-radius: 16px;
-    overflow: hidden;
-}
-
-.programado-divider {
-    height: 1px;
-    background: rgba(255,255,255,0.08);
-}
-
-.card-partido-vivo{
-    width:95%;
-    max-width:1600px;
-    margin:2rem auto;
-
-    background:#403d39;
-    border-radius:16px;
-    overflow:hidden;
-}
-
-.programado-divider{
-    height:1px;
-    background:rgba(255,255,255,.08);
-}
-
-.vivo-equipo{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    width:250px;
-}
-
-.vivo-equipo-nombre{
-    color:white;
-    font-weight:600;
-    margin-top:0.75rem;
-}
-
-.vivo-header{
-    display:flex;
-    justify-content:space-between;
-    color:white;
-    margin-bottom:1rem;
-}
-
-.vivo-fecha,
-.vivo-torneo{
-    font-weight:600;
-}
-
-.volver-link{
-    display:block;
-    width:95%;
-    max-width:1600px;
-    margin:1rem auto;
-
-    color:#eb5e28;
-    text-decoration:none;
-    font-weight:600;
-}
-
-.volver-link:hover{
-    color:#ff7b47;
-}
-
-html,
-body {
-    background-color: #252422 !important;
-    color: white;
-}
-
 main {
-    background-color: #252422;
+    background-color: var(--color-fondo);
     min-height: calc(100vh - 160px);
     padding: 2rem;
 }
 
+h1 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    text-align: center;
+    margin: 1rem 0 2rem;
+    color: var(--color-texto);
+}
 
-/* ── Modal reprogramar ── */
+/* ===================================================
+   ENLACE VOLVER
+   =================================================== */
+.volver-link {
+    display: block;
+    width: 95%;
+    max-width: 1600px;
+    margin: 1rem auto;
+    color: var(--color-activo);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.15s ease;
+}
+
+.volver-link:hover {
+    color: #ff8533;
+}
+
+/* ===================================================
+   MARCADOR Y EN VIVO (CABECERA)
+   =================================================== */
+.card-partido-vivo {
+    width: 95%;
+    max-width: 1600px;
+    margin: 0 auto 3rem;
+    background: var(--color-secundario);
+    border: 1px solid var(--color-borde);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.vivo-header {
+    display: flex;
+    justify-content: space-between;
+    color: var(--color-terciario);
+    padding: 1.25rem 2rem 0;
+}
+
+.vivo-fecha, .vivo-torneo {
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.programado-divider {
+    height: 1px;
+    background: var(--color-borde);
+    margin-top: 1rem;
+}
+
+.vivo-cuerpo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem;
+}
+
+.vivo-equipo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 250px;
+}
+
+.vivo-equipo .escudo {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+}
+
+.vivo-equipo-nombre {
+    color: var(--color-texto);
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin-top: 0.75rem;
+    text-align: center;
+}
+
+.vivo-score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    flex: 1;
+    min-width: 250px;
+}
+
+.vivo-estado {
+    color: #00d26a;
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    background: rgba(0, 210, 106, 0.1);
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+}
+
+.marcador {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: var(--color-texto);
+}
+
+/* ===================================================
+   MENSAJES DE FEEDBACK
+   =================================================== */
+.mensaje-error, .mensaje-exito {
+    width: 95%;
+    max-width: 1600px;
+    margin: 1rem auto;
+    padding: 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    text-align: center;
+}
+.mensaje-error { background: rgba(192, 57, 43, 0.15); color: #ff6b6b; border: 1px solid rgba(192, 57, 43, 0.3); }
+.mensaje-exito { background: rgba(39, 174, 96, 0.15); color: #2ecc71; border: 1px solid rgba(39, 174, 96, 0.3); }
+
+/* ===================================================
+   GRID CONSOLA DE ESTADÍSTICAS (3 COLUMNAS)
+   =================================================== */
+.contenedor-estadisticas {
+    width: 95%;
+    max-width: 1600px;
+    margin: 0 auto 2rem;
+    display: grid;
+    grid-template-columns: 340px 1fr 340px;
+    gap: 2rem;
+    align-items: start;
+}
+
+/* Paneles base */
+.panel-equipo,
+.panel-cronologia {
+    background: var(--color-secundario);
+    border: 1px solid var(--color-borde);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.panel-equipo h2,
+.panel-cronologia h2 {
+    color: var(--color-activo);
+    font-size: 1.3rem;
+    font-weight: 700;
+    text-align: center;
+    margin: 0 0 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--color-borde);
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
+}
+
+/* Formularios de carga */
+.panel-equipo form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.panel-equipo label {
+    color: var(--color-terciario);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: -0.5rem;
+}
+
+/* Inputs y Selectores */
+.panel-equipo select,
+.panel-equipo input {
+    background: #0f0f14;
+    color: var(--color-texto);
+    border: 1px solid #3a3a45;
+    border-radius: 8px;
+    padding: 0.75rem;
+    font-family: "Inter", sans-serif;
+    font-size: 0.95rem;
+    outline: none;
+    width: 100%;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.panel-equipo select:focus,
+.panel-equipo input:focus {
+    border-color: var(--color-activo);
+    box-shadow: 0 0 0 2px rgba(255, 107, 0, 0.2);
+}
+
+/* Botón Registrar (Naranja unificado) */
+.btn {
+    border: none;
+    border-radius: 8px;
+    padding: 0.9rem;
+    font-weight: 700;
+    font-family: "Inter", sans-serif;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: background 0.15s, transform 0.1s;
+    text-align: center;
+}
+
+.btn-verde {
+    background: var(--color-activo);
+    color: white;
+    width: 100%;
+}
+
+.btn-verde:hover {
+    background: #e05e00;
+}
+
+.btn-verde:active {
+    transform: scale(0.98);
+}
+
+/* ===================================================
+   CRONOLOGÍA CON ESTILO DINÁMICO (TIPO CHAT)
+   =================================================== */
+.lista-eventos {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 5px 0;
+    max-height: 520px;
+    overflow-y: auto;
+}
+
+.evento {
+    display: flex;
+    width: 85%;
+    border-radius: 8px;
+    padding: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.evento-contenido {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+/* Local -> Alineado a la izquierda (Azul sutil) */
+.evento-local {
+    align-self: flex-start;
+    background-color: rgba(29, 78, 216, 0.12);
+    border-left: 4px solid #1d4ed8;
+    text-align: left;
+}
+
+.evento-local .evento-tiempo {
+    color: #60a5fa;
+}
+
+/* Visitante -> Alineado a la derecha (Verde sutil) */
+.evento-visitante {
+    align-self: flex-end;
+    background-color: rgba(21, 128, 61, 0.12);
+    border-right: 4px solid #15803d;
+    text-align: right;
+}
+
+.evento-visitante .evento-tiempo {
+    color: #4ade80;
+}
+
+/* Tipografías internas de la cronología */
+.evento-tiempo {
+    font-weight: 800;
+    font-size: 0.85rem;
+    margin-bottom: 2px;
+}
+
+.evento-jugador {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-texto);
+}
+
+.evento-tipo {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    color: var(--color-terciario);
+    font-weight: 500;
+    margin-top: 1px;
+}
+
+.evento-equipo-tag {
+    font-size: 0.75rem;
+    color: #5c5c66;
+    margin-top: 6px;
+    font-style: italic;
+}
+
+/* ===================================================
+   BOTÓN FINALIZAR PARTIDO PRINCIPAL
+   =================================================== */
+.btn-finalizar-principal {
+    background: var(--color-rojo);
+    color: white;
+    width: 220px;
+}
+
+.btn-finalizar-principal:hover {
+    background: #a0281c;
+}
+
+/* ===================================================
+   MODALES (ESTILO PANEL DE ADMINISTRACIÓN)
+   =================================================== */
 .modal-overlay {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.6);
+    background: rgba(0, 0, 0, 0.7);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 1000;
+    backdrop-filter: blur(3px);
 }
 
 .modal-contenido {
     background: var(--color-secundario);
-    border-radius: 10px;
-    padding: 1.5rem 2rem;
-    min-width: 320px;
-    max-width: 90vw;
-}
-
-.modal-contenido h3 {
-    margin: 0 0 1rem;
-    font-size: 1.2rem;
-}
-
-.form-reprogramar-modal {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-}
-
-.form-reprogramar-modal label {
-    font-size: 0.9rem;
-    color: var(--color-terciario);
-}
-
-.form-reprogramar-modal .input-reprogramar {
-    width: 100%;
-    padding: 0.5rem 0.7rem;
-    font-size: 1rem;
-}
-
-.modal-botones {
-    display: flex;
-    gap: 0.75rem;
-    justify-content: flex-end;
-    margin-top: 0.5rem;
-}
-.modal-contenido {
-    background: var(--color-secundario);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--color-borde);
     border-radius: 12px;
     padding: 2rem;
-    min-width: 350px;
-    color: var(--color-texto); /* Asegura que el texto sea blanco */
-    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    min-width: 360px;
+    color: var(--color-texto);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
 }
 
 .modal-contenido h3 {
-    color: var(--color-activo); /* Color naranja para el título */
-    margin-bottom: 1.5rem;
-    font-size: 1.4rem;
+    color: var(--color-activo);
+    margin: 0 0 1.5rem;
+    font-size: 1.3rem;
     text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: -0.5px;
 }
 
 .form-modal {
@@ -295,16 +401,16 @@ main {
 }
 
 .form-modal label {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     color: var(--color-terciario);
     font-weight: 600;
+    text-transform: uppercase;
 }
 
-
 .input-modal {
-    background: #1a1a18;
+    background: #0f0f14;
     color: white;
-    border: 1px solid #555;
+    border: 1px solid #3a3a45;
     border-radius: 8px;
     padding: 0.75rem;
     font-size: 1rem;
@@ -316,93 +422,33 @@ main {
     border-color: var(--color-activo);
 }
 
-/* Espaciado para el botón Finalizar de la página */
-.btn-finalizar-principal {
-    margin-top: 2rem;
-    display: block;
-    width: 100%;
-    max-width: 200px;
+.modal-botones {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: flex-end;
+    margin-top: 0.5rem;
 }
 
-/* Contenedor principal de la lista */
-.lista-eventos {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    padding: 10px;
+.btn-secundario {
+    background: #2a2a35;
+    color: var(--color-texto);
 }
 
-/* Estructura base de cada tarjeta de evento */
-.evento {
-    display: flex;
-    width: 80%; /* Para que no ocupe todo el ancho y se note el alineado */
-    border-radius: 8px;
-    padding: 12px;
-    transition: all 0.3s ease;
+.btn-secundario:hover {
+    background: #3f3f4f;
 }
 
-.evento-contenido {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
+.btn-rojo {
+    background: var(--color-rojo);
+    color: white;
 }
 
 /* ===================================================
-   ESTILOS PARA EL EQUIPO LOCAL (Izquierda)
+   RESPONSIVE DESIGNS
    =================================================== */
-.evento-local {
-    align-self: flex-start;
-    background-color: rgba(26, 54, 93, 0.4); /* Un fondo azul muy sutil */
-    border-left: 4px solid #1d4ed8; /* Línea azul fuerte del lado local */
-    text-align: left;
-}
-
-.evento-local .evento-tiempo {
-    color: #60a5fa; /* Tiempo color azul claro */
-}
-
-
-/* ===================================================
-   ESTILOS PARA EL EQUIPO VISITANTE (Derecha)
-   =================================================== */
-.evento-visitante {
-    align-self: flex-end;
-    background-color: rgba(20, 83, 45, 0.4); /* Un fondo verde muy sutil */
-    border-right: 4px solid #15803d; /* Línea verde fuerte del lado visitante */
-    text-align: right;
-}
-
-.evento-visitante .evento-tiempo {
-    color: #4ade80; /* Tiempo color verde claro */
-}
-
-
-/* ===================================================
-   DETALLES TIPOGRÁFICOS COMUNES
-   =================================================== */
-.evento-tiempo {
-    font-weight: 700;
-    font-size: 0.85rem;
-    margin-bottom: 4px;
-}
-
-.evento-jugador {
-    font-size: 1rem;
-    font-weight: 600;
-    color: #ffffff;
-}
-
-.evento-tipo {
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    color: #9ca3af; /* Gris claro para la acción */
-    margin-top: 2px;
-}
-
-/* El tag sutil del nombre del equipo */
-.evento-equipo-tag {
-    font-size: 0.75rem;
-    color: #6b7280; /* Gris más oscuro */
-    margin-top: 6px;
-    font-style: italic;
+@media (max-width: 1024px) {
+    .contenedor-estadisticas {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
 }
