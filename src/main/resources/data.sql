@@ -381,33 +381,6 @@ VALUES (3, 4, '2026-06-14 21:00:00', 48, 1);
 INSERT INTO PartidoNBA (equipoLocal_id, equipoVisitante_id, horaInicio, minutoFin, torneo_id)
 VALUES (2, 3, '2026-06-10 20:30:00', 53, 1);
 
--- Partido ACTIVO (id=5)
-INSERT INTO ScorePartido (partido_id, equipo_id, puntos)
-VALUES (5, 1, 0);
-INSERT INTO ScorePartido (partido_id, equipo_id, puntos)
-VALUES (5, 2, 0);
-
--- Partido FINALIZADO 1 (id=6)
-INSERT INTO ScorePartido (partido_id, equipo_id, puntos)
-VALUES (6, 3, 112);
-INSERT INTO ScorePartido (partido_id, equipo_id, puntos)
-VALUES (6, 4, 98);
-
--- Partido FINALIZADO 2 (id=7)
-INSERT INTO ScorePartido (partido_id, equipo_id, puntos)
-VALUES (7, 2, 105);
-INSERT INTO ScorePartido (partido_id, equipo_id, puntos)
-VALUES (7, 3, 101);
-
-INSERT INTO ScorePartido(partido_id, equipo_id, puntos)
-VALUES (1, 1, 0),
-       (1, 2, 0),
-       (2, 2, 0),
-       (2, 1, 0),
-       (3, 1, 0),
-       (3, 3, 0),
-       (4, 1, 0),
-       (4, 4, 0);
 
 -- Cronologia del partido finalizado 1 (ID 6)
 INSERT INTO CronologiaNBA (partido_id, minuto, tipo, descripcion, puntosSumados, equipoBeneficiado_id)
@@ -444,11 +417,6 @@ VALUES (30, 1, 2, '2026-06-20 20:00:00', 48, 1, 'FINALIZADO'),
        (32, 5, 6, '2026-06-22 19:30:00', 48, 1, 'FINALIZADO'),
        (33, 7, 8, '2026-06-23 22:00:00', 50, 1, 'FINALIZADO');
 
-INSERT INTO ScorePartido (partido_id, equipo_id, puntos)
-VALUES (30, 1, 110), (30, 2, 102),
-       (31, 3, 98),  (31, 4, 105),
-       (32, 5, 115), (32, 6, 100),
-       (33, 7, 88),  (33, 8, 95);
 
 -- EQUIPOS USUARIO (torneo virtual id = 2)
 INSERT INTO equipo (id, nombreEquipo, presupuesto, puntaje, torneo_id, usuario_id)

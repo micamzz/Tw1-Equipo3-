@@ -19,7 +19,6 @@ public class ServicioPartidoNBATest {
     private RepositorioPartidoNBA repositorioPartidoNBAMock;
     private RepositorioEquipoNBA repositorioEquipoNBAMock;
     private RepositorioJugador repositorioJugadorMock;
-    private RepositorioScorePartido repositorioScorePartidoMock;
     private RepositorioCronologiaNBA repositorioCronologiaNBAMock;
     private RepositorioEventoPartido repositorioEventoPartidoMock;
 
@@ -27,14 +26,12 @@ public class ServicioPartidoNBATest {
     public void init() {
         repositorioPartidoNBAMock = mock(RepositorioPartidoNBA.class);
         repositorioCronologiaNBAMock = mock(RepositorioCronologiaNBA.class);
-        repositorioScorePartidoMock = mock(RepositorioScorePartido.class);
         repositorioEquipoNBAMock = mock(RepositorioEquipoNBA.class);
         repositorioJugadorMock = mock(RepositorioJugador.class);
         repositorioEventoPartidoMock = mock(RepositorioEventoPartido.class);
         servicioPartidoNBA = new ServicioPartidoNBAImpl(
                 repositorioPartidoNBAMock,
                 repositorioCronologiaNBAMock,
-                repositorioScorePartidoMock,
                 repositorioEquipoNBAMock,
                 repositorioJugadorMock,
                 repositorioEventoPartidoMock
@@ -79,7 +76,7 @@ public class ServicioPartidoNBATest {
         servicioPartidoNBA.agregarPartido(local, visitante, horaPartido, torneo);
 
         verify(repositorioPartidoNBAMock, times(1)).guardar(any(PartidoNBA.class));
-        verify(repositorioScorePartidoMock, times(2)).guardar(any(ScorePartido.class));
+
     }
 
     @Test

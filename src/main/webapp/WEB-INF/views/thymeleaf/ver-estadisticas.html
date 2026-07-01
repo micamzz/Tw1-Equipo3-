@@ -56,7 +56,7 @@
             <h2>Línea de Tiempo del Partido</h2>
 
             <div th:if="${#lists.isEmpty(eventos)}" class="sin-partidos" style="text-align: center; padding: 2rem; color: var(--color-terciario);">
-                Todavía no se registraron eventos en este partido.
+                No hay eventos para mostrar.
             </div>
 
             <div class="lista-eventos" th:if="${!#lists.isEmpty(eventos)}">
