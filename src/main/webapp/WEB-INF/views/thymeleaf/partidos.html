@@ -65,7 +65,7 @@
         <div th:if="${esAdmin}" class="programado-acciones-secundarias">
             <a th:href="@{/admin/partido/{idPartido}/formacion/{idEquipo}(idPartido=${partido.id}, idEquipo=${partido.equipoLocal.id})}"
                class="btn btn-formacion"> Formacion Local</a>
-            <span class="btn btn-formacion"></span>
+
             <a th:href="@{/admin/partido/{idPartido}/formacion/{idEquipo}(idPartido=${partido.id}, idEquipo=${partido.equipoVisitante.id})}"
                class="btn btn-formacion">Formacion Visitante</a>
         </div>
@@ -172,12 +172,10 @@
             <div class="finalizado-score">
                 <span class="finalizado-estado">FINALIZADO</span>
                 <!-- TANTEADOR FINALIZADO   - agrego llamado a thymeleaf para mostrar el resultado del partido -->
-                <span class="finalizado-puntos" th:text="${partido.puntosLocal} + ' - ' + ${partido.puntosVisitante}"></span>
+                <span class="finalizado-puntos"
+                      th:text="${partido.puntosLocal} + ' - ' + ${partido.puntosVisitante}"></span>
                 <!-- <span class="finalizado-duracion" th:text="'Duración: ' + ${partido.minutoFin} + ' min'">48 min</span> -->
                 <span class="finalizado-duracion" th:text="'Duración: ' + ${partido.minutoFin} + ' min'"></span>
-
-                <a th:href="@{/partido/{idPartido}/ver-estadisticas(idPartido=${partido.id})}"
-                   class="btn btn-cronologia">Ver estadisticas</a>
             </div>
 
             <div class="finalizado-equipo">
@@ -186,6 +184,14 @@
                 <span class="finalizado-equipo-nombre" th:text="${partido.equipoVisitante.nombre}">Visitante</span>
             </div>
         </div>
+
+        <div class="programado-divider"></div>
+
+        <div class="finalizado-acciones">
+            <a th:href="@{/partido/{idPartido}/ver-estadisticas(idPartido=${partido.id})}"
+               class="btn btn-amarillo">Ver estadisticas</a>
+        </div>
+
     </div>
 
 </main>
