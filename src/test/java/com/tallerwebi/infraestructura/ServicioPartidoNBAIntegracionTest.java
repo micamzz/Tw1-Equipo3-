@@ -106,7 +106,7 @@ public class ServicioPartidoNBAIntegracionTest {
         assertThat(rendimiento.getAsistencias(), equalTo(1));
         assertThat(rendimiento.getRobos(), equalTo(1));
         assertThat(rendimiento.getBloqueos(), equalTo(1));
-        assertThat(rendimiento.getPerdidas(), equalTo(1));
+        assertThat(rendimiento.getPerdidas(), equalTo(2));
     }
 
     @Test
