@@ -97,7 +97,7 @@ public class ControladorFixture {
                 horaInicio = LocalDateTime.now();
             }
             servicioPartidoNBA.agregarPartido(local, visitante, horaInicio, torneo);
-            return new ModelAndView("redirect:/admin/partidos");
+            return new ModelAndView("redirect:/partidos");
 
         } catch (EquiposIgualesException e) {
             ModelMap modelo = new ModelMap();
