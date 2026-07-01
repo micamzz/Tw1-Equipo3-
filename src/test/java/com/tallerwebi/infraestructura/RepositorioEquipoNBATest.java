@@ -147,5 +147,6 @@ public class RepositorioEquipoNBATest {
         // verificación
         assertNull(equipoEliminado);
     }
+
 }
 

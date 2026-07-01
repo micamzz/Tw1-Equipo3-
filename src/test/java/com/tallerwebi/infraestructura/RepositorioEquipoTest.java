@@ -1,5 +1,7 @@
 package com.tallerwebi.infraestructura;
 
+import com.tallerwebi.dominio.TipoTorneo;
+import com.tallerwebi.dominio.Torneo;
 import com.tallerwebi.dominio.equipo.Equipo;
 import com.tallerwebi.dominio.equipo.RepositorioEquipo;
 import com.tallerwebi.integracion.config.HibernateTestConfig;
@@ -14,6 +16,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
+import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -29,14 +33,6 @@ public class RepositorioEquipoTest {
 
     @Autowired
     private SessionFactory sessionFactory;
-
-    /*
-    1- Se guarda un equipo en la BDD
-    2- Al buscar un equipo por nombre obtiene un resultado exitoso
-    3- Al buscar un equipo por Id  obtiene un resultado exitoso
-    4- Al buscar un equipo por nombre inexistente devuelve un null
-    5-  Al buscar un equipo por Id inexistente devuelve null
-     */
 
     @Test
     @Transactional
@@ -156,9 +152,117 @@ public class RepositorioEquipoTest {
         assertNull(equipoBuscado);
     }
 
+    @Test
+    @Transactional
+    @Rollback
+    public void existeEquipoEnTorneoDevuelveTrueSiHayEquiposAsociados() {
+        // preparación
+        Torneo torneo = new Torneo();
+        torneo.setNombreTorneo("Torneo 2026");
+        torneo.setTipoTorneo(TipoTorneo.VIRTUAL);
+        torneo.setFechaInicio(LocalDate.now());
+        torneo.setFechaFin(LocalDate.now().plusDays(30));
+        this.sessionFactory.getCurrentSession().save(torneo);
+
+        Equipo equipo = new Equipo();
+        equipo.setTorneo(torneo);
+        this.sessionFactory.getCurrentSession().save(equipo);
+
+        // ejecución
+        boolean existeEquipo = repositorioEquipo.existeEquipoEnTorneo(torneo.getId());
+
+        // verificación
+        assertThat(existeEquipo, equalTo(true));
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void existeEquipoEnTorneoDevuelveFalseSiNoHayEquiposAsociados() {
+        // preparación
+        Torneo torneo = new Torneo();
+        torneo.setNombreTorneo("Torneo 2026");
+        torneo.setTipoTorneo(TipoTorneo.VIRTUAL);
+        torneo.setFechaInicio(LocalDate.now());
+        torneo.setFechaFin(LocalDate.now().plusDays(30));
+        this.sessionFactory.getCurrentSession().save(torneo);
+
+        // ejecución
+        boolean existeEquipo = repositorioEquipo.existeEquipoEnTorneo(torneo.getId());
+
+        // verificación
+        assertThat(existeEquipo, equalTo(false));
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void actualizarEquipoActualizaLosDatosDelEquipo() {
+        // preparación
+        Equipo equipo = new Equipo();
+        equipo.setNombreEquipo("CABJ12");
+        this.sessionFactory.getCurrentSession().save(equipo);
+
+        equipo.setNombreEquipo("CABJ2026");
+
+        // ejecución
+        repositorioEquipo.actualizarEquipo(equipo);
+        this.sessionFactory.getCurrentSession().flush();
+        this.sessionFactory.getCurrentSession().clear();
+
+        Equipo equipoActualizado = (Equipo) this.sessionFactory.getCurrentSession().get(Equipo.class, equipo.getId());
+
+        // verificación
+        assertThat(equipoActualizado.getNombreEquipo(), equalTo("CABJ2026"));
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void buscarEquiposPorTorneoDevuelveLosEquiposDeEseTorneo() {
+        // preparación
+        Torneo torneo = new Torneo();
+        torneo.setNombreTorneo("Torneo 2026");
+        torneo.setTipoTorneo(TipoTorneo.VIRTUAL);
+        torneo.setFechaInicio(LocalDate.now());
+        torneo.setFechaFin(LocalDate.now().plusDays(30));
+        this.sessionFactory.getCurrentSession().save(torneo);
+
+        Equipo equipo1 = new Equipo();
+        equipo1.setTorneo(torneo);
+        Equipo equipo2 = new Equipo();
+        equipo2.setTorneo(torneo);
+        Equipo equipo3 = new Equipo();
+
+        this.sessionFactory.getCurrentSession().save(equipo1);
+        this.sessionFactory.getCurrentSession().save(equipo2);
+        this.sessionFactory.getCurrentSession().save(equipo3);
+
+        // ejecución
+        List<Equipo> equiposDelTorneo = repositorioEquipo.buscarEquiposPorTorneo(torneo.getId());
+
+        // verificación
+        assertThat(equiposDelTorneo, hasSize(2));
+        assertThat(equiposDelTorneo, containsInAnyOrder(equipo1, equipo2));
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void buscarEquiposPorTorneoSinEquiposAsociadosDevuelveListaVacia() {
+        // preparación
+        Torneo torneo = new Torneo();
+        torneo.setNombreTorneo("Torneo 2026");
+        torneo.setTipoTorneo(TipoTorneo.VIRTUAL);
+        torneo.setFechaInicio(LocalDate.now());
+        torneo.setFechaFin(LocalDate.now().plusDays(30));
+        this.sessionFactory.getCurrentSession().save(torneo);
+
+        // ejecución
+        List<Equipo> equiposDelTorneo = repositorioEquipo.buscarEquiposPorTorneo(torneo.getId());
+
+        // verificación
+        assertThat(equiposDelTorneo, empty());
+    }
 
 }
-
-
-
-

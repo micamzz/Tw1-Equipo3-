@@ -1,21 +1,21 @@
 package com.tallerwebi.dominio;
 
+import com.tallerwebi.dominio.enums.PosicionJugadorEquipo;
 import com.tallerwebi.dominio.equipo.Equipo;
 import com.tallerwebi.dominio.equipo.RepositorioEquipo;
 import com.tallerwebi.dominio.equipo.ServicioEquipo;
 import com.tallerwebi.dominio.equipo.ServicioEquipoImpl;
 import com.tallerwebi.dominio.equipoJugador.EquipoJugador;
 import com.tallerwebi.dominio.equipoJugador.RepositorioEquipoJugador;
-import com.tallerwebi.dominio.enums.PosicionJugadorEquipo;
-import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
-import com.tallerwebi.dominio.excepcion.PresupuestoInsuficienteException;
-import com.tallerwebi.dominio.excepcion.TorneoVirtualActualNoEncontradoException;
-import com.tallerwebi.dominio.excepcion.elJugadorYaExisteEnElEquipoException;
-
-import java.util.List;
+import com.tallerwebi.dominio.excepcion.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
@@ -29,20 +29,6 @@ public class ServicioEquipoTest {
     private RepositorioTorneo repositorioTorneoMock;
     private Equipo equipoMock;
 
-    /*
-    1- Buscar un equipo por ID devuelve el correcto
-    2- Buscar un equipo con Id incorrecto devuelve excepcion
-    3- Buscar un equipo por nombre devuelve el correcto
-    4-Buscar un equipo con nombre incorrecto devuelve excepcion
-    5- Cuando se agrega un jugador al equipo se agrega correctamente
-    6- Cuando se agrega un jugador existente al equipo devuelve una excepcion
-    7- Cuando se agrega un jugador y el presupuesto es insuficiente devuelve una excepcion
-    Al agregar un jugador al equipo el saldo se descuenta bien
-    Al eliminar un jugador del equipo el saldo se reintegra bien
-    Al crear un equipo con 12 jugadores se valida el equipo correctamente
-    Al crear un equipo con 5 jugadores devuelve una excepcion
-    * */
-
     @BeforeEach
     public void inicializacion() {
         this.repositorioEquipoMock = mock(RepositorioEquipo.class);
@@ -53,64 +39,79 @@ public class ServicioEquipoTest {
         this.servicioEquipo = new ServicioEquipoImpl(repositorioEquipoMock, repositorioJugadorMock, repositorioEquipoJugadorMock, repositorioTorneoMock);
     }
 
-
     @Test
     public void alBuscarUnEquipoPorIdDevuelveElEquipoCorrecto() throws EquipoNoEncontradoException {
-
-        //preparación se necesita a equipoMock que está inicializado en el before
-
-        // cuando se llame a buscarEquipoPorId(1L) sobre el mock, devuelve equipoMock
-        // entonces cuando el servicio llama al método recibe ese equipo.
+        /* Preparación */
         when(repositorioEquipoMock.buscarEquipoPorId(1L)).thenReturn(equipoMock);
 
-//    Ejecución
+        /* Ejecución */
         Equipo equipoEncontrado = servicioEquipo.buscarEquipoPorId(1L);
 
-        // validación
+        /* Verificación */
         assertEquals(equipoMock, equipoEncontrado);
     }
 
     @Test
     public void alBuscarUnEquipoPorIdDevuelveUnaExcepcion() {
-        // preparación
+        /* Preparación */
         Long idNoRegistrado = 3L;
         when(repositorioEquipoMock.buscarEquipoPorId(idNoRegistrado)).thenReturn(null);
 
+        /* Ejecución - Verificación */
         assertThrows(EquipoNoEncontradoException.class, () -> servicioEquipo.buscarEquipoPorId(idNoRegistrado));
-
     }
 
     @Test
     public void alBuscarUnEquipoPorNombreDevuelveElEquipoCorrecto() throws EquipoNoEncontradoException {
-
-        //preparación se necesita a equipoMock que está inicializado en el before
-
+        /* Preparación */
         when(repositorioEquipoMock.buscarEquipoPorNombre("NBA")).thenReturn(equipoMock);
 
-        //    Ejecución
+        /* Ejecución */
         Equipo equipoEncontrado = servicioEquipo.buscarEquipoPorNombre("NBA");
 
-        // validación
+        /* Verificación */
         assertEquals(equipoMock, equipoEncontrado);
     }
 
     @Test
     public void alBuscarUnEquipoPorNombreIncorrectoDevuelveUnaExcepcion() {
-
-        //Preparación
+        /* Preparación */
         String nombreNoEncontrado = "ParenLaMano";
         when(repositorioEquipoMock.buscarEquipoPorNombre(nombreNoEncontrado)).thenReturn(null);
 
-        //Ejecución y verificación
+        /* Ejecución - Verificación */
         assertThrows(EquipoNoEncontradoException.class, () -> servicioEquipo.buscarEquipoPorNombre(nombreNoEncontrado));
     }
 
-    /* Se agrega un jugador correctamente, no está registrado y el presupuesto alcanza*/
+    @Test
+    public void alGuardarUnEquipoSeAsignaPresupuestoYTorneo() throws TorneoVirtualActualNoEncontradoException {
+        /* Preparación */
+        Equipo equipo = new Equipo();
+        Torneo torneoMock = mock(Torneo.class);
+        when(repositorioTorneoMock.buscarTorneoActual(TipoTorneo.VIRTUAL)).thenReturn(torneoMock);
+
+        /* Ejecución */
+        Equipo resultado = servicioEquipo.guardarEquipo(equipo);
+
+        /* Verificación */
+        assertEquals(2000000D, resultado.getPresupuesto());
+        assertEquals(torneoMock, resultado.getTorneo());
+        verify(repositorioEquipoMock, times(1)).guardarEquipo(equipo);
+    }
+
+    @Test
+    public void alGuardarUnEquipoSinTorneoLanzaExcepcion() {
+        /* Preparación */
+        Equipo equipo = new Equipo();
+        when(repositorioTorneoMock.buscarTorneoActual(TipoTorneo.VIRTUAL)).thenReturn(null);
+
+        /* Ejecución - Verificación */
+        assertThrows(TorneoVirtualActualNoEncontradoException.class, () -> servicioEquipo.guardarEquipo(equipo));
+    }
 
     @Test
     public void cuandoSeAgregaUnJugadorAlEquipoSeAgregaCorrectamente() throws EquipoNoEncontradoException, elJugadorYaExisteEnElEquipoException, PresupuestoInsuficienteException {
-
-        //preparación se necesita a equipoMock que está inicializado en el before
+        /* Preparación */
         Long idEquipo = 3L;
         Long idJugador = 4L;
         Jugador jugadorMock = mock(Jugador.class);
@@ -122,21 +123,20 @@ public class ServicioEquipoTest {
         // método de equipo y jugador asociados para el método validarSiElJugadorYaFueElegido
         when(repositorioEquipoJugadorMock.buscarEquipoYJugadorAsociado(idEquipo, idJugador)).thenReturn(null);
 
-        //valores para verificar si el presupuesto alcanza
+        // valores para verificar si el presupuesto alcanza
         when(equipoMock.getPresupuesto()).thenReturn(2000000D);
         when(jugadorMock.getPrecio()).thenReturn(150000D);
 
-//        Ejecución
+        /* Ejecución */
         servicioEquipo.agregarJugadorAlEquipo(idEquipo, idJugador, 1);
 
-//        Verificación
+        /* Verificación */
         verify(repositorioEquipoJugadorMock, times(1)).guardarEquipoJugador(any(EquipoJugador.class));
     }
 
     @Test
     public void cuandoSeAgregaUnJugadorYaExistenteAlEquipoLanzaUnaExcepcion() {
-
-        //preparación se necesita a equipoMock que está inicializado en el before
+        /* Preparación */
         Long idEquipo = 3L;
         Long idJugador = 4L;
         Jugador jugadorMock = mock(Jugador.class);
@@ -146,42 +146,34 @@ public class ServicioEquipoTest {
         // método buscarJugadorPorId
         when(repositorioJugadorMock.buscarJugadorPorId(idJugador)).thenReturn(jugadorMock);
         // método de equipo y jugador asociados para el método validarSiElJugadorYaFueElegido
-
         EquipoJugador equipoJugadorMock = mock(EquipoJugador.class);
         when(repositorioEquipoJugadorMock.buscarEquipoYJugadorAsociado(idEquipo, idJugador)).thenReturn(equipoJugadorMock);
 
-        //valores para verificar si el presupuesto alcanza
+        // valores para verificar si el presupuesto alcanza
         when(equipoMock.getPresupuesto()).thenReturn(850000D);
         when(jugadorMock.getPrecio()).thenReturn(150000D);
 
-/*       ejecución y Verificación
-
-        assertThrows(UsuarioExistente.class, () -> this.servicioLogin.registrar(usuario));
-        verify(this.repositorioUsuarioMock, times(0)).guardar(usuario);
-*/
+        /* Ejecución - Verificación */
         assertThrows(elJugadorYaExisteEnElEquipoException.class, () -> servicioEquipo.agregarJugadorAlEquipo(idEquipo, idJugador, 1));
     }
 
     @Test
     public void cuandoSeAgregaUnJugadorAlEquipoSeActualizaElPresupuestoCorrectamente() throws EquipoNoEncontradoException, elJugadorYaExisteEnElEquipoException, PresupuestoInsuficienteException {
-
+        /* Preparación */
         Long idEquipo = 3L;
         Equipo equipoReal = new Equipo();
         equipoReal.setId(idEquipo);
         equipoReal.setPresupuesto(20000D);
 
         Long idJugador = 1L;
-
-        /*Ejecución*/
         Jugador jugadorMock = mock(Jugador.class);
         when(jugadorMock.getPrecio()).thenReturn(5000D);
 
         when(repositorioEquipoMock.buscarEquipoPorId(idEquipo)).thenReturn(equipoReal);
-
         when(repositorioJugadorMock.buscarJugadorPorId(idJugador)).thenReturn(jugadorMock);
-
         when(repositorioEquipoJugadorMock.buscarEquipoYJugadorAsociado(idEquipo, idJugador)).thenReturn(null);
 
+        /* Ejecución */
         servicioEquipo.agregarJugadorAlEquipo(idEquipo, idJugador, 1);
 
         /* Verificación */
@@ -190,7 +182,7 @@ public class ServicioEquipoTest {
 
     @Test
     public void cuandoSeAgregaUnJugadorAlEquipoYElPresupuestoNoAlcanzaLanzaUnaExcepcion() {
-
+        /* Preparación */
         Long idEquipo = 3L;
         Long idJugador = 4L;
         Jugador jugadorMock = mock(Jugador.class);
@@ -199,17 +191,18 @@ public class ServicioEquipoTest {
         when(repositorioJugadorMock.buscarJugadorPorId(idJugador)).thenReturn(jugadorMock);
         when(repositorioEquipoJugadorMock.buscarEquipoYJugadorAsociado(idEquipo, idJugador)).thenReturn(null);
 
-        //valores para verificar si el presupuesto alcanza
+        // valores para verificar si el presupuesto alcanza
         when(equipoMock.getPresupuesto()).thenReturn(850000D);
         when(jugadorMock.getPrecio()).thenReturn(850001D);
 
-        //Ejecución y Verificación
+        /* Ejecución - Verificación */
         assertThrows(PresupuestoInsuficienteException.class, () -> servicioEquipo.agregarJugadorAlEquipo(idEquipo, idJugador, 1));
     }
 
     @Test
     public void cuandoSeEliminaUnJugadorAlEquipoSeEliminaCorrectamenteYSeReintegraElPresupuesto() throws EquipoNoEncontradoException, elJugadorYaExisteEnElEquipoException, PresupuestoInsuficienteException {
 
+        /* Preparación */
         Long idEquipo = 3L;
 
         Equipo equipoReal = new Equipo();
@@ -247,67 +240,140 @@ public class ServicioEquipoTest {
         when(repositorioEquipoJugadorMock.buscarEquipoYJugadorAsociado(idEquipo, idJugador3)).thenReturn(null);
         when(repositorioEquipoJugadorMock.buscarEquipoYJugadorAsociado(idEquipo, idJugador4)).thenReturn(null);
 
-
-        // SE AGREGAN - Ejecución
+        /* Ejecución */
+        // SE AGREGAN
         servicioEquipo.agregarJugadorAlEquipo(idEquipo, idJugador, 1); // 1000
         servicioEquipo.agregarJugadorAlEquipo(idEquipo, idJugador2, 2); // 2000
         servicioEquipo.agregarJugadorAlEquipo(idEquipo, idJugador3, 3); // 5000
-        servicioEquipo.agregarJugadorAlEquipo(idEquipo, idJugador4, 4); //10000
+        servicioEquipo.agregarJugadorAlEquipo(idEquipo, idJugador4, 4); // 10000
 
+        /* Verificación parcial */
         // 20.000 - 1000 - 2000 - 5000 - 10.000 =  2.000
         assertEquals(2000D, equipoReal.getPresupuesto());
 
-        /*Crear una relación para poder eliminar al jugador */
+        /* Preparación de la eliminación */
+        // Crear una relación para poder eliminar al jugador
         EquipoJugador relacionEquipoJugadorMock = mock(EquipoJugador.class);
         when(relacionEquipoJugadorMock.getJugador()).thenReturn(jugadorMock3);
-
         when(repositorioEquipoJugadorMock.buscarEquipoYJugadorAsociado(idEquipo, idJugador3)).thenReturn(relacionEquipoJugadorMock);
 
+        /* Ejecución de la eliminación */
         // Se elimina al jugador 3 que vale 5000, el saldo tiene que ser 7000
         servicioEquipo.eliminarJugadorDelEquipo(idEquipo, idJugador3);
 
+        /* Verificación */
         assertEquals(7000D, equipoReal.getPresupuesto());
-
     }
 
     @Test
-    public void alGuardarUnEquipoSeAsignaPresupuestoYTorneo() throws TorneoVirtualActualNoEncontradoException {
-        // preparación
-        Equipo equipo = new Equipo();
-        Torneo torneoMock = mock(Torneo.class);
-        when(repositorioTorneoMock.buscarTorneoActual(TipoTorneo.VIRTUAL)).thenReturn(torneoMock);
+    public void validarEquipoCompletoConEquipoCompletoNoLanzaExcepcion() throws EquipoSinCompletarException {
+        /* Preparación */
+        Long idEquipo = 1L;
 
-        // ejecución
-        Equipo resultado = servicioEquipo.guardarEquipo(equipo);
+        List<EquipoJugador> jugadores = new ArrayList<>();
 
-        // verificación
-        assertEquals(2000000D, resultado.getPresupuesto());
-        assertEquals(torneoMock, resultado.getTorneo());
-        verify(repositorioEquipoMock, times(1)).guardarEquipo(equipo);
+        for (int i = 1; i <= 10; i++) {
+            EquipoJugador equipoJugador = new EquipoJugador();
+
+            if (i == 1) {
+                equipoJugador.setPosicionDelJugador(PosicionJugadorEquipo.CAPITAN);
+            } else if (i == 2) {
+                equipoJugador.setPosicionDelJugador(PosicionJugadorEquipo.SEXTO_HOMBRE);
+            } else {
+                equipoJugador.setPosicionDelJugador(PosicionJugadorEquipo.TITULAR);
+            }
+
+            jugadores.add(equipoJugador);
+        }
+
+        when(repositorioEquipoJugadorMock.buscarPorEquipoId(idEquipo)).thenReturn(jugadores);
+
+        /* Ejecución - Verificación */
+        servicioEquipo.validarEquipoCompleto(idEquipo);
     }
 
     @Test
-    public void alGuardarUnEquipoSinTorneoLanzaExcepcion() {
-        // preparación
-        Equipo equipo = new Equipo();
-        when(repositorioTorneoMock.buscarTorneoActual(TipoTorneo.VIRTUAL)).thenReturn(null);
+    public void validarEquipoCompletoConMenosDeDiezJugadoresLanzaExcepcion() {
+        /* Preparación */
+        Long idEquipo = 1L;
 
-        // ejecución y verificación
-        assertThrows(TorneoVirtualActualNoEncontradoException.class, () -> servicioEquipo.guardarEquipo(equipo));
+        List<EquipoJugador> jugadores = new ArrayList<>();
+
+        for (int i = 1; i <= 9; i++) {
+            jugadores.add(new EquipoJugador());
+        }
+
+        when(repositorioEquipoJugadorMock.buscarPorEquipoId(idEquipo)).thenReturn(jugadores);
+
+        /* Ejecución - Verificación */
+        assertThrows(EquipoSinCompletarException.class, () -> servicioEquipo.validarEquipoCompleto(idEquipo)
+        );
+    }
+
+    @Test
+    public void asignarRolEspecialCapitanActualizaElJugador() throws EquipoNoEncontradoException {
+        /* Preparación */
+        Long idEquipo = 1L;
+        Long idJugador = 2L;
+
+        EquipoJugador equipoJugador = new EquipoJugador();
+        equipoJugador.setNumeroOrden(1);
+        equipoJugador.setPosicionDelJugador(PosicionJugadorEquipo.TITULAR);
+
+        when(repositorioEquipoJugadorMock.buscarPorEquipoId(idEquipo)).thenReturn(new ArrayList<>());
+
+        when(repositorioEquipoJugadorMock.buscarEquipoYJugadorAsociado(idEquipo, idJugador)).thenReturn(equipoJugador);
+
+        /* Ejecución */
+        servicioEquipo.asignarRolEspecial(idEquipo, idJugador, PosicionJugadorEquipo.CAPITAN);
+
+        /* Verificación */
+        assertThat(equipoJugador.getPosicionDelJugador(), equalTo(PosicionJugadorEquipo.CAPITAN));
+
+        verify(repositorioEquipoJugadorMock).actualizarEquipoJugador(equipoJugador);
+    }
+
+    @Test
+    public void asignarRolEspecialSextoHombreActualizaElJugador() throws EquipoNoEncontradoException {
+        /* Preparación */
+        Long idEquipo = 1L;
+        Long idJugador = 2L;
+
+        EquipoJugador equipoJugador = new EquipoJugador();
+        equipoJugador.setNumeroOrden(6);
+        equipoJugador.setPosicionDelJugador(PosicionJugadorEquipo.SUPLENTE);
+
+        when(repositorioEquipoJugadorMock.buscarPorEquipoId(idEquipo)).thenReturn(new ArrayList<>());
+
+        when(repositorioEquipoJugadorMock.buscarEquipoYJugadorAsociado(idEquipo, idJugador)).thenReturn(equipoJugador);
+
+        /* Ejecución */
+        servicioEquipo.asignarRolEspecial(idEquipo, idJugador, PosicionJugadorEquipo.SEXTO_HOMBRE);
+
+        /* Verificación */
+        assertThat(equipoJugador.getPosicionDelJugador(), equalTo(PosicionJugadorEquipo.SEXTO_HOMBRE));
+
+        verify(repositorioEquipoJugadorMock).actualizarEquipoJugador(equipoJugador);
     }
 
     @Test
     public void calcularPuntajeTotalDeEquipoSinJugadoresDevuelveCero() {
+
+        /* Preparación */
         Long equipoId = 1L;
         when(repositorioEquipoJugadorMock.buscarPorEquipoId(equipoId)).thenReturn(List.of());
 
+        /* Ejecución */
         Double total = servicioEquipo.calcularPuntajeTotalDelEquipo(equipoId);
 
+        /* Verificación */
         assertEquals(0.0, total);
     }
 
     @Test
     public void calcularPuntajeTotalDeEquipoConJugadoresAplicaMultiplicadorDeRol() {
+
+        /* Preparación */
         Long equipoId = 1L;
 
         RendimientoJugador rend = new RendimientoJugador();
@@ -335,13 +401,17 @@ public class ServicioEquipoTest {
         when(repositorioEquipoJugadorMock.buscarPorEquipoId(equipoId)).thenReturn(List.of(ej));
         when(repositorioJugadorMock.buscarRendimientoPorJugadorYTorneo(1L, 1L)).thenReturn(rend);
 
+        /* Ejecución */
         Double total = servicioEquipo.calcularPuntajeTotalDelEquipo(equipoId);
 
+        /* Verificación */
         assertEquals(50.0, total); // 25 * 2
     }
 
     @Test
     public void calcularPuntajeTotalDeEquipoConJugadorSinRendimientoNoAportaPuntos() {
+
+        /* Preparación */
         Long equipoId = 1L;
 
         Jugador jugador = new Jugador();
@@ -360,13 +430,17 @@ public class ServicioEquipoTest {
         when(repositorioEquipoJugadorMock.buscarPorEquipoId(equipoId)).thenReturn(List.of(ej));
         when(repositorioJugadorMock.buscarRendimientoPorJugadorYTorneo(1L, 1L)).thenReturn(null);
 
+        /* Ejecución */
         Double total = servicioEquipo.calcularPuntajeTotalDelEquipo(equipoId);
 
+        /* Verificación */
         assertEquals(0.0, total);
     }
 
     @Test
     public void calcularPuntajeTotalDeEquipoAplicaMultiplicadoresCorrectosPorRol() {
+
+        /* Preparación */
         Long equipoId = 1L;
 
         RendimientoJugador rend = new RendimientoJugador();
@@ -378,10 +452,14 @@ public class ServicioEquipoTest {
         rend.setPerdidas(0);
         // base = 10
 
-        Jugador jug1 = new Jugador(); jug1.setId(1L);
-        Jugador jug2 = new Jugador(); jug2.setId(2L);
-        Jugador jug3 = new Jugador(); jug3.setId(3L);
-        Jugador jug4 = new Jugador(); jug4.setId(4L);
+        Jugador jug1 = new Jugador();
+        jug1.setId(1L);
+        Jugador jug2 = new Jugador();
+        jug2.setId(2L);
+        Jugador jug3 = new Jugador();
+        jug3.setId(3L);
+        Jugador jug4 = new Jugador();
+        jug4.setId(4L);
 
         EquipoJugador titular = mock(EquipoJugador.class);
         when(titular.getJugador()).thenReturn(jug1);
@@ -409,9 +487,10 @@ public class ServicioEquipoTest {
                 .thenReturn(List.of(titular, capitan, sexto, suplente));
         when(repositorioJugadorMock.buscarRendimientoPorJugadorYTorneo(anyLong(), anyLong())).thenReturn(rend);
 
+        /* Ejecución */
         Double total = servicioEquipo.calcularPuntajeTotalDelEquipo(equipoId);
 
-        assertEquals(10*1.0 + 10*2.0 + 10*0.8 + 10*0.5, total);
+        /* Verificación */
+        assertEquals(10 * 1.0 + 10 * 2.0 + 10 * 0.8 + 10 * 0.5, total);
     }
-
 }
