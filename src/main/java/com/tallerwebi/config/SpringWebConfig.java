@@ -35,18 +35,26 @@ public class SpringWebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        // TODO usuario logueado
+
+        // ADMIN Y USER
         registry.addInterceptor(new LoginInterceptor())
+                .addPathPatterns("/partidos/**");
+
+        // USER
+        registry.addInterceptor(new UserInterceptor())
                 .addPathPatterns(
+                        "/home",
                         "/crear-equipo/**",
                         "/seleccionar-jugadores/**",
                         "/equipo/**",
-                        "/reglas/",
+                        "/reglas/**",
                         "/torneo/**",
-                        "/partidos/**"
+                        "/estadisticas-jugadores-torneo/**",
+                        "/mercado/**"
+
                 );
 
-        // SOLO ADMIN
+        // ADMIN
         registry.addInterceptor(new AdminInterceptor())
                 .addPathPatterns("/admin/**");
     }

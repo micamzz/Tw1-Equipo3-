@@ -7,8 +7,8 @@ El proyecto simula una plataforma de **Fantasy NBA**, donde cada usuario puede c
 respetando un presupuesto determinado, seleccionando jugadores reales de la NBA y compitiendo en un torneo mediante un
 sistema de puntajes basado en estadísticas reales.
 
-El objetivo principal fue aplicar los conocimientos adquiridos durante la cursada utilizando **Java**, **Spring MVC**,*
-*Hibernate**, **JPA**, **Maven** y buenas prácticas de desarrollo de software.
+El objetivo principal fue aplicar los conocimientos adquiridos durante la cursada utilizando **Java**, **Spring MVC**,
+**Hibernate**, **JPA**, **Maven** y buenas prácticas de desarrollo de software.
 
 ## Características
 
@@ -288,5 +288,6 @@ mvn tomcat7:run
 
 Trabajo Práctico Grupal desarrollado para la materia **Taller Web I** de la **Universidad Nacional de La Matanza (UNLaM)
 **.
+
 
 
