@@ -39,6 +39,12 @@
     <!-- ERROR -->
     <p th:if="${error}" th:text="${error}" class="alerta-error"></p>
 
+    <!-- BLOQUEO POR PARTIDOS EN CURSO -->
+    <p th:if="${!puedeModificar}"
+       class="alerta-error">
+        No podés modificar tu equipo mientras haya partidos en curso o a punto de empezar.
+    </p>
+
     <!-- GRID 3 COLUMNAS -->
     <section id="formularioEquipo">
         <input type="hidden" name="idEquipo" th:value="${equipo.id}"/>
@@ -83,7 +89,7 @@
                     <form th:if="${ej != null}"
                           th:action="@{/eliminar-jugador/{idEquipo}/{idJugador}(idEquipo=${equipo.id},idJugador=${ej.jugador.id})}"
                           method="post" onclick="event.stopPropagation()">
-                        <button type="submit" class="ranura-quitar">X</button>
+                        <button type="submit" class="ranura-quitar" th:disabled="${!puedeModificar}">X</button>
                     </form>
                 </div>
 
@@ -104,7 +110,7 @@
                     <form th:if="${ej != null}"
                           th:action="@{/eliminar-jugador/{idEquipo}/{idJugador}(idEquipo=${equipo.id},idJugador=${ej.jugador.id})}"
                           method="post" onclick="event.stopPropagation()">
-                        <button type="submit" class="ranura-quitar">X</button>
+                        <button type="submit" class="ranura-quitar" th:disabled="${!puedeModificar}">X</button>
                     </form>
                 </div>
 
@@ -125,7 +131,7 @@
                     <form th:if="${ej != null}"
                           th:action="@{/eliminar-jugador/{idEquipo}/{idJugador}(idEquipo=${equipo.id},idJugador=${ej.jugador.id})}"
                           method="post" onclick="event.stopPropagation()">
-                        <button type="submit" class="ranura-quitar">X</button>
+                        <button type="submit" class="ranura-quitar" th:disabled="${!puedeModificar}">X</button>
                     </form>
                 </div>
 
@@ -146,7 +152,7 @@
                     <form th:if="${ej != null}"
                           th:action="@{/eliminar-jugador/{idEquipo}/{idJugador}(idEquipo=${equipo.id},idJugador=${ej.jugador.id})}"
                           method="post" onclick="event.stopPropagation()">
-                        <button type="submit" class="ranura-quitar">X</button>
+                        <button type="submit" class="ranura-quitar" th:disabled="${!puedeModificar}">X</button>
                     </form>
                 </div>
 
@@ -167,7 +173,7 @@
                     <form th:if="${ej != null}"
                           th:action="@{/eliminar-jugador/{idEquipo}/{idJugador}(idEquipo=${equipo.id},idJugador=${ej.jugador.id})}"
                           method="post" onclick="event.stopPropagation()">
-                        <button type="submit" class="ranura-quitar">X</button>
+                        <button type="submit" class="ranura-quitar" th:disabled="${!puedeModificar}">X</button>
                     </form>
                 </div>
 
@@ -201,7 +207,8 @@
                         <form th:if="${ej != null}"
                               th:action="@{/eliminar-jugador/{idEquipo}/{idJugador}(idEquipo=${equipo.id},idJugador=${ej.jugador.id})}"
                               method="post" onclick="event.stopPropagation()">
-                            <button type="submit" class="ranura-quitar-suplente">X</button>
+                            <button type="submit" class="ranura-quitar-suplente" th:disabled="${!puedeModificar}">X
+                            </button>
                         </form>
                     </div>
 
@@ -222,7 +229,8 @@
                         <form th:if="${ej != null}"
                               th:action="@{/eliminar-jugador/{idEquipo}/{idJugador}(idEquipo=${equipo.id},idJugador=${ej.jugador.id})}"
                               method="post" onclick="event.stopPropagation()">
-                            <button type="submit" class="ranura-quitar-suplente">X</button>
+                            <button type="submit" class="ranura-quitar-suplente" th:disabled="${!puedeModificar}">X
+                            </button>
                         </form>
                     </div>
 
@@ -243,7 +251,8 @@
                         <form th:if="${ej != null}"
                               th:action="@{/eliminar-jugador/{idEquipo}/{idJugador}(idEquipo=${equipo.id},idJugador=${ej.jugador.id})}"
                               method="post" onclick="event.stopPropagation()">
-                            <button type="submit" class="ranura-quitar-suplente">X</button>
+                            <button type="submit" class="ranura-quitar-suplente" th:disabled="${!puedeModificar}">X
+                            </button>
                         </form>
                     </div>
 
@@ -264,7 +273,8 @@
                         <form th:if="${ej != null}"
                               th:action="@{/eliminar-jugador/{idEquipo}/{idJugador}(idEquipo=${equipo.id},idJugador=${ej.jugador.id})}"
                               method="post" onclick="event.stopPropagation()">
-                            <button type="submit" class="ranura-quitar-suplente">X</button>
+                            <button type="submit" class="ranura-quitar-suplente" th:disabled="${!puedeModificar}">X
+                            </button>
                         </form>
                     </div>
 
@@ -285,7 +295,8 @@
                         <form th:if="${ej != null}"
                               th:action="@{/eliminar-jugador/{idEquipo}/{idJugador}(idEquipo=${equipo.id},idJugador=${ej.jugador.id})}"
                               method="post" onclick="event.stopPropagation()">
-                            <button type="submit" class="ranura-quitar-suplente">X</button>
+                            <button type="submit" class="ranura-quitar-suplente" th:disabled="${!puedeModificar}">X
+                            </button>
                         </form>
                     </div>
 
@@ -308,7 +319,8 @@
                         <form th:action="@{/asignar-rol/{idEquipo}/{idJugador}(idEquipo=${equipo.id},idJugador=${capitan.jugador.id})}"
                               method="post">
                             <input type="hidden" name="rol" value="TITULAR"/>
-                            <button type="submit" class="ranura-quitar-capitan">X</button>
+                            <button type="submit" class="ranura-quitar-capitan" th:disabled="${!puedeModificar}">X
+                            </button>
                         </form>
                     </div>
 
@@ -318,7 +330,7 @@
                               th:action="@{/asignar-rol/{idEquipo}/{idJugador}(idEquipo=${equipo.id},idJugador=${0})}"
                               method="post">
                             <input type="hidden" name="rol" value="CAPITAN"/>
-                            <select name="ignorar" class="select-rol"
+                            <select name="ignorar" class="select-rol" th:disabled="${!puedeModificar}"
                                     onchange="this.form.action = this.form.action.replace(/\/\d+$/, '/' + this.value); this.form.submit()">
                                 <option value="">De titulares...</option>
                                 <th:block th:each="ej : ${titularesParaCapitan}">
@@ -344,7 +356,8 @@
                         <form th:action="@{/asignar-rol/{idEquipo}/{idJugador}(idEquipo=${equipo.id},idJugador=${sextoHombre.jugador.id})}"
                               method="post">
                             <input type="hidden" name="rol" value="SUPLENTE"/>
-                            <button type="submit" class="ranura-quitar-sexto">X</button>
+                            <button type="submit" class="ranura-quitar-sexto" th:disabled="${!puedeModificar}">X
+                            </button>
                         </form>
                     </div>
 
@@ -354,7 +367,7 @@
                               th:action="@{/asignar-rol/{idEquipo}/{idJugador}(idEquipo=${equipo.id},idJugador=${0})}"
                               method="post">
                             <input type="hidden" name="rol" value="SEXTO_HOMBRE"/>
-                            <select name="ignorar" class="select-rol"
+                            <select name="ignorar" class="select-rol" th:disabled="${!puedeModificar}"
                                     onchange="this.form.action = this.form.action.replace(/\/\d+$/, '/' + this.value); this.form.submit()">
                                 <option value="">De suplentes...</option>
                                 <th:block th:each="ej : ${suplentesParaSextoHombre}">
@@ -411,7 +424,7 @@
                     <form th:action="@{/agregar-jugador/{idEquipo}/{idJugador}(idEquipo=${equipo.id},idJugador=${jugador.id})}"
                           method="post">
                         <input type="hidden" name="numeroDeOrden" class="numero-orden"/>
-                        <button type="submit" class="btn-fichar">FICHAR</button>
+                        <button type="submit" class="btn-fichar" th:disabled="${!puedeModificar}">FICHAR</button>
                     </form>
                 </div>
 
@@ -433,7 +446,7 @@
                     <form th:action="@{/agregar-jugador/{idEquipo}/{idJugador}(idEquipo=${equipo.id},idJugador=${jugador.id})}"
                           method="post">
                         <input type="hidden" name="numeroDeOrden" class="numero-orden"/>
-                        <button type="submit" class="btn-fichar">FICHAR</button>
+                        <button type="submit" class="btn-fichar" th:disabled="${!puedeModificar}">FICHAR</button>
                     </form>
                 </div>
 
@@ -455,7 +468,7 @@
                     <form th:action="@{/agregar-jugador/{idEquipo}/{idJugador}(idEquipo=${equipo.id},idJugador=${jugador.id})}"
                           method="post">
                         <input type="hidden" name="numeroDeOrden" class="numero-orden"/>
-                        <button type="submit" class="btn-fichar">FICHAR</button>
+                        <button type="submit" class="btn-fichar" th:disabled="${!puedeModificar}">FICHAR</button>
                     </form>
                 </div>
 

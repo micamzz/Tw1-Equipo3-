@@ -22,7 +22,11 @@ public interface RepositorioPartidoNBA {
     boolean equipoTienePartidoActivo(Long equipoId);
 
     List<PartidoNBA> buscarTodos();
+
     List<PartidoNBA> buscarPorTorneo(Long torneoId);
+
     void eliminar(PartidoNBA partido);
+
     boolean existePartidoEnFecha(LocalDateTime horaInicio);
+
 }

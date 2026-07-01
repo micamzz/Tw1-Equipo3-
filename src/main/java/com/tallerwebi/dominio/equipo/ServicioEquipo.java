@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface ServicioEquipo {
 
-    void agregarJugadorAlEquipo(Long idEquipo, Long idJugador, Integer numeroDeOrden) throws EquipoNoEncontradoException, PresupuestoInsuficienteException, elJugadorYaExisteEnElEquipoException;
+    void agregarJugadorAlEquipo(Long idEquipo, Long idJugador, Integer numeroDeOrden) throws EquipoNoEncontradoException, PresupuestoInsuficienteException, elJugadorYaExisteEnElEquipoException, NoSePuedeModificarEquipoSiHayPartidosEnCursoException;
 
-    void eliminarJugadorDelEquipo(Long idEquipo, Long idJugador) throws EquipoNoEncontradoException;
+    void eliminarJugadorDelEquipo(Long idEquipo, Long idJugador) throws EquipoNoEncontradoException, NoSePuedeModificarEquipoSiHayPartidosEnCursoException;
 
     Equipo guardarEquipo(Equipo equipo) throws TorneoVirtualActualNoEncontradoException;
 
@@ -32,7 +32,11 @@ public interface ServicioEquipo {
 
     Double calcularPuntajeTotalDelEquipo(Long equipoId);
 
-    void asignarRolEspecial(Long idEquipo, Long idJugador, PosicionJugadorEquipo rol) throws EquipoNoEncontradoException;
+    void asignarRolEspecial(Long idEquipo, Long idJugador, PosicionJugadorEquipo rol) throws EquipoNoEncontradoException, NoSePuedeModificarEquipoSiHayPartidosEnCursoException;
 
     List<Equipo> obtenerTopEquiposPorTorneo(Long torneoId, int limite);
+
+    void validarQueSePuedaModificarEquipo() throws NoSePuedeModificarEquipoSiHayPartidosEnCursoException;
+
+    Boolean puedeModificarEquipo();
 }

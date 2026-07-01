@@ -92,17 +92,13 @@ public class ControladorEquipo {
             Equipo equipo = servicioEquipo.buscarEquipoPorId(id);
             modelo.put("equipo", equipo);
 
-            modelo.put("listadoBases",
-                    servicioEquipoJugador.obtenerJugadoresDisponiblesPorPosicion(id, Posicion.BASE));
+            modelo.put("listadoBases", servicioEquipoJugador.obtenerJugadoresDisponiblesPorPosicion(id, Posicion.BASE));
 
-            modelo.put("listadoAleros",
-                    servicioEquipoJugador.obtenerJugadoresDisponiblesPorPosicion(id, Posicion.ALERO));
+            modelo.put("listadoAleros", servicioEquipoJugador.obtenerJugadoresDisponiblesPorPosicion(id, Posicion.ALERO));
 
-            modelo.put("listadoPivots",
-                    servicioEquipoJugador.obtenerJugadoresDisponiblesPorPosicion(id, Posicion.PIVOT));
+            modelo.put("listadoPivots", servicioEquipoJugador.obtenerJugadoresDisponiblesPorPosicion(id, Posicion.PIVOT));
 
-            HashMap<Integer, EquipoJugador> porOrden =
-                    servicioEquipoJugador.buscarJugadoresPorEquipoId(id);
+            HashMap<Integer, EquipoJugador> porOrden = servicioEquipoJugador.buscarJugadoresPorEquipoId(id);
 
             modelo.put("base1", porOrden.get(1));
             modelo.put("base2", porOrden.get(2));
@@ -137,6 +133,7 @@ public class ControladorEquipo {
                 }
             }
 
+            modelo.put("puedeModificar", servicioEquipo.puedeModificarEquipo());
             modelo.put("capitan", capitan);
             modelo.put("sextoHombre", sextoHombre);
             modelo.put("titularesParaCapitan", titulares);
@@ -161,7 +158,8 @@ public class ControladorEquipo {
             return new ModelAndView("redirect:/seleccionar-jugadores/" + idEquipo);
 
         } catch (elJugadorYaExisteEnElEquipoException |
-                 PresupuestoInsuficienteException e) {
+                 PresupuestoInsuficienteException |
+                 NoSePuedeModificarEquipoSiHayPartidosEnCursoException e) {
 
             return new ModelAndView("redirect:/seleccionar-jugadores/" + idEquipo +
                     "?error=" + encodearError(e.getMessage()));
@@ -177,6 +175,9 @@ public class ControladorEquipo {
         try {
             servicioEquipo.eliminarJugadorDelEquipo(idEquipo, idJugador);
             return new ModelAndView("redirect:/seleccionar-jugadores/" + idEquipo);
+        } catch (NoSePuedeModificarEquipoSiHayPartidosEnCursoException e) {
+            return new ModelAndView("redirect:/seleccionar-jugadores/" + idEquipo +
+                    "?error=" + encodearError(e.getMessage()));
         } catch (EquipoNoEncontradoException e) {
             return new ModelAndView("redirect:/home");
         }
