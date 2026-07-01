@@ -1,7 +1,9 @@
 package com.tallerwebi.dominio;
 
 import com.tallerwebi.dominio.equipoNBA.EquipoNBA;
-import com.tallerwebi.dominio.excepcion.*;
+import com.tallerwebi.dominio.excepcion.EquipoJugandoException;
+import com.tallerwebi.dominio.excepcion.FechaAnteriorInvalidaException;
+import com.tallerwebi.dominio.excepcion.FechaDuplicadaException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -35,4 +37,5 @@ public interface ServicioPartidoNBA {
     void cancelarPartido(Long partidoId);
 
     void calcularPuntaje(PartidoNBA partido);
+
 }

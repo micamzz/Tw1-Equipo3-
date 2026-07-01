@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -19,17 +20,19 @@ public class ServicioEquipoImpl implements ServicioEquipo {
     private final RepositorioJugador repositorioJugador;
     private final RepositorioEquipoJugador repositorioEquipoJugador;
     private final RepositorioTorneo repositorioTorneo;
+    private final ServicioPartidoNBA servicioPartidoNBA;
     private static final Double PRESUPUESTO_INICIAL = 2000000D;
     private static final Integer CANTIDAD_JUGADORES_EQUIPO_COMPLETO = 10;
 
 
     @Autowired
     public ServicioEquipoImpl(RepositorioEquipo repositorioEquipo, RepositorioJugador repositorioJugador,
-                              RepositorioEquipoJugador repositorioEquipoJugador, RepositorioTorneo repositorioTorneo) {
+                              RepositorioEquipoJugador repositorioEquipoJugador, RepositorioTorneo repositorioTorneo, ServicioPartidoNBA servicioPartidoNBA) {
         this.repositorioEquipo = repositorioEquipo;
         this.repositorioJugador = repositorioJugador;
         this.repositorioEquipoJugador = repositorioEquipoJugador;
         this.repositorioTorneo = repositorioTorneo;
+        this.servicioPartidoNBA = servicioPartidoNBA;
     }
 
 
@@ -141,10 +144,18 @@ public class ServicioEquipoImpl implements ServicioEquipo {
 
             double multiplicador;
             switch (eqj.getPosicionDelJugador()) {
-                case CAPITAN:      multiplicador = 2.0; break;
-                case SEXTO_HOMBRE: multiplicador = 0.8; break;
-                case SUPLENTE:     multiplicador = 0.5; break;
-                default:           multiplicador = 1.0; break;
+                case CAPITAN:
+                    multiplicador = 2.0;
+                    break;
+                case SEXTO_HOMBRE:
+                    multiplicador = 0.8;
+                    break;
+                case SUPLENTE:
+                    multiplicador = 0.5;
+                    break;
+                default:
+                    multiplicador = 1.0;
+                    break;
             }
 
             total += base * multiplicador;
@@ -153,7 +164,8 @@ public class ServicioEquipoImpl implements ServicioEquipo {
     }
 
     @Override
-    public void agregarJugadorAlEquipo(Long idEquipo, Long idJugador, Integer numeroDeOrden) throws EquipoNoEncontradoException, PresupuestoInsuficienteException, elJugadorYaExisteEnElEquipoException {
+    public void agregarJugadorAlEquipo(Long idEquipo, Long idJugador, Integer numeroDeOrden) throws EquipoNoEncontradoException, PresupuestoInsuficienteException, elJugadorYaExisteEnElEquipoException, NoSePuedeModificarEquipoSiHayPartidosEnCursoException {
+        validarQueSePuedaModificarEquipo();
 
         Equipo equipo = buscarEquipoPorId(idEquipo);
 
@@ -171,17 +183,17 @@ public class ServicioEquipoImpl implements ServicioEquipo {
 
 
     @Override
-    public void eliminarJugadorDelEquipo(Long idEquipo, Long idJugador) throws EquipoNoEncontradoException {
+    public void eliminarJugadorDelEquipo(Long idEquipo, Long idJugador)
+            throws EquipoNoEncontradoException, NoSePuedeModificarEquipoSiHayPartidosEnCursoException {
+
+        validarQueSePuedaModificarEquipo();
 
         Equipo equipo = buscarEquipoPorId(idEquipo);
-    /* cuando el método tenga la excepcion llamar al repo
-    repositorioJugador.buscarJugadorPorId(idJugador);
- */
+
         EquipoJugador equipoJugador = repositorioEquipoJugador.buscarEquipoYJugadorAsociado(idEquipo, idJugador);
 
         if (equipoJugador != null) {
             equipo.setPresupuesto(equipo.getPresupuesto() + equipoJugador.getJugador().getPrecio());
-            /* cuando tenga a jugador puedo hace jugador.getprecio()*/
             repositorioEquipoJugador.eliminarEquipoJugador(equipoJugador);
         }
     }
@@ -237,7 +249,9 @@ public class ServicioEquipoImpl implements ServicioEquipo {
     //    Actualiza el enum del jugador ya elegido.
     @Override
     public void asignarRolEspecial(Long idEquipo, Long idJugador, PosicionJugadorEquipo rol)
-            throws EquipoNoEncontradoException {
+            throws EquipoNoEncontradoException, NoSePuedeModificarEquipoSiHayPartidosEnCursoException {
+
+        validarQueSePuedaModificarEquipo();
 
         // Si ya había otro con ese rol, lo resetea
         List<EquipoJugador> todos = repositorioEquipoJugador.buscarPorEquipoId(idEquipo);
@@ -277,7 +291,45 @@ public class ServicioEquipoImpl implements ServicioEquipo {
         return top;
     }
 
+    @Override
+    public void validarQueSePuedaModificarEquipo() throws NoSePuedeModificarEquipoSiHayPartidosEnCursoException {
+
+        List<PartidoNBA> partidosActivos = servicioPartidoNBA.obtenerPartidosActivos();
+        if (partidosActivos != null && !partidosActivos.isEmpty()) {
+            throw new NoSePuedeModificarEquipoSiHayPartidosEnCursoException("No se puede modificar el equipo mientras haya partidos en curso.");
+        }
+
+        /* Si algún partido programado empieza dentro de la próxima hora, también se bloquea */
+        LocalDateTime ahora = LocalDateTime.now();
+        List<PartidoNBA> programados = servicioPartidoNBA.obtenerPartidosProgramados();
+
+        if (programados != null) {
+            for (PartidoNBA partido : programados) {
+                LocalDateTime limiteParaModificar = partido.getHoraInicio().minusHours(1);
+                if (!ahora.isBefore(limiteParaModificar) && ahora.isBefore(partido.getHoraInicio())) {
+                    throw new NoSePuedeModificarEquipoSiHayPartidosEnCursoException(
+                            "No se puede modificar el equipo. Las modificaciones se bloquean una hora antes de cada partido."
+                    );
+                }
+            }
+        }
+    }
+
+    @Override
+    public Boolean puedeModificarEquipo() {
+        try {
+            validarQueSePuedaModificarEquipo();
+            return true;
+        } catch (NoSePuedeModificarEquipoSiHayPartidosEnCursoException e) {
+            return false;
+        }
+    }
+
+
 }
+
+
+
 
 
 

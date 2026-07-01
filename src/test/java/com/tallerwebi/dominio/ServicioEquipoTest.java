@@ -11,13 +11,13 @@ import com.tallerwebi.dominio.excepcion.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class ServicioEquipoTest {
@@ -27,16 +27,23 @@ public class ServicioEquipoTest {
     private RepositorioJugador repositorioJugadorMock;
     private RepositorioEquipoJugador repositorioEquipoJugadorMock;
     private RepositorioTorneo repositorioTorneoMock;
+    private ServicioPartidoNBA servicioPartidoNBAMock;
     private Equipo equipoMock;
 
     @BeforeEach
     public void inicializacion() {
-        this.repositorioEquipoMock = mock(RepositorioEquipo.class);
-        this.repositorioJugadorMock = mock(RepositorioJugador.class);
-        this.repositorioEquipoJugadorMock = mock(RepositorioEquipoJugador.class);
-        this.repositorioTorneoMock = mock(RepositorioTorneo.class);
-        this.equipoMock = mock(Equipo.class);
-        this.servicioEquipo = new ServicioEquipoImpl(repositorioEquipoMock, repositorioJugadorMock, repositorioEquipoJugadorMock, repositorioTorneoMock);
+        repositorioEquipoMock = mock(RepositorioEquipo.class);
+        repositorioJugadorMock = mock(RepositorioJugador.class);
+        repositorioEquipoJugadorMock = mock(RepositorioEquipoJugador.class);
+        repositorioTorneoMock = mock(RepositorioTorneo.class);
+        servicioPartidoNBAMock = mock(ServicioPartidoNBA.class);
+        equipoMock = mock(Equipo.class);
+
+        servicioEquipo = new ServicioEquipoImpl(repositorioEquipoMock, repositorioJugadorMock, repositorioEquipoJugadorMock, repositorioTorneoMock, servicioPartidoNBAMock
+        );
+
+        when(servicioPartidoNBAMock.obtenerPartidosActivos()).thenReturn(List.of());
+        when(servicioPartidoNBAMock.obtenerPartidosProgramados()).thenReturn(List.of());
     }
 
     @Test
@@ -110,7 +117,7 @@ public class ServicioEquipoTest {
     }
 
     @Test
-    public void cuandoSeAgregaUnJugadorAlEquipoSeAgregaCorrectamente() throws EquipoNoEncontradoException, elJugadorYaExisteEnElEquipoException, PresupuestoInsuficienteException {
+    public void cuandoSeAgregaUnJugadorAlEquipoSeAgregaCorrectamente() throws EquipoNoEncontradoException, elJugadorYaExisteEnElEquipoException, PresupuestoInsuficienteException, NoSePuedeModificarEquipoSiHayPartidosEnCursoException {
         /* Preparación */
         Long idEquipo = 3L;
         Long idJugador = 4L;
@@ -158,7 +165,7 @@ public class ServicioEquipoTest {
     }
 
     @Test
-    public void cuandoSeAgregaUnJugadorAlEquipoSeActualizaElPresupuestoCorrectamente() throws EquipoNoEncontradoException, elJugadorYaExisteEnElEquipoException, PresupuestoInsuficienteException {
+    public void cuandoSeAgregaUnJugadorAlEquipoSeActualizaElPresupuestoCorrectamente() throws EquipoNoEncontradoException, elJugadorYaExisteEnElEquipoException, PresupuestoInsuficienteException, NoSePuedeModificarEquipoSiHayPartidosEnCursoException {
         /* Preparación */
         Long idEquipo = 3L;
         Equipo equipoReal = new Equipo();
@@ -200,8 +207,7 @@ public class ServicioEquipoTest {
     }
 
     @Test
-    public void cuandoSeEliminaUnJugadorAlEquipoSeEliminaCorrectamenteYSeReintegraElPresupuesto() throws EquipoNoEncontradoException, elJugadorYaExisteEnElEquipoException, PresupuestoInsuficienteException {
-
+    public void cuandoSeEliminaUnJugadorAlEquipoSeEliminaCorrectamenteYSeReintegraElPresupuesto() throws EquipoNoEncontradoException, elJugadorYaExisteEnElEquipoException, PresupuestoInsuficienteException, NoSePuedeModificarEquipoSiHayPartidosEnCursoException {
         /* Preparación */
         Long idEquipo = 3L;
 
@@ -265,6 +271,7 @@ public class ServicioEquipoTest {
         assertEquals(7000D, equipoReal.getPresupuesto());
     }
 
+
     @Test
     public void validarEquipoCompletoConEquipoCompletoNoLanzaExcepcion() throws EquipoSinCompletarException {
         /* Preparación */
@@ -311,7 +318,7 @@ public class ServicioEquipoTest {
     }
 
     @Test
-    public void asignarRolEspecialCapitanActualizaElJugador() throws EquipoNoEncontradoException {
+    public void asignarRolEspecialCapitanActualizaElJugador() throws EquipoNoEncontradoException, NoSePuedeModificarEquipoSiHayPartidosEnCursoException {
         /* Preparación */
         Long idEquipo = 1L;
         Long idJugador = 2L;
@@ -334,7 +341,7 @@ public class ServicioEquipoTest {
     }
 
     @Test
-    public void asignarRolEspecialSextoHombreActualizaElJugador() throws EquipoNoEncontradoException {
+    public void asignarRolEspecialSextoHombreActualizaElJugador() throws EquipoNoEncontradoException, NoSePuedeModificarEquipoSiHayPartidosEnCursoException {
         /* Preparación */
         Long idEquipo = 1L;
         Long idJugador = 2L;
@@ -358,7 +365,6 @@ public class ServicioEquipoTest {
 
     @Test
     public void calcularPuntajeTotalDeEquipoSinJugadoresDevuelveCero() {
-
         /* Preparación */
         Long equipoId = 1L;
         when(repositorioEquipoJugadorMock.buscarPorEquipoId(equipoId)).thenReturn(List.of());
@@ -372,7 +378,6 @@ public class ServicioEquipoTest {
 
     @Test
     public void calcularPuntajeTotalDeEquipoConJugadoresAplicaMultiplicadorDeRol() {
-
         /* Preparación */
         Long equipoId = 1L;
 
@@ -410,7 +415,6 @@ public class ServicioEquipoTest {
 
     @Test
     public void calcularPuntajeTotalDeEquipoConJugadorSinRendimientoNoAportaPuntos() {
-
         /* Preparación */
         Long equipoId = 1L;
 
@@ -439,7 +443,6 @@ public class ServicioEquipoTest {
 
     @Test
     public void calcularPuntajeTotalDeEquipoAplicaMultiplicadoresCorrectosPorRol() {
-
         /* Preparación */
         Long equipoId = 1L;
 
@@ -493,4 +496,58 @@ public class ServicioEquipoTest {
         /* Verificación */
         assertEquals(10 * 1.0 + 10 * 2.0 + 10 * 0.8 + 10 * 0.5, total);
     }
+
+    @Test
+    public void cuandoHayPartidosActivosNoPermiteModificarEquipo() {
+        PartidoNBA partidoActivo = mock(PartidoNBA.class);
+
+        when(servicioPartidoNBAMock.obtenerPartidosActivos()).thenReturn(List.of(partidoActivo));
+
+        assertThrows(NoSePuedeModificarEquipoSiHayPartidosEnCursoException.class, () -> servicioEquipo.validarQueSePuedaModificarEquipo());
+    }
+
+    @Test
+    public void cuandoHayUnPartidoProgramadoDentroDeLaProximaHoraNoPermiteModificarEquipo() {
+        PartidoNBA partidoProgramado = mock(PartidoNBA.class);
+
+        when(servicioPartidoNBAMock.obtenerPartidosActivos()).thenReturn(List.of());
+        when(servicioPartidoNBAMock.obtenerPartidosProgramados()).thenReturn(List.of(partidoProgramado));
+        when(partidoProgramado.getHoraInicio()).thenReturn(LocalDateTime.now().plusMinutes(30));
+
+        assertThrows(NoSePuedeModificarEquipoSiHayPartidosEnCursoException.class, () -> servicioEquipo.validarQueSePuedaModificarEquipo());
+    }
+
+    @Test
+    public void cuandoNoHayPartidosActivosNiProgramadosDentroDeLaProximaHoraPuedeModificarEquipo() throws NoSePuedeModificarEquipoSiHayPartidosEnCursoException {
+        PartidoNBA partidoProgramado = mock(PartidoNBA.class);
+
+        when(servicioPartidoNBAMock.obtenerPartidosActivos()).thenReturn(List.of());
+        when(servicioPartidoNBAMock.obtenerPartidosProgramados()).thenReturn(List.of(partidoProgramado));
+        when(partidoProgramado.getHoraInicio()).thenReturn(LocalDateTime.now().plusHours(2));
+
+        servicioEquipo.validarQueSePuedaModificarEquipo();
+    }
+
+    @Test
+    public void puedeModificarEquipoDevuelveFalseCuandoHayPartidosActivos() {
+        PartidoNBA partidoActivo = mock(PartidoNBA.class);
+
+        when(servicioPartidoNBAMock.obtenerPartidosActivos()).thenReturn(List.of(partidoActivo));
+
+        Boolean resultado = servicioEquipo.puedeModificarEquipo();
+
+        assertFalse(resultado);
+    }
+
+    @Test
+    public void puedeModificarEquipoDevuelveTrueCuandoNoHayPartidosActivosNiProgramadosDentroDeLaProximaHora() {
+        when(servicioPartidoNBAMock.obtenerPartidosActivos()).thenReturn(List.of());
+        when(servicioPartidoNBAMock.obtenerPartidosProgramados()).thenReturn(List.of());
+
+        Boolean resultado = servicioEquipo.puedeModificarEquipo();
+
+        assertTrue(resultado);
+    }
+
+
 }

@@ -5,8 +5,8 @@ import com.tallerwebi.dominio.RepositorioPartidoNBA;
 import com.tallerwebi.dominio.equipoNBA.EstadoPartido;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -124,6 +124,7 @@ public class RepositorioPartidoNBAImpl implements RepositorioPartidoNBA {
                 .uniqueResult();
         return count > 0;
     }
+
 
     @Override
     @SuppressWarnings("unchecked")
