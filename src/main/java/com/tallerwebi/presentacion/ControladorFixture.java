@@ -18,6 +18,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.servlet.http.HttpServletRequest;
@@ -147,9 +149,15 @@ try {
     List<Jugador> jugadoresDelEquipo = servicioEquipoNBAJugador.obtenerJugadoresDelEquipoEnTorneo(idEquipo, partido.getTorneo().getId());
     List<FormacionPartido> formacionActual = servicioFormacion.obtenerFormacionPorEquipo(idPartido, idEquipo);
 
+    // Filtrar: sacar de la lista de jugadores los que ya están en la formación
+    List<Jugador> jugadoresDisponibles = jugadoresDelEquipo.stream()
+            .filter(j -> formacionActual.stream()
+                    .noneMatch(f -> f.getJugador().getId().equals(j.getId())))
+            .collect(Collectors.toList());
+
     modelo.put("partido", partido);
     modelo.put("equipo", equipo);
-    modelo.put("jugadores", jugadoresDelEquipo);
+    modelo.put("jugadores", jugadoresDisponibles);
     modelo.put("formacionActual", formacionActual);
     return new ModelAndView("admin-formacion-equipo", modelo);
 }

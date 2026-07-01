@@ -3,7 +3,6 @@ package com.tallerwebi.dominio;
 
 import com.tallerwebi.dominio.equipoNBA.EquipoNBA;
 import com.tallerwebi.dominio.equipoNBA.EstadoPartido;
-import com.tallerwebi.dominio.equipoNBA.ServicioEquipoNBA;
 import com.tallerwebi.dominio.excepcion.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,20 +19,18 @@ public class ServicioEventoPartidoImpl implements ServicioEventoPartido {
     private final RepositorioPartidoNBA repositorioPartidoNBA;
     private final RepositorioJugador repositorioJugador;
     private final RepositorioFormacion repositorioFormacion;
-    private final RepositorioScorePartido repositorioScorePartido;
 
 
     @Autowired
     public ServicioEventoPartidoImpl(RepositorioEventoPartido repositorioEventoPartido
             , RepositorioPartidoNBA repositorioPartidoNBA
             , RepositorioJugador repositorioJugador
-            , RepositorioFormacion repositorioFormacion
-            , RepositorioScorePartido repositorioScorePartido) {
+            , RepositorioFormacion repositorioFormacion) {
         this.repositorioEventoPartido = repositorioEventoPartido;
         this.repositorioPartidoNBA = repositorioPartidoNBA;
         this.repositorioJugador = repositorioJugador;
         this.repositorioFormacion = repositorioFormacion;
-        this.repositorioScorePartido = repositorioScorePartido;
+
     }
 
     // Metodo que voy a usar para registrarEvento, que valida si el momento en el que voy a registrar el evento existe dentro del partido
@@ -90,21 +87,6 @@ public class ServicioEventoPartidoImpl implements ServicioEventoPartido {
 
         repositorioEventoPartido.guardarEventoPartido(evento);
 
-        if (tipoEstadistica == TipoEstadistica.TIRO_LIBRE ||
-                tipoEstadistica == TipoEstadistica.DOBLE ||
-                tipoEstadistica == TipoEstadistica.TRIPLE) {
-
-            ScorePartido score = repositorioScorePartido.buscarPorPartidoYEquipo(idPartido, equipo.getId());
-
-            if (score == null) {
-                score = new ScorePartido(partidoNBA, equipo);
-            }
-
-            score.sumarPuntos(tipoEstadistica == TipoEstadistica.TIRO_LIBRE
-                    ? 1 : (tipoEstadistica == TipoEstadistica.DOBLE ? 2 : 3));
-
-            repositorioScorePartido.guardar(score);
-        }
     }
 
     @Override
