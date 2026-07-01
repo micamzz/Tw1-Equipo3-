@@ -24,17 +24,15 @@
     <!-- HERO -->
     <section class="hero">
         <div class="hero-texto">
-            <p class="hero-etiqueta">BIENVENID@ AL</p>
+
             <h1 class="hero-titulo">FANTASY <span class="color-naranja">NBA</span></h1>
 
-            <!--    <p th:if="${usuario != null}">
-               <p class="hero-saludo">Hola, <strong class="color-naranja" th:text="${usuario.nombre}"></strong> 👋</p>
+              <p th:if="${usuario != null}">
+               <p class="hero-saludo">Hola, <strong class="color-naranja" th:text="${usuario.nombre}"></strong></p>
                <p class="hero-descripcion">
                    Ya podés administrar tu equipo, seguir los partidos y competir en la liga.
                </p>
-               </p>-->
 
-            <strong th:text="${usuario != null ? usuario.nombre : 'Invitado'}"></strong>
 
             <div class="hero-botones">
 

@@ -1,367 +1,292 @@
-# Proyecto base Taller Web I (Maven and Thymeleaf)
+# 🏀 Basket UNLAM
 
-## Preparación del ambiente de desarrollo
+Aplicación web desarrollada como **Trabajo Práctico Grupal** para la materia **Taller Web I** de la **Universidad
+Nacional de La Matanza (UNLaM)**.
 
-Antes de comenzar a trabajar con el proyecto, debemos instalar y configurar algunas herramientas:
+El proyecto simula una plataforma de **Fantasy NBA**, donde cada usuario puede crear y administrar su propio equipo,
+respetando un presupuesto determinado, seleccionando jugadores reales de la NBA y compitiendo en un torneo mediante un
+sistema de puntajes basado en estadísticas reales.
 
-### Java
+El objetivo principal fue aplicar los conocimientos adquiridos durante la cursada utilizando **Java**, **Spring MVC**,*
+*Hibernate**, **JPA**, **Maven** y buenas prácticas de desarrollo de software.
 
-Java es el lenguaje de programación con el que trabajaremos. El proyecto esta configurado para funcionar con la version 11 de Java.
+## Características
 
-- Descargar el JDK para el sistema operativo en uso: [JDK 11 para Linux](https://download.java.net/openjdk/jdk11.0.0.2/ri/openjdk-11.0.0.2_linux-x64.tar.gz), [JDK 11 para Windows](https://download.java.net/openjdk/jdk11.0.0.2/ri/openjdk-11.0.0.2_windows-x64.zip).
-- Descomprimir el archivo descargado en una carpeta.
-  - Ejemplo: `/home/java` (En Linux) o `C:\java` (en Windows).
-- Configurar una variable de entorno con la clave `JAVA_HOME` indicando en el valor, la ruta donde se descomprimió el archivo descargado.
-  - Ejemplo: `C:\java\jdk-11.0.0.2` (en Windows) o `/home/java/jdk-11.0.0.2` (en Linux).
-- Configurar la variable de entorno `PATH` incluyendo la variable `JAVA_HOME`:
-  - Agregamos: `%JAVA_HOME%\bin` al listado existente.
-- Luego de guardar la configuración de las variables de entorno, ejecutamos en el CMD o Terminal `java -version` y luego `javac -version`, debiendo visualizar como salida la versión de Java y la versión del compilador instaladas, respectivamente.
-- [Guía para instalar Java en Windows](https://www.java.com/es/download/help/windows_manual_download.html)
-- [Guía para instalar Java en Linux](https://www.java.com/es/download/help/linux_x64_install.html)
+|                                              |
+|----------------------------------------------|
+| Arquitectura MVC                             |
+| Arquitectura en capas                        |
+| Persistencia con Hibernate/JPA               |
+| Gestión de usuarios                          |
+| Creación y administración de equipos Fantasy |
+| Sistema de presupuesto                       |
+| Gestión de jugadores                         |
+| Asignación de Capitán y Sexto Hombre         |
+| Sistema automático de puntajes               |
+| Testing con JUnit y Mockito                  |
 
-### Maven
+# Objetivos del proyecto
 
-Maven es una herramienta que permite la gestión de proyectos (principalmente proyectos Java). Simplifica y estandariza el proceso de construcción del producto software.
+- Aplicar el patrón MVC.
+- Implementar una arquitectura en capas.
+- Utilizar Hibernate para la persistencia de datos.
+- Gestionar relaciones entre entidades mediante JPA.
+- Implementar reglas de negocio desacopladas.
+- Trabajar colaborativamente utilizando Git y GitHub.
+- Realizar pruebas unitarias utilizando JUnit y Mockito.
 
-- Es requisito tener instalado Java (mínimo Java 8 para Maven, Java 11 para el proyecto) y configuradas las variables de entorno (`JAVA_HOME` y `PATH`).
-- Descargar Maven desde el [sitio oficial](https://dlcdn.apache.org/maven/maven-3/3.8.9/binaries/apache-maven-3.8.9-bin.zip) y luego descomprimirlo en una carpeta (Puede estar junto a la instalación de Java o en otra carpeta).
-- Configurar una variable de entorno con la clave `MAVEN_HOME` indicando en el valor, la ruta donde se descomprimió el archivo descargado.
-  - Ejemplo: `/home/maven/apache-maven-3.9.11` (en Linux) o `C:\maven\apache-maven-3.9.11` (en Windows).
-- Configurar la variable de entorno `PATH` incluyendo la variable `MAVEN_HOME`:
-  - Agregamos: `%MAVEN_HOME%\bin` al listado existente.
-- Luego de guardar la configuración de las variables de entorno, ejecutamos en el CMD o Terminal `mvn -version`, debiendo visualizar como salida la versión de Maven descargada. Si el Terminal o CMD estaba abierto durante la configuración, hay que cerrarlo y abrir nuevamente.
-- Carpeta **.m2**: Es el repositorio local de Maven donde guarda los artefactos (como archivos JAR), descargados por dependencias o generados localmente. Por defecto esta carpeta se crea en las siguientes rutas:
-  - Linux: `/home/<mi usuario>/.m2`.
-  - Windows: `C:\Users\<mi usuario>\.m2`.
-- [Guía para instalar Maven en Windows o Linux](https://maven.apache.org/install.html).
+# Funcionalidades
 
-#### Configuración en IDEs
+## 👨‍💼 Administrador
 
-- IntelliJ: Maven viene instalado y el plugin está accesible en el panel de la derecha (aparece con una letra **M**). Permite ejecutar comandos, gestionar plugins y dependencias.
-- VS Code (Plugins recomendados):
-  - Maven for Java: Es el plugin oficial. Desde el explorador, como nueva sección debajo del proyecto aparece Maven, facilitando la ejecución de comandos, gestión de dependencias y plugins.
-  - XML: Mejora el autocompletado y la validación de sintáxis en archivos XML. Para Maven es crucial el archivo `pom.xml`,
+El administrador dispone de herramientas para gestionar completamente la plataforma.
 
-### Docker
+Puede:
 
-Docker es una plataforma de contenedores que permite empaquetar aplicaciones con todas sus dependencias en contenedores ligeros y portables. Los contenedores se ejecutan de forma aislada y consistente en cualquier entorno que tenga Docker instalado.
+- Iniciar sesión como administrador.
+- Crear equipos oficiales de la NBA.
+- Modificar equipos NBA.
+- Asignar jugadores a cada equipo NBA.
+- Administrar la plantilla de jugadores.
+- Crear nuevas temporadas.
+- Crear torneos.
+- Asociar equipos al torneo correspondiente.
+- Administrar la información general del sistema.
+- Asignar nuevos administradores.
 
-- Para instalar sobre Windows, el camino mas simple es instalar `Docker Desktop`. Para esto es necesario seguir esta [guía](https://docs.docker.com/desktop/setup/install/windows-install/).
-- Para instalar sobre Linux, alcanza con instalar `Docker Engine` siguiendo esta [guía](https://docs.docker.com/engine/install/ubuntu/). También es posible instalar `Docker Desktop` (incluye Docker Engine).
+## 👤 Usuarios
 
-## 1. ¿Cómo iniciar el proyecto?
+- Registrarse e iniciar sesión.
+- Crear su propio equipo Fantasy.
+- Seleccionar jugadores para conformar su plantilla.
+- Administrar el presupuesto disponible.
+- Incorporar y eliminar jugadores del equipo.
+- Asignar los roles de **Capitán** y **Sexto Hombre**.
+- Visualizar las estadísticas individuales de los jugadores.
+- Consultar el valor de mercado de cada jugador.
+- Ver el puntaje acumulado de su equipo.
+- Consultar la información completa de su plantilla.
+- Participar automáticamente del torneo vigente.
+- Visualizar la tabla de posiciones.
+- Modificar su equipo respetando las reglas de negocio.
 
-> Necesitamos previamente una base de datos mysql en el puerto 3306.
+## Roles Especiales
 
-```shell
-# Levantamos un BBDD con docker
-docker build -f DockerfileSQL -t mysql .
-docker run --env-file .env --name mysql-container -d -p 3306:3306 mysql
+Cada equipo puede asignar dos roles especiales:
 
-# Iniciamos el proyecto
-$ mvn clean jetty:run
-# http://localhost:8080/spring
+- Capitán
+- Sexto Hombre
+
+Estos modifican el puntaje obtenido por cada jugador durante la competencia.
+
+## Torneos
+
+- Asociación automática al torneo vigente.
+- Administración de equipos participantes.
+- Cálculo automático de puntajes.
+
+# Sistema de Puntajes
+
+El puntaje de cada jugador se calcula utilizando estadísticas reales como:
+
+- Puntos
+- Rebotes
+- Asistencias
+- Robos
+- Bloqueos
+- Pérdidas
+
+Posteriormente se aplica un multiplicador dependiendo del rol asignado.
+
+| Rol          | Multiplicador |
+|--------------|:-------------:|
+| Capitán      |    **x2**     |
+| Titular      |    **x1**     |
+| Sexto Hombre |   **x0.8**    |
+| Suplente     |   **x0.5**    |
+
+# Sistema de Presupuesto
+
+Cada equipo dispone de un presupuesto inicial.
+
+Cada jugador posee un valor de mercado.
+
+Durante la creación del equipo:
+
+- El presupuesto disminuye automáticamente.
+- No es posible superar el presupuesto disponible.
+- Al eliminar un jugador se reintegra automáticamente su valor.
+- Todas las validaciones se realizan desde la capa de negocio.
+
+# Arquitectura MVC
+
+El proyecto fue desarrollado siguiendo una arquitectura en capas, separando claramente las responsabilidades de cada
+componente.
+
+## Estructura del proyecto
+
+```text
+src
+│
+├── main
+│   ├── java
+│   │   └── com.tallerwebi
+│   │       ├── config
+│   │       ├── dominio
+│   │       ├── infraestructura
+│   │       ├── presentacion
+│   │       └── MyServletInitializer
+│   │
+│   ├── resources
+│   │
+│   └── webapp
+│
+└── test
+    └── java
+        └── com.tallerwebi
+            ├── dominio
+            ├── infraestructura
+            ├── integracion
+            ├── presentacion
+            └── punta_a_punta
 ```
 
-## 2. Thymeleaf
+## Responsabilidad de cada paquete
 
-- [Documentación](https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html)
+### 📂 config
 
-## 3. Hamcrest
+Contiene la configuración general de la aplicación.
 
-- [Documentación](https://hamcrest.org/JavaHamcrest/javadoc/2.2/)
+- Spring MVC
+- Hibernate
+- Beans
+- Contexto de la aplicación
 
-## 4. GitHub Actions
+### 📂 dominio
 
-- [Documentación](https://docs.github.com/es/actions/quickstart)
+Implementa toda la lógica de negocio del sistema.
 
-## 5. Playwright
+Aquí se encuentran:
 
-- [Documentación](https://playwright.dev/java/docs/intro)
-
-## 6. Jetty
-
-- [Documentación](https://eclipse.dev/jetty/documentation/jetty-9/index.html#maven-and-jetty)
-
-## 7. ¿Cómo correr las pruebas de punta a punta?
-
-### Iniciar el servidor
-
-```shell
-# Opción 1
-$ mvn clean jetty:run
-
-# Opción 2 -- ver seccion 10 docker-compose
-$ docker-compose up --build
-```
-
-### Correr las pruebas en otra terminal
-
-```shell
-$ mvn test -Dtest="VistaLoginE2E"
-$ mvn test -Dtest="VistaLoginE2E#deberiaNavegarAlHomeSiElUsuarioExiste"
-```
-
-## 8. ¿Cómo correr las pruebas unitarias de javascript?
-
-```shell
-$ cd src/main/webapp/resources/core/js
-# Si es la primera vez debo descargar e instalar las dependencias
-$ npm install
-# Ejecuto las pruebas
-$ npm run test
-```
-
-## 9. Docker:
-
-Los archivos de docker de este proyecto estan preparados para desplegar un archivo WAR usando el servido Jetty o Tomcat.
-El archivo de docker para Jetty y Tomcat esperan que el archivo WAR se debe llamar "tallerwebi-base-1.0-SNAPSHOT" para eso debemos modificar los atributos <artifactId> y <version> del archivo pom.xml.
-
-Para generar un archivo WAR debemos ejecutar maven.
-
-```shell
-mvn clean package
-```
-
-Una vez que tenemos el archivo WAR, debemos generar la imagen de docker.
-
-```shell
-docker build -f DockerfileJetty -t tallerwebi .
-docker build -f DockerfileTomcat -t tallerwebi .
-```
-
-Una vez que tenemos la imagen generada, podemos instanciar un contenedor y ejecutarlo.
-
-```shell
-docker run -p 8080:8080 tallerwebi
-```
-
-### 9. Comandos básicos:
-
-```shell
-# Crear una imagen con el nombre "tallerwebi".
-docker build -f DockerfileJetty -t tallerwebi .
-
-# Instancia y ejecuta un contendor en base a la imagen "tallerwebi".
-docker run -p 8080:8080 tallerwebi
-
-# Ejecuta un contendor ya instanciado.
-docker start <containerId>
-
-# Instancia un contendor en base a la imagen tallerwebi para ejecutar bash.
-docker run -it --entrypoint /bin/bash tallerwebi
-
-# Muestra los logs.
-docker logs <containerId>
-
-# Muestra todos los contenedores corriendo.
-docker ps
-
-# Muestra todos los contenedores creados (o existentes).
-docker ps -a
-
-# Muestra todas las imágenes creadas.
-docker images
-
-# Elimina un contenedor.
-docker rm <containerId>
-
-# Elimina una imagen.
-docker rmi <imageId>
-
-# Crear una imagen con el nombre "mysql".
-docker build -f DockerfileSQL -t mysql .
-
-# Instancia un contendor en base a la imagen mysql.
-docker run --env-file .env --name mysql-container -d -p 3306:3306 mysql # sudo apt install mysql-client
-```
-
-## 10. docker-compose
-
-Docker Compose es una herramienta que permite definir y ejecutar aplicaciones multi-contenedor usando archivos YAML. Simplifica la gestión de múltiples servicios y sus dependencias, permitiendo orquestar todo el stack de la aplicación con un solo comando.
-
-```shell
-mvn clean package
-# Invoco a docker-compose para que me genere contenedores de todos los servicios especificadas
-docker-compose up --build
-
-# Invoco a docker para que elimine los contenedores creados
-docker-compose down
-```
-
-## 11. Comandos de Maven
-
-Para ejecutar comandos de Maven, ya sea en el terminal integrado al IDE, o en otro terminal como el de Linux o Windows (CMD), se debe utilizar el comando principal `mvn` seguido del comando o fase del ciclo de vida a ejecutar. Ejemplo: `mvn clean`.
-
-> Maven ejecuta todas las fases anteriores a la fase del ciclo de vida indicada.
-
-### Comandos:
-
-```shell
-# Es un comando. Limpia el directorio target (contiene JARs o WARs generados) de la compilación anterior
-mvn clean
-
-# -> Fases en orden de ejecución <-
-
-# Valida que el proyecto sea correcto y que toda la información necesaria este disponible
-mvn validate
-
-# Compila el código fuente del proyecto (tambien descarga dependencias)
-mvn compile
-
-# Ejecuta las pruebas unitarias
-mvn test
-
-# Empaqueta el código compilado en un archivo JAR o WAR (tambien descarga dependencias)
-mvn package
-
-# Verifica que el paquete es válido y cumple los criterios de calidad
-mvn verify
-
-# Instala el paquete en el repositorio local de Maven
-mvn install
-
-# Sube el artefacto a un repositorio remoto (que se debe definir en el archivo pom.xml) para que pueda distribuirse a otros equipos, desarrolladores, o bien, para desplegar (fin de la etapa de construcción)
-mvn deploy
-
-# El comando 'clean' es combinable con las fases
-mvn clean package
-
-# Es el comando quizas mas ejecutado. Las dependencias se descargan al ejecutar un comando de construcción como 'compile' o 'package' ('install' las incluye, tambien las validaciones y la ejecución de las pruebas).
-mvn clean install
-
-```
-
-## 12. Herramientas de Calidad de Código
-
-El proyecto integra varias herramientas para asegurar que el código sea limpio, mantenible y libre de errores comunes. Estas herramientas se ejecutan automáticamente durante el ciclo de vida de Maven.
-
-### Resumen de Herramientas
-
-| Herramienta    | Función Principal             | Rol en el Proyecto                                                         | Ubicación Reporte                |
-| :------------- | :---------------------------- | :------------------------------------------------------------------------- | :------------------------------- |
-| **Prettier**   | **Formateo Automático**       | Define la estética (espacios, llaves, indentación). Se encarga del "look". | N/A (Aplica cambios)             |
-| **Checkstyle** | **Convenciones y Estructura** | Valida nombres de variables, presencia de Javadocs e importaciones.        | `.calidad-de-codigo/checkstyle/` |
-| **PMD**        | **Lógica y Buenas Prácticas** | Detecta errores potenciales, variables no usadas y optimizaciones.         | `.calidad-de-codigo/pmd/`        |
-| **CPD**        | **Detección de Duplicados**   | Encuentra bloques de código copiados y pegados (Copy-Paste).               | `.calidad-de-codigo/cpd/`        |
-| **JaCoCo**     | **Cobertura de Tests**        | Mide qué porcentaje del código está cubierto por pruebas (>80%).           | `.calidad-de-codigo/jacoco/`     |
+- Entidades
+- Servicios
+- Interfaces de repositorio
+- Reglas de negocio
 
 ---
 
-### PMD (Static Code Analyzer)
+### 📂 infraestructura :
 
-Analiza el código Java en busca de problemas de diseño, variables no utilizadas, optimizaciones faltantes y malas prácticas.
+Implementaciones encargadas del acceso a datos utilizando Hibernate y JPA.
 
-- **Se ejecuta en:** Fase `validate`.
-- **Configuración:** Utiliza `pmd-reglas-de-codigo.xml`.
-- **Comandos:**
-  - `mvn pmd:check`: Valida las reglas y falla si hay errores.
-  - `mvn pmd:pmd`: Genera el reporte visual en `.calidad-de-codigo/pmd/pmd.html`.
-- **Reportes:** Todos los resultados (XML e HTML) se guardan en la carpeta `.calidad-de-codigo/pmd/` en la raíz del proyecto.
-- **Ejemplo de fallo:** Crear una variable con un nombre muy corto (ej: `int x = 0;`) o tener un método con una complejidad ciclomática superior a 10.
-- **Documentación:** [PMD Official Site](https://pmd.github.io/)
+### 📂 presentacion
 
-### CPD (Copy-Paste Detector)
+Controladores MVC responsables de recibir las solicitudes HTTP y comunicarse con la capa de servicios.
 
-Es una extensión de PMD que detecta bloques de código duplicados (copy-paste) en el proyecto.
+### 📂 webapp
 
-- **Se ejecuta en:** Fase `validate` (chequeo) y fase `test` (generación de reporte).
-- **Comandos:**
-  - `mvn pmd:cpd-check`: Valida duplicados y falla si los encuentra.
-  - `mvn pmd:cpd`: Genera el reporte de duplicados en `.calidad-de-codigo/cpd/cpd.html`.
-- **Reportes:** Todos los resultados (XML e HTML) se guardan en la carpeta `.calidad-de-codigo/cpd/` en la raíz del proyecto.
-- **Ejemplo de fallo:** Copiar y pegar un bloque de lógica idéntico en dos controladores diferentes en lugar de abstraerlo en un servicio.
-- **Documentación:** [CPD Documentation](https://pmd.github.io/latest/pmd_userdocs_cpd.html)
+Recursos de la aplicación.
 
-### Checkstyle
+- JSP
+- CSS
+- JavaScript
+- Bootstrap
+- Imágenes
 
-Verifica que el código siga estándares de formato y estilo (basado en la guía de Google). Se enfoca en la estética y estructura del código.
+# Flujo de una petición
 
-- **Se ejecuta en:** Fase `validate`.
-- **Configuración:** Utiliza `checkstyle-base.xml`. Este archivo es una configuración personalizada que hereda de Google Style pero **desactiva las reglas de formateo** (indentación, espacios, llaves) para evitar conflictos con Prettier, enfocándose únicamente en convenciones de nombres, Javadocs e importaciones.
-- **Comandos:**
-  - `mvn checkstyle:check`: Valida el estilo y falla si hay errores.
-  - `mvn checkstyle:checkstyle`: Genera el reporte visual en `.calidad-de-codigo/checkstyle/checkstyle.html`.
-- **Reportes:** Todos los resultados (XML e HTML) se guardan en la carpeta `.calidad-de-codigo/checkstyle/` en la raíz del proyecto.
-- **Ejemplo de fallo:** Uso de nombres de variables incorrectos (ej: `int MiVariable`), falta de Javadoc en clases públicas o importaciones con asterisco (`import java.util.*`).
-- **Documentación:** [Checkstyle Google Style](https://checkstyle.sourceforge.io/google_style.html)
-
-### Prettier (Maven Plugin)
-
-Formatea automáticamente el código Java para que cumpla con las reglas de estilo.
-
-- **Se ejecuta en:** Fase `process-sources` (antes de compilar).
-- **Comandos:**
-  - `mvn prettier:write`: Formatea y sobreescribe los archivos con el estilo correcto.
-  - `mvn prettier:check`: Solo verifica si el código cumple el formato sin modificar archivos.
-- **Función:** Reescribe tus archivos `.java` para corregir la indentación y el formato automáticamente al ejecutar `mvn test` o `mvn compile`.
-- **Documentación:** [Prettier Java](https://github.com/jhipster/prettier-java)
-
-### ESLint (JavaScript Linter)
-
-Analiza el código JavaScript para detectar errores y asegurar un estilo consistente.
-
-- **Se ejecuta en:** GitHub Actions (CI) antes de correr los tests de JS.
-- **Ejemplo de fallo:** Uso de variables no definidas o falta de punto y coma si la regla lo exige.
-- **Documentación:** [ESLint Official Site](https://eslint.org/)
-
-### JaCoCo (Code Coverage)
-
-Mide qué porcentaje del código fuente está cubierto por las pruebas unitarias.
-
-- **Se ejecuta en:** Fase `test`.
-- **Configuración:** Requiere un mínimo de 80% de cobertura en líneas (excluyendo configuraciones).
-- **Comandos:**
-  - `mvn jacoco:report`: Genera el reporte visual en `.calidad-de-codigo/jacoco/index.html`.
-- **Reportes:** Todos los resultados (binarios e HTML) se guardan en la carpeta `.calidad-de-codigo/jacoco/` en la raíz del proyecto.
-- **Ejemplo de fallo:** Si los tests cubren menos del 80% de las líneas de lógica de negocio, el build fallará durante la verificación.
-- **Documentación:** [JaCoCo Official Site](https://www.jacoco.org/jacoco/)
-
-#### Comando para generar reporte fresco:
-
-Como los resultados se guardan en una carpeta personalizada fuera de `target`, se recomienda borrar los resultados anteriores para asegurar que la métrica sea actual:
-
-**En Linux / macOS / Git Bash:**
-
-```shell
-rm -rf .calidad-de-codigo/jacoco && mvn clean test
+```text
+Usuario
+    │
+    ▼
+Controller
+    │
+    ▼
+Service
+    │
+    ▼
+Repository
+    │
+    ▼
+Base de Datos
 ```
 
-**En Windows (PowerShell):**
+Cada capa posee una única responsabilidad, favoreciendo un código mantenible, reutilizable y desacoplado.
 
-```powershell
-Remove-Item -Recurse -Force .calidad-de-codigo/jacoco; mvn clean test
+# Testing
+
+El proyecto cuenta con diferentes niveles de pruebas automatizadas.
+
+```text
+test
+│
+├── dominio
+│      Pruebas unitarias de reglas de negocio
+│
+├── infraestructura
+│      Persistencia y repositorios
+│
+├── presentacion
+│      Controladores MVC
+│
+├── integracion
+      Integración entre capas
+
 ```
 
-**En Windows (CMD):**
+Tecnologías utilizadas:
 
-```cmd
-rd /s /q .calidad-de-codigo\jacoco & mvn clean test
+- JUnit 5
+- Mockito
+
+# Tecnologías utilizadas
+
+| Backend    | Frontend   | Persistencia | Testing | Herramientas  |
+|------------|------------|--------------|---------|---------------|
+| Java 17    | HTML5      | Hibernate    | JUnit 5 | Maven         |
+| Spring MVC | CSS3       | JPA          | Mockito | Git           |
+| Spring     | JavaScript | MySQL        |         | GitHub        |
+|            | Bootstrap  |              |         | IntelliJ IDEA |
+
+# ▶ Instalación
+
+### 1. Clonar el repositorio
+
+```bash
+git clone https://github.com/usuario/nba-fantasy-manager.git
 ```
 
-## Tecnologías:
+### 2. Ingresar al proyecto
 
-- Docker
-- Java 11
-- Spring 5.2.22.RELEASE
-- Thymeleaf 3.0.15.RELEASE
-- Embedded Jetty Server 9.4.45.v20220203
-- Servlet API 4.0.4
-- Bootstrap 5.2.0 (webjars)
-- IntelliJ IDEA | VS Code
-- Maven 3.8.6
-- Spring Test 5.2.22.RELEASE
-- Hamcrest 2.2
-- JUnit 5.9
-- Hibernate 5.4.24.Final
-- Mockito 5.3.1
-- Playwright 1.36.0
-- PMD 3.21.0 & CPD
-- Checkstyle 10.9.1 (Google Style)
-- Prettier Maven Plugin 0.22 (Prettier-Java 2.5.0)
-- ESLint 9.x
-- JaCoCo 0.8.12
-- Node 18.16.1 o superior <- Instalación manual desde la [página de node](https://nodejs.org/en)
-- npm --> npm install -g npm
+```bash
+cd nba-fantasy-manager
+```
 
-_*Proyecto modificado en base a: [Spring MVC hello world example (Maven and Thymeleaf)](https://mkyong.com/spring-mvc/spring-mvc-hello-world-example/) *_
+### 3. Compilar
+
+```bash
+mvn clean install
+```
+
+### 4. Ejecutar
+
+```bash
+mvn tomcat7:run
+```
+
+# Capturas
+
+### Login
+
+### Home
+
+### Crear Equipo
+
+### Administración de Jugadores
+
+# Equipo de desarrollo
+
+Trabajo Práctico Grupal desarrollado para la materia **Taller Web I** de la **Universidad Nacional de La Matanza (UNLaM)
+**.
+
+

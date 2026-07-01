@@ -30,94 +30,100 @@ public class ServicioEquipoNBATest {
         repositorioJugadorMock = mock(RepositorioJugador.class);
         repositorioEquipoNBAJugadorMock = mock(RepositorioEquipoNBAJugador.class);
         servicioTorneoMock = mock(ServicioTorneo.class);
-        servicioEquipoNBA = new ServicioEquipoNBAimpl(repositorioEquipoNBAMock, repositorioJugadorMock, repositorioEquipoNBAJugadorMock, servicioTorneoMock);
+
+        servicioEquipoNBA = new ServicioEquipoNBAimpl(repositorioEquipoNBAMock, repositorioJugadorMock, repositorioEquipoNBAJugadorMock, servicioTorneoMock
+        );
     }
 
     @Test
     public void cuandoSeGuardaUnEquipoNBASeGuardaCorrectamente() {
-        // Preparación
+        /* Preparación */
         EquipoNBA equipo = new EquipoNBA();
         equipo.setNombre("Golden State Warriors");
 
-        // Ejecución
+        /* Ejecución */
         servicioEquipoNBA.crearEquipoNBA(equipo);
 
-        // Verificación
+        /* Validación */
         verify(repositorioEquipoNBAMock).crearEquipo(equipo);
     }
 
     @Test
     public void alBuscarUnEquipoNBAPorIdDevuelveElEquipoCorrecto() throws EquipoNoEncontradoException {
-        // Preparación
+        /* Preparación */
         Long idEquipo = 1L;
         EquipoNBA equipo = new EquipoNBA();
         equipo.setId(idEquipo);
 
         when(repositorioEquipoNBAMock.buscarEquipoPorId(idEquipo)).thenReturn(equipo);
 
-        // Ejecución
+        /* Ejecución */
         EquipoNBA resultado = servicioEquipoNBA.buscarEquipoPorId(idEquipo);
 
-        // Verificación
+        /* Validación */
         assertThat(resultado, equalTo(equipo));
     }
 
     @Test
     public void alBuscarUnEquipoNBAPorIdInexistenteLanzaUnaExcepcion() {
-        // Preparación
+        /* Preparación */
         Long idEquipo = 1L;
+
         when(repositorioEquipoNBAMock.buscarEquipoPorId(idEquipo)).thenReturn(null);
 
-        // Ejecución y Verificación
+        /* Ejecución - Validación */
         assertThrows(EquipoNoEncontradoException.class, () -> servicioEquipoNBA.buscarEquipoPorId(idEquipo));
     }
 
-
     @Test
     public void alObtenerTodosLosEquiposNBADevuelveElListadoCorrespondiente() {
-        // Preparación
+        /* Preparación */
         List<EquipoNBA> equipos = new ArrayList<>();
         equipos.add(new EquipoNBA());
         equipos.add(new EquipoNBA());
 
         when(repositorioEquipoNBAMock.obtenerTodosLosEquiposOrdenados()).thenReturn(equipos);
 
-        // Ejecución
+        /* Ejecución */
         List<EquipoNBA> resultado = servicioEquipoNBA.obtenerTodosLosEquiposOrdenadosDeMenorAMayor();
 
-        // Verificación
+        /* Validación */
         assertThat(resultado, equalTo(equipos));
     }
 
     @Test
-    public void cuandoSeEliminaUnEquipoNBASeEliminanLasAsignacionesYElEquipoCorrectamente() throws EquipoNoEncontradoException {
-        // Preparación
+    public void cuandoSeEliminaUnEquipoNBASeEliminanLasAsignacionesYElEquipoCorrectamente()
+            throws EquipoNoEncontradoException {
+        /* Preparación */
         Long idEquipo = 1L;
+
         EquipoNBA equipo = new EquipoNBA();
         equipo.setId(idEquipo);
 
         when(repositorioEquipoNBAMock.buscarEquipoPorId(idEquipo)).thenReturn(equipo);
 
-        // Ejecución
+        /* Ejecución */
         servicioEquipoNBA.eliminarEquipoNBA(idEquipo);
 
-        // Verificación
+        /* Validación */
         verify(repositorioEquipoNBAJugadorMock).eliminarTodasLasAsignacionesDelEquipo(idEquipo);
+
         verify(repositorioEquipoNBAMock).eliminar(equipo);
     }
 
     @Test
     public void cuandoSeEliminaUnEquipoNBAInexistenteLanzaUnaExcepcion() {
-        // Preparación
+        /* Preparación */
         Long idEquipo = 1L;
+
         when(repositorioEquipoNBAMock.buscarEquipoPorId(idEquipo)).thenReturn(null);
 
-        // Ejecución y Verificación
-        assertThrows(EquipoNoEncontradoException.class, () -> servicioEquipoNBA.eliminarEquipoNBA(idEquipo));
-
-        // Verfica que el método nunca fue llamado
+        /* Ejecución - Validación */
+        assertThrows(EquipoNoEncontradoException.class, () -> servicioEquipoNBA.eliminarEquipoNBA(idEquipo)
+        );
 
         verify(repositorioEquipoNBAJugadorMock, never()).eliminarTodasLasAsignacionesDelEquipo(any());
+
         verify(repositorioEquipoNBAMock, never()).eliminar(any());
     }
 }

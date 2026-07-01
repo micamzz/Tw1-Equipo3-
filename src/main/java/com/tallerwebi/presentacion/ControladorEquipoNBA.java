@@ -14,7 +14,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -31,14 +30,9 @@ public class ControladorEquipoNBA {
         this.servicioTorneo = servicioTorneo;
     }
 
-    private boolean noEstaLogueado(HttpServletRequest request) {
-        return request.getSession().getAttribute("usuario") == null;
-    }
 
     @RequestMapping("/altaEquipoNBA")
-    public ModelAndView irAlFormularioEquipoNBA(HttpServletRequest request) {
-
-        if (noEstaLogueado(request)) return new ModelAndView("redirect:/login");
+    public ModelAndView irAlFormularioEquipoNBA() {
 
         ModelMap modelo = new ModelMap();
 
@@ -51,10 +45,7 @@ public class ControladorEquipoNBA {
 
 
     @RequestMapping("/guardarEquipoNBA")
-    public ModelAndView guardarEquipoNba(HttpServletRequest request,
-                                         @ModelAttribute("equipoNBA") EquipoNBA equipoNBA) {
-        if (noEstaLogueado(request)) return new ModelAndView("redirect:/login");
-
+    public ModelAndView guardarEquipoNba(@ModelAttribute("equipoNBA") EquipoNBA equipoNBA) {
 
         if (equipoNBA.getNombre() == null || equipoNBA.getNombre().isBlank()) {
             ModelMap modelo = new ModelMap();
@@ -76,12 +67,12 @@ public class ControladorEquipoNBA {
     // Vista con el form para que seleccione a los jugadores.
     // El request recibe por parámetro el id que es obtenido del método anterior
     @RequestMapping("/asignar-jugadoresNBA/{id}")
-    public ModelAndView asignarJugadores(HttpServletRequest request,
-                                         @PathVariable Long id,
-                                         @RequestParam(required = false) String nombre,
-                                         @RequestParam(required = false) String posicion,
-                                         @RequestParam(required = false) String error) {
-        if (noEstaLogueado(request)) return new ModelAndView("redirect:/login");
+    public ModelAndView asignarJugadores(
+            @PathVariable Long id,
+            @RequestParam(required = false) String nombre,
+            @RequestParam(required = false) String posicion,
+            @RequestParam(required = false) String error) {
+
 
         try {
             ModelMap modelo = new ModelMap();
@@ -129,10 +120,9 @@ public class ControladorEquipoNBA {
 
 
     @RequestMapping(value = "/agregarJugadorAEquipoNBA/{idEquipo}/{idJugador}", method = RequestMethod.POST)
-    public ModelAndView agregarJugadorAlEquipo(HttpServletRequest request,
-                                               @PathVariable Long idEquipo,
-                                               @PathVariable Long idJugador) throws elJugadorYaExisteEnElEquipoException, EquipoNoEncontradoException {
-        if (noEstaLogueado(request)) return new ModelAndView("redirect:/login");
+    public ModelAndView agregarJugadorAlEquipo(
+            @PathVariable Long idEquipo,
+            @PathVariable Long idJugador) throws elJugadorYaExisteEnElEquipoException, EquipoNoEncontradoException {
 
 
         try {
@@ -150,9 +140,9 @@ public class ControladorEquipoNBA {
 
 
     @RequestMapping("/listadoEquiposNBA")
-    public ModelAndView verListadoDeEquiposNBA(HttpServletRequest request,
-                                               @RequestParam(required = false) String error) {
-        if (noEstaLogueado(request)) return new ModelAndView("redirect:/login");
+    public ModelAndView verListadoDeEquiposNBA(
+            @RequestParam(required = false) String error) {
+
 
         ModelMap modelo = new ModelMap();
 
@@ -168,9 +158,8 @@ public class ControladorEquipoNBA {
 
 
     @RequestMapping("/detalleEquipoNBA/{id}")
-    public ModelAndView verDetalleEquipoNBA(HttpServletRequest request,
-                                            @PathVariable Long id) {
-        if (noEstaLogueado(request)) return new ModelAndView("redirect:/login");
+    public ModelAndView verDetalleEquipoNBA(@PathVariable Long id) {
+
 
         try {
             ModelMap modelo = new ModelMap();
@@ -186,10 +175,9 @@ public class ControladorEquipoNBA {
     }
 
     @RequestMapping(value = "/quitarJugadorAEquipoNBA/{idEquipo}/{idJugador}", method = RequestMethod.POST)
-    public ModelAndView quitarJugadorAEquipoNBA(HttpServletRequest request,
-                                                @PathVariable Long idEquipo,
+    public ModelAndView quitarJugadorAEquipoNBA(@PathVariable Long idEquipo,
                                                 @PathVariable Long idJugador) throws EquipoNoEncontradoException {
-        if (noEstaLogueado(request)) return new ModelAndView("redirect:/login");
+
 
         servicioEquipoNBAJugador.eliminarJugadorDelEquipo(idEquipo, idJugador);
 
@@ -199,9 +187,7 @@ public class ControladorEquipoNBA {
 
 
     @RequestMapping(value = "/eliminarEquipoNBA/{idEquipo}", method = RequestMethod.POST)
-    public ModelAndView eliminarEquipoNBA(HttpServletRequest request,
-                                          @PathVariable Long idEquipo) {
-        if (noEstaLogueado(request)) return new ModelAndView("redirect:/login");
+    public ModelAndView eliminarEquipoNBA(@PathVariable Long idEquipo) {
 
 
         try {
