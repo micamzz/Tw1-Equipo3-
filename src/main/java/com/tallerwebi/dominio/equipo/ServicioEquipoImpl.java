@@ -295,20 +295,26 @@ public class ServicioEquipoImpl implements ServicioEquipo {
     public void validarQueSePuedaModificarEquipo() throws NoSePuedeModificarEquipoSiHayPartidosEnCursoException {
 
         List<PartidoNBA> partidosActivos = servicioPartidoNBA.obtenerPartidosActivos();
+
         if (partidosActivos != null && !partidosActivos.isEmpty()) {
-            throw new NoSePuedeModificarEquipoSiHayPartidosEnCursoException("No se puede modificar el equipo mientras haya partidos en curso.");
+            throw new NoSePuedeModificarEquipoSiHayPartidosEnCursoException("No se puede modificar el equipo mientras haya partidos en curso."
+            );
         }
 
-        /* Si algún partido programado empieza dentro de la próxima hora, también se bloquea */
+        // Si un partido programado comienza dentro de la próxima hora, también se bloquean las modificaciones.
         LocalDateTime ahora = LocalDateTime.now();
-        List<PartidoNBA> programados = servicioPartidoNBA.obtenerPartidosProgramados();
+        List<PartidoNBA> partidosProgramados = servicioPartidoNBA.obtenerPartidosProgramados();
 
-        if (programados != null) {
-            for (PartidoNBA partido : programados) {
-                LocalDateTime limiteParaModificar = partido.getHoraInicio().minusHours(1);
-                if (!ahora.isBefore(limiteParaModificar) && ahora.isBefore(partido.getHoraInicio())) {
-                    throw new NoSePuedeModificarEquipoSiHayPartidosEnCursoException(
-                            "No se puede modificar el equipo. Las modificaciones se bloquean una hora antes de cada partido."
+        if (partidosProgramados != null) {
+            for (PartidoNBA partido : partidosProgramados) {
+
+                LocalDateTime horaInicio = partido.getHoraInicio();
+                LocalDateTime limiteParaModificar = horaInicio.minusHours(1); //menos una hora
+
+                Boolean estaDentroDeLaHoraPrevia = !ahora.isBefore(limiteParaModificar) && ahora.isBefore(horaInicio);
+
+                if (estaDentroDeLaHoraPrevia) {
+                    throw new NoSePuedeModificarEquipoSiHayPartidosEnCursoException("No se puede modificar el equipo. Las modificaciones se bloquean una hora antes de cada partido."
                     );
                 }
             }
