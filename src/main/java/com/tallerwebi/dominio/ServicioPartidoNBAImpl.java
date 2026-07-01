@@ -103,30 +103,14 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
 
             for (EventoPartido e : eventosJugador) {
                 switch (e.getTipoEstadistica()) {
-                    case TIRO_LIBRE:
-                        puntos += 1;
-                        break;
-                    case DOBLE:
-                        puntos += 2;
-                        break;
-                    case TRIPLE:
-                        puntos += 3;
-                        break;
-                    case REBOTE:
-                        rebotes++;
-                        break;
-                    case ASISTENCIA:
-                        asistencias++;
-                        break;
-                    case ROBO:
-                        robos++;
-                        break;
-                    case TAPA:
-                        bloqueos++;
-                        break;
-                    case PERDIDA:
-                        perdidas++;
-                        break;
+                    case TIRO_LIBRE:  puntos += 1; break;
+                    case DOBLE:       puntos += 2; break;
+                    case TRIPLE:      puntos += 3; break;
+                    case REBOTE:      rebotes++; break;
+                    case ASISTENCIA:  asistencias++; break;
+                    case ROBO:        robos++; break;
+                    case TAPA:        bloqueos++; break;
+                    case PERDIDA:     perdidas++; break;
                 }
             }
 
@@ -162,7 +146,7 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
     public List<PartidoNBA> obtenerPartidosActivos() {
         List<PartidoNBA> partidosActivos = repositorioPartidoNBA.buscarPartidosActivos();
         for (PartidoNBA partido : partidosActivos) {
-            calcularPuntaje(partido);
+           calcularPuntaje(partido);
         }
         return partidosActivos;
     }
@@ -171,7 +155,7 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
     public List<PartidoNBA> obtenerPartidosFinalizados() {
         List<PartidoNBA> partidos = repositorioPartidoNBA.buscarPartidosFinalizados();
         for (PartidoNBA partido : partidos) {
-            calcularPuntaje(partido);
+           calcularPuntaje(partido);
         }
 
         return partidos;
@@ -278,7 +262,7 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
         List<EventoPartido> listaEventosPartido = repositorioEventoPartido.buscarEventosPorPartido(partido.getId());
         Integer puntaje = 0;
 
-        for (EventoPartido evento : listaEventosPartido) {
+        for (EventoPartido evento : listaEventosPartido){
             if (evento.getTipoEstadistica() == TipoEstadistica.DOBLE) {
                 puntaje = 2;
             } else if (evento.getTipoEstadistica() == TipoEstadistica.TRIPLE) {
@@ -295,7 +279,4 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
         }
 
     }
-
-
 }
-
