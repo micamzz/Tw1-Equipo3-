@@ -80,4 +80,13 @@ public class EventoPartido {
     public void setEsLocal(Boolean esLocal) {
         this.esLocal = esLocal;
     }
+
+    public String getMomentoFormateado() {
+        if (this.momentoPartido == null) return "00:00:00";
+        // %02d asegura que si el número es menor a 10, le ponga un 0 adelante (ej: 02 en vez de 2)
+        return String.format("%02d:%02d:%02d",
+                this.momentoPartido.getHour(),
+                this.momentoPartido.getMinute(),
+                this.momentoPartido.getSecond());
+    }
 }

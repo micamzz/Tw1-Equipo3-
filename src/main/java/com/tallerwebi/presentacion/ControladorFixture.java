@@ -2,6 +2,7 @@ package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.*;
 import com.tallerwebi.dominio.ServicioPartidoNBA;
+import com.tallerwebi.dominio.enums.RolUsuario;
 import com.tallerwebi.dominio.equipoNBA.EquipoNBA;
 import com.tallerwebi.dominio.equipoNBA.ServicioEquipoNBA;
 import com.tallerwebi.dominio.equipoNBAJugador.ServicioEquipoNBAJugador;
@@ -18,6 +19,8 @@ import org.springframework.web.servlet.ModelAndView;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class ControladorFixture {
@@ -39,7 +42,7 @@ public class ControladorFixture {
         this.servicioTorneo = servicioTorneo;
         this.servicioFormacion = servicioFormacion;
     }
-
+/*
     @RequestMapping({"/partidos", "/fixture"})
     public ModelAndView verPartidos() {
         ModelMap modelo = new ModelMap();
@@ -52,11 +55,15 @@ public class ControladorFixture {
         } catch (Exception e) {
         }
         return new ModelAndView("partidos", modelo);
-    }
+    }*/
 
-    @RequestMapping("/admin/partidos")
-    public ModelAndView adminPartidos() {
+    @RequestMapping("/partidos")
+    public ModelAndView adminPartidos(HttpServletRequest request) {
         ModelMap modelo = new ModelMap();
+        RolUsuario rol = (RolUsuario) request.getSession().getAttribute("ROL");
+
+        modelo.put("esAdmin", rol == RolUsuario.ADMIN);
+
         modelo.put("partidosActivos", servicioPartidoNBA.obtenerPartidosActivos());
         modelo.put("partidosProgramados", servicioPartidoNBA.obtenerPartidosProgramados());
         modelo.put("partidosFinalizados", servicioPartidoNBA.obtenerPartidosFinalizados());
@@ -66,7 +73,7 @@ public class ControladorFixture {
         } catch (Exception e) {
             // si no hay torneo, no se muestra
         }
-        return new ModelAndView("admin-partidos", modelo);
+        return new ModelAndView("partidos", modelo);
     }
 
     @RequestMapping(value = "/admin/agregarPartido", method = RequestMethod.GET)
@@ -147,7 +154,7 @@ try {
     return new ModelAndView("admin-formacion-equipo", modelo);
 }
 catch (EquipoNoEncontradoException e) {
-    return new ModelAndView("redirect:/admin/partidos");
+    return new ModelAndView("redirect:/partidos");
 }
 }
 
@@ -181,7 +188,7 @@ public ModelAndView eliminarJugadorFormacion(@RequestParam Long idFormacion, @Re
                 Torneo torneoActual = servicioTorneo.obtenerTorneoActual(TipoTorneo.REAL);
                 modelo.put("torneoActual", torneoActual);
             } catch (Exception ignored) {}
-                return new ModelAndView("admin-partidos", modelo);
+                return new ModelAndView("partidos", modelo);
             }
 
             servicioPartidoNBA.iniciarPartido(idPartido);
@@ -198,9 +205,9 @@ public ModelAndView eliminarJugadorFormacion(@RequestParam Long idFormacion, @Re
                 Torneo torneoActual = servicioTorneo.obtenerTorneoActual(TipoTorneo.REAL);
                 modelo.put("torneoActual", torneoActual);
             } catch (Exception ignored) {}
-            return new ModelAndView("admin-partidos", modelo);
+            return new ModelAndView("partidos", modelo);
         }
-        return new ModelAndView("redirect:/admin/partidos");
+        return new ModelAndView("redirect:/partidos");
     }
 
     @RequestMapping(value = "/admin/reprogramarPartido", method = RequestMethod.POST)
@@ -218,22 +225,22 @@ public ModelAndView eliminarJugadorFormacion(@RequestParam Long idFormacion, @Re
                 Torneo torneoActual = servicioTorneo.obtenerTorneoActual(TipoTorneo.REAL);
                 modelo.put("torneoActual", torneoActual);
             } catch (Exception ignored) {}
-            return new ModelAndView("admin-partidos", modelo);
+            return new ModelAndView("partidos", modelo);
         }
-        return new ModelAndView("redirect:/admin/partidos");
+        return new ModelAndView("redirect:/partidos");
     }
 
     @RequestMapping(value = "/admin/cancelarPartido", method = RequestMethod.POST)
     public ModelAndView cancelarPartido(@RequestParam Long idPartido) {
         servicioPartidoNBA.cancelarPartido(idPartido);
-        return new ModelAndView("redirect:/admin/partidos");
+        return new ModelAndView("redirect:/partidos");
     }
 
     @RequestMapping(value = "/admin/finalizarPartidoRapido", method = RequestMethod.POST)
     public ModelAndView finalizarPartidoRapido(@RequestParam Long idPartido,
                                                @RequestParam Integer minutoFin) {
         servicioPartidoNBA.finalizarPartido(idPartido, minutoFin);
-        return new ModelAndView("redirect:/admin/partidos");
+        return new ModelAndView("redirect:/partidos");
     }
 
 }

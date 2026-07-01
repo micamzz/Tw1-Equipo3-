@@ -91,4 +91,17 @@ public class ControladorEventoPartido {
             );
         }
     }
+
+    @GetMapping("/partido/{idPartido}/ver-estadisticas")
+    public ModelAndView verEstadisticas(@PathVariable Long idPartido) {
+        ModelMap modelo = new ModelMap();
+        PartidoNBA partido = servicioPartidoNBA.obtenerPorId(idPartido);
+        modelo.put("partido", partido);
+        modelo.put("tanteadorLocal", partido.getPuntosLocal());
+        modelo.put("tanteadorVisitante", partido.getPuntosVisitante());
+        modelo.put("eventos", servicioEventoPartido.buscarEventosPorPartido(idPartido));
+        return new ModelAndView("ver-estadisticas", modelo);
+    }
+
+
 }

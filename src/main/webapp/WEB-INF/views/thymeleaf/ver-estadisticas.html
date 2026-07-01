@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Resumen del Partido - UNLaM Basket</title>
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
+    <!-- Reutilizamos tu CSS de estadísticas que ya está hermoso -->
+    <link rel="stylesheet" th:href="@{/css/admin-estadisticas.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- HEADER GENERAL (No el de admin) -->
+<div th:replace="layout/header :: header"></div>
+
+<main>
+    <a th:href="@{/partidos}" class="volver-link">
+        &larr; Volver a la lista de partidos
+    </a>
+
+    <h1>RESUMEN DEL ENCUENTRO</h1>
+
+    <!-- MARCADOR PRINCIPAL (Igual al anterior, da consistencia) -->
+    <div class="card-partido-vivo">
+        <div class="vivo-header">
+            <span class="vivo-fecha" th:text="${partido.fechaFormateada}">27/06/2026</span>
+            <span class="vivo-torneo" th:text="${partido.torneo.nombreTorneo}">NBA 2026</span>
+        </div>
+        <div class="programado-divider"></div>
+        <div class="vivo-cuerpo">
+            <div class="vivo-equipo">
+                <img th:src="${partido.equipoLocal.escudoImagen}" class="escudo" th:alt="${partido.equipoLocal.nombre}"/>
+                <span class="vivo-equipo-nombre" th:text="${partido.equipoLocal.nombre}">Local</span>
+            </div>
+            <div class="vivo-score">
+                <span class="vivo-estado" th:text="${partido.estadoPartido.name() == 'FINALIZADO'}
+                ? 'FINALIZADO' : 'EN VIVO'">ESTADO</span>
+                <div class="marcador">
+                    <span th:text="${tanteadorLocal}">0</span>
+                    <span>-</span>
+                    <span th:text="${tanteadorVisitante}">0</span>
+                </div>
+            </div>
+            <div class="vivo-equipo">
+                <img th:src="${partido.equipoVisitante.escudoImagen}" class="escudo" th:alt="${partido.equipoVisitante.nombre}"/>
+                <span class="vivo-equipo-nombre" th:text="${partido.equipoVisitante.nombre}">Visitante</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTENEDOR CENTRAL: Cambiamos el Grid a 1 sola columna centrada para la Cronología -->
+    <div class="contenedor-resumen-centrado">
+
+        <section class="panel-cronologia">
+            <h2>Línea de Tiempo del Partido</h2>
+
+            <div th:if="${#lists.isEmpty(eventos)}" class="sin-partidos" style="text-align: center; padding: 2rem; color: var(--color-terciario);">
+                Todavía no se registraron eventos en este partido.
+            </div>
+
+            <div class="lista-eventos" th:if="${!#lists.isEmpty(eventos)}">
+                <div class="evento"
+                     th:each="evento : ${eventos}"
+                     th:classappend="${evento.esLocal} ? 'evento-local' : 'evento-visitante'">
+
+                    <div class="evento-contenido">
+                        <!-- El método formateador que creamos ayer -->
+                        <span class="evento-tiempo" th:text="${evento.getMomentoFormateado()}">00:00:00</span>
+                        <span class="evento-jugador" th:text="${evento.jugador.nombre + ' ' + evento.jugador.apellido}">Jugador</span>
+                        <!-- Formateo de Enum sin guiones bajos -->
+                        <span class="evento-tipo" th:text="${#strings.replace(evento.tipoEstadistica, '_', ' ')}">ACCIÓN</span>
+                        <span class="evento-equipo-tag" th:text="${evento.esLocal} ? ${partido.equipoLocal.nombre} : ${partido.equipoVisitante.nombre}">Equipo</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+</main>
+
+<!-- FOOTER -->
+<div th:replace="layout/footer :: footer"></div>
+
+</body>
+</html>
