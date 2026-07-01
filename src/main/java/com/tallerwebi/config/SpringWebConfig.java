@@ -48,7 +48,9 @@ public class SpringWebConfig implements WebMvcConfigurer {
                         "/seleccionar-jugadores/**",
                         "/equipo/**",
                         "/reglas/**",
-                        "/torneo/**"
+                        "/torneo/**",
+                        "/estadisticas-jugadores-torneo/**",
+                        "/mercado/**"
 
                 );
 

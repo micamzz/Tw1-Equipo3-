@@ -20,7 +20,6 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
 
     private final RepositorioPartidoNBA repositorioPartidoNBA;
     private final RepositorioCronologiaNBA repositorioCronologiaNBA;
-    private final RepositorioScorePartido repositorioScorePartido;
     private final RepositorioEquipoNBA repositorioEquipoNBA;
     private final RepositorioJugador repositorioJugador;
     private final RepositorioEventoPartido repositorioEventoPartido;
@@ -28,13 +27,11 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
     @Autowired
     public ServicioPartidoNBAImpl(RepositorioPartidoNBA repositorioPartidoNBA,
                                   RepositorioCronologiaNBA repositorioCronologiaNBA,
-                                  RepositorioScorePartido repositorioScorePartido,
                                   RepositorioEquipoNBA repositorioEquipoNBA,
                                   RepositorioJugador repositorioJugador,
                                   RepositorioEventoPartido repositorioEventoPartido) {
         this.repositorioPartidoNBA = repositorioPartidoNBA;
         this.repositorioCronologiaNBA = repositorioCronologiaNBA;
-        this.repositorioScorePartido = repositorioScorePartido;
         this.repositorioEquipoNBA = repositorioEquipoNBA;
         this.repositorioJugador = repositorioJugador;
         this.repositorioEventoPartido = repositorioEventoPartido;
@@ -67,9 +64,6 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
         partido.setTorneo(torneo);
         partido.setEstadoPartido(EstadoPartido.PROGRAMADO);
         repositorioPartidoNBA.guardar(partido);
-
-        repositorioScorePartido.guardar(new ScorePartido(partido, local));
-        repositorioScorePartido.guardar(new ScorePartido(partido, visitante));
     }
 
     @Override
@@ -103,14 +97,30 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
 
             for (EventoPartido e : eventosJugador) {
                 switch (e.getTipoEstadistica()) {
-                    case TIRO_LIBRE:  puntos += 1; break;
-                    case DOBLE:       puntos += 2; break;
-                    case TRIPLE:      puntos += 3; break;
-                    case REBOTE:      rebotes++; break;
-                    case ASISTENCIA:  asistencias++; break;
-                    case ROBO:        robos++; break;
-                    case TAPA:        bloqueos++; break;
-                    case PERDIDA:     perdidas++; break;
+                    case TIRO_LIBRE:
+                        puntos += 1;
+                        break;
+                    case DOBLE:
+                        puntos += 2;
+                        break;
+                    case TRIPLE:
+                        puntos += 3;
+                        break;
+                    case REBOTE:
+                        rebotes++;
+                        break;
+                    case ASISTENCIA:
+                        asistencias++;
+                        break;
+                    case ROBO:
+                        robos++;
+                        break;
+                    case TAPA:
+                        bloqueos++;
+                        break;
+                    case PERDIDA:
+                        perdidas++;
+                        break;
                 }
             }
 
@@ -146,7 +156,7 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
     public List<PartidoNBA> obtenerPartidosActivos() {
         List<PartidoNBA> partidosActivos = repositorioPartidoNBA.buscarPartidosActivos();
         for (PartidoNBA partido : partidosActivos) {
-           calcularPuntaje(partido);
+            calcularPuntaje(partido);
         }
         return partidosActivos;
     }
@@ -155,7 +165,7 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
     public List<PartidoNBA> obtenerPartidosFinalizados() {
         List<PartidoNBA> partidos = repositorioPartidoNBA.buscarPartidosFinalizados();
         for (PartidoNBA partido : partidos) {
-           calcularPuntaje(partido);
+            calcularPuntaje(partido);
         }
 
         return partidos;
@@ -180,7 +190,6 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
         if (!partido.estaActivo()) {
             throw new PartidoFinalizadoException("No se puede agregar cronologia a un partido finalizado");
         }
-
         EquipoNBA equipo = repositorioEquipoNBA.buscarEquipoPorId(equipoId);
 
         CronologiaNBA cronologia = new CronologiaNBA();
@@ -191,10 +200,6 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
         cronologia.setPuntosSumados(puntos);
         cronologia.setEquipoBeneficiado(equipo);
         repositorioCronologiaNBA.guardar(cronologia);
-
-        ScorePartido score = repositorioScorePartido.buscarPorPartidoYEquipo(partidoId, equipoId);
-        score.sumarPuntos(puntos);
-        repositorioScorePartido.actualizar(score);
     }
 
     @Override
@@ -260,9 +265,12 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
     public void calcularPuntaje(PartidoNBA partido) {
 
         List<EventoPartido> listaEventosPartido = repositorioEventoPartido.buscarEventosPorPartido(partido.getId());
-        Integer puntaje = 0;
+        partido.setPuntosLocal(0);
+        partido.setPuntosVisitante(0);
 
-        for (EventoPartido evento : listaEventosPartido){
+        for (EventoPartido evento : listaEventosPartido) {
+            Integer puntaje = 0;
+
             if (evento.getTipoEstadistica() == TipoEstadistica.DOBLE) {
                 puntaje = 2;
             } else if (evento.getTipoEstadistica() == TipoEstadistica.TRIPLE) {
