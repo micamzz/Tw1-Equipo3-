@@ -424,19 +424,6 @@ INSERT INTO CronologiaNBA (partido_id, minuto, tipo, descripcion, puntosSumados,
 VALUES (7, 31, 'PUNTAJE', 'Triple de Harden', 3, 3);
 
 
-/*  PARTIDOS SÁBADO 27/06/2026
-    LE PUSE ID 20 Y 21 AL PARTIDO*/
-INSERT INTO PartidoNBA (id, equipoLocal_id, equipoVisitante_id, horaInicio, minutoFin, torneo_id, estadoPartido)
-VALUES (20, 1, 2, '2026-06-27 19:00:00', NULL, 1, 'PROGRAMADO'), -- Warriors vs Celtics
-       (21, 3, 4, '2026-06-27 21:00:00', NULL, 1, 'PROGRAMADO');
--- Lakers vs Heat
-
-/* PARTIDOS DOMINGO 28/06/2026
-   ID 22 Y 23*/
-INSERT INTO PartidoNBA (id, equipoLocal_id, equipoVisitante_id, horaInicio, minutoFin, torneo_id, estadoPartido)
-VALUES (22, 5, 6, '2026-06-28 19:00:00', NULL, 1, 'PROGRAMADO'), -- Spurs vs Knicks
-       (23, 7, 8, '2026-06-28 21:00:00', NULL, 1, 'PROGRAMADO'); -- Nets vs Mavericks
-
 -- 4 PARTIDOS FINALIZADOS (IDs 30-33)
 INSERT INTO PartidoNBA (id, equipoLocal_id, equipoVisitante_id, horaInicio, minutoFin, torneo_id, estadoPartido)
 VALUES (30, 1, 2, '2026-06-20 20:00:00', 48, 1, 'FINALIZADO'),
@@ -445,10 +432,25 @@ VALUES (30, 1, 2, '2026-06-20 20:00:00', 48, 1, 'FINALIZADO'),
        (33, 7, 8, '2026-06-23 22:00:00', 50, 1, 'FINALIZADO');
 
 INSERT INTO ScorePartido (partido_id, equipo_id, puntos)
-VALUES (30, 1, 110), (30, 2, 102),
-       (31, 3, 98),  (31, 4, 105),
-       (32, 5, 115), (32, 6, 100),
-       (33, 7, 88),  (33, 8, 95);
+VALUES (30, 1, 110),
+       (30, 2, 102),
+       (31, 3, 98),
+       (31, 4, 105),
+       (32, 5, 115),
+       (32, 6, 100),
+       (33, 7, 88),
+       (33, 8, 95);
+
+/*  PROXIMOS PARTIDOS  SABADO  04 DE JULIO */
+INSERT INTO PartidoNBA (id, equipoLocal_id, equipoVisitante_id, horaInicio, minutoFin, torneo_id, estadoPartido)
+VALUES (50, 3, 7, '2026-07-04 19:00:00', NULL, 1, 'PROGRAMADO'),
+       (51, 4, 2, '2026-07-04 21:00:00', NULL, 1, 'PROGRAMADO');
+
+/* PARTIDOS DOMINGO 05 DE JULIO */
+INSERT INTO PartidoNBA (id, equipoLocal_id, equipoVisitante_id, horaInicio, minutoFin, torneo_id, estadoPartido)
+VALUES (53, 8, 5, '2026-07-05 19:00:00', NULL, 1, 'PROGRAMADO'),
+       (54, 6, 1, '2026-07-05 21:00:00', NULL, 1, 'PROGRAMADO');
+
 
 -- EQUIPOS USUARIO (torneo virtual id = 2)
 INSERT INTO equipo (id, nombreEquipo, presupuesto, puntaje, torneo_id, usuario_id)
