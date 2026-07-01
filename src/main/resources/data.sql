@@ -1,4 +1,6 @@
-INSERT INTO Usuario(id, nombre, email, password, rol, activo)
+SET FOREIGN_KEY_CHECKS = 0;
+
+INSERT IGNORE INTO Usuario(id, nombre, email, password, rol, activo)
 VALUES (null, 'Admin Test', 'test@unlam.edu.ar', 'test', 'ADMIN', true),
        (null, 'Micaela', 'mica@unlam.com', 'test', 'ADMIN', true),
        (null, 'Lucas', 'lucas@unlam.com', 'test', 'USER', true),
@@ -9,25 +11,25 @@ VALUES (null, 'Admin Test', 'test@unlam.edu.ar', 'test', 'ADMIN', true),
 
 
 /* TEMPORADA 2025 08 DE MARZO A 22 DE DICIEMBRE*/
-INSERT INTO Temporada (id, nombre, anio, fechaInicio, fechaFin)
+INSERT IGNORE INTO Temporada (id, nombre, anio, fechaInicio, fechaFin)
 VALUES (1, 'Temporada 2025', 2025, '2025-03-08', '2025-12-23');
 
 /* TEMPORADA 2026 DE 01 MARZO A 21 DE DICIEMBRE*/
-INSERT INTO Temporada (id, nombre, anio, fechaInicio, fechaFin)
+INSERT IGNORE INTO Temporada (id, nombre, anio, fechaInicio, fechaFin)
 VALUES (2, 'Temporada 2026', 2026, '2026-03-01', '2026-12-21');
 
 /* TORNEO REAL 07   DE MARZO A 20 DE DICIEMBRE */
-INSERT INTO Torneo (id, fechaFin, fechaInicio, nombreTorneo, tipoTorneo, temporada_id)
+INSERT IGNORE INTO Torneo (id, fechaFin, fechaInicio, nombreTorneo, tipoTorneo, temporada_id)
 VALUES (1, '2026-12-20', '2026-03-07', 'NBA 2026', 'REAL', 2);
 
-INSERT INTO Torneo (id, fechaFin, fechaInicio, nombreTorneo, tipoTorneo, temporada_id)
+INSERT IGNORE INTO Torneo (id, fechaFin, fechaInicio, nombreTorneo, tipoTorneo, temporada_id)
 VALUES (2, '2026-12-20', '2026-03-07', 'UNLAM Basquet 2026', 'VIRTUAL', 2);
 
 /* TORNEO REAL PASADO DEL 2025 ASOCIADO A TEMPORADA ID 1  DE MARZO A DE DICIEMBRE */
-INSERT INTO Torneo (id, fechaFin, fechaInicio, nombreTorneo, tipoTorneo, temporada_id)
+INSERT IGNORE INTO Torneo (id, fechaFin, fechaInicio, nombreTorneo, tipoTorneo, temporada_id)
 VALUES (3, '2025-12-20', '2025-03-01', 'Torneo 2025', 'REAL', 1);
 
-INSERT INTO EquipoNBA(id, nombre, escudoImagen)
+INSERT IGNORE INTO EquipoNBA(id, nombre, escudoImagen)
 VALUES (1, 'Golden State Warriors', 'https://cdn.nba.com/logos/nba/1610612744/global/L/logo.svg'),
        (2, 'Boston Celtics', 'https://cdn.nba.com/logos/nba/1610612738/global/L/logo.svg'),
        (3, 'Los Angeles Lakers', 'https://cdn.nba.com/logos/nba/1610612747/global/L/logo.svg'),
@@ -37,7 +39,7 @@ VALUES (1, 'Golden State Warriors', 'https://cdn.nba.com/logos/nba/1610612744/gl
        (7, 'Brooklyn Nets', 'https://cdn.nba.com/logos/nba/1610612751/global/L/logo.svg'),
        (8, 'Dallas Mavericks', 'https://cdn.nba.com/logos/nba/1610612742/global/L/logo.svg');
 
-INSERT INTO Jugador(id, nombre, apellido, posicion, precio, dni, foto, altura, peso, nacionalidad, edad,
+INSERT IGNORE INTO Jugador(id, nombre, apellido, posicion, precio, dni, foto, altura, peso, nacionalidad, edad,
                     fechaNacimiento, draft, experiencia)
 VALUES (1, 'Stephen', 'Curry', 'BASE', 175000, 1, 'https://cdn.nba.com/headshots/nba/latest/1040x760/201939.png',
         '6''3" (1.91m)', '185lb (84kg)', 'USA', 37, 'March 14, 1988', '2009 R1 Pick 7', 16),
@@ -186,7 +188,7 @@ VALUES (1, 'Stephen', 'Curry', 'BASE', 175000, 1, 'https://cdn.nba.com/headshots
         '6''10\" (2.08m)', '220lb (100kg)', 'USA', 23, 'November 27, 2002', '2022 R1 Pick 3', 3);
 
 
-INSERT INTO RendimientoJugador(jugador_id, puntos, rebotes, asistencias, robos, bloqueos, perdidas, torneo_id)
+INSERT IGNORE INTO RendimientoJugador(jugador_id, puntos, rebotes, asistencias, robos, bloqueos, perdidas, torneo_id)
 VALUES (1, 27, 4, 5, 1, 0, 3, 1),
        (2, 8, 6, 6, 1, 1, 2, 1),
        (3, 12, 3, 2, 1, 0, 1, 1),
@@ -259,7 +261,7 @@ VALUES (1, 27, 4, 5, 1, 0, 3, 1),
 
 /* JUGADORES ASOCIADO A EQUIPO EN TORNEO VIGENTE (2026)*/
 -- Golden State Warriors (equipoNBA_id = 1)
-INSERT INTO EquipoNBAJugador(equipoNBA_id, jugador_id, torneo_id)
+INSERT IGNORE INTO EquipoNBAJugador(equipoNBA_id, jugador_id, torneo_id)
 VALUES (1, 1, 1),
        (1, 2, 1),
        (1, 3, 1),
@@ -326,7 +328,7 @@ VALUES (1, 1, 1),
 -- TORNEO 2025 - ASOCIADO A TORNEO ID 3
 -- FALTA ASOCIAR JUGADORES A EQUIPO 1 2 3 4 AL TORNEO VIEJO
 -- San Antonio Spurs (equipoNBA_id = 5)
-INSERT INTO EquipoNBAJugador(equipoNBA_id, jugador_id, torneo_id)
+INSERT IGNORE INTO EquipoNBAJugador(equipoNBA_id, jugador_id, torneo_id)
 VALUES (5, 33, 3),
        (5, 34, 3),
        (5, 38, 3),
@@ -357,18 +359,18 @@ VALUES (5, 33, 3),
 
 
 /*  PROXIMOS PARTIDOS  SABADO  04 DE JULIO */
-INSERT INTO PartidoNBA (id, equipoLocal_id, equipoVisitante_id, horaInicio, minutoFin, torneo_id, estadoPartido)
+INSERT IGNORE INTO PartidoNBA (id, equipoLocal_id, equipoVisitante_id, horaInicio, minutoFin, torneo_id, estadoPartido)
 VALUES (50, 3, 7, '2026-07-04 19:00:00', NULL, 1, 'PROGRAMADO'),
        (51, 4, 2, '2026-07-04 21:00:00', NULL, 1, 'PROGRAMADO');
 
 /* PARTIDOS DOMINGO 05 DE JULIO */
-INSERT INTO PartidoNBA (id, equipoLocal_id, equipoVisitante_id, horaInicio, minutoFin, torneo_id, estadoPartido)
+INSERT IGNORE INTO PartidoNBA (id, equipoLocal_id, equipoVisitante_id, horaInicio, minutoFin, torneo_id, estadoPartido)
 VALUES (53, 8, 5, '2026-07-05 19:00:00', NULL, 1, 'PROGRAMADO'),
        (54, 6, 1, '2026-07-05 21:00:00', NULL, 1, 'PROGRAMADO');
 
 
 -- EQUIPOS USUARIO (torneo virtual id = 2)
-INSERT INTO equipo (id, nombreEquipo, presupuesto, puntaje, torneo_id, usuario_id)
+INSERT IGNORE INTO equipo (id, nombreEquipo, presupuesto, puntaje, torneo_id, usuario_id)
 VALUES (1, 'Paren La Mano', 0, 0, 2, 3),
        (2, 'Winter is coming', 0, 0, 2, 4),
        (3, 'Dracarys', 0, 0, 2, 5),
@@ -376,7 +378,7 @@ VALUES (1, 'Paren La Mano', 0, 0, 2, 3),
        (5, 'Los Dragones', 0, 0, 2, 7);
 
 -- EQUIPOS USUARIO CON SUS JUGADORES ASOCIADOS
-INSERT INTO equipojugador (id, numeroOrden, posicionDelJugador, equipo_id, jugador_id)
+INSERT IGNORE INTO equipojugador (id, numeroOrden, posicionDelJugador, equipo_id, jugador_id)
 VALUES
     -- Equipo de LUCAS (equipo 1)
     (1, 1, 'CAPITAN', 1, 1),
@@ -437,6 +439,8 @@ VALUES
 -- NO BORRAR POR AHORA - ES PARA QUE CALCULE EL PRESUPUESTO Y NO SE MUESTRE EN CERO
 UPDATE equipo e
 SET e.presupuesto = 2000000 - (SELECT COALESCE(SUM(j.precio), 0)
-                               FROM equipojugador ej
-                                        JOIN Jugador j ON ej.jugador_id = j.id
-                               WHERE ej.equipo_id = e.id);
+                                FROM equipojugador ej
+                                         JOIN Jugador j ON ej.jugador_id = j.id
+                                WHERE ej.equipo_id = e.id);
+
+SET FOREIGN_KEY_CHECKS = 1;

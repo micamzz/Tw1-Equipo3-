@@ -106,8 +106,15 @@ public class ControladorUserHome {
                     default:            mostrarNombre = "Titular"; break;
                 }
                 item.put("rol", mostrarNombre);
-                double puntaje = servicioMercado.calcularPuntajeJugador(rend);
-                item.put("puntaje", puntaje);
+                double base = servicioMercado.calcularPuntajeJugador(rend);
+                double multiplicador;
+                switch (rolEnum) {
+                    case CAPITAN:      multiplicador = 2.0; break;
+                    case SEXTO_HOMBRE: multiplicador = 0.8; break;
+                    case SUPLENTE:     multiplicador = 0.5; break;
+                    default:           multiplicador = 1.0; break;
+                }
+                item.put("puntaje", base * multiplicador);
 
                 jugadoresConStats.add(item);
             }
