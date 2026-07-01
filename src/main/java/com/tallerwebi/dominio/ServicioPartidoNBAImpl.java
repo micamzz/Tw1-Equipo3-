@@ -20,7 +20,6 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
 
     private final RepositorioPartidoNBA repositorioPartidoNBA;
     private final RepositorioCronologiaNBA repositorioCronologiaNBA;
-    private final RepositorioScorePartido repositorioScorePartido;
     private final RepositorioEquipoNBA repositorioEquipoNBA;
     private final RepositorioJugador repositorioJugador;
     private final RepositorioEventoPartido repositorioEventoPartido;
@@ -28,13 +27,11 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
     @Autowired
     public ServicioPartidoNBAImpl(RepositorioPartidoNBA repositorioPartidoNBA,
                                   RepositorioCronologiaNBA repositorioCronologiaNBA,
-                                  RepositorioScorePartido repositorioScorePartido,
                                   RepositorioEquipoNBA repositorioEquipoNBA,
                                   RepositorioJugador repositorioJugador,
                                   RepositorioEventoPartido repositorioEventoPartido) {
         this.repositorioPartidoNBA = repositorioPartidoNBA;
         this.repositorioCronologiaNBA = repositorioCronologiaNBA;
-        this.repositorioScorePartido = repositorioScorePartido;
         this.repositorioEquipoNBA = repositorioEquipoNBA;
         this.repositorioJugador = repositorioJugador;
         this.repositorioEventoPartido = repositorioEventoPartido;
@@ -67,9 +64,6 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
         partido.setTorneo(torneo);
         partido.setEstadoPartido(EstadoPartido.PROGRAMADO);
         repositorioPartidoNBA.guardar(partido);
-
-        repositorioScorePartido.guardar(new ScorePartido(partido, local));
-        repositorioScorePartido.guardar(new ScorePartido(partido, visitante));
     }
 
     @Override
@@ -196,7 +190,6 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
         if (!partido.estaActivo()) {
             throw new PartidoFinalizadoException("No se puede agregar cronologia a un partido finalizado");
         }
-
         EquipoNBA equipo = repositorioEquipoNBA.buscarEquipoPorId(equipoId);
 
         CronologiaNBA cronologia = new CronologiaNBA();
@@ -207,10 +200,6 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
         cronologia.setPuntosSumados(puntos);
         cronologia.setEquipoBeneficiado(equipo);
         repositorioCronologiaNBA.guardar(cronologia);
-
-        ScorePartido score = repositorioScorePartido.buscarPorPartidoYEquipo(partidoId, equipoId);
-        score.sumarPuntos(puntos);
-        repositorioScorePartido.actualizar(score);
     }
 
     @Override
@@ -276,26 +265,24 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
     public void calcularPuntaje(PartidoNBA partido) {
 
         List<EventoPartido> listaEventosPartido = repositorioEventoPartido.buscarEventosPorPartido(partido.getId());
-        Integer puntaje = 0;
+        partido.setPuntosLocal(0);
+        partido.setPuntosVisitante(0);
 
         for (EventoPartido evento : listaEventosPartido) {
+            Integer puntaje = 0;
 
-            if (evento.getTipoEstadistica() == TipoEstadistica.TIRO_LIBRE
-                    || evento.getTipoEstadistica() == TipoEstadistica.DOBLE
-                    || evento.getTipoEstadistica() == TipoEstadistica.TRIPLE) {
-                if (evento.getTipoEstadistica() == TipoEstadistica.DOBLE) {
-                    puntaje = 2;
-                } else if (evento.getTipoEstadistica() == TipoEstadistica.TRIPLE) {
-                    puntaje = 3;
-                } else if (evento.getTipoEstadistica() == TipoEstadistica.TIRO_LIBRE) {
-                    puntaje = 1;
-                }
+            if (evento.getTipoEstadistica() == TipoEstadistica.DOBLE) {
+                puntaje = 2;
+            } else if (evento.getTipoEstadistica() == TipoEstadistica.TRIPLE) {
+                puntaje = 3;
+            } else if (evento.getTipoEstadistica() == TipoEstadistica.TIRO_LIBRE) {
+                puntaje = 1;
+            }
 
-                if (evento.getEsLocal()) {
-                    partido.setPuntosLocal(partido.getPuntosLocal() + puntaje);
-                } else {
-                    partido.setPuntosVisitante(partido.getPuntosVisitante() + puntaje);
-                }
+            if (evento.getEsLocal()) {
+                partido.setPuntosLocal(partido.getPuntosLocal() + puntaje);
+            } else {
+                partido.setPuntosVisitante(partido.getPuntosVisitante() + puntaje);
             }
         }
 
