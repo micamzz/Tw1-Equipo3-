@@ -79,6 +79,7 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
     }
 
     private void actualizarRendimientos(PartidoNBA partido) {
+        Long torneoId = partido.getTorneo().getId();
         List<EventoPartido> eventos = repositorioEventoPartido.buscarEventosPorPartido(partido.getId());
         if (eventos == null || eventos.isEmpty()) return;
 
@@ -90,12 +91,13 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
 
         for (Map.Entry<Long, List<EventoPartido>> entry : eventosPorJugador.entrySet()) {
             Long jugadorId = entry.getKey();
-            List<EventoPartido> eventosJugador = entry.getValue();
+
+            List<EventoPartido> eventosDelJugador = repositorioEventoPartido.buscarEventosPorJugadorTorneo(jugadorId, torneoId);
 
             int puntos = 0, rebotes = 0, asistencias = 0;
             int robos = 0, bloqueos = 0, perdidas = 0;
 
-            for (EventoPartido e : eventosJugador) {
+            for (EventoPartido e : eventosDelJugador) {
                 switch (e.getTipoEstadistica()) {
                     case TIRO_LIBRE:
                         puntos += 1;
@@ -121,32 +123,28 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
                     case PERDIDA:
                         perdidas++;
                         break;
+                    case FALTA_PERSONAL:
+                        perdidas++;
+                        break;
                 }
             }
 
+            Jugador jugador = repositorioJugador.buscarJugadorPorId(jugadorId);
             Torneo torneo = partido.getTorneo();
             RendimientoJugador rend = repositorioJugador.buscarRendimientoPorJugadorYTorneo(jugadorId, torneo.getId());
             if (rend == null) {
-                Jugador jugador = repositorioJugador.buscarJugadorPorId(jugadorId);
                 rend = new RendimientoJugador();
                 rend.setJugador(jugador);
-                rend.setPartidoNBA(partido);
                 rend.setTorneo(torneo);
                 rend.setNombreCompleto(jugador.getNombre() + " " + jugador.getApellido());
-                rend.setPuntos(0);
-                rend.setRebotes(0);
-                rend.setAsistencias(0);
-                rend.setRobos(0);
-                rend.setBloqueos(0);
-                rend.setPerdidas(0);
             }
-
-            rend.setPuntos(rend.getPuntos() + puntos);
-            rend.setRebotes(rend.getRebotes() + rebotes);
-            rend.setAsistencias(rend.getAsistencias() + asistencias);
-            rend.setRobos(rend.getRobos() + robos);
-            rend.setBloqueos(rend.getBloqueos() + bloqueos);
-            rend.setPerdidas(rend.getPerdidas() + perdidas);
+            rend.setPartidoNBA(partido);
+            rend.setPuntos(puntos);
+            rend.setRebotes(rebotes);
+            rend.setAsistencias(asistencias);
+            rend.setRobos(robos);
+            rend.setBloqueos(bloqueos);
+            rend.setPerdidas(perdidas);
 
             repositorioJugador.guardarRendimiento(rend);
         }

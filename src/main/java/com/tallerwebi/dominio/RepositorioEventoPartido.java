@@ -8,4 +8,5 @@ public interface RepositorioEventoPartido {
 
     List<EventoPartido> buscarEventosPorPartido(Long partidoId);
 
+    List<EventoPartido> buscarEventosPorJugadorTorneo(Long jugadorId, Long torneoId);
 }
