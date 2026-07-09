@@ -19,6 +19,14 @@
         <h1 th:text="${torneoActual != null ? torneoActual.nombreTorneo : 'Partidos'}">Partidos</h1>
     </div>
 
+    <div class="acciones-superiores">
+        <h1>Consola de Partidos</h1>
+        <!-- Botón para ir a crear la fecha -->
+        <a th:if="${esAdmin}" th:href="@{/admin/agregarFecha}" class="btn btn-cronologia">
+            + Agregar Fecha
+        </a>
+    </div>
+
     <div th:if="${error}" class="mensaje-error" th:text="${error}">Error</div>
 
     <!-- Proximos partidos -->
@@ -33,7 +41,11 @@
 
     <div th:each="partido : ${partidosProgramados}" class="card-partido-programado">
         <div class="programado-header">
-            <span class="programado-fecha" th:text="${partido.fechaFormateada}">18/08/2026</span>
+            <span>
+                <span class="programado-fecha" th:text="${partido.fechaFormateada}">18/08/2026</span>
+                <span th:text="' - FECHA ' + ${partido.fecha.numeroDeFecha}"
+                      style="color: var(--color-terciario);"> - FECHA 1</span>
+            </span>
             <span class="programado-torneo" th:text="${torneoActual != null ? torneoActual.nombreTorneo : ''}">Temporada NBA 2026</span>
         </div>
 
@@ -99,30 +111,31 @@
 
     <div th:each="partido : ${partidosActivos}" class="card-partido-vivo">
         <div class="vivo-header">
-            <span class="vivo-fecha" th:text="${partido.fechaFormateada}">18/08/2026</span>
+           <span>
+               <span class="vivo-fecha" th:text="${partido.fechaFormateada}">18/08/2026</span>
+                <span th:text="' - FECHA ' + ${partido.fecha.numeroDeFecha}" style="color: var(--color-terciario);"> - FECHA 2</span>
+           </span>
             <span class="vivo-torneo" th:text="${torneoActual != null ? torneoActual.nombreTorneo : ''}">Temporada NBA 2026</span>
         </div>
 
         <div class="programado-divider"></div>
 
         <div class="vivo-cuerpo">
+
             <div class="vivo-equipo">
                 <img th:src="${partido.equipoLocal.escudoImagen}" class="escudo"
                      th:alt="${partido.equipoLocal.nombre}"/>
                 <span class="vivo-equipo-nombre" th:text="${partido.equipoLocal.nombre}">Local</span>
             </div>
 
-
             <!-- TANTEADOR EN VIVO   - agrego llamado a thymeleaf para llevar el tanteador en tiempo real -->
-
-            <div class="programado-score">
-                <span class="programado-puntos"
-                      th:text="${partido.puntosLocal} + ' - ' + ${partido.puntosVisitante}">0 - 0</span>
-                <span class="programado-minuto">0'</span>
-            </div>
 
             <div class="vivo-score">
                 <span class="vivo-estado">EN VIVO</span>
+                <span class="score-vivo-numeros"
+                      th:text="${partido.puntosLocal} + ' - ' + ${partido.puntosVisitante}">0 - 0</span>
+                <span class="programado-minuto">0'</span>
+
             </div>
 
             <div class="vivo-equipo">
@@ -156,7 +169,13 @@
 
     <div th:each="partido : ${partidosFinalizados}" class="card-partido-finalizado">
         <div class="finalizado-header">
-            <span class="finalizado-fecha" th:text="${partido.fechaFormateada}">18/08/2026</span>
+           <span>
+
+               <span class="finalizado-fecha" th:text="${partido.fechaFormateada}">18/08/2026</span>
+               <span th:text="' - FECHA ' + ${partido.fecha.numeroDeFecha}" style="color: var(--color-terciario);"> - FECHA 3</span>
+                </span>
+            </span>
+
             <span class="finalizado-torneo" th:text="${torneoActual != null ? torneoActual.nombreTorneo : ''}">Temporada NBA 2026</span>
         </div>
 

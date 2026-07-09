@@ -84,6 +84,7 @@ public class EventoPartido {
     public String getMomentoFormateado() {
         if (this.momentoPartido == null) return "00:00:00";
         // %02d asegura que si el número es menor a 10, le ponga un 0 adelante (ej: 02 en vez de 2)
+        // y si es minuto exacto 00:01:00 mostraba 00:01 asi forzamos a mostrar completo.
         return String.format("%02d:%02d:%02d",
                 this.momentoPartido.getHour(),
                 this.momentoPartido.getMinute(),

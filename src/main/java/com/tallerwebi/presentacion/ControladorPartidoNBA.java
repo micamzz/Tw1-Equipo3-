@@ -89,6 +89,6 @@ public class ControladorPartidoNBA {
             servicioPartidoNBA.finalizarPartido(idPartido, minutoFin);
         } catch (PartidoFinalizadoException e) {
         }
-        return new ModelAndView("redirect:/admin/partidos");
+        return new ModelAndView("redirect:/partidos");
     }
 }

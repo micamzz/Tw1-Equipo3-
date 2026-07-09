@@ -32,17 +32,19 @@ public class ControladorFixture {
     private final ServicioEquipoNBAJugador servicioEquipoNBAJugador;
     private final ServicioTorneo servicioTorneo;
     private final ServicioFormacion servicioFormacion;
+    private final ServicioFecha servicioFecha;
 
     @Autowired
     public ControladorFixture(ServicioPartidoNBA servicioPartidoNBA,
                                  ServicioEquipoNBA servicioEquipoNBA,
                                  ServicioEquipoNBAJugador servicioEquipoNBAJugador,
-                                 ServicioTorneo servicioTorneo, ServicioFormacion servicioFormacion) {
+                                 ServicioTorneo servicioTorneo, ServicioFormacion servicioFormacion, ServicioFecha servicioFecha) {
         this.servicioPartidoNBA = servicioPartidoNBA;
         this.servicioEquipoNBA = servicioEquipoNBA;
         this.servicioEquipoNBAJugador = servicioEquipoNBAJugador;
         this.servicioTorneo = servicioTorneo;
         this.servicioFormacion = servicioFormacion;
+        this.servicioFecha = servicioFecha;
     }
 /*
     @RequestMapping({"/partidos", "/fixture"})
@@ -65,7 +67,6 @@ public class ControladorFixture {
         RolUsuario rol = (RolUsuario) request.getSession().getAttribute("ROL");
 
         modelo.put("esAdmin", rol == RolUsuario.ADMIN);
-
         modelo.put("partidosActivos", servicioPartidoNBA.obtenerPartidosActivos());
         modelo.put("partidosProgramados", servicioPartidoNBA.obtenerPartidosProgramados());
         modelo.put("partidosFinalizados", servicioPartidoNBA.obtenerPartidosFinalizados());
@@ -82,13 +83,16 @@ public class ControladorFixture {
     public ModelAndView formularioAgregarPartido() {
         ModelMap modelo = new ModelMap();
         List<EquipoNBA> equipos = servicioEquipoNBA.obtenerTodosLosEquiposOrdenadosDeMenorAMayor();
+        List<Fecha> fechas = servicioFecha.obtenerTodasLasFechas();
         modelo.put("equipos", equipos);
+        modelo.put("fechas", fechas);
         return new ModelAndView("admin-agregarPartido", modelo);
     }
 
     @RequestMapping(value = "/admin/agregarPartido", method = RequestMethod.POST)
     public ModelAndView guardarPartido(@RequestParam Long idLocal,
                                        @RequestParam Long idVisitante,
+                                       @RequestParam("idFecha") Long idFecha,
                                        @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime horaInicio) {
         try {
             EquipoNBA local = servicioEquipoNBA.buscarEquipoPorId(idLocal);
@@ -98,7 +102,7 @@ public class ControladorFixture {
             if (horaInicio == null) {
                 horaInicio = LocalDateTime.now();
             }
-            servicioPartidoNBA.agregarPartido(local, visitante, horaInicio, torneo);
+            servicioPartidoNBA.agregarPartido(local, visitante, idFecha, horaInicio, torneo);
             return new ModelAndView("redirect:/partidos");
 
         } catch (EquiposIgualesException e) {

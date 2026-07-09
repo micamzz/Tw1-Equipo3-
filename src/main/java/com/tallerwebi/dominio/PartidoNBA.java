@@ -37,6 +37,9 @@ public class PartidoNBA {
 
     @ManyToOne
     private Torneo torneo;
+
+    @ManyToOne
+    private Fecha fecha;
     
     public PartidoNBA() {
     }
@@ -132,5 +135,13 @@ public class PartidoNBA {
 
     public void setPuntosVisitante(Integer puntosVisitante) {
         this.puntosVisitante = puntosVisitante;
+    }
+
+    public Fecha getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Fecha fecha) {
+        this.fecha = fecha;
     }
 }

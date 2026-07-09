@@ -1,6 +1,8 @@
 package com.tallerwebi.dominio.equipoJugador;
 
+import com.tallerwebi.dominio.Fecha;
 import com.tallerwebi.dominio.Jugador;
+import com.tallerwebi.dominio.Torneo;
 import com.tallerwebi.dominio.enums.PosicionJugadorEquipo;
 import com.tallerwebi.dominio.equipo.Equipo;
 
@@ -25,6 +27,11 @@ public class EquipoJugador {
     @Enumerated(EnumType.STRING)
     private PosicionJugadorEquipo posicionDelJugador;
 
+    @ManyToOne
+    private Fecha fecha;
+
+    @ManyToOne
+    private Torneo torneo;
 
     public EquipoJugador() {
 
@@ -67,6 +74,21 @@ public class EquipoJugador {
         this.posicionDelJugador = posicionDelJugador;
     }
 
+    public Fecha getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Fecha fecha) {
+        this.fecha = fecha;
+    }
+
+    public Torneo getTorneo() {
+        return torneo;
+    }
+
+    public void setTorneo(Torneo torneo) {
+        this.torneo = torneo;
+    }
 
 }
 
