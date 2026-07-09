@@ -65,7 +65,6 @@ public class ControladorFixture {
         RolUsuario rol = (RolUsuario) request.getSession().getAttribute("ROL");
 
         modelo.put("esAdmin", rol == RolUsuario.ADMIN);
-
         modelo.put("partidosActivos", servicioPartidoNBA.obtenerPartidosActivos());
         modelo.put("partidosProgramados", servicioPartidoNBA.obtenerPartidosProgramados());
         modelo.put("partidosFinalizados", servicioPartidoNBA.obtenerPartidosFinalizados());

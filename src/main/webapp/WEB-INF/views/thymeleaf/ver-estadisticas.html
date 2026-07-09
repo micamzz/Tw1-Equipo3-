@@ -21,7 +21,6 @@
 
     <h1>RESUMEN DEL ENCUENTRO</h1>
 
-    <!-- MARCADOR PRINCIPAL (Igual al anterior, da consistencia) -->
     <div class="card-partido-vivo">
         <div class="vivo-header">
             <span class="vivo-fecha" th:text="${partido.fechaFormateada}">27/06/2026</span>
@@ -65,7 +64,7 @@
                      th:classappend="${evento.esLocal} ? 'evento-local' : 'evento-visitante'">
 
                     <div class="evento-contenido">
-                        <!-- El método formateador que creamos ayer -->
+
                         <span class="evento-tiempo" th:text="${evento.getMomentoFormateado()}">00:00:00</span>
                         <span class="evento-jugador" th:text="${evento.jugador.nombre + ' ' + evento.jugador.apellido}">Jugador</span>
                         <!-- Formateo de Enum sin guiones bajos -->

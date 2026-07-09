@@ -106,23 +106,21 @@
         <div class="programado-divider"></div>
 
         <div class="vivo-cuerpo">
+
             <div class="vivo-equipo">
                 <img th:src="${partido.equipoLocal.escudoImagen}" class="escudo"
                      th:alt="${partido.equipoLocal.nombre}"/>
                 <span class="vivo-equipo-nombre" th:text="${partido.equipoLocal.nombre}">Local</span>
             </div>
 
-
             <!-- TANTEADOR EN VIVO   - agrego llamado a thymeleaf para llevar el tanteador en tiempo real -->
-
-            <div class="programado-score">
-                <span class="programado-puntos"
-                      th:text="${partido.puntosLocal} + ' - ' + ${partido.puntosVisitante}">0 - 0</span>
-                <span class="programado-minuto">0'</span>
-            </div>
 
             <div class="vivo-score">
                 <span class="vivo-estado">EN VIVO</span>
+                <span class="score-vivo-numeros"
+                      th:text="${partido.puntosLocal} + ' - ' + ${partido.puntosVisitante}">0 - 0</span>
+                <span class="programado-minuto">0'</span>
+
             </div>
 
             <div class="vivo-equipo">

@@ -418,6 +418,42 @@ body {
 .btn-secundario:hover { background: #3f3f4f; }
 
 /* ===================================================
+   OPTIMIZACIÓN DE SCORE EN VIVO
+   =================================================== */
+.vivo-score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    min-width: 180px; /* Un poco más de espacio para que no se encime */
+}
+
+/* Estilo para los números grandes del resultado en vivo */
+.score-vivo-numeros {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--color-texto);
+    letter-spacing: 1px;
+    line-height: 1;
+    margin: 0.2rem 0;
+}
+
+/* Modificación del badge para que quede sutil arriba del resultado */
+.vivo-estado {
+    font-weight: 800;
+    font-size: 0.75rem;
+    color: #2ecc71;
+    background: rgba(39, 174, 96, 0.12);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+
+
+/* ===================================================
    RESPONSIVE DESIGNS
    =================================================== */
 @media (max-width: 768px) {
