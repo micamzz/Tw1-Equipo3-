@@ -21,6 +21,7 @@ public class ServicioPartidoNBATest {
     private RepositorioJugador repositorioJugadorMock;
     private RepositorioCronologiaNBA repositorioCronologiaNBAMock;
     private RepositorioEventoPartido repositorioEventoPartidoMock;
+    private RepositorioFecha repositorioFechaMock;
 
     @BeforeEach
     public void init() {
@@ -29,12 +30,14 @@ public class ServicioPartidoNBATest {
         repositorioEquipoNBAMock = mock(RepositorioEquipoNBA.class);
         repositorioJugadorMock = mock(RepositorioJugador.class);
         repositorioEventoPartidoMock = mock(RepositorioEventoPartido.class);
+        repositorioFechaMock = mock(RepositorioFecha.class);
         servicioPartidoNBA = new ServicioPartidoNBAImpl(
                 repositorioPartidoNBAMock,
                 repositorioCronologiaNBAMock,
                 repositorioEquipoNBAMock,
                 repositorioJugadorMock,
-                repositorioEventoPartidoMock
+                repositorioEventoPartidoMock,
+                repositorioFechaMock
         );
     }
 
@@ -59,7 +62,7 @@ public class ServicioPartidoNBATest {
         LocalDateTime horaPartido = LocalDateTime.of(2026, 5, 15, 20, 0);
 
         assertThrows(FechaAnteriorInvalidaException.class,
-                () -> servicioPartidoNBA.agregarPartido(local, visitante, horaPartido, torneo));
+                () -> servicioPartidoNBA.agregarPartido(local, visitante, 1L, horaPartido, torneo));
 
         verify(repositorioPartidoNBAMock, never()).guardar(any());
     }
@@ -73,7 +76,7 @@ public class ServicioPartidoNBATest {
 
         when(repositorioPartidoNBAMock.existePartidoEnFecha(horaPartido)).thenReturn(false);
 
-        servicioPartidoNBA.agregarPartido(local, visitante, horaPartido, torneo);
+        servicioPartidoNBA.agregarPartido(local, visitante, 1L, horaPartido, torneo);
 
         verify(repositorioPartidoNBAMock, times(1)).guardar(any(PartidoNBA.class));
 
@@ -89,7 +92,7 @@ public class ServicioPartidoNBATest {
         when(repositorioPartidoNBAMock.existePartidoEnFecha(horaPartido)).thenReturn(true);
 
         assertThrows(FechaDuplicadaException.class,
-                () -> servicioPartidoNBA.agregarPartido(local, visitante, horaPartido, torneo));
+                () -> servicioPartidoNBA.agregarPartido(local, visitante, 1L, horaPartido, torneo));
 
         verify(repositorioPartidoNBAMock, never()).guardar(any());
     }

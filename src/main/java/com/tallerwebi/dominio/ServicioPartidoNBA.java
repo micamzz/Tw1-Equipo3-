@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface ServicioPartidoNBA {
 
-    void agregarPartido(EquipoNBA local, EquipoNBA visitante, LocalDateTime horaInicio, Torneo torneo)
+    void agregarPartido(EquipoNBA local, EquipoNBA visitante, Long idfecha, LocalDateTime horaInicio, Torneo torneo)
             throws FechaAnteriorInvalidaException, FechaDuplicadaException;
 
     void finalizarPartido(Long partidoId, Integer minutoFin);

@@ -451,7 +451,102 @@ body {
     text-transform: uppercase;
 }
 
+/* ===================================================
+   VISTA: AGREGAR PARTIDO (FORMULARIO PREMIUM)
+   =================================================== */
 
+/* Envolvemos el formulario en un contenedor tipo panel con la identidad visual del sitio */
+.formulario-partido {
+    background-color: var(--color-secundario);
+    border: 1px solid var(--color-borde);
+    border-radius: 16px;
+    padding: 2.5rem;
+    margin-top: 2rem;
+    box-shadow: inset 2px 0px 0px 0px rgba(255, 107, 0, 0.4), 0 4px 25px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+    max-width: 600px; /* Centrado y acotado para que sea cómodo de rellenar */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Estilo para las etiquetas de los campos */
+.campo-formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.campo-formulario label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-terciario);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Estilo unificado para los inputs, selects y campos de fecha */
+.campo-formulario input,
+.campo-formulario select {
+    padding: 0.85rem 1rem;
+    border-radius: 8px;
+    border: 1px solid var(--color-borde);
+    background-color: rgba(0, 0, 0, 0.25); /* Fondo más oscuro para que resalte */
+    color: var(--color-texto);
+    font-size: 0.95rem;
+    font-family: "Inter", Arial, sans-serif;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    outline: none;
+    width: 100%;
+}
+
+/* Efecto de enfoque (Focus) cuando el usuario hace clic en el campo */
+.campo-formulario input:focus,
+.campo-formulario select:focus {
+    border-color: var(--color-activo);
+    box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.15);
+}
+
+/* Customización del menú desplegable (Select Options) */
+.campo-formulario select option {
+    background-color: #16161c; /* Mismo color secundario para evitar el gris por defecto de los navegadores */
+    color: var(--color-texto);
+    padding: 0.5rem;
+}
+
+/* Contenedor inferior de botones */
+.formulario-partido .botones-confirmacion {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* Alineados a la derecha de forma prolija */
+    gap: 1rem;
+    margin-top: 1rem;
+    border-top: 1px solid var(--color-borde);
+    padding-top: 1.5rem;
+}
+
+/* Ajuste de los botones para que mantengan la consistencia de tamaño */
+.formulario-partido .botones-confirmacion .btn {
+    min-width: 140px;
+    padding: 0.75rem 1.5rem;
+}
+
+/* ===================================================
+   RESPONSIVE PARA EL FORMULARIO
+   =================================================== */
+@media (max-width: 576px) {
+    .formulario-partido {
+        padding: 1.5rem;
+    }
+    .formulario-partido .botones-confirmacion {
+        flex-direction: column-reverse; /* El botón principal queda arriba en móviles */
+        width: 100%;
+    }
+    .formulario-partido .botones-confirmacion .btn {
+        width: 100%;
+    }
+}
 
 /* ===================================================
    RESPONSIVE DESIGNS

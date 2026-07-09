@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Agregar Fecha de Torneo - UNLaM Basket</title>
+    <link rel="stylesheet" th:href="@{/css/header.css}"/>
+    <link rel="stylesheet" th:href="@{/css/footer.css}"/>
+    <!-- Reutilizamos tu CSS de partidos que ya tiene el formulario premium -->
+    <link rel="stylesheet" th:href="@{/css/partidos.css}"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+<div th:replace="layout/admin-header :: header-admin"></div>
+
+<main class="contenedor-admin-vista">
+
+    <div class="acciones-superiores">
+        <h1>Agregar Fecha del Torneo</h1>
+    </div>
+
+    <!-- Mensaje de error por si falla la validación en el backend -->
+    <div th:if="${error}" class="mensaje-error" th:text="${error}">Error</div>
+
+    <form th:action="@{/admin/agregarFecha}" method="post" class="formulario-partido">
+
+        <!-- Número de Fecha -->
+        <div class="campo-formulario">
+            <label for="numeroFecha">Número de Fecha</label>
+            <input type="number" id="numeroFecha" name="numeroFecha" min="1" placeholder="Ej: 1" required/>
+        </div>
+
+        <!-- Selección de Torneo -->
+        <div class="campo-formulario">
+            <label for="idTorneo">Torneo Asociado</label>
+            <select id="idTorneo" name="idTorneo" required>
+                <option value="">Seleccioná un torneo</option>
+                <option th:each="torneo : ${torneos}"
+                        th:value="${torneo.id}"
+                        th:text="${torneo.nombreTorneo}">NBA 2026</option>
+            </select>
+        </div>
+
+        <!-- Selección de Estado de la Fecha (Enum) -->
+        <div class="campo-formulario">
+            <label for="estadoFecha">Estado de la Fecha</label>
+            <select id="estadoFecha" name="estadoFecha" required>
+                <!-- Iteramos sobre los valores del Enum EstadoFecha -->
+                <option th:each="estado : ${estados}"
+                        th:value="${estado}"
+                        th:text="${#strings.replace(estado, '_', ' ')}">PROGRAMADA</option>
+            </select>
+        </div>
+
+        <!-- Botonera inferior -->
+        <div class="botones-confirmacion">
+            <button type="submit" class="btn btn-naranja">Crear Fecha</button>
+            <a th:href="@{/partidos}" class="btn btn-secundario">Cancelar</a>
+        </div>
+    </form>
+
+</main>
+
+<div th:replace="layout/footer :: footer"></div>
+</body>
+</html>>

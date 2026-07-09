@@ -29,6 +29,17 @@ VALUES (2, '2026-12-20', '2026-03-07', 'UNLAM Basquet 2026', 'VIRTUAL', 2);
 INSERT IGNORE INTO Torneo (id, fechaFin, fechaInicio, nombreTorneo, tipoTorneo, temporada_id)
 VALUES (3, '2025-12-20', '2025-03-01', 'Torneo 2025', 'REAL', 1);
 
+
+INSERT INTO Fecha (id, numero_fecha, estado, torneo_id)
+VALUES (1, 1, 'FINALIZADA', 2);
+
+INSERT INTO Fecha (id, numero_fecha, estado, torneo_id)
+VALUES (2, 2, 'EN_CURSO', 2);
+
+INSERT INTO Fecha (id, numero_fecha, estado, torneo_id)
+VALUES (3, 3, 'PROGRAMADA', 2);
+
+
 INSERT IGNORE INTO EquipoNBA(id, nombre, escudoImagen)
 VALUES (1, 'Golden State Warriors', 'https://cdn.nba.com/logos/nba/1610612744/global/L/logo.svg'),
        (2, 'Boston Celtics', 'https://cdn.nba.com/logos/nba/1610612738/global/L/logo.svg'),
@@ -359,14 +370,14 @@ VALUES (5, 33, 3),
 
 
 /*  PROXIMOS PARTIDOS  SABADO  04 DE JULIO */
-INSERT IGNORE INTO PartidoNBA (id, equipoLocal_id, equipoVisitante_id, horaInicio, minutoFin, torneo_id, estadoPartido)
-VALUES (50, 3, 7, '2026-07-04 19:00:00', NULL, 1, 'PROGRAMADO'),
-       (51, 4, 2, '2026-07-04 21:00:00', NULL, 1, 'PROGRAMADO');
+INSERT IGNORE INTO PartidoNBA (id, equipoLocal_id, equipoVisitante_id, horaInicio, minutoFin, torneo_id, estadoPartido, fecha_id)
+VALUES (50, 3, 7, '2026-07-04 19:00:00', NULL, 1, 'PROGRAMADO', 2),
+       (51, 4, 2, '2026-07-04 21:00:00', NULL, 1, 'PROGRAMADO', 2);
 
 /* PARTIDOS DOMINGO 05 DE JULIO */
-INSERT IGNORE INTO PartidoNBA (id, equipoLocal_id, equipoVisitante_id, horaInicio, minutoFin, torneo_id, estadoPartido)
-VALUES (53, 8, 5, '2026-07-05 19:00:00', NULL, 1, 'PROGRAMADO'),
-       (54, 6, 1, '2026-07-05 21:00:00', NULL, 1, 'PROGRAMADO');
+INSERT IGNORE INTO PartidoNBA (id, equipoLocal_id, equipoVisitante_id, horaInicio, minutoFin, torneo_id, estadoPartido, fecha_id)
+VALUES (53, 8, 5, '2026-07-05 19:00:00', NULL, 1, 'PROGRAMADO', 3),
+       (54, 6, 1, '2026-07-05 21:00:00', NULL, 1, 'PROGRAMADO', 3);
 
 
 -- EQUIPOS USUARIO (torneo virtual id = 2)

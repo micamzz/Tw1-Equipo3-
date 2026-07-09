@@ -15,12 +15,25 @@
 <main class="contenedor-admin-vista">
 
     <div class="acciones-superiores">
-        <h1>Agregar Partido</h1>
+        <h1>Nuevo Partido</h1>
     </div>
 
     <div th:if="${error}" class="mensaje-error" th:text="${error}">Error</div>
 
     <form th:action="@{/admin/agregarPartido}" method="post" class="formulario-partido">
+
+        <div class="campo-formulario">
+            <label for="idFecha">Fecha del Torneo</label>
+            <select id="idFecha" name="idFecha" required>
+                <option value="">Seleccioná la fecha de la jornada</option>
+                <!-- Recorremos las fechas que manda el controlador -->
+                <option th:each="fecha : ${fechas}"
+                        th:value="${fecha.id}"
+                        th:text="'FECHA ' + ${fecha.numeroDeFecha} + ' - ' + ${fecha.torneo.nombreTorneo}">
+                    FECHA 1 - Temporada NBA 2026
+                </option>
+            </select>
+        </div>
 
         <div class="campo-formulario">
             <label for="idLocal">Equipo Local</label>

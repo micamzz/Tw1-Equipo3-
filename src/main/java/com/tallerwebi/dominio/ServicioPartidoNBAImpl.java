@@ -23,22 +23,25 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
     private final RepositorioEquipoNBA repositorioEquipoNBA;
     private final RepositorioJugador repositorioJugador;
     private final RepositorioEventoPartido repositorioEventoPartido;
+    private final RepositorioFecha repositorioFecha;
 
     @Autowired
     public ServicioPartidoNBAImpl(RepositorioPartidoNBA repositorioPartidoNBA,
                                   RepositorioCronologiaNBA repositorioCronologiaNBA,
                                   RepositorioEquipoNBA repositorioEquipoNBA,
                                   RepositorioJugador repositorioJugador,
-                                  RepositorioEventoPartido repositorioEventoPartido) {
+                                  RepositorioEventoPartido repositorioEventoPartido,
+                                  RepositorioFecha repositorioFecha) {
         this.repositorioPartidoNBA = repositorioPartidoNBA;
         this.repositorioCronologiaNBA = repositorioCronologiaNBA;
         this.repositorioEquipoNBA = repositorioEquipoNBA;
         this.repositorioJugador = repositorioJugador;
         this.repositorioEventoPartido = repositorioEventoPartido;
+        this.repositorioFecha = repositorioFecha;
     }
 
     @Override
-    public void agregarPartido(EquipoNBA local, EquipoNBA visitante, LocalDateTime horaInicio, Torneo torneo)
+    public void agregarPartido(EquipoNBA local, EquipoNBA visitante, Long idFecha, LocalDateTime horaInicio, Torneo torneo)
             throws FechaAnteriorInvalidaException, FechaDuplicadaException {
 
         if (local == null || visitante == null) {
@@ -56,9 +59,12 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
             throw new FechaDuplicadaException("Ya existe un partido programado en esa fecha y hora");
         }
 
+        Fecha fecha = repositorioFecha.buscarFechaPorId(idFecha);
+
         PartidoNBA partido = new PartidoNBA();
         partido.setEquipoLocal(local);
         partido.setEquipoVisitante(visitante);
+        partido.setFecha(fecha);
         partido.setHoraInicio(horaInicio);
         partido.setMinutoFin(null);
         partido.setTorneo(torneo);
@@ -285,4 +291,6 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
         }
 
     }
+
+
 }
