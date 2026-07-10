@@ -45,6 +45,7 @@ public class SpringWebConfig implements WebMvcConfigurer {
                 .addPathPatterns(
                         "/home",
                         "/crear-equipo/**",
+                        "/guardarEquipo",
                         "/seleccionar-jugadores/**",
                         "/equipo/**",
                         "/reglas/**",

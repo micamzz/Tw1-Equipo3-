@@ -36,18 +36,29 @@
 
             <div class="hero-botones">
 
-                <a th:if="${equipo == null}" th:href="@{/crear-equipo}" class="boton boton-primario">
-                    CREAR EQUIPO
+                <!-- Todavía no creó el equipo -->
+                <a th:if="${equipo == null}" th:href="@{/crear-equipo}" class="boton boton-primario">CREAR EQUIPO
                 </a>
 
-                <a th:if="${equipo != null}"
-                   th:href="@{/equipo/detalle/{id}(id=${equipo.id})}"
+                <!-- Tiene equipo y ya tiene una formación cargada -->
+                <a th:if="${equipo != null and tieneJugadores}" th:href="@{/equipo/detalle/{id}(id=${equipo.id})}"
+                   class="boton boton-primario">VER MI EQUIPO
+                </a>
+
+                <!-- Tiene nombre de equipo, pero todavía no tiene jugadores y puede modificar -->
+                <a th:if="${equipo != null and !tieneJugadores and puedeModificar}"
+                   th:href="@{/seleccionar-jugadores/{id}(id=${equipo.id})}"
+                   class="boton boton-primario">ARMAR MI EQUIPO
+                </a>
+
+                <!-- Tiene equipo vacío, pero la fecha está en curso -->
+                <a th:if="${equipo != null and !tieneJugadores and !puedeModificar}"
+                   th:href="@{/seleccionar-jugadores/{id}(id=${equipo.id})}"
                    class="boton boton-primario">
-                    VER MI EQUIPO
+                    SELECCIÓN CERRADA
                 </a>
 
-                <a th:href="@{/mercado}" class="boton boton-secundario">
-                    VER MERCADO
+                <a th:href="@{/mercado}" class="boton boton-secundario">VER MERCADO
                 </a>
 
             </div>

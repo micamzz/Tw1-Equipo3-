@@ -13,6 +13,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -59,10 +60,15 @@ public class ControladorEquipo {
     }
 
     @RequestMapping(value = "/guardarEquipo", method = RequestMethod.POST)
-    public ModelAndView guardarNombreEquipo(
-            @ModelAttribute Equipo equipoIngresado) {
+    public ModelAndView guardarNombreEquipo(@ModelAttribute Equipo equipoIngresado, HttpServletRequest request) {
 
-        Equipo equipoExistente = servicioEquipo.obtenerEquipoPorIdUsuario(equipoIngresado.getUsuario().getId());
+        Usuario usuarioLogueado = (Usuario) request.getSession().getAttribute("usuario");
+
+        if (usuarioLogueado == null) {
+            return new ModelAndView("redirect:/login");
+        }
+
+        Equipo equipoExistente = servicioEquipo.obtenerEquipoPorIdUsuario(usuarioLogueado.getId());
 
         if (equipoExistente != null) {
             return new ModelAndView("redirect:/equipo/detalle/" + equipoExistente.getId());
@@ -74,6 +80,7 @@ public class ControladorEquipo {
                 throw new EquipoSinNombreException("El nombre del equipo no puede estar vacío");
             }
 
+            equipoIngresado.setUsuario(usuarioLogueado);
             Equipo equipoGuardado = servicioEquipo.guardarEquipo(equipoIngresado);
 
             return new ModelAndView("redirect:/seleccionar-jugadores/" + equipoGuardado.getId());
@@ -82,7 +89,7 @@ public class ControladorEquipo {
 
             ModelMap modelo = new ModelMap();
 
-            modelo.put("equipo", new Equipo());
+            modelo.put("equipo", equipoIngresado);
             modelo.put("error", e.getMessage());
 
             return new ModelAndView("crear-equipo", modelo);
@@ -102,14 +109,11 @@ public class ControladorEquipo {
 
             modelo.put("equipo", equipo);
             modelo.put("fechaActual", fechaActual);
-            modelo.put("numeroFecha", fechaActual.getNumeroDeFecha()
-            );
+            modelo.put("numeroFecha", fechaActual.getNumeroDeFecha());
 
-            modelo.put("listadoBases", servicioEquipoJugador.obtenerJugadoresDisponiblesPorPosicion(id, Posicion.BASE)
-            );
+            modelo.put("listadoBases", servicioEquipoJugador.obtenerJugadoresDisponiblesPorPosicion(id, Posicion.BASE));
 
-            modelo.put("listadoAleros", servicioEquipoJugador.obtenerJugadoresDisponiblesPorPosicion(id, Posicion.ALERO)
-            );
+            modelo.put("listadoAleros", servicioEquipoJugador.obtenerJugadoresDisponiblesPorPosicion(id, Posicion.ALERO));
 
             modelo.put("listadoPivots", servicioEquipoJugador.obtenerJugadoresDisponiblesPorPosicion(id, Posicion.PIVOT));
 
@@ -128,6 +132,8 @@ public class ControladorEquipo {
 
             List<EquipoJugador> todos = servicioEquipo.buscarJugadoresDelEquipo(id);
 
+            modelo.put("equipoSinJugadores", todos.isEmpty());
+
             EquipoJugador capitan = null;
             EquipoJugador sextoHombre = null;
 
@@ -136,14 +142,10 @@ public class ControladorEquipo {
 
             for (EquipoJugador equipoJugador : todos) {
 
-                if (equipoJugador.getPosicionDelJugador()
-                        == PosicionJugadorEquipo.CAPITAN) {
-
+                if (equipoJugador.getPosicionDelJugador() == PosicionJugadorEquipo.CAPITAN) {
                     capitan = equipoJugador;
 
-                } else if (equipoJugador.getPosicionDelJugador()
-                        == PosicionJugadorEquipo.SEXTO_HOMBRE) {
-
+                } else if (equipoJugador.getPosicionDelJugador() == PosicionJugadorEquipo.SEXTO_HOMBRE) {
                     sextoHombre = equipoJugador;
                 }
 
@@ -154,9 +156,7 @@ public class ControladorEquipo {
                 }
             }
 
-            modelo.put("puedeModificar", servicioEquipo.puedeModificarEquipo()
-            );
-
+            modelo.put("puedeModificar", servicioEquipo.puedeModificarEquipo());
             modelo.put("capitan", capitan);
             modelo.put("sextoHombre", sextoHombre);
             modelo.put("titularesParaCapitan", titulares);
@@ -166,47 +166,29 @@ public class ControladorEquipo {
                 modelo.put("error", error);
             }
 
-            return new ModelAndView("seleccionar-jugadores", modelo
-            );
+            return new ModelAndView("seleccionar-jugadores", modelo);
 
         } catch (EquipoNoEncontradoException e) {
-
             return new ModelAndView("redirect:/home");
 
         } catch (FechaNoEncontradaException e) {
-
-            return new ModelAndView("redirect:/home?error=" + encodearError(e.getMessage())
-            );
+            return new ModelAndView("redirect:/home?error=" + encodearError(e.getMessage()));
         }
     }
 
     @RequestMapping(value = "/agregar-jugador/{idEquipo}/{idJugador}", method = RequestMethod.POST)
-    public ModelAndView agregarJugadorAlEquipo(
-            @PathVariable Long idEquipo,
-            @PathVariable Long idJugador,
-            @RequestParam Integer numeroDeOrden) {
+    public ModelAndView agregarJugadorAlEquipo(@PathVariable Long idEquipo, @PathVariable Long idJugador, @RequestParam Integer numeroDeOrden) {
 
         try {
-            servicioEquipo.agregarJugadorAlEquipo(
-                    idEquipo,
-                    idJugador,
-                    numeroDeOrden
-            );
+            servicioEquipo.agregarJugadorAlEquipo(idEquipo, idJugador, numeroDeOrden);
 
-            return new ModelAndView(
-                    "redirect:/seleccionar-jugadores/" + idEquipo
-            );
+            return new ModelAndView("redirect:/seleccionar-jugadores/" + idEquipo);
 
         } catch (elJugadorYaExisteEnElEquipoException
                  | PresupuestoInsuficienteException
                  | NoSePuedeModificarEquipoSiLaFechaEstaEnCursoException e) {
 
-            return new ModelAndView(
-                    "redirect:/seleccionar-jugadores/"
-                            + idEquipo
-                            + "?error="
-                            + encodearError(e.getMessage())
-            );
+            return new ModelAndView("redirect:/seleccionar-jugadores/" + idEquipo + "?error=" + encodearError(e.getMessage()));
 
         } catch (EquipoNoEncontradoException
                  | FechaNoEncontradaException e) {

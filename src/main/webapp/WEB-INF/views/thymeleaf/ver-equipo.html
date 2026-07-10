@@ -28,10 +28,16 @@
             hacelo desde el botón <strong>Gestionar Equipo</strong> antes del inicio de la fecha.
         </p>
 
-        <p class="texto-aviso" th:if="${!puedeModificar}">
-            Este es tu equipo confirmado para la <strong>Fecha <span th:text="${numeroFecha}"></span></strong>.
-            La fecha se encuentra en curso y la formación ya no puede modificarse.
+        <p class="texto-aviso" th:if="${!puedeModificar and tieneJugadores}">
+            Este es tu equipo confirmado para la<strong>Fecha <span th:text="${numeroFecha}"></span></strong>.
+            La fecha está en curso y la formación ya no puede modificarse.
         </p>
+
+        <p class="texto-aviso" th:if="${!puedeModificar and !tieneJugadores}">
+            Todavía no tenés una formación asignada para la<strong>Fecha <span th:text="${numeroFecha}"></span></strong>.
+            Podrás seleccionar jugadores cuando finalice la fecha actual.
+        </p>
+
     </div>
 
     <div class="contenedor-equipo">

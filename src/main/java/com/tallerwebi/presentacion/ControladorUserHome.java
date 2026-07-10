@@ -34,12 +34,10 @@ public class ControladorUserHome {
         this.servicioMercado = servicioMercado;
     }
 
-    /* HOME USUARIO */
     @RequestMapping(path = "/home", method = RequestMethod.GET)
     public ModelAndView iraHome(HttpServletRequest request) {
 
         Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
-
 
         if (usuario == null) {
             return new ModelAndView("redirect:/login");
@@ -47,10 +45,10 @@ public class ControladorUserHome {
 
         Equipo equipo = servicioEquipo.obtenerEquipoPorIdUsuario(usuario.getId());
 
-
         Torneo torneoActual = servicioTorneo.obtenerTorneoActual(TipoTorneo.REAL);
 
         ModelMap modelo = new ModelMap();
+
         modelo.put("usuario", usuario);
         modelo.put("equipo", equipo);
         modelo.put("presupuestoInicial", servicioEquipo.obtenerPresupuestoInicial());
@@ -58,22 +56,48 @@ public class ControladorUserHome {
         modelo.put("proximosPartidos", servicioPartidoNBA.obtenerPartidosProgramados());
         modelo.put("servicioMercado", servicioMercado);
 
+        /*
+         * Se verifica si el usuario ya tiene jugadores asignados
+         * para la fecha actual.
+         */
+        boolean tieneJugadores = false;
+
+        if (equipo != null) {
+            try {
+                List<EquipoJugador> jugadoresDelEquipo = servicioEquipo.buscarJugadoresDelEquipo(equipo.getId());
+
+                tieneJugadores = jugadoresDelEquipo != null && !jugadoresDelEquipo.isEmpty();
+
+            } catch (FechaNoEncontradaException e) {
+                tieneJugadores = false;
+            }
+        }
+
+        modelo.put("tieneJugadores", tieneJugadores);
+        modelo.put("puedeModificar", servicioEquipo.puedeModificarEquipo());
+
         if (torneoActual != null) {
             List<RendimientoJugador> top3 = servicioMercado.obtenerTopJugadoresPorTorneo(torneoActual.getId(), 3);
+
             modelo.put("topRendimientos", top3);
         }
 
         List<Equipo> topEquipos = List.of();
+
         try {
             Torneo torneoVirtual = servicioTorneo.obtenerTorneoActual(TipoTorneo.VIRTUAL);
+
             if (torneoVirtual != null) {
                 List<Equipo> resultado = servicioEquipo.obtenerTopEquiposPorTorneo(torneoVirtual.getId(), 5);
+
                 if (resultado != null) {
                     topEquipos = resultado;
                 }
             }
+
         } catch (Exception ignored) {
         }
+
         modelo.put("topEquipos", topEquipos);
 
         return new ModelAndView("home", modelo);
