@@ -4,6 +4,7 @@ import com.tallerwebi.dominio.EstadoFecha;
 import com.tallerwebi.dominio.Fecha;
 import com.tallerwebi.dominio.RepositorioFecha;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -42,10 +43,12 @@ public class RepositorioFechaImpl implements RepositorioFecha {
         sessionFactory.getCurrentSession().delete(fecha);
     }
 
+    // Trae las fechas ordenadas
     @Override
     public List<Fecha> buscarTodasLasFechas() {
         return sessionFactory.getCurrentSession()
-                .createQuery("from Fecha", Fecha.class)
+                .createCriteria(Fecha.class)
+                .addOrder(Order.asc("numeroDeFecha"))
                 .list();
     }
 
@@ -62,6 +65,8 @@ public class RepositorioFechaImpl implements RepositorioFecha {
         return (Fecha) sessionFactory.getCurrentSession()
                 .createCriteria(Fecha.class)
                 .add(Restrictions.eq("estadoFecha", EstadoFecha.PROGRAMADA))
+                .addOrder(Order.asc("numeroDeFecha"))
+                .setMaxResults(1)
                 .uniqueResult();
     }
 

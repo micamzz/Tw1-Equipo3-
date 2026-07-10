@@ -1,13 +1,13 @@
 package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.*;
-import com.tallerwebi.dominio.ServicioPartidoNBA;
 import com.tallerwebi.dominio.enums.RolUsuario;
 import com.tallerwebi.dominio.equipoNBA.EquipoNBA;
 import com.tallerwebi.dominio.equipoNBA.ServicioEquipoNBA;
 import com.tallerwebi.dominio.equipoNBAJugador.ServicioEquipoNBAJugador;
 import com.tallerwebi.dominio.excepcion.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,13 +16,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import org.springframework.format.annotation.DateTimeFormat;
-
-import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class ControladorFixture {
@@ -36,9 +33,9 @@ public class ControladorFixture {
 
     @Autowired
     public ControladorFixture(ServicioPartidoNBA servicioPartidoNBA,
-                                 ServicioEquipoNBA servicioEquipoNBA,
-                                 ServicioEquipoNBAJugador servicioEquipoNBAJugador,
-                                 ServicioTorneo servicioTorneo, ServicioFormacion servicioFormacion, ServicioFecha servicioFecha) {
+                              ServicioEquipoNBA servicioEquipoNBA,
+                              ServicioEquipoNBAJugador servicioEquipoNBAJugador,
+                              ServicioTorneo servicioTorneo, ServicioFormacion servicioFormacion, ServicioFecha servicioFecha) {
         this.servicioPartidoNBA = servicioPartidoNBA;
         this.servicioEquipoNBA = servicioEquipoNBA;
         this.servicioEquipoNBAJugador = servicioEquipoNBAJugador;
@@ -46,77 +43,127 @@ public class ControladorFixture {
         this.servicioFormacion = servicioFormacion;
         this.servicioFecha = servicioFecha;
     }
-/*
-    @RequestMapping({"/partidos", "/fixture"})
-    public ModelAndView verPartidos() {
-        ModelMap modelo = new ModelMap();
-        modelo.put("partidosActivos", servicioPartidoNBA.obtenerPartidosActivos());
-        modelo.put("partidosProgramados", servicioPartidoNBA.obtenerPartidosProgramados());
-        modelo.put("partidosFinalizados", servicioPartidoNBA.obtenerPartidosFinalizados());
-        try {
-            Torneo torneoActual = servicioTorneo.obtenerTorneoActual(TipoTorneo.REAL);
-            modelo.put("torneoActual", torneoActual);
-        } catch (Exception e) {
-        }
-        return new ModelAndView("partidos", modelo);
-    }*/
+
+    /*
+        @RequestMapping({"/partidos", "/fixture"})
+        public ModelAndView verPartidos() {
+            ModelMap modelo = new ModelMap();
+            modelo.put("partidosActivos", servicioPartidoNBA.obtenerPartidosActivos());
+            modelo.put("partidosProgramados", servicioPartidoNBA.obtenerPartidosProgramados());
+            modelo.put("partidosFinalizados", servicioPartidoNBA.obtenerPartidosFinalizados());
+            try {
+                Torneo torneoActual = servicioTorneo.obtenerTorneoActual(TipoTorneo.REAL);
+                modelo.put("torneoActual", torneoActual);
+            } catch (Exception e) {
+            }
+            return new ModelAndView("partidos", modelo);
+        }*/
 
     @RequestMapping("/partidos")
-    public ModelAndView adminPartidos(HttpServletRequest request) {
+    public ModelAndView adminPartidos(
+            HttpServletRequest request,
+            @RequestParam(value = "idFecha", required = false) Long idFecha,
+            @RequestParam(value = "error", required = false) String error) {
+
         ModelMap modelo = new ModelMap();
+
         RolUsuario rol = (RolUsuario) request.getSession().getAttribute("ROL");
 
         modelo.put("esAdmin", rol == RolUsuario.ADMIN);
-        modelo.put("partidosActivos", servicioPartidoNBA.obtenerPartidosActivos());
-        modelo.put("partidosProgramados", servicioPartidoNBA.obtenerPartidosProgramados());
-        modelo.put("partidosFinalizados", servicioPartidoNBA.obtenerPartidosFinalizados());
+
+        try {
+            Fecha fechaSeleccionada;
+
+            if (idFecha != null) {
+                fechaSeleccionada = servicioFecha.obtenerFechaPorId(idFecha);
+            } else {
+                fechaSeleccionada = servicioFecha.obtenerFechaActual();
+            }
+
+            modelo.put("fechaActual", fechaSeleccionada);
+
+            modelo.put("partidosActivos", servicioPartidoNBA.obtenerPartidosActivosPorFecha(fechaSeleccionada.getId()));
+
+            modelo.put("partidosProgramados", servicioPartidoNBA.obtenerPartidosProgramadosPorFecha(fechaSeleccionada.getId()));
+
+            modelo.put("partidosFinalizados", servicioPartidoNBA.obtenerPartidosFinalizadosPorFecha(fechaSeleccionada.getId()));
+
+        } catch (FechaNoEncontradaException e) {
+            modelo.put("fechaActual", null);
+            modelo.put("partidosActivos", List.of());
+            modelo.put("partidosProgramados", List.of());
+            modelo.put("partidosFinalizados", List.of());
+            modelo.put("error", e.getMessage());
+        }
+
+        if (error != null) {
+            modelo.put("error", error);
+        }
+
         try {
             Torneo torneoActual = servicioTorneo.obtenerTorneoActual(TipoTorneo.REAL);
+
             modelo.put("torneoActual", torneoActual);
+
         } catch (Exception e) {
-            // si no hay torneo, no se muestra
+            modelo.put("torneoActual", null);
         }
+
         return new ModelAndView("partidos", modelo);
     }
 
     @RequestMapping(value = "/admin/agregarPartido", method = RequestMethod.GET)
-    public ModelAndView formularioAgregarPartido() {
+    public ModelAndView formularioAgregarPartido(
+            @RequestParam("idFecha") Long idFecha) {
+
         ModelMap modelo = new ModelMap();
-        List<EquipoNBA> equipos = servicioEquipoNBA.obtenerTodosLosEquiposOrdenadosDeMenorAMayor();
-        List<Fecha> fechas = servicioFecha.obtenerTodasLasFechas();
-        modelo.put("equipos", equipos);
-        modelo.put("fechas", fechas);
-        return new ModelAndView("admin-agregarPartido", modelo);
+
+        try {
+            Fecha fecha = servicioFecha.obtenerFechaPorId(idFecha);
+            List<EquipoNBA> equipos = servicioEquipoNBA.obtenerTodosLosEquiposOrdenadosDeMenorAMayor();
+
+            modelo.put("fecha", fecha);
+            modelo.put("equipos", equipos);
+
+            return new ModelAndView("admin-agregarPartido", modelo);
+
+        } catch (FechaNoEncontradaException e) {
+
+            return new ModelAndView("redirect:/admin/fechas?error=" + e.getMessage());
+        }
     }
 
     @RequestMapping(value = "/admin/agregarPartido", method = RequestMethod.POST)
-    public ModelAndView guardarPartido(@RequestParam Long idLocal,
-                                       @RequestParam Long idVisitante,
-                                       @RequestParam("idFecha") Long idFecha,
-                                       @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime horaInicio) {
+    public ModelAndView guardarPartido(
+            @RequestParam Long idLocal,
+            @RequestParam Long idVisitante,
+            @RequestParam("idFecha") Long idFecha,
+            @RequestParam(required = false)
+            @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+            LocalDateTime horaInicio) {
+
         try {
             EquipoNBA local = servicioEquipoNBA.buscarEquipoPorId(idLocal);
             EquipoNBA visitante = servicioEquipoNBA.buscarEquipoPorId(idVisitante);
             Torneo torneo = servicioTorneo.obtenerTorneoActual(TipoTorneo.REAL);
-
             if (horaInicio == null) {
                 horaInicio = LocalDateTime.now();
             }
             servicioPartidoNBA.agregarPartido(local, visitante, idFecha, horaInicio, torneo);
-            return new ModelAndView("redirect:/partidos");
-
-        } catch (EquiposIgualesException e) {
+            return new ModelAndView("redirect:/partidos?idFecha=" + idFecha);
+        } catch (EquiposIgualesException | FechaAnteriorInvalidaException | FechaDuplicadaException e) {
             ModelMap modelo = new ModelMap();
             modelo.put("error", e.getMessage());
             modelo.put("equipos", servicioEquipoNBA.obtenerTodosLosEquiposOrdenadosDeMenorAMayor());
-            return new ModelAndView("admin-agregarPartido", modelo);
-        } catch (FechaAnteriorInvalidaException | FechaDuplicadaException e) {
-            ModelMap modelo = new ModelMap();
-            modelo.put("error", e.getMessage());
-            modelo.put("equipos", servicioEquipoNBA.obtenerTodosLosEquiposOrdenadosDeMenorAMayor());
+            try {
+                Fecha fecha = servicioFecha.obtenerFechaPorId(idFecha);
+                modelo.put("fecha", fecha);
+            } catch (FechaNoEncontradaException ex) {
+                return new ModelAndView("redirect:/admin/fechas?error=" + ex.getMessage());
+            }
             return new ModelAndView("admin-agregarPartido", modelo);
         } catch (EquipoNoEncontradoException e) {
-            throw new RuntimeException(e);
+            return new ModelAndView("redirect:/partidos?idFecha=" + idFecha);
         }
     }
 
@@ -142,64 +189,73 @@ public class ControladorFixture {
 
         return new ModelAndView("admin-partido", modelo);
     }
-//Formacion SOIFI
-@RequestMapping(value = "/admin/partido/{idPartido}/formacion/{idEquipo}", method = RequestMethod.GET)
-public  ModelAndView verFormacionEquipo(@PathVariable Long idPartido, @PathVariable Long idEquipo) {
+
+    //Formacion SOIFI
+    @RequestMapping(value = "/admin/partido/{idPartido}/formacion/{idEquipo}", method = RequestMethod.GET)
+    public ModelAndView verFormacionEquipo(@PathVariable Long idPartido, @PathVariable Long idEquipo) {
         ModelMap modelo = new ModelMap();
-try {
-    PartidoNBA partido = servicioPartidoNBA.obtenerPorId(idPartido);
-    EquipoNBA equipo = servicioEquipoNBA.buscarEquipoPorId(idEquipo);
+        try {
+            PartidoNBA partido = servicioPartidoNBA.obtenerPorId(idPartido);
+            EquipoNBA equipo = servicioEquipoNBA.buscarEquipoPorId(idEquipo);
 
-    List<Jugador> jugadoresDelEquipo = servicioEquipoNBAJugador.obtenerJugadoresDelEquipoEnTorneo(idEquipo, partido.getTorneo().getId());
-    List<FormacionPartido> formacionActual = servicioFormacion.obtenerFormacionPorEquipo(idPartido, idEquipo);
+            List<Jugador> jugadoresDelEquipo = servicioEquipoNBAJugador.obtenerJugadoresDelEquipoEnTorneo(idEquipo, partido.getTorneo().getId());
+            List<FormacionPartido> formacionActual = servicioFormacion.obtenerFormacionPorEquipo(idPartido, idEquipo);
 
-    // Filtrar: sacar de la lista de jugadores los que ya están en la formación
-    List<Jugador> jugadoresDisponibles = jugadoresDelEquipo.stream()
-            .filter(j -> formacionActual.stream()
-                    .noneMatch(f -> f.getJugador().getId().equals(j.getId())))
-            .collect(Collectors.toList());
+            // Filtrar: sacar de la lista de jugadores los que ya están en la formación
+            List<Jugador> jugadoresDisponibles = jugadoresDelEquipo.stream()
+                    .filter(j -> formacionActual.stream()
+                            .noneMatch(f -> f.getJugador().getId().equals(j.getId())))
+                    .collect(Collectors.toList());
 
-    modelo.put("partido", partido);
-    modelo.put("equipo", equipo);
-    modelo.put("jugadores", jugadoresDisponibles);
-    modelo.put("formacionActual", formacionActual);
-    return new ModelAndView("admin-formacion-equipo", modelo);
-}
-catch (EquipoNoEncontradoException e) {
-    return new ModelAndView("redirect:/partidos");
-}
-}
+            modelo.put("partido", partido);
+            modelo.put("equipo", equipo);
+            modelo.put("jugadores", jugadoresDisponibles);
+            modelo.put("formacionActual", formacionActual);
+            return new ModelAndView("admin-formacion-equipo", modelo);
+        } catch (EquipoNoEncontradoException e) {
+            return new ModelAndView("redirect:/partidos");
+        }
+    }
 
-@RequestMapping(value="/admin/partido/{idPartido}/formacion/{idEquipo}/confirmar", method = RequestMethod.POST)
-public ModelAndView confirmarFormacionEquipo(@PathVariable Long idPartido, @PathVariable Long idEquipo, @RequestParam(required = false) List<Long> idsJugadores) {
-        if(idsJugadores != null){
-            for(Long idJugador : idsJugadores){
+    @RequestMapping(value = "/admin/partido/{idPartido}/formacion/{idEquipo}/confirmar", method = RequestMethod.POST)
+    public ModelAndView confirmarFormacionEquipo(@PathVariable Long idPartido, @PathVariable Long idEquipo, @RequestParam(required = false) List<Long> idsJugadores) {
+        if (idsJugadores != null) {
+            for (Long idJugador : idsJugadores) {
                 servicioFormacion.agregarJugador(idPartido, idEquipo, idJugador);
             }
         }
-        return new ModelAndView("redirect:/admin/partido/" +  idPartido + "/formacion/" +  idEquipo);
-}
-@RequestMapping(value = "/admin/eliminarJugadorFormacion", method = RequestMethod.POST)
-public ModelAndView eliminarJugadorFormacion(@RequestParam Long idFormacion, @RequestParam Long idPartido, @RequestParam Long idEquipo) {
+        return new ModelAndView("redirect:/admin/partido/" + idPartido + "/formacion/" + idEquipo);
+    }
+
+    @RequestMapping(value = "/admin/eliminarJugadorFormacion", method = RequestMethod.POST)
+    public ModelAndView eliminarJugadorFormacion(@RequestParam Long idFormacion, @RequestParam Long idPartido, @RequestParam Long idEquipo) {
         servicioFormacion.quitarJugador(idFormacion);
-        return new ModelAndView("redirect:/admin/partido/" +  idPartido + "/formacion/" +  idEquipo);
-}
+        return new ModelAndView("redirect:/admin/partido/" + idPartido + "/formacion/" + idEquipo);
+    }
     // FIN
 
     @RequestMapping(value = "/admin/iniciarPartido", method = RequestMethod.POST)
-    public ModelAndView iniciarPartido(@RequestParam Long idPartido) {
+    public ModelAndView iniciarPartido(HttpServletRequest request, @RequestParam Long idPartido) {
+
+        PartidoNBA partido = servicioPartidoNBA.obtenerPorId(idPartido);
+        Fecha fechaActual = partido.getFecha();
+        RolUsuario rol = (RolUsuario) request.getSession().getAttribute("ROL");
+
         //sofi para validacion
         try {
-            if(!servicioFormacion.partidoTieneJugadoresEnFormacion(idPartido)){
+            if (!servicioFormacion.partidoTieneJugadoresEnFormacion(idPartido)) {
                 ModelMap modelo = new ModelMap();
                 modelo.put("error", "Cada equipo debe tener al menos 5 jugadores en la formacion");
-                modelo.put("partidosActivos", servicioPartidoNBA.obtenerPartidosActivos());
-                modelo.put("partidosProgramados", servicioPartidoNBA.obtenerPartidosProgramados());
-                modelo.put("partidosFinalizados", servicioPartidoNBA.obtenerPartidosFinalizados());
-            try{
-                Torneo torneoActual = servicioTorneo.obtenerTorneoActual(TipoTorneo.REAL);
-                modelo.put("torneoActual", torneoActual);
-            } catch (Exception ignored) {}
+                modelo.put("esAdmin", rol == RolUsuario.ADMIN);
+                modelo.put("fechaActual", fechaActual);
+                modelo.put("partidosActivos", servicioPartidoNBA.obtenerPartidosActivosPorFecha(fechaActual.getId()));
+                modelo.put("partidosProgramados", servicioPartidoNBA.obtenerPartidosProgramadosPorFecha(fechaActual.getId()));
+                modelo.put("partidosFinalizados", servicioPartidoNBA.obtenerPartidosFinalizadosPorFecha(fechaActual.getId()));
+                try {
+                    Torneo torneoActual = servicioTorneo.obtenerTorneoActual(TipoTorneo.REAL);
+                    modelo.put("torneoActual", torneoActual);
+                } catch (Exception ignored) {
+                }
                 return new ModelAndView("partidos", modelo);
             }
 
@@ -207,16 +263,19 @@ public ModelAndView eliminarJugadorFormacion(@RequestParam Long idFormacion, @Re
         }
         //sofi para validacion
 
-        catch (EquipoJugandoException e) {
+        catch (EquipoJugandoException | FechaNoEstaEnCursoException e) {
             ModelMap modelo = new ModelMap();
             modelo.put("error", e.getMessage());
-            modelo.put("partidosActivos", servicioPartidoNBA.obtenerPartidosActivos());
-            modelo.put("partidosProgramados", servicioPartidoNBA.obtenerPartidosProgramados());
-            modelo.put("partidosFinalizados", servicioPartidoNBA.obtenerPartidosFinalizados());
+            modelo.put("esAdmin", rol == RolUsuario.ADMIN);
+            modelo.put("fechaActual", fechaActual);
+            modelo.put("partidosActivos", servicioPartidoNBA.obtenerPartidosActivosPorFecha(fechaActual.getId()));
+            modelo.put("partidosProgramados", servicioPartidoNBA.obtenerPartidosProgramadosPorFecha(fechaActual.getId()));
+            modelo.put("partidosFinalizados", servicioPartidoNBA.obtenerPartidosFinalizadosPorFecha(fechaActual.getId()));
             try {
                 Torneo torneoActual = servicioTorneo.obtenerTorneoActual(TipoTorneo.REAL);
                 modelo.put("torneoActual", torneoActual);
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
             return new ModelAndView("partidos", modelo);
         }
         return new ModelAndView("redirect:/partidos");
@@ -236,7 +295,8 @@ public ModelAndView eliminarJugadorFormacion(@RequestParam Long idFormacion, @Re
             try {
                 Torneo torneoActual = servicioTorneo.obtenerTorneoActual(TipoTorneo.REAL);
                 modelo.put("torneoActual", torneoActual);
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
             return new ModelAndView("partidos", modelo);
         }
         return new ModelAndView("redirect:/partidos");
@@ -254,5 +314,6 @@ public ModelAndView eliminarJugadorFormacion(@RequestParam Long idFormacion, @Re
         servicioPartidoNBA.finalizarPartido(idPartido, minutoFin);
         return new ModelAndView("redirect:/partidos");
     }
+
 
 }

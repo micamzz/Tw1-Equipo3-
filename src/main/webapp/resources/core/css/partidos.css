@@ -2,12 +2,12 @@
    VARIABLES DE DISEÑO - UNLaM Basket (Consistencia)
    =================================================== */
 :root {
-    --color-fondo: #111116;          /* Fondo oscuro profundo unificado */
-    --color-secundario: #16161c;     /* Fondo de las tarjetas y paneles */
+    --color-fondo: #111116; /* Fondo oscuro profundo unificado */
+    --color-secundario: #16161c; /* Fondo de las tarjetas y paneles */
     --color-borde: rgba(255, 255, 255, 0.08); /* Borde sutil */
     --color-texto: #ffffff;
-    --color-terciario: #9a9aa5;     /* Gris para textos mutados */
-    --color-activo: #ff6b00;         /* Naranja UNLaM Basket */
+    --color-terciario: #9a9aa5; /* Gris para textos mutados */
+    --color-activo: #ff6b00; /* Naranja UNLaM Basket */
 
     --color-rojo: #c0392b;
     --color-verde: #27ae60;
@@ -48,6 +48,7 @@ body {
     gap: 1rem;
     flex-wrap: wrap;
     margin-bottom: 2rem;
+    justify-content: space-between;
 }
 
 .acciones-superiores h1 {
@@ -161,8 +162,13 @@ body {
     gap: 0.75rem;
 }
 
-.programado-equipo { align-items: center; }
-.programado-equipo-visitante { align-items: center; }
+.programado-equipo {
+    align-items: center;
+}
+
+.programado-equipo-visitante {
+    align-items: center;
+}
 
 .escudo {
     width: 75px;
@@ -245,8 +251,12 @@ body {
 }
 
 @keyframes pulso {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.6; }
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.6;
+    }
 }
 
 /* ===================================================
@@ -268,8 +278,8 @@ body {
 .finalizado-acciones {
     display: flex;
     justify-content: center; /* Centra el botón horizontalmente */
-    align-items: center;     /* Centra verticalmente */
-    width: 100%;             /* Fuerza a ocupar todo el ancho de la card */
+    align-items: center; /* Centra verticalmente */
+    width: 100%; /* Fuerza a ocupar todo el ancho de la card */
     padding: 1.25rem 1.5rem; /* Mismo aire y respiro que los partidos programados */
     background-color: rgba(0, 0, 0, 0.2); /* Fondo oscuro integrado de las botoneras */
     box-sizing: border-box;
@@ -321,19 +331,45 @@ body {
     justify-content: center;
 }
 
-.btn:active { transform: scale(0.98); }
+.btn:active {
+    transform: scale(0.98);
+}
 
-.btn-naranja { background-color: var(--color-activo); color: #fff; }
-.btn-naranja:hover { background-color: #e05e00; }
+.btn-naranja {
+    background-color: var(--color-activo);
+    color: #fff;
+}
 
-.btn-verde { background-color: var(--color-verde); color: #fff; }
-.btn-verde:hover { background-color: #1e8449; }
+.btn-naranja:hover {
+    background-color: #e05e00;
+}
 
-.btn-amarillo { background-color: #f1c40f; color: #111; }
-.btn-amarillo:hover { background-color: #d4ac0d; }
+.btn-verde {
+    background-color: var(--color-verde);
+    color: #fff;
+}
 
-.btn-rojo { background-color: var(--color-rojo); color: #fff; }
-.btn-rojo:hover { background-color: #922b21; }
+.btn-verde:hover {
+    background-color: #1e8449;
+}
+
+.btn-amarillo {
+    background-color: #f1c40f;
+    color: #111;
+}
+
+.btn-amarillo:hover {
+    background-color: #d4ac0d;
+}
+
+.btn-rojo {
+    background-color: var(--color-rojo);
+    color: #fff;
+}
+
+.btn-rojo:hover {
+    background-color: #922b21;
+}
 
 /* Botones secundarios (Formación, estadísticas, etc) */
 .btn-formacion,
@@ -383,7 +419,10 @@ body {
 /* Modales unificados */
 .modal-overlay {
     position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     background: rgba(0, 0, 0, 0.7);
     display: flex;
     align-items: center;
@@ -415,7 +454,10 @@ body {
     color: var(--color-texto);
     border: 1px solid #3a3a45;
 }
-.btn-secundario:hover { background: #3f3f4f; }
+
+.btn-secundario:hover {
+    background: #3f3f4f;
+}
 
 /* ===================================================
    OPTIMIZACIÓN DE SCORE EN VIVO
@@ -539,10 +581,12 @@ body {
     .formulario-partido {
         padding: 1.5rem;
     }
+
     .formulario-partido .botones-confirmacion {
         flex-direction: column-reverse; /* El botón principal queda arriba en móviles */
         width: 100%;
     }
+
     .formulario-partido .botones-confirmacion .btn {
         width: 100%;
     }
@@ -557,13 +601,143 @@ body {
         text-align: center;
         gap: 2rem;
     }
-    .programado-equipo { align-items: center; }
-    .programado-equipo-visitante { align-items: center; }
+
+    .programado-equipo {
+        align-items: center;
+    }
+
+    .programado-equipo-visitante {
+        align-items: center;
+    }
+
     .programado-acciones, .programado-acciones-secundarias, .vivo-acciones {
         flex-direction: column;
         width: 100%;
     }
+
     .programado-acciones form, .btn {
         width: 100%;
+    }
+
+    /*    CAMBIAR ESTADO FECHA */
+    .bloque-fecha {
+        background: #141414;
+        border: 1px solid #2a2a2a;
+        border-radius: 10px;
+        padding: 1.25rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .bloque-fecha-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+    }
+
+    .bloque-fecha-titulo {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .bloque-fecha-titulo h2 {
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    .form-estado-fecha {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .form-estado-fecha select {
+        background: #1a1a1a;
+        color: #fff;
+        border: 1px solid #333;
+        border-radius: 6px;
+        padding: 5px 8px;
+        font-family: inherit;
+        font-size: 0.82rem;
+    }
+
+    .panel-agregar-partido {
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid #2a2a2a;
+    }
+
+    .panel-agregar-partido h4 {
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: #666;
+        margin-bottom: 0.75rem;
+    }
+
+    /* badges de estado */
+    .badge-estado {
+        font-size: 0.62rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        padding: 3px 10px;
+        border-radius: 20px;
+    }
+
+    .estado-programada {
+        background: rgba(255, 255, 255, 0.06);
+        color: #888;
+        border: 1px solid #333;
+    }
+
+    .estado-en-curso {
+        background: rgba(255, 107, 0, 0.12);
+        color: #ff6b00;
+        border: 1px solid rgba(255, 107, 0, 0.3);
+    }
+
+    .estado-finalizada {
+        background: rgba(74, 222, 128, 0.08);
+        color: #4ade80;
+        border: 1px solid rgba(74, 222, 128, 0.2);
+    }
+
+    .tabla-partidos {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.85rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .tabla-partidos th {
+        text-align: left;
+        padding: 6px 10px;
+        font-size: 0.58rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: #555;
+        border-bottom: 1px solid #222;
+    }
+
+    .tabla-partidos td {
+        padding: 10px;
+        border-bottom: 1px solid #1e1e1e;
+        color: #ccc;
+    }
+
+    .tabla-partidos tr:last-child td {
+        border-bottom: none;
+    }
+
+    .mensaje-vacio {
+        color: #555;
+        font-size: 0.82rem;
+        padding: 0.5rem 0;
     }
 }

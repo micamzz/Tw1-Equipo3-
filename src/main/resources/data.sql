@@ -52,7 +52,7 @@ VALUES (1, 1, 'FINALIZADA', 1);
 INSERT INTO Fecha (id, numero_fecha, estado, torneo_id)
 VALUES (2, 2, 'EN_CURSO', 1);
 
-INSERT INTO Fecha (id, numero_fecha, estado, torneo_id)
+ INSERT INTO Fecha (id, numero_fecha, estado, torneo_id)
 VALUES (3, 3, 'PROGRAMADA', 1);
 
 
@@ -385,17 +385,17 @@ VALUES (5, 33, 3),
        (8, 56, 3);
 
 
-/*  PROXIMOS PARTIDOS  SABADO  04 DE JULIO */
+/*  PROXIMOS PARTIDOS  SABADO  18 DE JULIO -- FECHA 2  */
 INSERT INTO PartidoNBA (id, equipoLocal_id, equipoVisitante_id, horaInicio, minutoFin, torneo_id, estadoPartido,
                         fecha_id)
-VALUES (50, 3, 7, '2026-07-04 19:00:00', NULL, 1, 'PROGRAMADO', 2),
-       (51, 4, 2, '2026-07-04 21:00:00', NULL, 1, 'PROGRAMADO', 2);
+VALUES (50, 3, 7, '2026-07-18 19:00:00', NULL, 1, 'PROGRAMADO', 2),
+       (51, 4, 2, '2026-07-18 21:00:00', NULL, 1, 'PROGRAMADO', 2);
 
-/* PARTIDOS DOMINGO 05 DE JULIO */
+/* PARTIDOS DOMINGO 19 DE JULIO */
 INSERT INTO PartidoNBA (id, equipoLocal_id, equipoVisitante_id, horaInicio, minutoFin, torneo_id, estadoPartido,
                         fecha_id)
-VALUES (53, 8, 5, '2026-07-05 19:00:00', NULL, 1, 'PROGRAMADO', 3),
-       (54, 6, 1, '2026-07-05 21:00:00', NULL, 1, 'PROGRAMADO', 3);
+VALUES (53, 8, 5, '2026-07-19 19:00:00', NULL, 1, 'PROGRAMADO', 3),
+       (54, 6, 1, '2026-07-19 21:00:00', NULL, 1, 'PROGRAMADO', 3);
 
 
 -- EQUIPOS USUARIO (torneo virtual id = 2)

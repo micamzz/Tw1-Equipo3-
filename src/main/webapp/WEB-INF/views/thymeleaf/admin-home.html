@@ -49,14 +49,20 @@
         <h2 class="titulo-categoria">Competencia</h2>
         <div class="contenedor-boton">
 
-            <a th:href="@{/admin/torneos}" class="boton-equipo">
-                <span class="titulo">Administrar torneos</span>
-                <span class="descripcion">Crear, editar o eliminar torneos reales y virtuales</span>
+            <a th:href="@{/admin/fechas}" class="boton-equipo">
+                <span class="titulo">Gestionar fechas</span>
+                <span class="descripcion"> Iniciar, finalizar y consultar las fechas del torneo.</span>
             </a>
+
 
             <a th:href="@{/partidos}" class="boton-equipo">
                 <span class="titulo">Partidos</span>
                 <span class="descripcion">Programar partidos y registrar sus resultados</span>
+            </a>
+
+            <a th:href="@{/admin/torneos}" class="boton-equipo">
+                <span class="titulo">Administrar torneos</span>
+                <span class="descripcion">Crear, editar o eliminar torneos reales y virtuales</span>
             </a>
 
             <a th:href="@{/admin/historialTemporadas}" class="boton-equipo">

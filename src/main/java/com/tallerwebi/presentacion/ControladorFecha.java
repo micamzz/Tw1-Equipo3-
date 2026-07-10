@@ -1,14 +1,14 @@
 package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.*;
+import com.tallerwebi.dominio.excepcion.FechaNoEncontradaException;
 import com.tallerwebi.dominio.excepcion.TorneoNoEncontradoException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Controller
@@ -60,5 +60,37 @@ public class ControladorFecha {
         }
     }
 
+    @RequestMapping(path = "/admin/fechas", method = RequestMethod.GET)
+    public ModelAndView irAGestionarFechas() {
+
+        ModelMap modelo = new ModelMap();
+
+        List<Fecha> fechas = servicioFecha.obtenerTodasLasFechas();
+
+        modelo.put("fechas", fechas);
+
+        return new ModelAndView("admin-fechas", modelo);
+    }
+
+    @RequestMapping(path = "/admin/cambiarEstadoFecha", method = RequestMethod.POST)
+    public ModelAndView cambiarEstadoFecha(
+            @RequestParam("idFecha") Long idFecha,
+            @RequestParam("estado") EstadoFecha estado) {
+
+        try {
+
+            Fecha fecha = servicioFecha.obtenerFechaPorId(idFecha);
+
+            servicioFecha.actualizarFecha(idFecha, fecha.getNumeroDeFecha(), estado);
+
+            return new ModelAndView("redirect:/admin/fechas");
+
+        } catch (FechaNoEncontradaException e) {
+
+            return new ModelAndView(
+                    "redirect:/admin/fechas?error=" + e.getMessage()
+            );
+        }
+    }
 
 }

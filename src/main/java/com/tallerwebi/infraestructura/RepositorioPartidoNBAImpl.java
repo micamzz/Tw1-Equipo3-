@@ -125,6 +125,48 @@ public class RepositorioPartidoNBAImpl implements RepositorioPartidoNBA {
         return count > 0;
     }
 
+    @Override
+    public List<PartidoNBA> buscarPorFechaId(Long idFecha) {
+        return sessionFactory.getCurrentSession()
+                .createCriteria(PartidoNBA.class)
+                .createAlias("fecha", "f")
+                .add(Restrictions.eq("f.id", idFecha))
+                .list();
+    }
+
+    @Override
+    public List<PartidoNBA> buscarPartidosProgramadosPorFecha(Long idFecha) {
+        return sessionFactory.getCurrentSession()
+                .createCriteria(PartidoNBA.class)
+                .add(Restrictions.eq("estadoPartido", EstadoPartido.PROGRAMADO))
+                .createAlias("fecha", "f")
+                .add(Restrictions.eq("f.id", idFecha))
+                .addOrder(Order.asc("horaInicio"))
+                .list();
+    }
+
+    @Override
+    public List<PartidoNBA> buscarPartidosActivosPorFecha(Long idFecha) {
+        return sessionFactory.getCurrentSession()
+                .createCriteria(PartidoNBA.class)
+                .add(Restrictions.eq("estadoPartido", EstadoPartido.EN_VIVO))
+                .createAlias("fecha", "f")
+                .add(Restrictions.eq("f.id", idFecha))
+                .addOrder(Order.asc("horaInicio"))
+                .list();
+    }
+
+    @Override
+    public List<PartidoNBA> buscarPartidosFinalizadosPorFecha(Long idFecha) {
+        return sessionFactory.getCurrentSession()
+                .createCriteria(PartidoNBA.class)
+                .add(Restrictions.eq("estadoPartido", EstadoPartido.FINALIZADO))
+                .createAlias("fecha", "f")
+                .add(Restrictions.eq("f.id", idFecha))
+                .addOrder(Order.asc("horaInicio"))
+                .list();
+    }
+
 
     @Override
     @SuppressWarnings("unchecked")
