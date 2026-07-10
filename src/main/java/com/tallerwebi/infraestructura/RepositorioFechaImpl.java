@@ -1,8 +1,10 @@
 package com.tallerwebi.infraestructura;
 
+import com.tallerwebi.dominio.EstadoFecha;
 import com.tallerwebi.dominio.Fecha;
 import com.tallerwebi.dominio.RepositorioFecha;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -32,12 +34,12 @@ public class RepositorioFechaImpl implements RepositorioFecha {
 
     @Override
     public void actualizarFecha(Fecha fecha) {
-    sessionFactory.getCurrentSession().update(fecha);
+        sessionFactory.getCurrentSession().update(fecha);
     }
 
     @Override
     public void eliminarFecha(Fecha fecha) {
-    sessionFactory.getCurrentSession().delete(fecha);
+        sessionFactory.getCurrentSession().delete(fecha);
     }
 
     @Override
@@ -46,4 +48,22 @@ public class RepositorioFechaImpl implements RepositorioFecha {
                 .createQuery("from Fecha", Fecha.class)
                 .list();
     }
+
+    @Override
+    public Fecha buscarFechaEnCurso() {
+        return (Fecha) sessionFactory.getCurrentSession()
+                .createCriteria(Fecha.class)
+                .add(Restrictions.eq("estadoFecha", EstadoFecha.EN_CURSO))
+                .uniqueResult();
+    }
+
+    @Override
+    public Fecha buscarFechaProgramada() {
+        return (Fecha) sessionFactory.getCurrentSession()
+                .createCriteria(Fecha.class)
+                .add(Restrictions.eq("estadoFecha", EstadoFecha.PROGRAMADA))
+                .uniqueResult();
+    }
+
+
 }

@@ -11,7 +11,7 @@ import java.util.List;
 
 @Service
 @Transactional
-public class ServicioFechaImpl implements ServicioFecha{
+public class ServicioFechaImpl implements ServicioFecha {
 
     private final RepositorioFecha repositorioFecha;
     private final RepositorioTorneo repositorioTorneo;
@@ -28,19 +28,17 @@ public class ServicioFechaImpl implements ServicioFecha{
     public void registrarFecha(Long idTorneo, Integer numeroFecha, EstadoFecha estadoFecha) throws TorneoNoEncontradoException {
 
         // Validacion de que el torneo exista
-       Torneo torneo = repositorioTorneo.buscarTorneoPorId(idTorneo);
-       if (torneo == null) {
-           throw new TorneoNoEncontradoException("El torneo no existe");
-       }
+        Torneo torneo = repositorioTorneo.buscarTorneoPorId(idTorneo);
+        if (torneo == null) {
+            throw new TorneoNoEncontradoException("El torneo no existe");
+        }
 
-       Fecha fechaNueva = new Fecha();
-       fechaNueva.setNumeroDeFecha(numeroFecha);
-       fechaNueva.setTorneo(torneo);
-       fechaNueva.setEstadoFecha(estadoFecha);
+        Fecha fechaNueva = new Fecha();
+        fechaNueva.setNumeroDeFecha(numeroFecha);
+        fechaNueva.setTorneo(torneo);
+        fechaNueva.setEstadoFecha(estadoFecha);
 
-       repositorioFecha.guardarFecha(fechaNueva);
-
-
+        repositorioFecha.guardarFecha(fechaNueva);
 
 
     }
@@ -48,13 +46,13 @@ public class ServicioFechaImpl implements ServicioFecha{
 
     @Override
     @Transactional
-     public Fecha obtenerFechaPorId(Long id) throws FechaNoEncontradaException {
-       Fecha fecha = repositorioFecha.buscarFechaPorId(id);
-       if (fecha == null) {
-           throw new FechaNoEncontradaException("La fecha no existe");
-       }
-       return fecha;
-     }
+    public Fecha obtenerFechaPorId(Long id) throws FechaNoEncontradaException {
+        Fecha fecha = repositorioFecha.buscarFechaPorId(id);
+        if (fecha == null) {
+            throw new FechaNoEncontradaException("La fecha no existe");
+        }
+        return fecha;
+    }
 
 
     @Override
@@ -77,5 +75,17 @@ public class ServicioFechaImpl implements ServicioFecha{
     @Override
     public List<Fecha> obtenerTodasLasFechas() {
         return repositorioFecha.buscarTodasLasFechas();
+    }
+
+    
+    @Override
+    public Fecha obtenerFechaActual() {
+        Fecha fecha = repositorioFecha.buscarFechaEnCurso();
+
+        if (fecha != null) {
+            return fecha;
+        }
+
+        return repositorioFecha.buscarFechaProgramada();
     }
 }

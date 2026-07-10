@@ -63,4 +63,13 @@ public class RepositorioEquipoJugadorImpl implements RepositorioEquipoJugador {
         sessionFactory.getCurrentSession().update(equipoJugador);
     }
 
+    @Override
+    public List<EquipoJugador> buscarPorEquipoIdYFechaId(Long idEquipo, Long idFechaActual) {
+        return sessionFactory.getCurrentSession()
+                .createCriteria(EquipoJugador.class)
+                .add(Restrictions.eq("equipo.id", idEquipo))
+                .add(Restrictions.eq("fecha.id", idFechaActual))
+                .list();
+    }
+
 }

@@ -2,7 +2,6 @@ package com.tallerwebi.dominio.equipoJugador;
 
 import com.tallerwebi.dominio.Fecha;
 import com.tallerwebi.dominio.Jugador;
-import com.tallerwebi.dominio.Torneo;
 import com.tallerwebi.dominio.enums.PosicionJugadorEquipo;
 import com.tallerwebi.dominio.equipo.Equipo;
 
@@ -23,21 +22,17 @@ public class EquipoJugador {
 
     //numeroOrden es el valor que le voy a asignar para saber si es titular (1 a 5), suplente (6 a 10) y 6to (6) para luego calcular los puntos del equipo.
     private Integer numeroOrden;
-    
+
     @Enumerated(EnumType.STRING)
     private PosicionJugadorEquipo posicionDelJugador;
 
     @ManyToOne
     private Fecha fecha;
 
-    @ManyToOne
-    private Torneo torneo;
-
     public EquipoJugador() {
 
     }
-
-
+    
     public Long getId() {
         return id;
     }
@@ -82,13 +77,6 @@ public class EquipoJugador {
         this.fecha = fecha;
     }
 
-    public Torneo getTorneo() {
-        return torneo;
-    }
-
-    public void setTorneo(Torneo torneo) {
-        this.torneo = torneo;
-    }
 
 }
 

@@ -1,8 +1,6 @@
 package com.tallerwebi.dominio.equipoJugador;
 
-import com.tallerwebi.dominio.Jugador;
-import com.tallerwebi.dominio.Posicion;
-import com.tallerwebi.dominio.RepositorioJugador;
+import com.tallerwebi.dominio.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,25 +14,29 @@ import java.util.List;
 public class ServicioEquipoJugadorImpl implements ServicioEquipoJugador {
     private final RepositorioEquipoJugador repositorioEquipoJugador;
     private final RepositorioJugador repositorioJugador;
+    private final ServicioFecha servicioFecha;
 
     @Autowired
-    public ServicioEquipoJugadorImpl(RepositorioEquipoJugador repositorioEquipoJugador, RepositorioJugador repositorioJugador) {
+    public ServicioEquipoJugadorImpl(RepositorioEquipoJugador repositorioEquipoJugador, RepositorioJugador repositorioJugador, ServicioFecha servicioFecha) {
         this.repositorioEquipoJugador = repositorioEquipoJugador;
         this.repositorioJugador = repositorioJugador;
-    }
-
-    @Override
-    public EquipoJugador guardarEquipoJugador(EquipoJugador equipoJugador) {
-        repositorioEquipoJugador.guardarEquipoJugador(equipoJugador);
-        return equipoJugador;
+        this.servicioFecha = servicioFecha;
     }
 
 
     @Override
     public HashMap<Integer, EquipoJugador> buscarJugadoresPorEquipoId(Long id) {
-        List<EquipoJugador> jugadoresPorEquipo = repositorioEquipoJugador.buscarPorEquipoId(id);
+
+        Fecha fechaActual = servicioFecha.obtenerFechaActual();
 
         HashMap<Integer, EquipoJugador> listaJugadores = new HashMap<>();
+
+        if (fechaActual == null) {
+            return listaJugadores;
+        }
+
+        List<EquipoJugador> jugadoresPorEquipo = repositorioEquipoJugador.buscarPorEquipoIdYFechaId(id, fechaActual.getId()
+        );
 
         for (EquipoJugador jugador : jugadoresPorEquipo) {
             listaJugadores.put(jugador.getNumeroOrden(), jugador);
@@ -44,8 +46,16 @@ public class ServicioEquipoJugadorImpl implements ServicioEquipoJugador {
 
     @Override
     public List<Jugador> obtenerJugadoresDisponiblesPorPosicion(Long idEquipo, Posicion posicion) {
+
+        Fecha fechaActual = servicioFecha.obtenerFechaActual();
+
         List<Jugador> jugadoresPorPosicion = repositorioJugador.buscarJugadores(posicion, null);
-        List<EquipoJugador> jugadoresDelEquipo = repositorioEquipoJugador.buscarPorEquipoId(idEquipo);
+
+        if (fechaActual == null) {
+            return jugadoresPorPosicion;
+        }
+
+        List<EquipoJugador> jugadoresDelEquipo = repositorioEquipoJugador.buscarPorEquipoIdYFechaId(idEquipo, fechaActual.getId());
 
         List<Jugador> jugadoresDisponibles = new ArrayList<>();
 

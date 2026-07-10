@@ -13,4 +13,8 @@ public interface RepositorioFecha {
     void eliminarFecha(Fecha fecha);
 
     List<Fecha> buscarTodasLasFechas();
+
+    Fecha buscarFechaEnCurso();
+
+    Fecha buscarFechaProgramada();
 }
