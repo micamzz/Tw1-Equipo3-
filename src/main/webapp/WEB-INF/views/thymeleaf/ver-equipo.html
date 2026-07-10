@@ -21,9 +21,16 @@
 
     <div class="titulo-subtitulo-equipo">
         <h1 class="titulo-equipo" th:text="${equipo.nombreEquipo}"></h1>
-        <p class="texto-aviso">
-            Este es el equipo actual para la próxima jornada. Para realizar cambios en la alineación, presioná el
-            botón <strong>Gestionar Equipo</strong>.
+
+        <p class="texto-aviso" th:if="${puedeModificar}">
+            Este es tu equipo para la <strong>Fecha <span th:text="${numeroFecha}"></span></strong>.
+            La formación se mantiene automáticamente respecto de la fecha anterior. Si deseás modificarla,
+            hacelo desde el botón <strong>Gestionar Equipo</strong> antes del inicio de la fecha.
+        </p>
+
+        <p class="texto-aviso" th:if="${!puedeModificar}">
+            Este es tu equipo confirmado para la <strong>Fecha <span th:text="${numeroFecha}"></span></strong>.
+            La fecha se encuentra en curso y la formación ya no puede modificarse.
         </p>
     </div>
 
@@ -206,7 +213,7 @@
             </div>
 
             <!-- BOTÓN -->
-            <div class="contenedor-cta">
+            <div class="contenedor-cta" th:if="${puedeModificar}">
                 <a th:href="@{/seleccionar-jugadores/{id}(id=${equipo.id})}"
                    class="boton-gestionar">
                     Gestionar equipo

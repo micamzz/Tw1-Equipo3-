@@ -1,6 +1,22 @@
+-- LIMPIEZA DE DATOS AL INICIO
 SET FOREIGN_KEY_CHECKS = 0;
+TRUNCATE TABLE RendimientoJugador;
+TRUNCATE TABLE EquipoJugador;
+TRUNCATE TABLE EquipoNBAJugador;
+TRUNCATE TABLE CronologiaNBA;
+TRUNCATE TABLE PartidoNBA;
+TRUNCATE TABLE Equipo;
+TRUNCATE TABLE EquipoNBA;
+TRUNCATE TABLE Jugador;
+TRUNCATE TABLE Fecha;
+TRUNCATE TABLE Torneo;
+TRUNCATE TABLE Temporada;
+TRUNCATE TABLE Usuario;
+SET FOREIGN_KEY_CHECKS = 1;
+-- ====================================
 
-INSERT IGNORE INTO Usuario(id, nombre, email, password, rol, activo)
+-- APARTIR DE ACA EL CODIGO
+INSERT INTO Usuario(id, nombre, email, password, rol, activo)
 VALUES (null, 'Admin Test', 'test@unlam.edu.ar', 'test', 'ADMIN', true),
        (null, 'Micaela', 'mica@unlam.com', 'test', 'ADMIN', true),
        (null, 'Lucas', 'lucas@unlam.com', 'test', 'USER', true),
@@ -10,23 +26,23 @@ VALUES (null, 'Admin Test', 'test@unlam.edu.ar', 'test', 'ADMIN', true),
        (7, 'Valentina', 'valentina@unlam.com', 'test', 'USER', true);
 
 
-/* TEMPORADA 2025 08 DE MARZO A 22 DE DICIEMBRE*/
-INSERT IGNORE INTO Temporada (id, nombre, anio, fechaInicio, fechaFin)
+/* TEMPORADA VIEJA 2025 08 DE MARZO A 22 DE DICIEMBRE*/
+INSERT INTO Temporada (id, nombre, anio, fechaInicio, fechaFin)
 VALUES (1, 'Temporada 2025', 2025, '2025-03-08', '2025-12-23');
 
-/* TEMPORADA 2026 DE 01 MARZO A 21 DE DICIEMBRE*/
-INSERT IGNORE INTO Temporada (id, nombre, anio, fechaInicio, fechaFin)
+/* TEMPORADA ACTUAL ID 2 - 2026 DE 01 MARZO A 21 DE DICIEMBRE*/
+INSERT INTO Temporada (id, nombre, anio, fechaInicio, fechaFin)
 VALUES (2, 'Temporada 2026', 2026, '2026-03-01', '2026-12-21');
 
 /* TORNEO REAL 07   DE MARZO A 20 DE DICIEMBRE */
-INSERT IGNORE INTO Torneo (id, fechaFin, fechaInicio, nombreTorneo, tipoTorneo, temporada_id)
+INSERT INTO Torneo (id, fechaFin, fechaInicio, nombreTorneo, tipoTorneo, temporada_id)
 VALUES (1, '2026-12-20', '2026-03-07', 'NBA 2026', 'REAL', 2);
 
-INSERT IGNORE INTO Torneo (id, fechaFin, fechaInicio, nombreTorneo, tipoTorneo, temporada_id)
+INSERT INTO Torneo (id, fechaFin, fechaInicio, nombreTorneo, tipoTorneo, temporada_id)
 VALUES (2, '2026-12-20', '2026-03-07', 'UNLAM Basquet 2026', 'VIRTUAL', 2);
 
 /* TORNEO REAL PASADO DEL 2025 ASOCIADO A TEMPORADA ID 1  DE MARZO A DE DICIEMBRE */
-INSERT IGNORE INTO Torneo (id, fechaFin, fechaInicio, nombreTorneo, tipoTorneo, temporada_id)
+INSERT INTO Torneo (id, fechaFin, fechaInicio, nombreTorneo, tipoTorneo, temporada_id)
 VALUES (3, '2025-12-20', '2025-03-01', 'Torneo 2025', 'REAL', 1);
 
 -- CAMBIE LA ASOCIACION AL TORNEO ID 1 QUE ES EL TORNO REAL.
@@ -40,7 +56,7 @@ INSERT INTO Fecha (id, numero_fecha, estado, torneo_id)
 VALUES (3, 3, 'PROGRAMADA', 1);
 
 
-INSERT IGNORE INTO EquipoNBA(id, nombre, escudoImagen)
+INSERT INTO EquipoNBA(id, nombre, escudoImagen)
 VALUES (1, 'Golden State Warriors', 'https://cdn.nba.com/logos/nba/1610612744/global/L/logo.svg'),
        (2, 'Boston Celtics', 'https://cdn.nba.com/logos/nba/1610612738/global/L/logo.svg'),
        (3, 'Los Angeles Lakers', 'https://cdn.nba.com/logos/nba/1610612747/global/L/logo.svg'),
@@ -50,7 +66,7 @@ VALUES (1, 'Golden State Warriors', 'https://cdn.nba.com/logos/nba/1610612744/gl
        (7, 'Brooklyn Nets', 'https://cdn.nba.com/logos/nba/1610612751/global/L/logo.svg'),
        (8, 'Dallas Mavericks', 'https://cdn.nba.com/logos/nba/1610612742/global/L/logo.svg');
 
-INSERT IGNORE INTO Jugador(id, nombre, apellido, posicion, precio, dni, foto, altura, peso, nacionalidad, edad,
+INSERT INTO Jugador(id, nombre, apellido, posicion, precio, dni, foto, altura, peso, nacionalidad, edad,
                     fechaNacimiento, draft, experiencia)
 VALUES (1, 'Stephen', 'Curry', 'BASE', 175000, 1, 'https://cdn.nba.com/headshots/nba/latest/1040x760/201939.png',
         '6''3" (1.91m)', '185lb (84kg)', 'USA', 37, 'March 14, 1988', '2009 R1 Pick 7', 16),
@@ -199,7 +215,7 @@ VALUES (1, 'Stephen', 'Curry', 'BASE', 175000, 1, 'https://cdn.nba.com/headshots
         '6''10\" (2.08m)', '220lb (100kg)', 'USA', 23, 'November 27, 2002', '2022 R1 Pick 3', 3);
 
 
-INSERT IGNORE INTO RendimientoJugador(jugador_id, puntos, rebotes, asistencias, robos, bloqueos, perdidas, torneo_id)
+INSERT INTO RendimientoJugador(jugador_id, puntos, rebotes, asistencias, robos, bloqueos, perdidas, torneo_id)
 VALUES (1, 27, 4, 5, 1, 0, 3, 1),
        (2, 8, 6, 6, 1, 1, 2, 1),
        (3, 12, 3, 2, 1, 0, 1, 1),
@@ -272,7 +288,7 @@ VALUES (1, 27, 4, 5, 1, 0, 3, 1),
 
 /* JUGADORES ASOCIADO A EQUIPO EN TORNEO VIGENTE (2026)*/
 -- Golden State Warriors (equipoNBA_id = 1)
-INSERT IGNORE INTO EquipoNBAJugador(equipoNBA_id, jugador_id, torneo_id)
+INSERT INTO EquipoNBAJugador(equipoNBA_id, jugador_id, torneo_id)
 VALUES (1, 1, 1),
        (1, 2, 1),
        (1, 3, 1),
@@ -339,7 +355,7 @@ VALUES (1, 1, 1),
 -- TORNEO 2025 - ASOCIADO A TORNEO ID 3
 -- FALTA ASOCIAR JUGADORES A EQUIPO 1 2 3 4 AL TORNEO VIEJO
 -- San Antonio Spurs (equipoNBA_id = 5)
-INSERT IGNORE INTO EquipoNBAJugador(equipoNBA_id, jugador_id, torneo_id)
+INSERT INTO EquipoNBAJugador(equipoNBA_id, jugador_id, torneo_id)
 VALUES (5, 33, 3),
        (5, 34, 3),
        (5, 38, 3),
@@ -370,88 +386,88 @@ VALUES (5, 33, 3),
 
 
 /*  PROXIMOS PARTIDOS  SABADO  04 DE JULIO */
-INSERT IGNORE INTO PartidoNBA (id, equipoLocal_id, equipoVisitante_id, horaInicio, minutoFin, torneo_id, estadoPartido, fecha_id)
+INSERT INTO PartidoNBA (id, equipoLocal_id, equipoVisitante_id, horaInicio, minutoFin, torneo_id, estadoPartido,
+                        fecha_id)
 VALUES (50, 3, 7, '2026-07-04 19:00:00', NULL, 1, 'PROGRAMADO', 2),
        (51, 4, 2, '2026-07-04 21:00:00', NULL, 1, 'PROGRAMADO', 2);
 
 /* PARTIDOS DOMINGO 05 DE JULIO */
-INSERT IGNORE INTO PartidoNBA (id, equipoLocal_id, equipoVisitante_id, horaInicio, minutoFin, torneo_id, estadoPartido, fecha_id)
+INSERT INTO PartidoNBA (id, equipoLocal_id, equipoVisitante_id, horaInicio, minutoFin, torneo_id, estadoPartido,
+                        fecha_id)
 VALUES (53, 8, 5, '2026-07-05 19:00:00', NULL, 1, 'PROGRAMADO', 3),
        (54, 6, 1, '2026-07-05 21:00:00', NULL, 1, 'PROGRAMADO', 3);
 
 
 -- EQUIPOS USUARIO (torneo virtual id = 2)
-INSERT IGNORE INTO equipo (id, nombreEquipo, presupuesto, puntaje, torneo_id, usuario_id)
+INSERT INTO equipo (id, nombreEquipo, presupuesto, puntaje, torneo_id, usuario_id)
 VALUES (1, 'Paren La Mano', 0, 0, 2, 3),
        (2, 'Winter is coming', 0, 0, 2, 4),
        (3, 'Dracarys', 0, 0, 2, 5),
        (4, 'Los Condores', 0, 0, 2, 6),
        (5, 'Los Dragones', 0, 0, 2, 7);
 
--- EQUIPOS USUARIO CON SUS JUGADORES ASOCIADOS
-INSERT IGNORE INTO equipojugador (id, numeroOrden, posicionDelJugador, equipo_id, jugador_id)
+-- EQUIPOS USUARIO CON SUS JUGADORES ASOCIADOS (fecha_id = 2, que es la EN_CURSO)
+INSERT INTO equipojugador (id, numeroOrden, posicionDelJugador, equipo_id, jugador_id, fecha_id)
 VALUES
     -- Equipo de LUCAS (equipo 1)
-    (1, 1, 'CAPITAN', 1, 1),
-    (2, 2, 'TITULAR', 1, 2),
-    (3, 3, 'TITULAR', 1, 3),
-    (4, 4, 'TITULAR', 1, 4),
-    (5, 5, 'TITULAR', 1, 5),
-    (6, 6, 'SEXTO_HOMBRE', 1, 6),
-    (7, 7, 'SUPLENTE', 1, 7),
-    (8, 8, 'SUPLENTE', 1, 8),
-    (9, 9, 'SUPLENTE', 1, 9),
-    (10, 10, 'SUPLENTE', 1, 10),
+    (1, 1, 'CAPITAN', 1, 1, 2),
+    (2, 2, 'TITULAR', 1, 2, 2),
+    (3, 3, 'TITULAR', 1, 3, 2),
+    (4, 4, 'TITULAR', 1, 4, 2),
+    (5, 5, 'TITULAR', 1, 5, 2),
+    (6, 6, 'SEXTO_HOMBRE', 1, 6, 2),
+    (7, 7, 'SUPLENTE', 1, 7, 2),
+    (8, 8, 'SUPLENTE', 1, 8, 2),
+    (9, 9, 'SUPLENTE', 1, 9, 2),
+    (10, 10, 'SUPLENTE', 1, 10, 2),
     -- Equipo de JUAN (equipo 2)
-    (11, 1, 'CAPITAN', 2, 11),
-    (12, 2, 'TITULAR', 2, 12),
-    (13, 3, 'TITULAR', 2, 13),
-    (14, 4, 'TITULAR', 2, 14),
-    (15, 5, 'TITULAR', 2, 15),
-    (16, 6, 'SEXTO_HOMBRE', 2, 16),
-    (17, 7, 'SUPLENTE', 2, 17),
-    (18, 8, 'SUPLENTE', 2, 18),
-    (19, 9, 'SUPLENTE', 2, 19),
-    (20, 10, 'SUPLENTE', 2, 20),
+    (11, 1, 'CAPITAN', 2, 11, 2),
+    (12, 2, 'TITULAR', 2, 12, 2),
+    (13, 3, 'TITULAR', 2, 13, 2),
+    (14, 4, 'TITULAR', 2, 14, 2),
+    (15, 5, 'TITULAR', 2, 15, 2),
+    (16, 6, 'SEXTO_HOMBRE', 2, 16, 2),
+    (17, 7, 'SUPLENTE', 2, 17, 2),
+    (18, 8, 'SUPLENTE', 2, 18, 2),
+    (19, 9, 'SUPLENTE', 2, 19, 2),
+    (20, 10, 'SUPLENTE', 2, 20, 2),
     -- Equipo de Marcos (equipo 3)
-    (21, 1, 'CAPITAN', 3, 21),
-    (22, 2, 'TITULAR', 3, 22),
-    (23, 3, 'TITULAR', 3, 23),
-    (24, 4, 'TITULAR', 3, 24),
-    (25, 5, 'TITULAR', 3, 25),
-    (26, 6, 'SEXTO_HOMBRE', 3, 26),
-    (27, 7, 'SUPLENTE', 3, 27),
-    (28, 8, 'SUPLENTE', 3, 28),
-    (29, 9, 'SUPLENTE', 3, 29),
-    (30, 10, 'SUPLENTE', 3, 30),
+    (21, 1, 'CAPITAN', 3, 21, 2),
+    (22, 2, 'TITULAR', 3, 22, 2),
+    (23, 3, 'TITULAR', 3, 23, 2),
+    (24, 4, 'TITULAR', 3, 24, 2),
+    (25, 5, 'TITULAR', 3, 25, 2),
+    (26, 6, 'SEXTO_HOMBRE', 3, 26, 2),
+    (27, 7, 'SUPLENTE', 3, 27, 2),
+    (28, 8, 'SUPLENTE', 3, 28, 2),
+    (29, 9, 'SUPLENTE', 3, 29, 2),
+    (30, 10, 'SUPLENTE', 3, 30, 2),
     -- Equipo de Sofia (equipo 4)
-    (31, 1, 'CAPITAN', 4, 31),
-    (32, 2, 'TITULAR', 4, 32),
-    (33, 3, 'TITULAR', 4, 33),
-    (34, 4, 'TITULAR', 4, 34),
-    (35, 5, 'TITULAR', 4, 35),
-    (36, 6, 'SEXTO_HOMBRE', 4, 36),
-    (37, 7, 'SUPLENTE', 4, 37),
-    (38, 8, 'SUPLENTE', 4, 38),
-    (39, 9, 'SUPLENTE', 4, 39),
-    (40, 10, 'SUPLENTE', 4, 40),
+    (31, 1, 'CAPITAN', 4, 31, 2),
+    (32, 2, 'TITULAR', 4, 32, 2),
+    (33, 3, 'TITULAR', 4, 33, 2),
+    (34, 4, 'TITULAR', 4, 34, 2),
+    (35, 5, 'TITULAR', 4, 35, 2),
+    (36, 6, 'SEXTO_HOMBRE', 4, 36, 2),
+    (37, 7, 'SUPLENTE', 4, 37, 2),
+    (38, 8, 'SUPLENTE', 4, 38, 2),
+    (39, 9, 'SUPLENTE', 4, 39, 2),
+    (40, 10, 'SUPLENTE', 4, 40, 2),
     -- Equipo de Valentina (equipo 5)
-    (41, 1, 'CAPITAN', 5, 41),
-    (42, 2, 'TITULAR', 5, 42),
-    (43, 3, 'TITULAR', 5, 43),
-    (44, 4, 'TITULAR', 5, 44),
-    (45, 5, 'TITULAR', 5, 45),
-    (46, 6, 'SEXTO_HOMBRE', 5, 46),
-    (47, 7, 'SUPLENTE', 5, 47),
-    (48, 8, 'SUPLENTE', 5, 48),
-    (49, 9, 'SUPLENTE', 5, 49),
-    (50, 10, 'SUPLENTE', 5, 50);
+    (41, 1, 'CAPITAN', 5, 41, 2),
+    (42, 2, 'TITULAR', 5, 42, 2),
+    (43, 3, 'TITULAR', 5, 43, 2),
+    (44, 4, 'TITULAR', 5, 44, 2),
+    (45, 5, 'TITULAR', 5, 45, 2),
+    (46, 6, 'SEXTO_HOMBRE', 5, 46, 2),
+    (47, 7, 'SUPLENTE', 5, 47, 2),
+    (48, 8, 'SUPLENTE', 5, 48, 2),
+    (49, 9, 'SUPLENTE', 5, 49, 2),
+    (50, 10, 'SUPLENTE', 5, 50, 2);
 
 -- NO BORRAR POR AHORA - ES PARA QUE CALCULE EL PRESUPUESTO Y NO SE MUESTRE EN CERO
 UPDATE equipo e
 SET e.presupuesto = 2000000 - (SELECT COALESCE(SUM(j.precio), 0)
-                                FROM equipojugador ej
-                                         JOIN Jugador j ON ej.jugador_id = j.id
-                                WHERE ej.equipo_id = e.id);
-
-SET FOREIGN_KEY_CHECKS = 1;
+                               FROM equipojugador ej
+                                        JOIN Jugador j ON ej.jugador_id = j.id
+                               WHERE ej.equipo_id = e.id);

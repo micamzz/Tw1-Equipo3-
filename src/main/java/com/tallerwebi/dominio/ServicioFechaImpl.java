@@ -1,10 +1,10 @@
 package com.tallerwebi.dominio;
 
 import com.tallerwebi.dominio.equipo.ServicioEquipo;
-import com.tallerwebi.dominio.equipoJugador.RepositorioEquipoJugador;
 import com.tallerwebi.dominio.excepcion.FechaNoEncontradaException;
 import com.tallerwebi.dominio.excepcion.TorneoNoEncontradoException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,15 +17,14 @@ public class ServicioFechaImpl implements ServicioFecha {
     private final RepositorioFecha repositorioFecha;
     private final RepositorioTorneo repositorioTorneo;
     private final ServicioEquipo servicioEquipo;
-    private final RepositorioEquipoJugador repositorioEquipoJugador;
 
+    /*   @Lazy necesario porque ServicioEquipoImpl y ServicioFechaImpl  dependen mutuamente.
+         Sin esto, Spring no puede iniciar la aplicación (circular reference). */
     @Autowired
-    public ServicioFechaImpl(RepositorioFecha repositorioFecha,
-                             RepositorioTorneo repositorioTorneo, ServicioEquipo servicioEquipo, RepositorioEquipoJugador repositorioEquipoJugador) {
+    public ServicioFechaImpl(RepositorioFecha repositorioFecha, RepositorioTorneo repositorioTorneo, @Lazy ServicioEquipo servicioEquipo) {
         this.repositorioFecha = repositorioFecha;
         this.repositorioTorneo = repositorioTorneo;
         this.servicioEquipo = servicioEquipo;
-        this.repositorioEquipoJugador = repositorioEquipoJugador;
     }
 
 
