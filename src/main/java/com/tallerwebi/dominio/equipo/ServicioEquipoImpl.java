@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -23,16 +22,18 @@ public class ServicioEquipoImpl implements ServicioEquipo {
     private final ServicioPartidoNBA servicioPartidoNBA;
     private static final Double PRESUPUESTO_INICIAL = 2000000D;
     private static final Integer CANTIDAD_JUGADORES_EQUIPO_COMPLETO = 10;
+    private final ServicioFecha servicioFecha;
 
 
     @Autowired
     public ServicioEquipoImpl(RepositorioEquipo repositorioEquipo, RepositorioJugador repositorioJugador,
-                              RepositorioEquipoJugador repositorioEquipoJugador, RepositorioTorneo repositorioTorneo, ServicioPartidoNBA servicioPartidoNBA) {
+                              RepositorioEquipoJugador repositorioEquipoJugador, RepositorioTorneo repositorioTorneo, ServicioPartidoNBA servicioPartidoNBA, ServicioFecha servicioFecha) {
         this.repositorioEquipo = repositorioEquipo;
         this.repositorioJugador = repositorioJugador;
         this.repositorioEquipoJugador = repositorioEquipoJugador;
         this.repositorioTorneo = repositorioTorneo;
         this.servicioPartidoNBA = servicioPartidoNBA;
+        this.servicioFecha = servicioFecha;
     }
 
 
@@ -71,7 +72,7 @@ public class ServicioEquipoImpl implements ServicioEquipo {
     }
 
     @Override
-    public void validarEquipoCompleto(Long idEquipo) throws EquipoSinCompletarException {
+    public void validarEquipoCompleto(Long idEquipo) throws EquipoSinCompletarException, FechaNoEncontradaException {
 
         List<EquipoJugador> listadoDeJugadores = buscarJugadoresDelEquipo(idEquipo);
 
@@ -94,7 +95,6 @@ public class ServicioEquipoImpl implements ServicioEquipo {
         if (!tieneCapitan || !tieneSextoHombre) {
             throw new EquipoSinCompletarException("Debés asignar un capitán y un sexto hombre");
         }
-
     }
 
     @Override
@@ -111,6 +111,172 @@ public class ServicioEquipoImpl implements ServicioEquipo {
     public Double obtenerPresupuestoInicial() {
         return PRESUPUESTO_INICIAL;
     }
+
+    @Override
+    public void agregarJugadorAlEquipo(Long idEquipo, Long idJugador, Integer numeroDeOrden) throws EquipoNoEncontradoException, PresupuestoInsuficienteException, elJugadorYaExisteEnElEquipoException, FechaNoEncontradaException, NoSePuedeModificarEquipoSiLaFechaEstaEnCursoException {
+        validarQueSePuedaModificarEquipo();
+
+        Fecha fechaActual = servicioFecha.obtenerFechaActual();
+        Equipo equipo = buscarEquipoPorId(idEquipo);
+
+        Jugador jugador = repositorioJugador.buscarJugadorPorId(idJugador);
+
+        /* Verifica si el jugador ya está asociado al equipo*/
+        validarSiElJugadorYaFueElegido(idEquipo, idJugador, fechaActual.getId());
+
+        // Verifica que el presupuesto alcanze
+        siElPresupuestoEsMenorLanzaExcepcion(equipo, jugador);
+
+        // Llama al método que guarda la relación en el repositorioEquipoJugador
+        guardarRelacionEntreEquipoYJugador(equipo, jugador, numeroDeOrden, fechaActual);
+    }
+
+
+    @Override
+    public void eliminarJugadorDelEquipo(Long idEquipo, Long idJugador)
+            throws EquipoNoEncontradoException, FechaNoEncontradaException, NoSePuedeModificarEquipoSiLaFechaEstaEnCursoException {
+
+        validarQueSePuedaModificarEquipo();
+
+        Fecha fechaActual = servicioFecha.obtenerFechaActual();
+
+        Equipo equipo = buscarEquipoPorId(idEquipo);
+
+        EquipoJugador equipoJugador = repositorioEquipoJugador.buscarEquipoYJugadorAsociadoPorFecha(idEquipo, idJugador, fechaActual.getId());
+
+        if (equipoJugador != null) {
+            equipo.setPresupuesto(equipo.getPresupuesto() + equipoJugador.getJugador().getPrecio());
+            repositorioEquipoJugador.eliminarEquipoJugador(equipoJugador);
+        }
+    }
+
+
+    /*DEVUELVE UNA LISTA CON TODOS LOS Jugadores QUE ESTAN ASOCIADOS AL EQUIPO
+     * LOS TRAE POR FECHA */
+    @Override
+    public List<EquipoJugador> buscarJugadoresDelEquipo(Long idEquipo) throws FechaNoEncontradaException {
+        Fecha fechaActual = servicioFecha.obtenerFechaActual();
+
+        return repositorioEquipoJugador.buscarPorEquipoIdYFechaId(idEquipo, fechaActual.getId()
+        );
+    }
+
+
+    /*  GUARDA AL EQUIPO Y AL JUGADOR EN EQUIPOJUGADOR LLAMANDO AL REPOSITORIO */
+    private void guardarRelacionEntreEquipoYJugador(Equipo equipo, Jugador jugador, Integer numeroDeOrden, Fecha fechaActual) {
+        EquipoJugador equipoJugador = new EquipoJugador();
+
+        equipoJugador.setEquipo(equipo);
+        equipoJugador.setJugador(jugador);
+        equipoJugador.setNumeroOrden(numeroDeOrden);
+        equipoJugador.setFecha(fechaActual);
+
+        // Primero asigna a jugadores titulares y suplentes
+        if (numeroDeOrden <= 5) {
+            equipoJugador.setPosicionDelJugador(PosicionJugadorEquipo.TITULAR);
+        } else {
+            equipoJugador.setPosicionDelJugador(PosicionJugadorEquipo.SUPLENTE);
+        }
+        repositorioEquipoJugador.guardarEquipoJugador(equipoJugador);
+
+    }
+
+    /* SI EL SALDO DEL EQUIPO ES MENOR AL VALOR DEL JUGADOR EXCEPCION, NO PUEDE COMPRARLO.*/
+    private void siElPresupuestoEsMenorLanzaExcepcion(Equipo equipo, Jugador jugador) throws PresupuestoInsuficienteException {
+        if (equipo.getPresupuesto() < jugador.getPrecio()) {
+            throw new PresupuestoInsuficienteException("Presupuesto insuficiente");
+        } else {
+            equipo.setPresupuesto(equipo.getPresupuesto() - jugador.getPrecio());
+        }
+    }
+
+    /* SI EL JUGADOR YA ESTA ASOCIADO AL EQUIPO HAY UNA EXCEPCION*/
+    private void validarSiElJugadorYaFueElegido(Long idEquipo, Long idJugador, Long idFecha) throws elJugadorYaExisteEnElEquipoException {
+        EquipoJugador equipoJugador = repositorioEquipoJugador.buscarEquipoYJugadorAsociadoPorFecha(idEquipo, idJugador, idFecha);
+
+        if (equipoJugador != null) {
+            throw new elJugadorYaExisteEnElEquipoException("El jugador ya está fichado en el equipo para esta fecha");
+        }
+    }
+
+    //    Actualiza el enum del jugador ya elegido.
+    @Override
+    public void asignarRolEspecial(Long idEquipo, Long idJugador, PosicionJugadorEquipo rol)
+            throws EquipoNoEncontradoException, NoSePuedeModificarEquipoSiLaFechaEstaEnCursoException, FechaNoEncontradaException {
+
+        validarQueSePuedaModificarEquipo();
+
+        validarQueSePuedaModificarEquipo();
+
+        Fecha fechaActual = servicioFecha.obtenerFechaActual();
+
+        List<EquipoJugador> todos = repositorioEquipoJugador.buscarPorEquipoIdYFechaId(idEquipo, fechaActual.getId());
+
+        for (EquipoJugador ej : todos) {
+
+            if (ej.getPosicionDelJugador() == rol) {
+                if (ej.getNumeroOrden() <= 5) {
+                    ej.setPosicionDelJugador(PosicionJugadorEquipo.TITULAR);
+                } else {
+                    ej.setPosicionDelJugador(PosicionJugadorEquipo.SUPLENTE);
+                }
+                repositorioEquipoJugador.actualizarEquipoJugador(ej);
+            }
+        }
+
+        EquipoJugador equipoJugador = repositorioEquipoJugador.buscarEquipoYJugadorAsociadoPorFecha(idEquipo, idJugador, fechaActual.getId());
+
+        if (equipoJugador == null) {
+            throw new EquipoNoEncontradoException("El jugador no pertenece al equipo en la fecha actual");
+        }
+
+        equipoJugador.setPosicionDelJugador(rol);
+        repositorioEquipoJugador.actualizarEquipoJugador(equipoJugador);
+    }
+
+
+    @Override
+    public void validarQueSePuedaModificarEquipo() throws NoSePuedeModificarEquipoSiLaFechaEstaEnCursoException, FechaNoEncontradaException {
+        Fecha fechaActual = servicioFecha.obtenerFechaActual();
+
+        if (fechaActual.getEstadoFecha() == EstadoFecha.EN_CURSO) {
+            throw new NoSePuedeModificarEquipoSiLaFechaEstaEnCursoException("No se puede modificar el equipo porque la fecha " + fechaActual.getNumeroDeFecha() + " está en curso."
+            );
+        }
+    }
+
+    @Override
+    public Boolean puedeModificarEquipo() {
+        try {
+            validarQueSePuedaModificarEquipo();
+            return true;
+        } catch (NoSePuedeModificarEquipoSiLaFechaEstaEnCursoException | FechaNoEncontradaException e) {
+            return false;
+        }
+    }
+
+    @Override
+    public void copiarEquiposDeUnaFechaAOtra(Fecha fechaAnterior, Fecha fechaNueva) {
+        List<EquipoJugador> jugadoresFechaAnterior = repositorioEquipoJugador.buscarPorFechaId(fechaAnterior.getId());
+
+        for (EquipoJugador equipoJugadorAnterior : jugadoresFechaAnterior) {
+
+            EquipoJugador equipoJugadorNuevo = new EquipoJugador();
+
+            equipoJugadorNuevo.setEquipo(equipoJugadorAnterior.getEquipo());
+
+            equipoJugadorNuevo.setJugador(equipoJugadorAnterior.getJugador());
+
+            equipoJugadorNuevo.setNumeroOrden(equipoJugadorAnterior.getNumeroOrden());
+
+            equipoJugadorNuevo.setPosicionDelJugador(equipoJugadorAnterior.getPosicionDelJugador());
+
+            equipoJugadorNuevo.setFecha(fechaNueva);
+
+            repositorioEquipoJugador.guardarEquipoJugador(equipoJugadorNuevo);
+        }
+    }
+
 
     @Override
     public Double calcularPuntajeTotalDelEquipo(Long equipoId) {
@@ -163,117 +329,6 @@ public class ServicioEquipoImpl implements ServicioEquipo {
         return total;
     }
 
-    @Override
-    public void agregarJugadorAlEquipo(Long idEquipo, Long idJugador, Integer numeroDeOrden) throws EquipoNoEncontradoException, PresupuestoInsuficienteException, elJugadorYaExisteEnElEquipoException, NoSePuedeModificarEquipoSiHayPartidosEnCursoException {
-        validarQueSePuedaModificarEquipo();
-
-        Equipo equipo = buscarEquipoPorId(idEquipo);
-
-        Jugador jugador = repositorioJugador.buscarJugadorPorId(idJugador);
-
-        /* Verifica si el jugador ya está asociado al equipo*/
-        validarSiElJugadorYaFueElegido(idEquipo, idJugador);
-
-        // Verifica que el presupuesto alcanze
-        siElPresupuestoEsMenorLanzaExcepcion(equipo, jugador);
-
-        // Llama al método que guarda la relación en el repositorioEquipoJugador
-        guardarRelacionEntreEquipoYJugador(equipo, jugador, numeroDeOrden);
-    }
-
-
-    @Override
-    public void eliminarJugadorDelEquipo(Long idEquipo, Long idJugador)
-            throws EquipoNoEncontradoException, NoSePuedeModificarEquipoSiHayPartidosEnCursoException {
-
-        validarQueSePuedaModificarEquipo();
-
-        Equipo equipo = buscarEquipoPorId(idEquipo);
-
-        EquipoJugador equipoJugador = repositorioEquipoJugador.buscarEquipoYJugadorAsociado(idEquipo, idJugador);
-
-        if (equipoJugador != null) {
-            equipo.setPresupuesto(equipo.getPresupuesto() + equipoJugador.getJugador().getPrecio());
-            repositorioEquipoJugador.eliminarEquipoJugador(equipoJugador);
-        }
-    }
-
-
-    /*DEVUELVE UNA LISTA CON TODOS LOS Jugadores QUE ESTAN ASOCIADOS AL EQUIPO*/
-    @Override
-    public List<EquipoJugador> buscarJugadoresDelEquipo(Long idEquipo) {
-        return repositorioEquipoJugador.buscarPorEquipoId(idEquipo);
-    }
-
-
-
-    /*  GUARDA AL EQUIPO Y AL JUGADOR EN EQUIPOJUGADOR LLAMANDO AL REPOSITORIO */
-
-    private void guardarRelacionEntreEquipoYJugador(Equipo equipo, Jugador jugador, Integer numeroDeOrden) {
-        EquipoJugador equipoJugador = new EquipoJugador();
-
-        equipoJugador.setEquipo(equipo);
-        equipoJugador.setJugador(jugador);
-        equipoJugador.setNumeroOrden(numeroDeOrden);
-
-        // Primero asigna a jugadores titulares y suplentes
-        if (numeroDeOrden <= 5) {
-            equipoJugador.setPosicionDelJugador(PosicionJugadorEquipo.TITULAR);
-        } else {
-            equipoJugador.setPosicionDelJugador(PosicionJugadorEquipo.SUPLENTE);
-        }
-        repositorioEquipoJugador.guardarEquipoJugador(equipoJugador);
-
-    }
-
-    /* SI EL SALDO DEL EQUIPO ES MENOR AL VALOR DEL JUGADOR EXCEPCION, NO PUEDE COMPRARLO.*/
-    private void siElPresupuestoEsMenorLanzaExcepcion(Equipo equipo, Jugador jugador) throws PresupuestoInsuficienteException {
-        if (equipo.getPresupuesto() < jugador.getPrecio()) {
-            throw new PresupuestoInsuficienteException("Presupuesto insuficiente");
-        } else {
-            equipo.setPresupuesto(equipo.getPresupuesto() - jugador.getPrecio());
-        }
-    }
-
-
-    /* SI EL JUGADOR YA ESTA ASOCIADO AL EQUIPO HAY UNA EXCEPCION*/
-    private void validarSiElJugadorYaFueElegido(Long idEquipo, Long idJugador) throws elJugadorYaExisteEnElEquipoException {
-        EquipoJugador equipoJugador = repositorioEquipoJugador.buscarEquipoYJugadorAsociado(idEquipo, idJugador);
-
-        if (equipoJugador != null) {
-            throw new elJugadorYaExisteEnElEquipoException("El jugador ya esta fichado en el equipo");
-        }
-    }
-
-
-    //    Actualiza el enum del jugador ya elegido.
-    @Override
-    public void asignarRolEspecial(Long idEquipo, Long idJugador, PosicionJugadorEquipo rol)
-            throws EquipoNoEncontradoException, NoSePuedeModificarEquipoSiHayPartidosEnCursoException {
-
-        validarQueSePuedaModificarEquipo();
-
-        // Si ya había otro con ese rol, lo resetea
-        List<EquipoJugador> todos = repositorioEquipoJugador.buscarPorEquipoId(idEquipo);
-        for (EquipoJugador ej : todos) {
-            if (ej.getPosicionDelJugador() == rol) {
-                if (ej.getNumeroOrden() <= 5) {
-                    ej.setPosicionDelJugador(PosicionJugadorEquipo.TITULAR);
-                } else {
-                    ej.setPosicionDelJugador(PosicionJugadorEquipo.SUPLENTE);
-                }
-                repositorioEquipoJugador.actualizarEquipoJugador(ej);
-            }
-        }
-
-        // Asigna el rol al jugador elegido
-        EquipoJugador equipoJugador = repositorioEquipoJugador.buscarEquipoYJugadorAsociado(idEquipo, idJugador);
-        if (equipoJugador == null) {
-            throw new EquipoNoEncontradoException("El jugador no pertenece al equipo");
-        }
-        equipoJugador.setPosicionDelJugador(rol);
-        repositorioEquipoJugador.actualizarEquipoJugador(equipoJugador);
-    }
 
     @Override
     public List<Equipo> obtenerTopEquiposPorTorneo(Long torneoId, int limite) {
@@ -289,46 +344,6 @@ public class ServicioEquipoImpl implements ServicioEquipo {
             e.setPuntaje(calcularPuntajeTotalDelEquipo(e.getId()));
         }
         return top;
-    }
-
-    @Override
-    public void validarQueSePuedaModificarEquipo() throws NoSePuedeModificarEquipoSiHayPartidosEnCursoException {
-
-        List<PartidoNBA> partidosActivos = servicioPartidoNBA.obtenerPartidosActivos();
-
-        if (partidosActivos != null && !partidosActivos.isEmpty()) {
-            throw new NoSePuedeModificarEquipoSiHayPartidosEnCursoException("No se puede modificar el equipo mientras haya partidos en curso."
-            );
-        }
-
-        // Si un partido programado comienza dentro de la próxima hora, también se bloquean las modificaciones.
-        LocalDateTime ahora = LocalDateTime.now();
-        List<PartidoNBA> partidosProgramados = servicioPartidoNBA.obtenerPartidosProgramados();
-
-        if (partidosProgramados != null) {
-            for (PartidoNBA partido : partidosProgramados) {
-
-                LocalDateTime horaInicio = partido.getHoraInicio();
-                LocalDateTime limiteParaModificar = horaInicio.minusHours(1); //menos una hora
-
-                Boolean estaDentroDeLaHoraPrevia = !ahora.isBefore(limiteParaModificar) && ahora.isBefore(horaInicio);
-
-                if (estaDentroDeLaHoraPrevia) {
-                    throw new NoSePuedeModificarEquipoSiHayPartidosEnCursoException("No se puede modificar el equipo. Las modificaciones se bloquean una hora antes de cada partido."
-                    );
-                }
-            }
-        }
-    }
-
-    @Override
-    public Boolean puedeModificarEquipo() {
-        try {
-            validarQueSePuedaModificarEquipo();
-            return true;
-        } catch (NoSePuedeModificarEquipoSiHayPartidosEnCursoException e) {
-            return false;
-        }
     }
 
 

@@ -54,6 +54,16 @@ public class RepositorioEquipoJugadorImpl implements RepositorioEquipoJugador {
     }
 
     @Override
+    public EquipoJugador buscarEquipoYJugadorAsociadoPorFecha(Long idEquipo, Long idJugador, Long idFecha) {
+        return (EquipoJugador) sessionFactory.getCurrentSession()
+                .createCriteria(EquipoJugador.class)
+                .add(Restrictions.eq("equipo.id", idEquipo))
+                .add(Restrictions.eq("jugador.id", idJugador))
+                .add(Restrictions.eq("fecha.id", idFecha))
+                .uniqueResult();
+    }
+
+    @Override
     public void eliminarEquipoJugador(EquipoJugador equipoJugador) {
         sessionFactory.getCurrentSession().delete(equipoJugador);
     }
@@ -61,6 +71,24 @@ public class RepositorioEquipoJugadorImpl implements RepositorioEquipoJugador {
     @Override
     public void actualizarEquipoJugador(EquipoJugador equipoJugador) {
         sessionFactory.getCurrentSession().update(equipoJugador);
+    }
+
+    @Override
+    public List buscarPorEquipoIdYFechaId(Long idEquipo, Long idFechaActual) {
+        return sessionFactory.getCurrentSession()
+                .createCriteria(EquipoJugador.class)
+                .add(Restrictions.eq("equipo.id", idEquipo))
+                .add(Restrictions.eq("fecha.id", idFechaActual))
+                .list();
+    }
+
+    @Override
+    public List buscarPorFechaId(Long idFecha) {
+
+        return sessionFactory.getCurrentSession()
+                .createCriteria(EquipoJugador.class)
+                .add(Restrictions.eq("fecha.id", idFecha))
+                .list();
     }
 
 }

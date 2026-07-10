@@ -33,21 +33,35 @@
                 Ya podés administrar tu equipo, seguir los partidos y competir en la liga.
             </p>
 
+            <!-- Mensaje cuando la selección está cerrada -->
+            <p class="hero-aviso"
+               th:if="${equipo != null and !tieneJugadores and !puedeModificar}">
+                La fecha actual ya comenzó. Podrás armar tu equipo cuando finalice esta jornada.
+            </p>
+
 
             <div class="hero-botones">
+                <!-- Todavía no creó el equipo -->
+                <a th:if="${equipo == null}" th:href="@{/crear-equipo}" class="boton boton-primario">CREAR EQUIPO</a>
 
-                <a th:if="${equipo == null}" th:href="@{/crear-equipo}" class="boton boton-primario">
-                    CREAR EQUIPO
+                <!-- Tiene equipo y ya tiene una formación cargada -->
+                <a th:if="${equipo != null and tieneJugadores}" th:href="@{/equipo/detalle/{id}(id=${equipo.id})}"
+                   class="boton boton-primario">VER MI EQUIPO</a>
+
+                <!-- Tiene nombre de equipo, pero todavía no tiene jugadores y puede modificar -->
+                <a th:if="${equipo != null and !tieneJugadores and puedeModificar}"
+                   th:href="@{/seleccionar-jugadores/{id}(id=${equipo.id})}"
+                   class="boton boton-primario">ARMAR MI EQUIPO
                 </a>
 
-                <a th:if="${equipo != null}"
-                   th:href="@{/equipo/detalle/{id}(id=${equipo.id})}"
+                <!-- Tiene equipo vacío, pero la fecha está en curso -->
+                <a th:if="${equipo != null and !tieneJugadores and !puedeModificar}"
+                   th:href="@{/seleccionar-jugadores/{id}(id=${equipo.id})}"
                    class="boton boton-primario">
-                    VER MI EQUIPO
+                    SELECCIÓN CERRADA
                 </a>
 
-                <a th:href="@{/mercado}" class="boton boton-secundario">
-                    VER MERCADO
+                <a th:href="@{/mercado}" class="boton boton-secundario">VER MERCADO
                 </a>
 
             </div>
@@ -68,7 +82,7 @@
             <div class="card-mini">
                 <h3 class="titulo-lateral">PRESUPUESTO</h3>
                 <p class="valor-dato" th:if="${equipo != null}">
-                    $<span th:text="${equipo.presupuesto}">0</span>
+                    $<span th:text="${#numbers.formatDecimal(equipo.presupuesto, 0, 'COMMA', 0, 'POINT')}"></span>
                 </p>
                 <p class="valor-dato-mensaje" th:if="${equipo == null}">
                     Al crear tu equipo inicias con <strong>$<span th:text="${presupuestoInicial}"></span></strong>

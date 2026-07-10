@@ -1,8 +1,6 @@
 package com.tallerwebi.presentacion;
 
-import com.tallerwebi.dominio.Posicion;
-import com.tallerwebi.dominio.ServicioTorneo;
-import com.tallerwebi.dominio.TipoTorneo;
+import com.tallerwebi.dominio.*;
 import com.tallerwebi.dominio.enums.PosicionJugadorEquipo;
 import com.tallerwebi.dominio.equipo.Equipo;
 import com.tallerwebi.dominio.equipo.ServicioEquipo;
@@ -15,6 +13,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -27,14 +26,19 @@ public class ControladorEquipo {
     private final ServicioEquipo servicioEquipo;
     private final ServicioEquipoJugador servicioEquipoJugador;
     private final ServicioTorneo servicioTorneo;
+    private final ServicioFecha servicioFecha;
 
     @Autowired
-    public ControladorEquipo(ServicioEquipo servicioEquipo,
-                             ServicioEquipoJugador servicioEquipoJugador,
-                             ServicioTorneo servicioTorneo) {
+    public ControladorEquipo(
+            ServicioEquipo servicioEquipo,
+            ServicioEquipoJugador servicioEquipoJugador,
+            ServicioTorneo servicioTorneo,
+            ServicioFecha servicioFecha) {
+
         this.servicioEquipo = servicioEquipo;
         this.servicioEquipoJugador = servicioEquipoJugador;
         this.servicioTorneo = servicioTorneo;
+        this.servicioFecha = servicioFecha;
     }
 
     private String encodearError(String mensaje) {
@@ -45,29 +49,38 @@ public class ControladorEquipo {
     public ModelAndView irACrearEquipo() {
 
         ModelMap modelo = new ModelMap();
+
         modelo.put("equipo", new Equipo());
-        modelo.put("torneoActual", servicioTorneo.obtenerTorneoActual(TipoTorneo.VIRTUAL));
+        modelo.put(
+                "torneoActual",
+                servicioTorneo.obtenerTorneoActual(TipoTorneo.VIRTUAL)
+        );
 
         return new ModelAndView("crear-equipo", modelo);
     }
 
     @RequestMapping(value = "/guardarEquipo", method = RequestMethod.POST)
-    public ModelAndView guardarNombreEquipo(@ModelAttribute Equipo equipoIngresado) {
+    public ModelAndView guardarNombreEquipo(@ModelAttribute Equipo equipoIngresado, HttpServletRequest request) {
 
-        Equipo equipoExistente = servicioEquipo.obtenerEquipoPorIdUsuario(
-                equipoIngresado.getUsuario().getId()
-        );
+        Usuario usuarioLogueado = (Usuario) request.getSession().getAttribute("usuario");
+
+        if (usuarioLogueado == null) {
+            return new ModelAndView("redirect:/login");
+        }
+
+        Equipo equipoExistente = servicioEquipo.obtenerEquipoPorIdUsuario(usuarioLogueado.getId());
 
         if (equipoExistente != null) {
             return new ModelAndView("redirect:/equipo/detalle/" + equipoExistente.getId());
         }
 
         try {
-            if (equipoIngresado.getNombreEquipo() == null ||
-                    equipoIngresado.getNombreEquipo().isBlank()) {
-                throw new EquipoSinNombreException("El nombre del equipo no puede estar vacio");
+            if (equipoIngresado.getNombreEquipo() == null || equipoIngresado.getNombreEquipo().isBlank()) {
+
+                throw new EquipoSinNombreException("El nombre del equipo no puede estar vacío");
             }
 
+            equipoIngresado.setUsuario(usuarioLogueado);
             Equipo equipoGuardado = servicioEquipo.guardarEquipo(equipoIngresado);
 
             return new ModelAndView("redirect:/seleccionar-jugadores/" + equipoGuardado.getId());
@@ -75,7 +88,8 @@ public class ControladorEquipo {
         } catch (EquipoSinNombreException | TorneoVirtualActualNoEncontradoException e) {
 
             ModelMap modelo = new ModelMap();
-            modelo.put("equipo", new Equipo());
+
+            modelo.put("equipo", equipoIngresado);
             modelo.put("error", e.getMessage());
 
             return new ModelAndView("crear-equipo", modelo);
@@ -83,14 +97,19 @@ public class ControladorEquipo {
     }
 
     @RequestMapping("/seleccionar-jugadores/{id}")
-    public ModelAndView seleccionarJugadores(@PathVariable Long id,
-                                             @RequestParam(required = false) String error) {
+    public ModelAndView seleccionarJugadores(
+            @PathVariable Long id,
+            @RequestParam(required = false) String error) {
 
         try {
             ModelMap modelo = new ModelMap();
 
             Equipo equipo = servicioEquipo.buscarEquipoPorId(id);
+            Fecha fechaActual = servicioFecha.obtenerFechaActual();
+
             modelo.put("equipo", equipo);
+            modelo.put("fechaActual", fechaActual);
+            modelo.put("numeroFecha", fechaActual.getNumeroDeFecha());
 
             modelo.put("listadoBases", servicioEquipoJugador.obtenerJugadoresDisponiblesPorPosicion(id, Posicion.BASE));
 
@@ -111,25 +130,29 @@ public class ControladorEquipo {
             modelo.put("supBase1", porOrden.get(9));
             modelo.put("supBase2", porOrden.get(10));
 
-            List<EquipoJugador> todos =
-                    servicioEquipo.buscarJugadoresDelEquipo(id);
+            List<EquipoJugador> todos = servicioEquipo.buscarJugadoresDelEquipo(id);
+
+            modelo.put("equipoSinJugadores", todos.isEmpty());
 
             EquipoJugador capitan = null;
             EquipoJugador sextoHombre = null;
+
             List<EquipoJugador> titulares = new ArrayList<>();
             List<EquipoJugador> suplentes = new ArrayList<>();
 
-            for (EquipoJugador ej : todos) {
-                if (ej.getPosicionDelJugador() == PosicionJugadorEquipo.CAPITAN) {
-                    capitan = ej;
-                } else if (ej.getPosicionDelJugador() == PosicionJugadorEquipo.SEXTO_HOMBRE) {
-                    sextoHombre = ej;
+            for (EquipoJugador equipoJugador : todos) {
+
+                if (equipoJugador.getPosicionDelJugador() == PosicionJugadorEquipo.CAPITAN) {
+                    capitan = equipoJugador;
+
+                } else if (equipoJugador.getPosicionDelJugador() == PosicionJugadorEquipo.SEXTO_HOMBRE) {
+                    sextoHombre = equipoJugador;
                 }
 
-                if (ej.getNumeroOrden() <= 5) {
-                    titulares.add(ej);
+                if (equipoJugador.getNumeroOrden() <= 5) {
+                    titulares.add(equipoJugador);
                 } else {
-                    suplentes.add(ej);
+                    suplentes.add(equipoJugador);
                 }
             }
 
@@ -139,47 +162,59 @@ public class ControladorEquipo {
             modelo.put("titularesParaCapitan", titulares);
             modelo.put("suplentesParaSextoHombre", suplentes);
 
-            if (error != null) modelo.put("error", error);
+            if (error != null) {
+                modelo.put("error", error);
+            }
 
             return new ModelAndView("seleccionar-jugadores", modelo);
 
         } catch (EquipoNoEncontradoException e) {
             return new ModelAndView("redirect:/home");
+
+        } catch (FechaNoEncontradaException e) {
+            return new ModelAndView("redirect:/home?error=" + encodearError(e.getMessage()));
         }
     }
 
     @RequestMapping(value = "/agregar-jugador/{idEquipo}/{idJugador}", method = RequestMethod.POST)
-    public ModelAndView agregarJugadorAlEquipo(@PathVariable Long idEquipo,
-                                               @PathVariable Long idJugador,
-                                               @RequestParam Integer numeroDeOrden) {
+    public ModelAndView agregarJugadorAlEquipo(@PathVariable Long idEquipo, @PathVariable Long idJugador, @RequestParam Integer numeroDeOrden) {
 
         try {
             servicioEquipo.agregarJugadorAlEquipo(idEquipo, idJugador, numeroDeOrden);
+
             return new ModelAndView("redirect:/seleccionar-jugadores/" + idEquipo);
 
-        } catch (elJugadorYaExisteEnElEquipoException |
-                 PresupuestoInsuficienteException |
-                 NoSePuedeModificarEquipoSiHayPartidosEnCursoException e) {
+        } catch (elJugadorYaExisteEnElEquipoException
+                 | PresupuestoInsuficienteException
+                 | NoSePuedeModificarEquipoSiLaFechaEstaEnCursoException e) {
 
-            return new ModelAndView("redirect:/seleccionar-jugadores/" + idEquipo +
-                    "?error=" + encodearError(e.getMessage()));
-        } catch (EquipoNoEncontradoException e) {
-            return new ModelAndView("redirect:/home");
+            return new ModelAndView("redirect:/seleccionar-jugadores/" + idEquipo + "?error=" + encodearError(e.getMessage()));
+
+        } catch (EquipoNoEncontradoException
+                 | FechaNoEncontradaException e) {
+
+            return new ModelAndView(
+                    "redirect:/home?error="
+                            + encodearError(e.getMessage())
+            );
         }
     }
 
     @RequestMapping(value = "/eliminar-jugador/{idEquipo}/{idJugador}", method = RequestMethod.POST)
-    public ModelAndView eliminarJugadorDelEquipo(@PathVariable Long idEquipo,
-                                                 @PathVariable Long idJugador) {
+    public ModelAndView eliminarJugadorDelEquipo(@PathVariable Long idEquipo, @PathVariable Long idJugador) {
 
         try {
             servicioEquipo.eliminarJugadorDelEquipo(idEquipo, idJugador);
+
             return new ModelAndView("redirect:/seleccionar-jugadores/" + idEquipo);
-        } catch (NoSePuedeModificarEquipoSiHayPartidosEnCursoException e) {
-            return new ModelAndView("redirect:/seleccionar-jugadores/" + idEquipo +
-                    "?error=" + encodearError(e.getMessage()));
-        } catch (EquipoNoEncontradoException e) {
-            return new ModelAndView("redirect:/home");
+
+        } catch (NoSePuedeModificarEquipoSiLaFechaEstaEnCursoException e) {
+
+            return new ModelAndView("redirect:/seleccionar-jugadores/" + idEquipo + "?error=" + encodearError(e.getMessage()));
+
+        } catch (EquipoNoEncontradoException | FechaNoEncontradaException e) {
+
+            return new ModelAndView("redirect:/home?error=" + encodearError(e.getMessage()));
         }
     }
 
@@ -188,11 +223,18 @@ public class ControladorEquipo {
 
         try {
             servicioEquipo.validarEquipoCompleto(idEquipo);
+
             return new ModelAndView("redirect:/equipo/detalle/" + idEquipo);
 
         } catch (EquipoSinCompletarException e) {
-            return new ModelAndView("redirect:/seleccionar-jugadores/" + idEquipo +
-                    "?error=" + encodearError(e.getMessage()));
+
+            return new ModelAndView("redirect:/seleccionar-jugadores/" + idEquipo + "?error=" + encodearError(e.getMessage())
+            );
+
+        } catch (FechaNoEncontradaException e) {
+
+            return new ModelAndView("redirect:/home?error=" + encodearError(e.getMessage())
+            );
         }
     }
 
@@ -203,25 +245,36 @@ public class ControladorEquipo {
             ModelMap modelo = new ModelMap();
 
             Equipo equipo = servicioEquipo.buscarEquipoPorId(id);
+            Fecha fechaActual = servicioFecha.obtenerFechaActual();
 
-            HashMap<Integer, EquipoJugador> jugadores =
-                    servicioEquipoJugador.buscarJugadoresPorEquipoId(id);
+            HashMap<Integer, EquipoJugador> jugadores = servicioEquipoJugador.buscarJugadoresPorEquipoId(id);
 
-            List<EquipoJugador> todos =
-                    servicioEquipo.buscarJugadoresDelEquipo(id);
+            List<EquipoJugador> todos = servicioEquipo.buscarJugadoresDelEquipo(id);
+
+            boolean tieneJugadores = todos != null && !todos.isEmpty();
 
             EquipoJugador capitan = null;
             EquipoJugador sextoHombre = null;
 
-            for (EquipoJugador ej : todos) {
-                if (ej.getPosicionDelJugador() == PosicionJugadorEquipo.CAPITAN) {
-                    capitan = ej;
-                } else if (ej.getPosicionDelJugador() == PosicionJugadorEquipo.SEXTO_HOMBRE) {
-                    sextoHombre = ej;
+            for (EquipoJugador equipoJugador : todos) {
+
+                if (equipoJugador.getPosicionDelJugador()
+                        == PosicionJugadorEquipo.CAPITAN) {
+
+                    capitan = equipoJugador;
+
+                } else if (equipoJugador.getPosicionDelJugador()
+                        == PosicionJugadorEquipo.SEXTO_HOMBRE) {
+
+                    sextoHombre = equipoJugador;
                 }
             }
 
             modelo.put("equipo", equipo);
+            modelo.put("fechaActual", fechaActual);
+            modelo.put("numeroFecha", fechaActual.getNumeroDeFecha());
+            modelo.put("tieneJugadores", tieneJugadores);
+            modelo.put("puedeModificar", servicioEquipo.puedeModificarEquipo());
             modelo.put("capitan", capitan);
             modelo.put("sextoHombre", sextoHombre);
             modelo.put("jugadoresEquipo", jugadores.values());
@@ -229,24 +282,39 @@ public class ControladorEquipo {
             return new ModelAndView("ver-equipo", modelo);
 
         } catch (EquipoNoEncontradoException e) {
+
             return new ModelAndView("redirect:/crear-equipo");
+
+        } catch (FechaNoEncontradaException e) {
+
+            return new ModelAndView("redirect:/home?error=" + encodearError(e.getMessage()));
         }
     }
 
     @RequestMapping(value = "/asignar-rol/{idEquipo}/{idJugador}", method = RequestMethod.POST)
-    public ModelAndView asignarRolEspecial(@PathVariable Long idEquipo,
-                                           @PathVariable Long idJugador,
-                                           @RequestParam String rol) {
+    public ModelAndView asignarRolEspecial(
+            @PathVariable Long idEquipo, @PathVariable Long idJugador, @RequestParam String rol) {
 
         try {
             PosicionJugadorEquipo posicion = PosicionJugadorEquipo.valueOf(rol);
+
             servicioEquipo.asignarRolEspecial(idEquipo, idJugador, posicion);
 
             return new ModelAndView("redirect:/seleccionar-jugadores/" + idEquipo);
 
-        } catch (Exception e) {
-            return new ModelAndView("redirect:/seleccionar-jugadores/" + idEquipo +
-                    "?error=" + encodearError(e.getMessage()));
+        } catch (IllegalArgumentException e) {
+
+            return new ModelAndView("redirect:/seleccionar-jugadores/" + idEquipo + "?error=" + encodearError("El rol seleccionado no es válido"));
+
+        } catch (NoSePuedeModificarEquipoSiLaFechaEstaEnCursoException e) {
+
+            return new ModelAndView("redirect:/seleccionar-jugadores/" + idEquipo + "?error=" + encodearError(e.getMessage()));
+
+        } catch (EquipoNoEncontradoException
+                 | FechaNoEncontradaException e) {
+
+            return new ModelAndView("redirect:/home?error=" + encodearError(e.getMessage())
+            );
         }
     }
 }

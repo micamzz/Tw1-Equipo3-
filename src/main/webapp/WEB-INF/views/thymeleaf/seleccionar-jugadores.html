@@ -31,7 +31,8 @@
         <div class="caja-estadistica">
             <div class="etiqueta">
                 Saldo disponible:
-                <span class="valor naranja" id="txt-creditos" th:text="${equipo.getPresupuesto()}"></span>
+                <span class="valor naranja" id="txt-creditos"
+                      th:text="${#numbers.formatInteger(equipo.presupuesto, 3, 'COMMA')}"></span>
             </div>
         </div>
     </section>
@@ -39,14 +40,33 @@
     <!-- ERROR -->
     <p th:if="${error}" th:text="${error}" class="alerta-error"></p>
 
-    <!-- BLOQUEO POR PARTIDOS EN CURSO -->
-    <p th:if="${!puedeModificar}"
-       class="alerta-error">
-        No podés modificar tu equipo mientras haya partidos en curso o a punto de empezar.
-    </p>
+    <!-- USUARIO NUEVO DURANTE UNA FECHA EN CURSO -->
+    <section class="estado-equipo-bloqueado"
+             th:if="${!puedeModificar and equipoSinJugadores}">
+
+        <span class="etiqueta-fecha">
+        Fecha <span th:text="${numeroFecha}"></span> en curso
+    </span>
+
+        <h2>La selección de jugadores está cerrada</h2>
+
+        <p>
+            Creaste tu equipo mientras la fecha actual ya estaba en curso,
+            por eso todavía no podés seleccionar jugadores.
+        </p>
+
+        <p>
+            Cuando finalice la fecha, se habilitará automáticamente la siguiente
+            y podrás armar tu equipo.
+        </p>
+
+        <a th:href="@{/home}" class="boton-volver-inicio">
+            Volver al inicio
+        </a>
+    </section>
 
     <!-- GRID 3 COLUMNAS -->
-    <section id="formularioEquipo">
+    <section id="formularioEquipo" th:if="${puedeModificar or !equipoSinJugadores}">
         <input type="hidden" name="idEquipo" th:value="${equipo.id}"/>
 
         <!-- ══ COL 1: TITULARES ══ -->
@@ -480,7 +500,8 @@
     </section>
 
     <!-- CONFIRMAR EQUIPO -->
-    <form th:action="@{/confirmar-equipo/{idEquipo}(idEquipo=${equipo.id})}"
+    <form th:if="${puedeModificar and !equipoSinJugadores}"
+          th:action="@{/confirmar-equipo/{idEquipo}(idEquipo=${equipo.id})}"
           method="post" class="form-confirmar">
         <button type="submit" class="boton-confirmar">CONFIRMAR EQUIPO</button>
     </form>
