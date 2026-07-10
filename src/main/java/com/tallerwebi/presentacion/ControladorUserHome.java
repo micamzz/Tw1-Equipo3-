@@ -5,6 +5,7 @@ import com.tallerwebi.dominio.enums.PosicionJugadorEquipo;
 import com.tallerwebi.dominio.equipo.Equipo;
 import com.tallerwebi.dominio.equipo.ServicioEquipo;
 import com.tallerwebi.dominio.equipoJugador.EquipoJugador;
+import com.tallerwebi.dominio.excepcion.FechaNoEncontradaException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
@@ -69,14 +72,15 @@ public class ControladorUserHome {
                     topEquipos = resultado;
                 }
             }
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
         modelo.put("topEquipos", topEquipos);
 
         return new ModelAndView("home", modelo);
     }
 
     @GetMapping("/estadisticas-jugadores-torneo")
-    public ModelAndView verEstadisticasJugadoresTorneo(HttpServletRequest request) {
+    public ModelAndView verEstadisticasJugadoresTorneo(HttpServletRequest request) throws FechaNoEncontradaException {
         Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
         if (usuario == null) return new ModelAndView("redirect:/login");
 
@@ -100,19 +104,35 @@ public class ControladorUserHome {
                 PosicionJugadorEquipo rolEnum = ej.getPosicionDelJugador();
                 String mostrarNombre;
                 switch (rolEnum) {
-                    case CAPITAN:       mostrarNombre = "Capitán"; break;
-                    case SEXTO_HOMBRE:  mostrarNombre = "Sexto hombre"; break;
-                    case SUPLENTE:      mostrarNombre = "Suplente"; break;
-                    default:            mostrarNombre = "Titular"; break;
+                    case CAPITAN:
+                        mostrarNombre = "Capitán";
+                        break;
+                    case SEXTO_HOMBRE:
+                        mostrarNombre = "Sexto hombre";
+                        break;
+                    case SUPLENTE:
+                        mostrarNombre = "Suplente";
+                        break;
+                    default:
+                        mostrarNombre = "Titular";
+                        break;
                 }
                 item.put("rol", mostrarNombre);
                 double base = servicioMercado.calcularPuntajeJugador(rend);
                 double multiplicador;
                 switch (rolEnum) {
-                    case CAPITAN:      multiplicador = 2.0; break;
-                    case SEXTO_HOMBRE: multiplicador = 0.8; break;
-                    case SUPLENTE:     multiplicador = 0.5; break;
-                    default:           multiplicador = 1.0; break;
+                    case CAPITAN:
+                        multiplicador = 2.0;
+                        break;
+                    case SEXTO_HOMBRE:
+                        multiplicador = 0.8;
+                        break;
+                    case SUPLENTE:
+                        multiplicador = 0.5;
+                        break;
+                    default:
+                        multiplicador = 1.0;
+                        break;
                 }
                 item.put("puntaje", base * multiplicador);
 

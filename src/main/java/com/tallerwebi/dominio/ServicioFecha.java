@@ -14,5 +14,7 @@ public interface ServicioFecha {
 
     java.util.List<Fecha> obtenerTodasLasFechas();
 
-    Fecha obtenerFechaActual();
+    Fecha obtenerFechaActual() throws FechaNoEncontradaException;
+
+    ;
 }

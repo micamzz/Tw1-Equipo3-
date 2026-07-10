@@ -1,10 +1,11 @@
 package com.tallerwebi.dominio;
 
+import com.tallerwebi.dominio.equipo.ServicioEquipo;
+import com.tallerwebi.dominio.equipoJugador.RepositorioEquipoJugador;
 import com.tallerwebi.dominio.excepcion.FechaNoEncontradaException;
 import com.tallerwebi.dominio.excepcion.TorneoNoEncontradoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -15,12 +16,16 @@ public class ServicioFechaImpl implements ServicioFecha {
 
     private final RepositorioFecha repositorioFecha;
     private final RepositorioTorneo repositorioTorneo;
+    private final ServicioEquipo servicioEquipo;
+    private final RepositorioEquipoJugador repositorioEquipoJugador;
 
     @Autowired
     public ServicioFechaImpl(RepositorioFecha repositorioFecha,
-                             RepositorioTorneo repositorioTorneo) {
+                             RepositorioTorneo repositorioTorneo, ServicioEquipo servicioEquipo, RepositorioEquipoJugador repositorioEquipoJugador) {
         this.repositorioFecha = repositorioFecha;
         this.repositorioTorneo = repositorioTorneo;
+        this.servicioEquipo = servicioEquipo;
+        this.repositorioEquipoJugador = repositorioEquipoJugador;
     }
 
 
@@ -54,15 +59,44 @@ public class ServicioFechaImpl implements ServicioFecha {
         return fecha;
     }
 
-
+    /*Actualiza una fecha. Si pasa a FINALIZADA, crea la siguiente fecha  como PROGRAMADA y copia las formaciones de los equipos para la nueva fecha
+     */
     @Override
     public void actualizarFecha(Long idFecha, Integer numero, EstadoFecha estado) throws FechaNoEncontradaException {
 
-        Fecha fechaModificada = this.obtenerFechaPorId(idFecha);
+        Fecha fechaModificada = obtenerFechaPorId(idFecha);
+
+        EstadoFecha estadoAnterior = fechaModificada.getEstadoFecha();
+
         fechaModificada.setNumeroDeFecha(numero);
         fechaModificada.setEstadoFecha(estado);
+
         repositorioFecha.actualizarFecha(fechaModificada);
+
+        if (estadoAnterior == EstadoFecha.EN_CURSO && estado == EstadoFecha.FINALIZADA) {
+
+            Fecha fechaSiguiente = crearSiguienteFecha(fechaModificada);
+
+            servicioEquipo.copiarEquiposDeUnaFechaAOtra(fechaModificada, fechaSiguiente);
+        }
     }
+
+    /* Crea automáticamente una siguiente fecha con el número que le sigue
+     * asi ya queda activado para que el usuario pueda modificar a su equipo*/
+
+    private Fecha crearSiguienteFecha(Fecha fechaFinalizada) {
+
+        Fecha fechaSiguiente = new Fecha();
+        fechaSiguiente.setNumeroDeFecha(fechaFinalizada.getNumeroDeFecha() + 1);
+
+        fechaSiguiente.setTorneo(fechaFinalizada.getTorneo());
+
+        fechaSiguiente.setEstadoFecha(EstadoFecha.PROGRAMADA);
+
+        repositorioFecha.guardarFecha(fechaSiguiente);
+        return fechaSiguiente;
+    }
+
 
     @Override
     public void eliminarFecha(Long id) throws FechaNoEncontradaException {
@@ -77,15 +111,23 @@ public class ServicioFechaImpl implements ServicioFecha {
         return repositorioFecha.buscarTodasLasFechas();
     }
 
-    
+
     @Override
-    public Fecha obtenerFechaActual() {
-        Fecha fecha = repositorioFecha.buscarFechaEnCurso();
+    public Fecha obtenerFechaActual() throws FechaNoEncontradaException {
+        Fecha fechaEnCurso = repositorioFecha.buscarFechaEnCurso();
 
-        if (fecha != null) {
-            return fecha;
+        if (fechaEnCurso != null) {
+            return fechaEnCurso;
+        } else {
+            Fecha fechaProgramada = repositorioFecha.buscarFechaProgramada();
+
+            if (fechaProgramada != null) {
+                return fechaProgramada;
+            } else {
+                throw new FechaNoEncontradaException("No existe una fecha activa.");
+            }
         }
-
-        return repositorioFecha.buscarFechaProgramada();
     }
+
+
 }

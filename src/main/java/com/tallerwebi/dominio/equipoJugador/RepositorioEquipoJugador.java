@@ -10,9 +10,13 @@ public interface RepositorioEquipoJugador {
 
     EquipoJugador buscarEquipoYJugadorAsociado(Long idEquipo, Long idJugador);
 
+    EquipoJugador buscarEquipoYJugadorAsociadoPorFecha(Long idEquipo, Long idJugador, Long idFecha);
+
     void eliminarEquipoJugador(EquipoJugador equipoJugador);
 
     void actualizarEquipoJugador(EquipoJugador ej);
 
     List<EquipoJugador> buscarPorEquipoIdYFechaId(Long idEquipo, Long idFechaActual);
+
+    List<EquipoJugador> buscarPorFechaId(Long idFecha);
 }

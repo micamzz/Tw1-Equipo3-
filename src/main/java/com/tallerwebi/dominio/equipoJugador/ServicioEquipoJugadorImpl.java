@@ -1,6 +1,7 @@
 package com.tallerwebi.dominio.equipoJugador;
 
 import com.tallerwebi.dominio.*;
+import com.tallerwebi.dominio.excepcion.FechaNoEncontradaException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +26,7 @@ public class ServicioEquipoJugadorImpl implements ServicioEquipoJugador {
 
 
     @Override
-    public HashMap<Integer, EquipoJugador> buscarJugadoresPorEquipoId(Long id) {
+    public HashMap<Integer, EquipoJugador> buscarJugadoresPorEquipoId(Long id) throws FechaNoEncontradaException {
 
         Fecha fechaActual = servicioFecha.obtenerFechaActual();
 
@@ -45,7 +46,7 @@ public class ServicioEquipoJugadorImpl implements ServicioEquipoJugador {
     }
 
     @Override
-    public List<Jugador> obtenerJugadoresDisponiblesPorPosicion(Long idEquipo, Posicion posicion) {
+    public List<Jugador> obtenerJugadoresDisponiblesPorPosicion(Long idEquipo, Posicion posicion) throws FechaNoEncontradaException {
 
         Fecha fechaActual = servicioFecha.obtenerFechaActual();
 

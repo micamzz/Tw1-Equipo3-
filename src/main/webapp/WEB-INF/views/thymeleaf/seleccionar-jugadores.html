@@ -24,10 +24,13 @@
 
     <!-- ENCABEZADO -->
     <section class="titulo-subtitulo">
-        <h1 class="titulo-equipo">
-            Elegí tus jugadores
-            <span class="nombreEquipoStyle" th:text="${equipo.nombreEquipo}"></span>
+
+        <h1 class="titulo-equipo">Equipo para la Fecha
+            <span class="nombreEquipoStyle" th:text="${numeroFecha}"></span>
         </h1>
+
+        <p class="subtitulo-fecha"><strong th:text="${equipo.nombreEquipo}"></strong></p>
+
         <div class="caja-estadistica">
             <div class="etiqueta">
                 Saldo disponible:
@@ -40,10 +43,8 @@
     <p th:if="${error}" th:text="${error}" class="alerta-error"></p>
 
     <!-- BLOQUEO POR PARTIDOS EN CURSO -->
-    <p th:if="${!puedeModificar}"
-       class="alerta-error">
-        No podés modificar tu equipo mientras haya partidos en curso o a punto de empezar.
-    </p>
+    <p th:if="${!puedeModificar}" class="alerta-error">La fecha actual está en curso. No podés modificar tu equipo hasta
+        que finalice.</p>
 
     <!-- GRID 3 COLUMNAS -->
     <section id="formularioEquipo">
@@ -480,7 +481,7 @@
     </section>
 
     <!-- CONFIRMAR EQUIPO -->
-    <form th:action="@{/confirmar-equipo/{idEquipo}(idEquipo=${equipo.id})}"
+    <form th:if="${puedeModificar}" th:action="@{/confirmar-equipo/{idEquipo}(idEquipo=${equipo.id})}"
           method="post" class="form-confirmar">
         <button type="submit" class="boton-confirmar">CONFIRMAR EQUIPO</button>
     </form>

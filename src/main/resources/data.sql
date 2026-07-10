@@ -29,15 +29,15 @@ VALUES (2, '2026-12-20', '2026-03-07', 'UNLAM Basquet 2026', 'VIRTUAL', 2);
 INSERT IGNORE INTO Torneo (id, fechaFin, fechaInicio, nombreTorneo, tipoTorneo, temporada_id)
 VALUES (3, '2025-12-20', '2025-03-01', 'Torneo 2025', 'REAL', 1);
 
+-- CAMBIE LA ASOCIACION AL TORNEO ID 1 QUE ES EL TORNO REAL.
+INSERT INTO Fecha (id, numero_fecha, estado, torneo_id)
+VALUES (1, 1, 'FINALIZADA', 1);
 
 INSERT INTO Fecha (id, numero_fecha, estado, torneo_id)
-VALUES (1, 1, 'FINALIZADA', 2);
+VALUES (2, 2, 'EN_CURSO', 1);
 
 INSERT INTO Fecha (id, numero_fecha, estado, torneo_id)
-VALUES (2, 2, 'EN_CURSO', 2);
-
-INSERT INTO Fecha (id, numero_fecha, estado, torneo_id)
-VALUES (3, 3, 'PROGRAMADA', 2);
+VALUES (3, 3, 'PROGRAMADA', 1);
 
 
 INSERT IGNORE INTO EquipoNBA(id, nombre, escudoImagen)
