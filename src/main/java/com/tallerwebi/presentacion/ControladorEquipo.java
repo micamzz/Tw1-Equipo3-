@@ -249,8 +249,9 @@ public class ControladorEquipo {
 
             HashMap<Integer, EquipoJugador> jugadores = servicioEquipoJugador.buscarJugadoresPorEquipoId(id);
 
-            List<EquipoJugador> todos =
-                    servicioEquipo.buscarJugadoresDelEquipo(id);
+            List<EquipoJugador> todos = servicioEquipo.buscarJugadoresDelEquipo(id);
+
+            boolean tieneJugadores = todos != null && !todos.isEmpty();
 
             EquipoJugador capitan = null;
             EquipoJugador sextoHombre = null;
@@ -272,9 +273,8 @@ public class ControladorEquipo {
             modelo.put("equipo", equipo);
             modelo.put("fechaActual", fechaActual);
             modelo.put("numeroFecha", fechaActual.getNumeroDeFecha());
-
+            modelo.put("tieneJugadores", tieneJugadores);
             modelo.put("puedeModificar", servicioEquipo.puedeModificarEquipo());
-
             modelo.put("capitan", capitan);
             modelo.put("sextoHombre", sextoHombre);
             modelo.put("jugadoresEquipo", jugadores.values());
