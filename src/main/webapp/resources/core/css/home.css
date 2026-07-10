@@ -19,6 +19,14 @@ body {
     font-family: "Inter", sans-serif;
 }
 
+.hero-aviso {
+    margin: 1rem 0 1.5rem;
+    color: #c9c9c9;
+    font-size: 1rem;
+    line-height: 1.5;
+    max-width: 480px;
+}
+
 /* HOME */
 .hero {
     position: relative;

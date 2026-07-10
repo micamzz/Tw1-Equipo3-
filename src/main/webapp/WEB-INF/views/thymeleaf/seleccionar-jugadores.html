@@ -31,7 +31,8 @@
         <div class="caja-estadistica">
             <div class="etiqueta">
                 Saldo disponible:
-                <span class="valor naranja" id="txt-creditos" th:text="${equipo.getPresupuesto()}"></span>
+                <span class="valor naranja" id="txt-creditos"
+                      th:text="${#numbers.formatInteger(equipo.presupuesto, 3, 'COMMA')}"></span>
             </div>
         </div>
     </section>
