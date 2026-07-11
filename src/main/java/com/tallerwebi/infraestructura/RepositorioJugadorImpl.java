@@ -56,6 +56,8 @@ public class RepositorioJugadorImpl implements RepositorioJugador {
     public RendimientoJugador buscarRendimientoPorJugador(long jugadorId) {
         org.hibernate.Criteria criteria = sessionFactory.getCurrentSession().createCriteria(RendimientoJugador.class);
         criteria.add(Restrictions.eq("jugador.id", jugadorId));
+        criteria.add(Restrictions.isNull("torneo"));
+        criteria.add(Restrictions.isNull("partidoNBA"));
         return (RendimientoJugador) criteria.uniqueResult();
     }
 
@@ -81,6 +83,15 @@ public class RepositorioJugadorImpl implements RepositorioJugador {
                 .createCriteria(Jugador.class)
                 .list();
     }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<RendimientoJugador> buscarRendimientosPorJugadorConPartido(long jugadorId) {
+        org.hibernate.Criteria criteria = sessionFactory.getCurrentSession().createCriteria(RendimientoJugador.class);
+        criteria.add(Restrictions.eq("jugador.id", jugadorId));
+        criteria.add(Restrictions.isNotNull("partidoNBA"));
+        return criteria.list();
+        }
 
     @Override
     public void guardarRendimiento(RendimientoJugador rendimiento) {

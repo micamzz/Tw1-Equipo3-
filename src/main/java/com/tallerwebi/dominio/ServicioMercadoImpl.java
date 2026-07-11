@@ -46,6 +46,11 @@ public class ServicioMercadoImpl implements ServicioMercado {
     }
 
     @Override
+    public List<RendimientoJugador> obtenerRendimientosPorPartido(long jugadorId) {
+        return repositorioJugador.buscarRendimientosPorJugadorConPartido(jugadorId);
+    }
+
+    @Override
     public double calcularPuntajeJugador(RendimientoJugador rendimiento) {
         return rendimiento.getPuntos()
                 + 1.2 * rendimiento.getRebotes()

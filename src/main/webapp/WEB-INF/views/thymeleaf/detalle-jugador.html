@@ -74,7 +74,7 @@
     </div>
 
     <div class="stats-detalle">
-        <h2 class="seccion-titulo">Estadísticas de Temporada</h2>
+        <h2 class="seccion-titulo">Estadísticas de Temporada Pasada</h2>
         <div class="stats-tabla">
             <div class="stats-fila header">
                 <span>PTS</span><span>REB</span><span>AST</span><span>ROB</span><span>BLO</span><span>PER</span>
@@ -88,6 +88,29 @@
                 <span th:text="${rendimiento.perdidas}">0</span>
             </div>
         </div>
+    </div>
+    <div class="stats-detalle" th:if="${rendimientosPorPartido != null and !rendimientosPorPartido.isEmpty()}">
+        <h2 class="seccion-titulo">Estadísticas por Partido (Temporada Actual)</h2>
+        <div class="stats-tabla">
+            <div class="stats-fila header">
+                <span>FECHA</span><span>RIVAL</span><span>PTS</span><span>REB</span>
+                <span>AST</span><span>ROB</span><span>BLO</span><span>PER</span>
+            </div>
+           <div class="stats-fila" th:each="rp : ${rendimientosPorPartido}">
+               <span th:text="${rp.partidoNBA.fechaFormateada}"> - </span>
+               <span th:text="${rp.partidoNBA.equipoVisitante.nombre}">-</span>
+               <span th:text="${rp.puntos}">0</span>
+               <span th:text="${rp.rebotes}">0</span>
+               <span th:text="${rp.asistencias}">0</span>
+               <span th:text="${rp.robos}">0</span>
+               <span th:text="${rp.bloqueos}">0</span>
+               <span th:text="${rp.perdidas}">0</span>
+           </div>
+        </div>
+    </div>
+    <div class="stats-detalle" th:if="${rendimientosPorPartido == null or rendimientosPorPartido.isEmpty()}">
+        <h2 class="seccion-titulo">Estadísticas por Partido (Temporada Actual)</h2>
+        <p class="text-center text-muted">Todavía no hay partidos jugados esta temporada.</p>
     </div>
 </div>
 <footer class="footer-mercado">
