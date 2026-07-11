@@ -98,7 +98,7 @@ public class ServicioPartidoNBAIntegracionTest {
         sessionFactory.getCurrentSession().flush();
         sessionFactory.getCurrentSession().clear();
 
-        RendimientoJugador rendimiento = repositorioJugador.buscarRendimientoPorJugador(jugador.getId());
+        RendimientoJugador rendimiento = repositorioJugador.buscarRendimientoPorJugadorYTorneo(jugador.getId(), torneo.getId());
 
         assertThat(rendimiento, notNullValue());
         assertThat(rendimiento.getPuntos(), equalTo(9));
