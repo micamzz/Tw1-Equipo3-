@@ -1,33 +1,32 @@
-/* ===================================================
-   VARIABLES DE DISEÑO - UNLaM Basket (Consistencia)
-   =================================================== */
 :root {
-    --color-fondo: #111116; /* Fondo oscuro profundo unificado */
-    --color-secundario: #16161c; /* Fondo de las tarjetas y paneles */
-    --color-borde: rgba(255, 255, 255, 0.08); /* Borde sutil */
+    --color-fondo: #0a0a0a;
+    --color-secundario: rgba(20, 20, 20, 0.92);
+    --color-borde: #2a2a2a;
     --color-texto: #ffffff;
-    --color-terciario: #9a9aa5; /* Gris para textos mutados */
-    --color-activo: #ff6b00; /* Naranja UNLaM Basket */
-
+    --color-terciario: #b5b5b5;
+    --color-activo: #ff6b00;
     --color-rojo: #c0392b;
     --color-verde: #27ae60;
+    --color-amarillo: #f1c40f;
 }
 
-/* ===================================================
-   RESET Y CONFIGURACIÓN GLOBAL
-   =================================================== */
 *,
 *::before,
 *::after {
     box-sizing: border-box;
 }
 
+html,
 body {
-    font-family: "Inter", Arial, sans-serif;
-    background-color: var(--color-fondo) !important;
-    color: var(--color-texto);
     margin: 0;
     padding: 0;
+    min-height: 100%;
+    background: var(--color-fondo) !important;
+    color: var(--color-texto);
+    font-family: "Inter", Arial, sans-serif;
+}
+
+body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -35,300 +34,348 @@ body {
 
 .contenedor-admin-vista {
     width: 95%;
-    max-width: 1600px; /* Ampliado para coincidir con la consola de estadísticas */
+    max-width: 1100px;
     margin: 0 auto;
-    padding: 2rem;
+    padding: 2rem 0 3rem;
     flex: 1;
 }
 
-/* ── Títulos y Secciones superiores ── */
+/*  ENCABEZADOS */
 .acciones-superiores {
     display: flex;
-    align-items: center;
-    gap: 1rem;
-    flex-wrap: wrap;
-    margin-bottom: 2rem;
+    align-items: flex-start;
     justify-content: space-between;
+    gap: 1.5rem;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
 }
 
 .acciones-superiores h1 {
+    margin: 0;
     font-size: 2.2rem;
     font-weight: 800;
     letter-spacing: -0.5px;
-    margin: 0;
-    flex: 1;
 }
 
-.seccion-con-boton {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    flex-wrap: wrap;
-    margin-top: 3rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid var(--color-borde); /* Línea divisoria elegante */
+.pf-subtitulo {
+    margin: 0.55rem 0 0;
+    max-width: 620px;
+    color: var(--color-terciario);
+    font-size: 0.95rem;
+    line-height: 1.55;
+}
+
+
+.resumen-fecha p {
+    margin: 0;
+    color: var(--color-terciario);
+    font-size: 0.95rem;
+    line-height: 1.55;
+}
+
+.fecha-destacada,
+.link-fechas {
+    color: var(--color-activo);
+    font-weight: 700;
+}
+
+.link-fechas {
+    text-decoration: none;
+}
+
+.link-fechas:hover {
+    text-decoration: underline;
 }
 
 .subtitulo-seccion {
-    font-size: 1.4rem;
-    font-weight: 700;
+    margin: 2rem 0 1rem;
     color: var(--color-texto);
-    margin: 0;
-    text-transform: uppercase;
-    letter-spacing: -0.3px;
+    font-size: 1.25rem;
+    font-weight: 800;
+    letter-spacing: -0.25px;
 }
 
-/* ===================================================
-   CARDS DE PARTIDOS (PROGRAMADOS, VIVOS, FINALIZADOS)
-   =================================================== */
+.pf-titulo-seccion {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+}
+
+.pf-contador {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 26px;
+    height: 26px;
+    padding: 0 0.45rem;
+    border-radius: 20px;
+    background: rgba(255, 107, 0, 0.12);
+    color: var(--color-activo);
+    font-size: 0.75rem;
+    font-weight: 800;
+}
+
+/* MENSAJES */
+.mensaje-error {
+    width: 100%;
+    margin: 0 0 1.5rem;
+    padding: 1rem;
+    border: 1px solid rgba(192, 57, 43, 0.3);
+    border-radius: 8px;
+    background: rgba(192, 57, 43, 0.15);
+    color: #ff6b6b;
+    font-weight: 600;
+    text-align: center;
+}
+
+.sin-partidos {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    margin: 0 0 1.25rem;
+    padding: 2rem 1.25rem;
+    background: var(--color-secundario);
+    border: 1px dashed var(--color-borde);
+    border-radius: 12px;
+    color: var(--color-terciario);
+    text-align: center;
+}
+
+.pf-vacio-titulo {
+    color: var(--color-texto);
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.pf-vacio-texto {
+    max-width: 520px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+/*  TARJETAS DE PARTIDOS */
 .card-partido-programado,
 .card-partido-vivo,
 .card-partido-finalizado {
-    background-color: var(--color-secundario);
-    border: 1px solid var(--color-borde);
-    border-radius: 16px; /* Redondeado idéntico a la consola */
+    margin-bottom: 1.25rem;
     overflow: hidden;
-    margin: 1.5rem 0;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    background: var(--color-secundario);
+    border: 1px solid var(--color-borde);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.15s ease, box-shadow 0.2s ease;
 }
 
-.card-partido-programado:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
-}
-
-/* Bordes de color dinámicos e iluminación interna */
 .card-partido-programado {
     border-left: 4px solid var(--color-activo);
-    box-shadow: inset 2px 0px 0px 0px rgba(255, 107, 0, 0.3), 0 4px 15px rgba(0, 0, 0, 0.25);
 }
 
 .card-partido-vivo {
     border-left: 4px solid var(--color-verde);
-    box-shadow: inset 2px 0px 0px 0px rgba(39, 174, 96, 0.3), 0 4px 15px rgba(0, 0, 0, 0.25);
 }
 
 .card-partido-finalizado {
     border-left: 4px solid var(--color-terciario);
-    opacity: 0.85;
 }
 
-/* Cabeceras de las Cards */
+.card-partido-programado:hover,
+.card-partido-vivo:hover,
+.card-partido-finalizado:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.28);
+}
+
 .programado-header,
 .vivo-header,
 .finalizado-header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 1rem 1.5rem;
-    background-color: rgba(0, 0, 0, 0.2); /* Fondo más oscuro integrado */
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.95rem 1.25rem;
+    background: rgba(0, 0, 0, 0.18);
 }
 
-.programado-fecha, .vivo-fecha, .finalizado-fecha {
-    font-weight: 700;
-    font-size: 0.95rem;
+.programado-fecha,
+.vivo-fecha,
+.finalizado-fecha {
     color: var(--color-texto);
+    font-size: 0.9rem;
+    font-weight: 700;
 }
 
-.programado-torneo, .vivo-torneo, .finalizado-torneo {
-    font-weight: 800;
-    font-size: 0.95rem;
+.programado-torneo,
+.vivo-torneo,
+.finalizado-torneo {
     color: var(--color-activo);
+    font-size: 0.82rem;
+    font-weight: 800;
     text-transform: uppercase;
 }
 
 .programado-divider {
     height: 1px;
-    background-color: var(--color-borde);
+    background: var(--color-borde);
 }
 
-/* Cuerpo central del encuentro */
 .programado-cuerpo,
 .vivo-cuerpo,
 .finalizado-cuerpo {
     display: grid;
-    grid-template-columns: 1fr auto 1fr;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
     align-items: center;
-    padding: 2rem 1.5rem;
     gap: 1.5rem;
+    padding: 1.65rem 1.25rem;
 }
 
-.programado-equipo, .vivo-equipo, .finalizado-equipo {
+.programado-equipo,
+.vivo-equipo,
+.finalizado-equipo {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centrados armoniosamente */
-    gap: 0.75rem;
-}
-
-.programado-equipo {
     align-items: center;
-}
-
-.programado-equipo-visitante {
-    align-items: center;
+    gap: 0.65rem;
+    text-align: center;
 }
 
 .escudo {
-    width: 75px;
-    height: 75px;
+    width: 68px;
+    height: 68px;
     object-fit: contain;
-    transition: transform 0.2s;
 }
 
-.card-partido-programado:hover .escudo {
-    transform: scale(1.05);
-}
-
-.programado-equipo-nombre, .vivo-equipo-nombre, .finalizado-equipo-nombre {
-    font-weight: 700;
-    font-size: 1.1rem;
+.programado-equipo-nombre,
+.vivo-equipo-nombre,
+.finalizado-equipo-nombre {
     color: var(--color-texto);
+    font-size: 1rem;
+    font-weight: 700;
 }
 
-/* Central Score & Tiempos */
-.programado-score, .vivo-score, .finalizado-score {
+.programado-score,
+.vivo-score,
+.finalizado-score {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.4rem;
-    min-width: 150px;
+    gap: 0.35rem;
+    min-width: 135px;
+    text-align: center;
 }
 
 .programado-puntos {
-    font-size: 0.85rem;
-    font-weight: 700;
-    text-transform: uppercase;
     color: var(--color-terciario);
-    letter-spacing: 0.05em;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
 }
 
 .programado-minuto {
-    font-size: 1.5rem;
     color: var(--color-texto);
+    font-size: 1.35rem;
     font-weight: 800;
 }
 
-/* Badges En Vivo y Finalizado */
-.badge-vivo {
-    background-color: rgba(39, 174, 96, 0.15);
-    color: #2ecc71;
-    border: 1px solid rgba(39, 174, 96, 0.3);
-    font-size: 0.75rem;
+.pf-vs {
+    color: var(--color-terciario);
+    font-size: 0.78rem;
     font-weight: 800;
-    padding: 0.3rem 0.8rem;
+    letter-spacing: 0.08em;
+}
+
+.score-vivo-numeros,
+.finalizado-puntos {
+    color: var(--color-texto);
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.badge-vivo,
+.vivo-estado,
+.finalizado-estado {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    width: fit-content;
+    padding: 0.28rem 0.75rem;
     border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 800;
     letter-spacing: 0.05em;
-    animation: pulso 1.5s infinite;
+    text-transform: uppercase;
 }
 
+.badge-vivo,
 .vivo-estado {
-    font-weight: 800;
-    font-size: 0.9rem;
-    color: #2ecc71;
-    background: rgba(39, 174, 96, 0.1);
-    padding: 0.3rem 0.9rem;
-    border-radius: 20px;
-    letter-spacing: 0.05em;
+    background: rgba(39, 174, 96, 0.14);
+    color: #4ade80;
 }
 
 .finalizado-estado {
-    font-weight: 800;
-    font-size: 0.9rem;
+    background: rgba(181, 181, 181, 0.12);
     color: var(--color-terciario);
-    background: rgba(255, 255, 255, 0.05);
-    padding: 0.3rem 0.9rem;
-    border-radius: 20px;
-    letter-spacing: 0.05em;
+}
+
+.pf-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: currentColor;
 }
 
 .finalizado-duracion {
-    font-size: 0.85rem;
+    margin-top: 0.15rem;
     color: var(--color-terciario);
-    font-weight: 500;
-    margin-top: 0.2rem;
+    font-size: 0.82rem;
 }
 
-@keyframes pulso {
-    0%, 100% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0.6;
-    }
-}
-
-/* ===================================================
-   BOTONERAS Y ACCIONES (ESTILO ADMINISTRADOR / USER)
-   =================================================== */
+/*  ACCIONES */
 .programado-acciones,
-.vivo-acciones {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1rem 1.5rem;
-    background-color: rgba(0, 0, 0, 0.1);
-    gap: 1rem;
-}
-
-/* ===================================================
-   ACCIONES PARTIDO FINALIZADO (Centrado Absoluto)
-   =================================================== */
+.programado-acciones-secundarias,
+.vivo-acciones,
 .finalizado-acciones {
     display: flex;
-    justify-content: center; /* Centra el botón horizontalmente */
-    align-items: center; /* Centra verticalmente */
-    width: 100%; /* Fuerza a ocupar todo el ancho de la card */
-    padding: 1.25rem 1.5rem; /* Mismo aire y respiro que los partidos programados */
-    background-color: rgba(0, 0, 0, 0.2); /* Fondo oscuro integrado de las botoneras */
-    box-sizing: border-box;
-}
-
-/* Retoque opcional para que el botón mantenga buen tamaño en esa barra */
-.finalizado-acciones .btn-amarillo {
-    min-width: 180px;
-    font-weight: 700;
-}
-
-
-.programado-acciones-secundarias {
-    display: flex; /* Cambiamos de grid a flex que es más dócil para dos elementos extremos */
-    justify-content: space-between; /* Empuja el primero a la izquierda y el último a la derecha */
     align-items: center;
-    padding: 0.5rem 1.5rem 0.75rem;
-    gap: 1rem;
+    gap: 0.75rem;
+    padding: 0.9rem 1.25rem;
+    background: rgba(0, 0, 0, 0.12);
 }
 
-/* Forzamos la alineación explícita por si acaso */
-.programado-acciones-secundarias .btn-formacion:first-child {
-    justify-self: start;
+.programado-acciones,
+.programado-acciones-secundarias,
+.vivo-acciones {
+    justify-content: space-between;
 }
 
-.programado-acciones-secundarias .btn-formacion:last-child {
-    justify-self: end;
+.finalizado-acciones {
+    justify-content: center;
 }
 
-/* Forzamos a los formularios internos a no romper el flex */
 .programado-acciones form {
     margin: 0;
-    display: inline-block;
 }
 
-/* Botones principales */
+/*  BOTONES */
 .btn {
-    padding: 0.7rem 1.5rem;
-    border-radius: 8px;
-    font-weight: 700;
-    font-size: 0.9rem;
-    text-decoration: none;
-    border: none;
-    cursor: pointer;
-    font-family: "Inter", Arial, sans-serif;
-    transition: background 0.15s, transform 0.1s;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    gap: 0.4rem;
+    min-height: 40px;
+    padding: 0.7rem 1.15rem;
+    border: none;
+    border-radius: 8px;
+    font-family: "Inter", Arial, sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
 }
 
 .btn:active {
@@ -336,184 +383,85 @@ body {
 }
 
 .btn-naranja {
-    background-color: var(--color-activo);
+    background: var(--color-activo);
     color: #fff;
 }
 
 .btn-naranja:hover {
-    background-color: #e05e00;
+    background: #e05e00;
 }
 
 .btn-verde {
-    background-color: var(--color-verde);
+    background: var(--color-verde);
     color: #fff;
 }
 
 .btn-verde:hover {
-    background-color: #1e8449;
-}
-
-.btn-amarillo {
-    background-color: #f1c40f;
-    color: #111;
-}
-
-.btn-amarillo:hover {
-    background-color: #d4ac0d;
+    background: #1e8449;
 }
 
 .btn-rojo {
-    background-color: var(--color-rojo);
+    background: var(--color-rojo);
     color: #fff;
 }
 
 .btn-rojo:hover {
-    background-color: #922b21;
+    background: #922b21;
 }
 
-/* Botones secundarios (Formación, estadísticas, etc) */
+.btn-amarillo {
+    background: var(--color-amarillo);
+    color: #111;
+}
+
+.btn-amarillo:hover {
+    background: #d4ac0d;
+}
+
+.btn-secundario,
 .btn-formacion,
 .btn-cronologia {
-    background: #1f1f27;
-    border: 1px solid #3a3a45;
+    background: #1f1f1f;
     color: var(--color-texto);
-    padding: 0.5rem 1.2rem;
-    border-radius: 8px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    text-decoration: none;
-    cursor: pointer;
-    transition: border-color 0.15s, background 0.15s;
+    border: 1px solid var(--color-borde);
 }
 
+.btn-secundario:hover,
 .btn-formacion:hover,
 .btn-cronologia:hover {
+    background: #292929;
     border-color: var(--color-activo);
-    background: #252530;
 }
 
-/* ===================================================
-   MENSAJES Y COMPONENTES EXTRAS
-   =================================================== */
-.mensaje-error {
-    background: rgba(192, 57, 43, 0.15);
-    border: 1px solid rgba(192, 57, 43, 0.3);
-    color: #ff6b6b;
-    padding: 1rem;
-    border-radius: 8px;
-    font-weight: 600;
-    text-align: center;
-    margin-bottom: 1.5rem;
+.btn-formacion,
+.btn-cronologia {
+    min-height: 36px;
+    padding: 0.58rem 1rem;
+    font-size: 0.82rem;
 }
 
-.sin-partidos {
-    color: var(--color-terciario);
-    font-size: 1rem;
-    text-align: center;
-    padding: 3rem 0;
-    background: var(--color-secundario);
-    border: 1px dashed var(--color-borde);
-    border-radius: 12px;
+.pf-icon {
+    width: 17px;
+    height: 17px;
+    flex: 0 0 auto;
 }
 
-/* Modales unificados */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.7);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    backdrop-filter: blur(3px);
-}
-
-.modal-contenido {
-    background: var(--color-secundario);
-    border: 1px solid var(--color-borde);
-    border-radius: 12px;
-    padding: 2rem;
-    min-width: 360px;
-    color: var(--color-texto);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-}
-
-.modal-contenido h3 {
-    color: var(--color-activo);
-    margin: 0 0 1.5rem;
-    font-size: 1.3rem;
-    text-transform: uppercase;
-    font-weight: 700;
-}
-
-.btn-secundario {
-    background: #2a2a35;
-    color: var(--color-texto);
-    border: 1px solid #3a3a45;
-}
-
-.btn-secundario:hover {
-    background: #3f3f4f;
-}
-
-/* ===================================================
-   OPTIMIZACIÓN DE SCORE EN VIVO
-   =================================================== */
-.vivo-score {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0.4rem;
-    min-width: 180px; /* Un poco más de espacio para que no se encime */
-}
-
-/* Estilo para los números grandes del resultado en vivo */
-.score-vivo-numeros {
-    font-size: 2.2rem;
-    font-weight: 800;
-    color: var(--color-texto);
-    letter-spacing: 1px;
-    line-height: 1;
-    margin: 0.2rem 0;
-}
-
-/* Modificación del badge para que quede sutil arriba del resultado */
-.vivo-estado {
-    font-weight: 800;
-    font-size: 0.75rem;
-    color: #2ecc71;
-    background: rgba(39, 174, 96, 0.12);
-    padding: 0.25rem 0.75rem;
-    border-radius: 20px;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-}
-
-/* ===================================================
-   VISTA: AGREGAR PARTIDO (FORMULARIO PREMIUM)
-   =================================================== */
-
-/* Envolvemos el formulario en un contenedor tipo panel con la identidad visual del sitio */
+/* FORM AGREGAR PARTIDO*/
 .formulario-partido {
-    background-color: var(--color-secundario);
+    width: 100%;
+    max-width: 620px;
+    margin: 0 auto;
+    padding: 1.75rem;
+    background: var(--color-secundario);
     border: 1px solid var(--color-borde);
-    border-radius: 16px;
-    padding: 2.5rem;
-    margin-top: 2rem;
-    box-shadow: inset 2px 0px 0px 0px rgba(255, 107, 0, 0.4), 0 4px 25px rgba(0, 0, 0, 0.25);
+    border-left: 4px solid var(--color-activo);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     display: flex;
     flex-direction: column;
-    gap: 1.75rem;
-    max-width: 600px; /* Centrado y acotado para que sea cómodo de rellenar */
-    margin-left: auto;
-    margin-right: auto;
+    gap: 1.35rem;
 }
 
-/* Estilo para las etiquetas de los campos */
 .campo-formulario {
     display: flex;
     flex-direction: column;
@@ -521,223 +469,170 @@ body {
 }
 
 .campo-formulario label {
-    font-size: 0.85rem;
-    font-weight: 700;
     color: var(--color-terciario);
-    text-transform: uppercase;
+    font-size: 0.82rem;
+    font-weight: 700;
     letter-spacing: 0.05em;
+    text-transform: uppercase;
 }
 
-/* Estilo unificado para los inputs, selects y campos de fecha */
 .campo-formulario input,
-.campo-formulario select {
-    padding: 0.85rem 1rem;
-    border-radius: 8px;
-    border: 1px solid var(--color-borde);
-    background-color: rgba(0, 0, 0, 0.25); /* Fondo más oscuro para que resalte */
-    color: var(--color-texto);
-    font-size: 0.95rem;
-    font-family: "Inter", Arial, sans-serif;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    outline: none;
+.campo-formulario select,
+.input-reprogramar {
     width: 100%;
-}
-
-/* Efecto de enfoque (Focus) cuando el usuario hace clic en el campo */
-.campo-formulario input:focus,
-.campo-formulario select:focus {
-    border-color: var(--color-activo);
-    box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.15);
-}
-
-/* Customización del menú desplegable (Select Options) */
-.campo-formulario select option {
-    background-color: #16161c; /* Mismo color secundario para evitar el gris por defecto de los navegadores */
+    padding: 0.8rem 0.95rem;
+    border: 1px solid var(--color-borde);
+    border-radius: 8px;
+    outline: none;
+    background: rgba(0, 0, 0, 0.25);
     color: var(--color-texto);
-    padding: 0.5rem;
+    font-family: "Inter", Arial, sans-serif;
+    font-size: 0.95rem;
 }
 
-/* Contenedor inferior de botones */
-.formulario-partido .botones-confirmacion {
+.campo-formulario input:focus,
+.campo-formulario select:focus,
+.input-reprogramar:focus {
+    border-color: var(--color-activo);
+    box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.14);
+}
+
+.campo-formulario select option {
+    background: #141414;
+    color: var(--color-texto);
+}
+
+.fecha-partido-seleccionada {
+    padding: 0.85rem 0.95rem;
+    background: rgba(0, 0, 0, 0.22);
+    border: 1px solid var(--color-borde);
+    border-radius: 8px;
+    color: var(--color-terciario);
+}
+
+.botones-confirmacion,
+.modal-botones {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+}
+
+.botones-confirmacion {
+    margin-top: 0.3rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--color-borde);
+}
+
+/*MODALES */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
     display: flex;
     align-items: center;
-    justify-content: flex-end; /* Alineados a la derecha de forma prolija */
+    justify-content: center;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.72);
+    backdrop-filter: blur(3px);
+}
+
+.modal-contenido {
+    width: 100%;
+    max-width: 460px;
+    padding: 1.75rem;
+    background: var(--color-secundario);
+    border: 1px solid var(--color-borde);
+    border-radius: 12px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5);
+}
+
+.modal-contenido h3 {
+    margin: 0 0 1.25rem;
+    color: var(--color-texto);
+    font-size: 1.2rem;
+    font-weight: 800;
+}
+
+.modal-contenido p {
+    color: var(--color-terciario);
+    line-height: 1.5;
+}
+
+.form-reprogramar-modal {
+    display: flex;
+    flex-direction: column;
     gap: 1rem;
-    margin-top: 1rem;
-    border-top: 1px solid var(--color-borde);
-    padding-top: 1.5rem;
 }
 
-/* Ajuste de los botones para que mantengan la consistencia de tamaño */
-.formulario-partido .botones-confirmacion .btn {
-    min-width: 140px;
-    padding: 0.75rem 1.5rem;
+.form-reprogramar-modal label {
+    color: var(--color-terciario);
+    font-size: 0.85rem;
+    font-weight: 700;
 }
 
-/* ===================================================
-   RESPONSIVE PARA EL FORMULARIO
-   =================================================== */
-@media (max-width: 576px) {
-    .formulario-partido {
-        padding: 1.5rem;
-    }
-
-    .formulario-partido .botones-confirmacion {
-        flex-direction: column-reverse; /* El botón principal queda arriba en móviles */
-        width: 100%;
-    }
-
-    .formulario-partido .botones-confirmacion .btn {
-        width: 100%;
-    }
-}
-
-/* ===================================================
-   RESPONSIVE DESIGNS
-   =================================================== */
+/* RESPONSIVE */
 @media (max-width: 768px) {
-    .programado-cuerpo, .vivo-cuerpo, .finalizado-cuerpo {
-        grid-template-columns: 1fr;
-        text-align: center;
-        gap: 2rem;
+    .contenedor-admin-vista {
+        width: 92%;
+        padding: 1.5rem 0 2.5rem;
     }
 
-    .programado-equipo {
-        align-items: center;
+    .acciones-superiores {
+        align-items: stretch;
     }
 
-    .programado-equipo-visitante {
-        align-items: center;
+    .acciones-superiores .btn {
+        width: 100%;
     }
 
-    .programado-acciones, .programado-acciones-secundarias, .vivo-acciones {
+    .programado-header,
+    .vivo-header,
+    .finalizado-header {
+        align-items: flex-start;
         flex-direction: column;
-        width: 100%;
     }
 
-    .programado-acciones form, .btn {
-        width: 100%;
+    .programado-cuerpo,
+    .vivo-cuerpo,
+    .finalizado-cuerpo {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
     }
 
-    /*    CAMBIAR ESTADO FECHA */
-    .bloque-fecha {
-        background: #141414;
-        border: 1px solid #2a2a2a;
-        border-radius: 10px;
+    .programado-acciones,
+    .programado-acciones-secundarias,
+    .vivo-acciones,
+    .finalizado-acciones,
+    .botones-confirmacion,
+    .modal-botones {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .programado-acciones form,
+    .programado-acciones .btn,
+    .programado-acciones-secundarias .btn,
+    .vivo-acciones .btn,
+    .finalizado-acciones .btn,
+    .botones-confirmacion .btn,
+    .modal-botones .btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .acciones-superiores h1 {
+        font-size: 1.8rem;
+    }
+
+    .resumen-fecha,
+    .formulario-partido,
+    .modal-contenido {
         padding: 1.25rem;
-        margin-bottom: 1.25rem;
     }
 
-    .bloque-fecha-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 1rem;
-        flex-wrap: wrap;
-        gap: 0.75rem;
-    }
-
-    .bloque-fecha-titulo {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-    }
-
-    .bloque-fecha-titulo h2 {
-        font-size: 1.1rem;
-        font-weight: 700;
-        margin: 0;
-    }
-
-    .form-estado-fecha {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-    }
-
-    .form-estado-fecha select {
-        background: #1a1a1a;
-        color: #fff;
-        border: 1px solid #333;
-        border-radius: 6px;
-        padding: 5px 8px;
-        font-family: inherit;
-        font-size: 0.82rem;
-    }
-
-    .panel-agregar-partido {
-        margin-top: 1rem;
-        padding-top: 1rem;
-        border-top: 1px solid #2a2a2a;
-    }
-
-    .panel-agregar-partido h4 {
-        font-size: 0.75rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        color: #666;
-        margin-bottom: 0.75rem;
-    }
-
-    /* badges de estado */
-    .badge-estado {
-        font-size: 0.62rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        padding: 3px 10px;
-        border-radius: 20px;
-    }
-
-    .estado-programada {
-        background: rgba(255, 255, 255, 0.06);
-        color: #888;
-        border: 1px solid #333;
-    }
-
-    .estado-en-curso {
-        background: rgba(255, 107, 0, 0.12);
-        color: #ff6b00;
-        border: 1px solid rgba(255, 107, 0, 0.3);
-    }
-
-    .estado-finalizada {
-        background: rgba(74, 222, 128, 0.08);
-        color: #4ade80;
-        border: 1px solid rgba(74, 222, 128, 0.2);
-    }
-
-    .tabla-partidos {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 0.85rem;
-        margin-bottom: 0.5rem;
-    }
-
-    .tabla-partidos th {
-        text-align: left;
-        padding: 6px 10px;
-        font-size: 0.58rem;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        color: #555;
-        border-bottom: 1px solid #222;
-    }
-
-    .tabla-partidos td {
-        padding: 10px;
-        border-bottom: 1px solid #1e1e1e;
-        color: #ccc;
-    }
-
-    .tabla-partidos tr:last-child td {
-        border-bottom: none;
-    }
-
-    .mensaje-vacio {
-        color: #555;
-        font-size: 0.82rem;
-        padding: 0.5rem 0;
+    .escudo {
+        width: 58px;
+        height: 58px;
     }
 }

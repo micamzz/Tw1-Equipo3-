@@ -1,4 +1,6 @@
 -- LIMPIEZA DE DATOS AL INICIO
+-- TIENE UPDATE EL HIBERNATECONFG PERO HAY QUE BORRAR LOS DATOS
+--POR LAS KEY DUPLICADAS.
 SET FOREIGN_KEY_CHECKS = 0;
 TRUNCATE TABLE RendimientoJugador;
 TRUNCATE TABLE EquipoJugador;
@@ -15,7 +17,6 @@ TRUNCATE TABLE Usuario;
 SET FOREIGN_KEY_CHECKS = 1;
 -- ====================================
 
--- APARTIR DE ACA EL CODIGO
 INSERT INTO Usuario(id, nombre, email, password, rol, activo)
 VALUES (null, 'Admin Test', 'test@unlam.edu.ar', 'test', 'ADMIN', true),
        (null, 'Micaela', 'mica@unlam.com', 'test', 'ADMIN', true),
@@ -52,7 +53,7 @@ VALUES (1, 1, 'FINALIZADA', 1);
 INSERT INTO Fecha (id, numero_fecha, estado, torneo_id)
 VALUES (2, 2, 'EN_CURSO', 1);
 
- INSERT INTO Fecha (id, numero_fecha, estado, torneo_id)
+INSERT INTO Fecha (id, numero_fecha, estado, torneo_id)
 VALUES (3, 3, 'PROGRAMADA', 1);
 
 
