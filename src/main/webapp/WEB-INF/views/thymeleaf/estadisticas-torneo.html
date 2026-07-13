@@ -132,7 +132,7 @@
 <div th:replace="layout/header :: header"></div>
 
 <main class="estadisticas-page">
-    <a th:href="@{/home}" class="volver-link">&larr; Volver al inicio</a>
+    <a th:href="@{/home}" class="volver-link"> Volver al inicio</a>
     <h1>Estadísticas <span class="color-naranja" th:text="${torneoActual.nombreTorneo}">Torneo</span></h1>
     <p class="subtitulo">Rendimiento acumulado de todos los jugadores en el torneo actual</p>
 
@@ -158,7 +158,9 @@
             <td th:text="${rend.robos}">0</td>
             <td th:text="${rend.bloqueos}">0</td>
             <td th:text="${rend.perdidas}">0</td>
-            <td class="puntaje-col" th:text="${#numbers.formatDecimal(servicioMercado.calcularPuntajeJugador(rend), 1, 1)}">0.0</td>
+            <td class="puntaje-col"
+                th:text="${#numbers.formatDecimal(servicioMercado.calcularPuntajeJugador(rend), 1, 1)}">0.0
+            </td>
         </tr>
         </tbody>
     </table>

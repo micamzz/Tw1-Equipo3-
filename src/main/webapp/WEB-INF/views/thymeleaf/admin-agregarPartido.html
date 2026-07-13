@@ -1,13 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Agregar Partido</title>
+
     <link rel="stylesheet" th:href="@{/css/header.css}"/>
     <link rel="stylesheet" th:href="@{/css/footer.css}"/>
     <link rel="stylesheet" th:href="@{/css/partidos.css}"/>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+
+    <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+            rel="stylesheet"
+    />
 </head>
+
 <body>
 
 <div th:replace="layout/admin-header :: header-admin"></div>
@@ -18,58 +24,90 @@
         <h1>Nuevo Partido</h1>
     </div>
 
-    <div th:if="${error}" class="mensaje-error" th:text="${error}">Error</div>
+    <div th:if="${error}" class="mensaje-error" th:text="${error}">
+        Error
+    </div>
 
-    <form th:action="@{/admin/agregarPartido}" method="post" class="formulario-partido">
+    <form th:action="@{/admin/agregarPartido}"
+          method="post"
+          class="formulario-partido">
 
+        <!-- FECHA SELECCIONADA -->
         <div class="campo-formulario">
-            <label for="idFecha">Fecha del Torneo</label>
-            <select id="idFecha" name="idFecha" required>
-                <option value="">Seleccioná la fecha de la jornada</option>
-                <!-- Recorremos las fechas que manda el controlador -->
-                <option th:each="fecha : ${fechas}"
-                        th:value="${fecha.id}"
-                        th:text="'FECHA ' + ${fecha.numeroDeFecha} + ' - ' + ${fecha.torneo.nombreTorneo}">
-                    FECHA 1 - Temporada NBA 2026
-                </option>
-            </select>
+
+            <label>Fecha del torneo</label>
+
+            <div class="fecha-partido-seleccionada">
+
+                <span class="fecha-destacada">Fecha<span th:text="${fecha.numeroDeFecha}"></span>
+                </span>
+
+                <span th:if="${fecha.torneo != null}" th:text="' - ' + ${fecha.torneo.nombreTorneo}">
+                </span>
+
+            </div>
+
+            <input type="hidden" name="idFecha" th:value="${fecha.id}"/>
+
         </div>
 
+        <!-- EQUIPO LOCAL -->
         <div class="campo-formulario">
+
             <label for="idLocal">Equipo Local</label>
+
             <select id="idLocal" name="idLocal" required>
+
                 <option value="">Seleccioná un equipo</option>
-                <option th:each="equipo : ${equipos}"
-                        th:value="${equipo.id}"
-                        th:text="${equipo.nombre}">Equipo
+                <option th:each="equipo : ${equipos}" th:value="${equipo.id}" th:text="${equipo.nombre}">Equipo
                 </option>
+
             </select>
+
         </div>
 
+        <!-- EQUIPO VISITANTE -->
         <div class="campo-formulario">
+
             <label for="idVisitante">Equipo Visitante</label>
+
             <select id="idVisitante" name="idVisitante" required>
+
                 <option value="">Seleccioná un equipo</option>
-                <option th:each="equipo : ${equipos}"
-                        th:value="${equipo.id}"
-                        th:text="${equipo.nombre}">Equipo
+
+                <option th:each="equipo : ${equipos}" th:value="${equipo.id}" th:text="${equipo.nombre}">Equipo
                 </option>
             </select>
+
         </div>
 
+        <!-- FECHA Y HORA DEL PARTIDO -->
         <div class="campo-formulario">
             <label for="horaInicio">Fecha y hora del partido</label>
             <input type="datetime-local" id="horaInicio" name="horaInicio"/>
+
         </div>
 
+        <!-- BOTONES -->
         <div class="botones-confirmacion">
-            <button type="submit" class="btn btn-naranja">Crear Partido</button>
-            <a th:href="@{/partidos}" class="btn btn-secundario">Cancelar</a>
+
+            <button type="submit"
+                    class="btn btn-naranja">
+                Crear Partido
+            </button>
+
+            <a th:href="@{/partidos(idFecha=${fecha.id})}"
+               class="btn btn-secundario">
+                Cancelar
+            </a>
+
         </div>
+
     </form>
 
 </main>
 
 <div th:replace="layout/footer :: footer"></div>
+
 </body>
 </html>

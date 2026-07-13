@@ -58,8 +58,7 @@ public class ServicioFechaImpl implements ServicioFecha {
         return fecha;
     }
 
-    /*Actualiza una fecha. Si pasa a FINALIZADA, crea la siguiente fecha  como PROGRAMADA y copia las formaciones de los equipos para la nueva fecha
-     */
+
     @Override
     public void actualizarFecha(Long idFecha, Integer numero, EstadoFecha estado) throws FechaNoEncontradaException {
 
@@ -72,28 +71,16 @@ public class ServicioFechaImpl implements ServicioFecha {
 
         repositorioFecha.actualizarFecha(fechaModificada);
 
+        /*
+          Cuando finaliza una fecha, se busca la siguiente fecha programada
+          y se copian automáticamente las formaciones de los equipos.
+         */
         if (estadoAnterior == EstadoFecha.EN_CURSO && estado == EstadoFecha.FINALIZADA) {
+            Fecha fechaSiguiente = repositorioFecha.buscarFechaProgramada();
 
-            Fecha fechaSiguiente = crearSiguienteFecha(fechaModificada);
-
-            servicioEquipo.copiarEquiposDeUnaFechaAOtra(fechaModificada, fechaSiguiente);
+            if (fechaSiguiente != null) {servicioEquipo.copiarEquiposDeUnaFechaAOtra(fechaModificada, fechaSiguiente);
+            }
         }
-    }
-
-    /* Crea automáticamente una siguiente fecha con el número que le sigue
-     * asi ya queda activado para que el usuario pueda modificar a su equipo*/
-
-    private Fecha crearSiguienteFecha(Fecha fechaFinalizada) {
-
-        Fecha fechaSiguiente = new Fecha();
-        fechaSiguiente.setNumeroDeFecha(fechaFinalizada.getNumeroDeFecha() + 1);
-
-        fechaSiguiente.setTorneo(fechaFinalizada.getTorneo());
-
-        fechaSiguiente.setEstadoFecha(EstadoFecha.PROGRAMADA);
-
-        repositorioFecha.guardarFecha(fechaSiguiente);
-        return fechaSiguiente;
     }
 
 

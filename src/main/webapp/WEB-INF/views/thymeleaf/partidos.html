@@ -1,266 +1,475 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8"/>
-    <title>Admin - Partidos</title>
+    <title>Partidos</title>
     <link rel="stylesheet" th:href="@{/css/header.css}"/>
     <link rel="stylesheet" th:href="@{/css/footer.css}"/>
     <link rel="stylesheet" th:href="@{/css/partidos.css}"/>
+    <link rel="stylesheet" th:href="@{/css/partidos-mejoras.css}"/>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
 </head>
+
 <body>
 
-<!--HEADER ADMIN -->
 <div th:replace="layout/admin-header :: header-admin"></div>
 
 <main class="contenedor-admin-vista">
 
+    <!-- ══ ENCABEZADO ══ -->
     <div class="acciones-superiores">
-        <h1 th:text="${torneoActual != null ? torneoActual.nombreTorneo : 'Partidos'}">Partidos</h1>
-    </div>
+        <div>
+            <h1 th:text="${torneoActual != null ? torneoActual.nombreTorneo : 'Partidos'}"></h1>
+            <p th:if="${esAdmin}" class="pf-subtitulo">
+                Organizá los partidos de cada fecha y seguí su estado en un solo lugar.
+            </p>
+        </div>
 
-    <div class="acciones-superiores">
-        <h1>Consola de Partidos</h1>
-        <!-- Botón para ir a crear la fecha -->
-        <a th:if="${esAdmin}" th:href="@{/admin/agregarFecha}" class="btn btn-cronologia">
-            + Agregar Fecha
+        <a th:if="${esAdmin
+                and fechaActual != null
+                and fechaActual.estadoFecha.name() != 'FINALIZADA'}"
+           th:href="@{/admin/agregarPartido(idFecha=${fechaActual.id})}"
+           class="btn btn-naranja">
+            <svg class="pf-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="5" width="18" height="16" rx="2"/>
+                <path d="M3 9h18"/>
+                <path d="M8 3v4"/>
+                <path d="M16 3v4"/>
+                <path d="M12 13v5"/>
+                <path d="M9.5 15.5h5"/>
+            </svg>
+            Programar partido
         </a>
     </div>
 
-    <div th:if="${error}" class="mensaje-error" th:text="${error}">Error</div>
+    <!-- ERROR -->
+    <div th:if="${error}" class="mensaje-error" th:text="${error}"></div>
 
-    <!-- Proximos partidos -->
-    <div class="seccion-con-boton">
-        <h2 class="subtitulo-seccion">Proximos partidos</h2>
-        <a th:if="${esAdmin}" th:href="@{/admin/agregarPartido}" class="btn btn-naranja">Programar partido</a>
-    </div>
+    <!-- ══ INFO FECHA — solo admin ══ -->
+    <section class="resumen-fecha"
+             th:if="${esAdmin and fechaActual != null}">
 
-    <div th:if="${#lists.isEmpty(partidosProgramados)}" class="sin-partidos">
-        No hay partidos programados.
-    </div>
+        <p th:if="${fechaActual.estadoFecha.name() == 'PROGRAMADA'}">
+            Todavía no arrancó la jornada. Acá vas a ver los partidos programados para la
+            <span class="fecha-destacada">Fecha <span th:text="${fechaActual.numeroDeFecha}"></span></span>
+            hasta que la inicies desde
+            <a th:href="@{/admin/fechas}" class="link-fechas">Gestionar fechas</a>.
+        </p>
 
-    <div th:each="partido : ${partidosProgramados}" class="card-partido-programado">
-        <div class="programado-header">
-            <span>
-                <span class="programado-fecha" th:text="${partido.fechaFormateada}">18/08/2026</span>
-                <span th:text="' - FECHA ' + ${partido.fecha.numeroDeFecha}"
-                      style="color: var(--color-terciario);"> - FECHA 1</span>
+        <p th:if="${fechaActual.estadoFecha.name() == 'EN_CURSO'}">
+            La <span class="fecha-destacada">Fecha <span th:text="${fechaActual.numeroDeFecha}"></span></span>
+            está en curso.
+        </p>
+
+        <p th:if="${fechaActual.estadoFecha.name() == 'FINALIZADA'}">
+            La <span class="fecha-destacada">Fecha <span th:text="${fechaActual.numeroDeFecha}"></span></span>
+            ya terminó. Abajo están los resultados finales de todos sus partidos.
+        </p>
+
+    </section>
+
+    <!-- SIN FECHA -->
+    <section class="sin-partidos" th:if="${fechaActual == null and esAdmin}">
+        No existe una fecha seleccionada.
+    </section>
+
+    <!-- ══ FECHA PROGRAMADA O EN CURSO ══ -->
+    <th:block th:if="${fechaActual != null and fechaActual.estadoFecha.name() != 'FINALIZADA'}">
+
+        <!-- PRÓXIMOS PARTIDOS -->
+        <h2 class="subtitulo-seccion pf-titulo-seccion" style="margin-top: 2rem;">
+            Próximos partidos
+            <span class="pf-contador" th:text="${#lists.size(partidosProgramados)}">0</span>
+        </h2>
+
+        <div th:if="${#lists.isEmpty(partidosProgramados)}" class="sin-partidos">
+            <span class="pf-vacio-titulo">Todavía no hay partidos programados</span>
+            <span th:if="${esAdmin}" class="pf-vacio-texto">
+                Apretá "Programar partido" para cargar el primer enfrentamiento de esta fecha.
             </span>
-            <span class="programado-torneo" th:text="${torneoActual != null ? torneoActual.nombreTorneo : ''}">Temporada NBA 2026</span>
         </div>
 
-        <div class="programado-divider"></div>
+        <div th:each="partido : ${partidosProgramados}" class="card-partido-programado">
 
-        <div class="programado-cuerpo">
-            <div class="programado-equipo">
-                <img th:src="${partido.equipoLocal.escudoImagen}" class="escudo"
-                     th:alt="${partido.equipoLocal.nombre}"/>
-                <span class="programado-equipo-nombre" th:text="${partido.equipoLocal.nombre}">Equipo Local</span>
-            </div>
-
-            <div class="programado-score">
-                <span class="programado-puntos">Hora inicio</span>
-                <span class="programado-minuto"
-                      th:text="${partido.getHoraFormateada()}"></span>
-            </div>
-
-
-            <div class="programado-equipo programado-equipo-visitante">
-                <img th:src="${partido.equipoVisitante.escudoImagen}" class="escudo"
-                     th:alt="${partido.equipoVisitante.nombre}"/>
-                <span class="programado-equipo-nombre"
-                      th:text="${partido.equipoVisitante.nombre}">Equipo Visitante</span>
-            </div>
-        </div>
-
-
-        <div th:if="${esAdmin}" class="programado-acciones-secundarias">
-            <a th:href="@{/admin/partido/{idPartido}/formacion/{idEquipo}(idPartido=${partido.id}, idEquipo=${partido.equipoLocal.id})}"
-               class="btn btn-formacion"> Formacion Local</a>
-
-            <a th:href="@{/admin/partido/{idPartido}/formacion/{idEquipo}(idPartido=${partido.id}, idEquipo=${partido.equipoVisitante.id})}"
-               class="btn btn-formacion">Formacion Visitante</a>
-        </div>
-
-        <div class="programado-divider"></div>
-
-        <div th:if="${esAdmin}" class="programado-acciones">
-            <form th:action="@{/admin/iniciarPartido}" method="post">
-                <input type="hidden" name="idPartido" th:value="${partido.id}"/>
-                <button type="submit" class="btn btn-verde">Iniciar Partido</button>
-            </form>
-
-            <button type="button" class="btn btn-amarillo" onclick="abrirModalReprogramar(this)"
-                    th:attr="data-id=${partido.id}">Reprogramar
-            </button>
-
-            <button type="button" class="btn btn-rojo" onclick="abrirModalCancelar(this)"
-                    th:attr="data-id=${partido.id}">Cancelar
-            </button>
-        </div>
-    </div>
-
-    <!-- Partidos en vivo -->
-    <div class="seccion-con-boton">
-        <h2 class="subtitulo-seccion" style="margin-top: 2rem;"><span class="badge-vivo">EN VIVO</span></h2>
-    </div>
-
-    <div th:if="${#lists.isEmpty(partidosActivos)}" class="sin-partidos">
-        No hay partidos en curso.
-    </div>
-
-    <div th:each="partido : ${partidosActivos}" class="card-partido-vivo">
-        <div class="vivo-header">
-           <span>
-               <span class="vivo-fecha" th:text="${partido.fechaFormateada}">18/08/2026</span>
-                <span th:text="' - FECHA ' + ${partido.fecha.numeroDeFecha}" style="color: var(--color-terciario);"> - FECHA 2</span>
-           </span>
-            <span class="vivo-torneo" th:text="${torneoActual != null ? torneoActual.nombreTorneo : ''}">Temporada NBA 2026</span>
-        </div>
-
-        <div class="programado-divider"></div>
-
-        <div class="vivo-cuerpo">
-
-            <div class="vivo-equipo">
-                <img th:src="${partido.equipoLocal.escudoImagen}" class="escudo"
-                     th:alt="${partido.equipoLocal.nombre}"/>
-                <span class="vivo-equipo-nombre" th:text="${partido.equipoLocal.nombre}">Local</span>
-            </div>
-
-            <!-- TANTEADOR EN VIVO   - agrego llamado a thymeleaf para llevar el tanteador en tiempo real -->
-
-            <div class="vivo-score">
-                <span class="vivo-estado">EN VIVO</span>
-                <span class="score-vivo-numeros"
-                      th:text="${partido.puntosLocal} + ' - ' + ${partido.puntosVisitante}">0 - 0</span>
-                <span class="programado-minuto">0'</span>
-
-            </div>
-
-            <div class="vivo-equipo">
-                <img th:src="${partido.equipoVisitante.escudoImagen}" class="escudo"
-                     th:alt="${partido.equipoVisitante.nombre}"/>
-                <span class="vivo-equipo-nombre" th:text="${partido.equipoVisitante.nombre}">Visitante</span>
-            </div>
-        </div>
-
-        <div class="programado-divider"></div>
-
-        <div class="vivo-acciones">
-            <a th:if="${esAdmin}" th:href="@{/admin/partido/{idPartido}/eventos(idPartido=${partido.id})}"
-               class="btn btn-cronologia">Cargar estadisticas</a>
-
-            <a th:if="${!esAdmin}" th:href="@{/partido/{idPartido}/ver-estadisticas(idPartido=${partido.id})}"
-               class="btn btn-cronologia">Ver estadisticas</a>
-
-            <button type="button" class="btn btn-rojo" onclick="abrirModalFinalizar(this)"
-                    th:attr="data-id=${partido.id}">Finalizar
-            </button>
-        </div>
-    </div>
-
-    <!-- Partidos finalizados -->
-    <h2 class="subtitulo-seccion" style="margin-top: 2rem;">Finalizados</h2>
-
-    <div th:if="${#lists.isEmpty(partidosFinalizados)}" class="sin-partidos">
-        No hay partidos finalizados.
-    </div>
-
-    <div th:each="partido : ${partidosFinalizados}" class="card-partido-finalizado">
-        <div class="finalizado-header">
-           <span>
-
-               <span class="finalizado-fecha" th:text="${partido.fechaFormateada}">18/08/2026</span>
-               <span th:text="' - FECHA ' + ${partido.fecha.numeroDeFecha}" style="color: var(--color-terciario);"> - FECHA 3</span>
+            <div class="programado-header">
+                <span>
+                    <span class="programado-fecha" th:text="${partido.fechaFormateada}"></span>
+                    <span th:if="${partido.fecha != null}"
+                          th:text="' - FECHA ' + ${partido.fecha.numeroDeFecha}"
+                          style="color: var(--color-terciario);"></span>
                 </span>
-            </span>
-
-            <span class="finalizado-torneo" th:text="${torneoActual != null ? torneoActual.nombreTorneo : ''}">Temporada NBA 2026</span>
-        </div>
-
-        <div class="programado-divider"></div>
-
-        <div class="finalizado-cuerpo">
-            <div class="finalizado-equipo">
-                <img th:src="${partido.equipoLocal.escudoImagen}" class="escudo"
-                     th:alt="${partido.equipoLocal.nombre}"/>
-                <span class="finalizado-equipo-nombre" th:text="${partido.equipoLocal.nombre}">Local</span>
+                <span class="programado-torneo"
+                      th:text="${torneoActual != null ? torneoActual.nombreTorneo : ''}"></span>
             </div>
 
-            <div class="finalizado-score">
-                <span class="finalizado-estado">FINALIZADO</span>
-                <!-- TANTEADOR FINALIZADO   - agrego llamado a thymeleaf para mostrar el resultado del partido -->
-                <span class="finalizado-puntos"
-                      th:text="${partido.puntosLocal} + ' - ' + ${partido.puntosVisitante}"></span>
-                <!-- <span class="finalizado-duracion" th:text="'Duración: ' + ${partido.minutoFin} + ' min'">48 min</span> -->
-                <span class="finalizado-duracion" th:text="'Duración: ' + ${partido.minutoFin} + ' min'"></span>
+            <div class="programado-divider"></div>
+
+            <div class="programado-cuerpo">
+                <div class="programado-equipo">
+                    <img th:src="${partido.equipoLocal.escudoImagen}" class="escudo"
+                         th:alt="${partido.equipoLocal.nombre}"/>
+                    <span class="programado-equipo-nombre" th:text="${partido.equipoLocal.nombre}"></span>
+                </div>
+                <div class="programado-score">
+                    <span class="pf-vs">VS</span>
+                    <span class="programado-puntos">Hora de inicio</span>
+                    <span class="programado-minuto" th:text="${partido.getHoraFormateada()}"></span>
+                </div>
+                <div class="programado-equipo programado-equipo-visitante">
+                    <img th:src="${partido.equipoVisitante.escudoImagen}" class="escudo"
+                         th:alt="${partido.equipoVisitante.nombre}"/>
+                    <span class="programado-equipo-nombre" th:text="${partido.equipoVisitante.nombre}"></span>
+                </div>
             </div>
 
-            <div class="finalizado-equipo">
-                <img th:src="${partido.equipoVisitante.escudoImagen}" class="escudo"
-                     th:alt="${partido.equipoVisitante.nombre}"/>
-                <span class="finalizado-equipo-nombre" th:text="${partido.equipoVisitante.nombre}">Visitante</span>
+            <!-- FORMACIONES — solo admin -->
+            <div th:if="${esAdmin}" class="programado-acciones-secundarias">
+                <a th:href="@{/admin/partido/{idPartido}/formacion/{idEquipo}(idPartido=${partido.id},idEquipo=${partido.equipoLocal.id})}"
+                   class="btn btn-formacion">
+                    <svg class="pf-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </svg>
+                    Formación local
+                </a>
+                <a th:href="@{/admin/partido/{idPartido}/formacion/{idEquipo}(idPartido=${partido.id},idEquipo=${partido.equipoVisitante.id})}"
+                   class="btn btn-formacion">
+                    <svg class="pf-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </svg>
+                    Formación visitante
+                </a>
+            </div>
+
+            <div th:if="${esAdmin}" class="programado-divider"></div>
+
+            <!-- ACCIONES — solo admin -->
+            <div th:if="${esAdmin}" class="programado-acciones">
+                <form th:if="${fechaActual.estadoFecha.name() == 'EN_CURSO'}"
+                      th:action="@{/admin/iniciarPartido}" method="post">
+                    <input type="hidden" name="idPartido" th:value="${partido.id}"/>
+                    <button type="submit" class="btn btn-verde">
+                        <svg class="pf-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                             stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="6 3 20 12 6 21 6 3"/>
+                        </svg>
+                        Iniciar partido
+                    </button>
+                </form>
+
+                <button type="button" class="btn btn-amarillo"
+                        onclick="abrirModalReprogramar(this)"
+                        th:attr="data-id=${partido.id}">
+                    <svg class="pf-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="5" width="18" height="16" rx="2"/>
+                        <path d="M3 9h18"/>
+                        <path d="M8 3v4"/>
+                        <path d="M16 3v4"/>
+                    </svg>
+                    Reprogramar
+                </button>
+
+                <button type="button" class="btn btn-rojo"
+                        onclick="abrirModalCancelar(this)"
+                        th:attr="data-id=${partido.id}">
+                    <svg class="pf-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 6 6 18"/>
+                        <path d="m6 6 12 12"/>
+                    </svg>
+                    Cancelar
+                </button>
+            </div>
+
+        </div>
+
+        <!-- ══ EN VIVO — solo cuando la fecha está EN_CURSO ══ -->
+        <div th:if="${fechaActual.estadoFecha.name() == 'EN_CURSO'}">
+
+            <h2 class="subtitulo-seccion pf-titulo-seccion" style="margin-top: 2rem;">
+                <span class="badge-vivo">EN VIVO</span>
+                <span class="pf-contador" th:text="${#lists.size(partidosActivos)}">0</span>
+            </h2>
+
+            <div th:if="${#lists.isEmpty(partidosActivos)}" class="sin-partidos">
+                <span class="pf-vacio-titulo">No hay partidos en vivo en este momento</span>
+            </div>
+
+            <div th:each="partido : ${partidosActivos}" class="card-partido-vivo">
+
+                <div class="vivo-header">
+                    <span>
+                        <span class="vivo-fecha" th:text="${partido.fechaFormateada}"></span>
+                        <span th:if="${partido.fecha != null}"
+                              th:text="' - FECHA ' + ${partido.fecha.numeroDeFecha}"
+                              style="color: var(--color-terciario);"></span>
+                    </span>
+                    <span class="vivo-torneo"
+                          th:text="${torneoActual != null ? torneoActual.nombreTorneo : ''}"></span>
+                </div>
+
+                <div class="programado-divider"></div>
+
+                <div class="vivo-cuerpo">
+                    <div class="vivo-equipo">
+                        <img th:src="${partido.equipoLocal.escudoImagen}" class="escudo"
+                             th:alt="${partido.equipoLocal.nombre}"/>
+                        <span class="vivo-equipo-nombre" th:text="${partido.equipoLocal.nombre}"></span>
+                    </div>
+                    <div class="vivo-score">
+                        <span class="vivo-estado">
+                            <span class="pf-dot"></span>EN VIVO
+                        </span>
+                        <span class="score-vivo-numeros"
+                              th:text="${partido.puntosLocal} + ' - ' + ${partido.puntosVisitante}"></span>
+                    </div>
+                    <div class="vivo-equipo">
+                        <img th:src="${partido.equipoVisitante.escudoImagen}" class="escudo"
+                             th:alt="${partido.equipoVisitante.nombre}"/>
+                        <span class="vivo-equipo-nombre" th:text="${partido.equipoVisitante.nombre}"></span>
+                    </div>
+                </div>
+
+                <div class="programado-divider"></div>
+
+                <div class="vivo-acciones">
+                    <a th:if="${esAdmin}"
+                       th:href="@{/admin/partido/{idPartido}/eventos(idPartido=${partido.id})}"
+                       class="btn btn-cronologia">
+                        <svg class="pf-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                             stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 11l3 3L22 4"/>
+                            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+                        </svg>
+                        Cargar estadísticas
+                    </a>
+                    <a th:if="${!esAdmin}"
+                       th:href="@{/partido/{idPartido}/ver-estadisticas(idPartido=${partido.id})}"
+                       class="btn btn-cronologia">
+                        <svg class="pf-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                             stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 11l3 3L22 4"/>
+                            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+                        </svg>
+                        Ver estadísticas
+                    </a>
+                    <button th:if="${esAdmin}" type="button" class="btn btn-rojo"
+                            onclick="abrirModalFinalizar(this)"
+                            th:attr="data-id=${partido.id}">
+                        <svg class="pf-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                             stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/>
+                            <path d="M4 22V15"/>
+                        </svg>
+                        Finalizar partido
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- FINALIZADOS DURANTE FECHA EN CURSO -->
+            <h2 class="subtitulo-seccion pf-titulo-seccion" style="margin-top: 2rem;">
+                Finalizados
+                <span class="pf-contador" th:text="${#lists.size(partidosFinalizados)}">0</span>
+            </h2>
+
+            <div th:if="${#lists.isEmpty(partidosFinalizados)}" class="sin-partidos">
+                <span class="pf-vacio-titulo">Todavía no hay partidos finalizados en esta fecha</span>
+            </div>
+
+            <div th:each="partido : ${partidosFinalizados}" class="card-partido-finalizado">
+                <div class="finalizado-header">
+                    <span>
+                        <span class="finalizado-fecha" th:text="${partido.fechaFormateada}"></span>
+                        <span th:if="${partido.fecha != null}"
+                              th:text="' - FECHA ' + ${partido.fecha.numeroDeFecha}"
+                              style="color: var(--color-terciario);"></span>
+                    </span>
+                    <span class="finalizado-torneo"
+                          th:text="${torneoActual != null ? torneoActual.nombreTorneo : ''}"></span>
+                </div>
+                <div class="programado-divider"></div>
+                <div class="finalizado-cuerpo">
+                    <div class="finalizado-equipo">
+                        <img th:src="${partido.equipoLocal.escudoImagen}" class="escudo"
+                             th:alt="${partido.equipoLocal.nombre}"/>
+                        <span class="finalizado-equipo-nombre" th:text="${partido.equipoLocal.nombre}"></span>
+                    </div>
+                    <div class="finalizado-score">
+                        <span class="finalizado-estado">FINALIZADO</span>
+                        <span class="finalizado-puntos"
+                              th:text="${partido.puntosLocal} + ' - ' + ${partido.puntosVisitante}"></span>
+                        <span class="finalizado-duracion"
+                              th:text="'Duración: ' + ${partido.minutoFin} + ' min'"></span>
+                    </div>
+                    <div class="finalizado-equipo">
+                        <img th:src="${partido.equipoVisitante.escudoImagen}" class="escudo"
+                             th:alt="${partido.equipoVisitante.nombre}"/>
+                        <span class="finalizado-equipo-nombre" th:text="${partido.equipoVisitante.nombre}"></span>
+                    </div>
+                </div>
+                <div class="programado-divider"></div>
+                <div class="finalizado-acciones">
+                    <a th:href="@{/partido/{idPartido}/ver-estadisticas(idPartido=${partido.id})}"
+                       class="btn btn-amarillo">
+                        <svg class="pf-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                             stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 11l3 3L22 4"/>
+                            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+                        </svg>
+                        Ver estadísticas
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+    </th:block>
+
+    <!-- ══ FECHA FINALIZADA ══ -->
+    <th:block th:if="${fechaActual != null and fechaActual.estadoFecha.name() == 'FINALIZADA'}">
+
+        <h2 class="subtitulo-seccion pf-titulo-seccion">
+            Resultados de la fecha
+            <span class="pf-contador" th:text="${#lists.size(partidosFinalizados)}">0</span>
+        </h2>
+
+        <div th:if="${#lists.isEmpty(partidosFinalizados)}" class="sin-partidos">
+            <span class="pf-vacio-titulo">No hay partidos finalizados registrados para esta fecha</span>
+        </div>
+
+        <div th:each="partido : ${partidosFinalizados}" class="card-partido-finalizado">
+            <div class="finalizado-header">
+                <span>
+                    <span class="finalizado-fecha" th:text="${partido.fechaFormateada}"></span>
+                    <span th:if="${partido.fecha != null}"
+                          th:text="' - FECHA ' + ${partido.fecha.numeroDeFecha}"
+                          style="color: var(--color-terciario);"></span>
+                </span>
+                <span class="finalizado-torneo"
+                      th:text="${torneoActual != null ? torneoActual.nombreTorneo : ''}"></span>
+            </div>
+            <div class="programado-divider"></div>
+            <div class="finalizado-cuerpo">
+                <div class="finalizado-equipo">
+                    <img th:src="${partido.equipoLocal.escudoImagen}" class="escudo"
+                         th:alt="${partido.equipoLocal.nombre}"/>
+                    <span class="finalizado-equipo-nombre" th:text="${partido.equipoLocal.nombre}"></span>
+                </div>
+                <div class="finalizado-score">
+                    <span class="finalizado-estado">FINALIZADO</span>
+                    <span class="finalizado-puntos"
+                          th:text="${partido.puntosLocal} + ' - ' + ${partido.puntosVisitante}"></span>
+                    <span class="finalizado-duracion"
+                          th:text="'Duración: ' + ${partido.minutoFin} + ' min'"></span>
+                </div>
+                <div class="finalizado-equipo">
+                    <img th:src="${partido.equipoVisitante.escudoImagen}" class="escudo"
+                         th:alt="${partido.equipoVisitante.nombre}"/>
+                    <span class="finalizado-equipo-nombre" th:text="${partido.equipoVisitante.nombre}"></span>
+                </div>
+            </div>
+            <div class="programado-divider"></div>
+            <div class="finalizado-acciones">
+                <a th:href="@{/partido/{idPartido}/ver-estadisticas(idPartido=${partido.id})}"
+                   class="btn btn-amarillo">
+                    <svg class="pf-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 11l3 3L22 4"/>
+                        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+                    </svg>
+                    Ver estadísticas
+                </a>
             </div>
         </div>
 
-        <div class="programado-divider"></div>
-
-        <div class="finalizado-acciones">
-            <a th:href="@{/partido/{idPartido}/ver-estadisticas(idPartido=${partido.id})}"
-               class="btn btn-amarillo">Ver estadisticas</a>
-        </div>
-
-    </div>
+    </th:block>
 
 </main>
 
-<!-- Modal reprogramar -->
+<!-- ══ MODAL REPROGRAMAR ══ -->
 <div id="modal-reprogramar" class="modal-overlay" style="display:none;">
     <div class="modal-contenido">
-        <h3>Reprogramar partido</h3>
+        <h3>
+            <svg class="pf-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="5" width="18" height="16" rx="2"/>
+                <path d="M3 9h18"/>
+                <path d="M8 3v4"/>
+                <path d="M16 3v4"/>
+            </svg>
+            Reprogramar partido
+        </h3>
         <form th:action="@{/admin/reprogramarPartido}" method="post" class="form-reprogramar-modal">
             <input type="hidden" name="idPartido" id="modal-idPartido"/>
             <label for="modal-nuevaHora">Nueva fecha y hora</label>
-            <input type="datetime-local" id="modal-nuevaHora" name="nuevaHoraInicio" required
-                   class="input-reprogramar"/>
+            <input type="datetime-local" id="modal-nuevaHora" name="nuevaHoraInicio"
+                   required class="input-reprogramar"/>
             <div class="modal-botones">
                 <button type="submit" class="btn btn-amarillo">Confirmar</button>
-                <button type="button" class="btn btn-secundario" onclick="cerrarModal('modal-reprogramar')">Cancelar
+                <button type="button" class="btn btn-secundario"
+                        onclick="cerrarModal('modal-reprogramar')">Cancelar
                 </button>
             </div>
         </form>
     </div>
 </div>
 
-<!-- Modal finalizar -->
+<!-- ══ MODAL FINALIZAR ══ -->
 <div id="modal-finalizar" class="modal-overlay" style="display:none;">
     <div class="modal-contenido">
-        <h3>Finalizar partido</h3>
+        <h3>
+            <svg class="pf-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/>
+                <path d="M4 22V15"/>
+            </svg>
+            Finalizar partido
+        </h3>
         <form th:action="@{/admin/finalizarPartidoRapido}" method="post" class="form-reprogramar-modal">
             <input type="hidden" name="idPartido" id="modal-finalizar-idPartido"/>
-            <label for="modal-minutoFin">Duracion del partido (minutos)</label>
-            <input type="number" id="modal-minutoFin" name="minutoFin" value="48" min="1" required
-                   class="input-reprogramar"/>
+            <label for="modal-minutoFin">Duración del partido (minutos)</label>
+            <input type="number" id="modal-minutoFin" name="minutoFin"
+                   value="48" min="1" required class="input-reprogramar"/>
             <div class="modal-botones">
                 <button type="submit" class="btn btn-rojo">Confirmar</button>
-                <button type="button" class="btn btn-secundario" onclick="cerrarModal('modal-finalizar')">Cancelar
+                <button type="button" class="btn btn-secundario"
+                        onclick="cerrarModal('modal-finalizar')">Cancelar
                 </button>
             </div>
         </form>
     </div>
 </div>
 
-<!-- Modal cancelar -->
+<!-- ══ MODAL CANCELAR ══ -->
 <div id="modal-cancelar" class="modal-overlay" style="display:none;">
     <div class="modal-contenido">
-        <h3>Cancelar partido</h3>
-        <p>¿Está seguro que desea eliminar este partido?</p>
+        <h3>
+            <svg class="pf-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 9v4"/>
+                <path d="M12 17h.01"/>
+                <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L14.71 3.86a2 2 0 0 0-3.42 0z"/>
+            </svg>
+            Cancelar partido
+        </h3>
+        <p>¿Estás seguro de que querés eliminar este partido? Esta acción no se puede deshacer.</p>
         <form th:action="@{/admin/cancelarPartido}" method="post" class="form-reprogramar-modal">
             <input type="hidden" name="idPartido" id="modal-cancelar-idPartido"/>
             <div class="modal-botones">
-                <button type="submit" class="btn btn-rojo">Confirmar</button>
-                <button type="button" class="btn btn-secundario" onclick="cerrarModal('modal-cancelar')">Cancelar
+                <button type="submit" class="btn btn-rojo">Sí, cancelar</button>
+                <button type="button" class="btn btn-secundario"
+                        onclick="cerrarModal('modal-cancelar')">Volver
                 </button>
             </div>
         </form>
@@ -270,36 +479,32 @@
 <div th:replace="layout/footer :: footer"></div>
 
 <script>
-    function abrirModalReprogramar(btn) {
-        document.getElementById('modal-idPartido').value = btn.getAttribute('data-id');
+    function abrirModalReprogramar(boton) {
+        document.getElementById('modal-idPartido').value = boton.getAttribute('data-id');
         document.getElementById('modal-reprogramar').style.display = 'flex';
     }
 
-    function abrirModalFinalizar(btn) {
-        document.getElementById('modal-finalizar-idPartido').value = btn.getAttribute('data-id');
+    function abrirModalFinalizar(boton) {
+        document.getElementById('modal-finalizar-idPartido').value = boton.getAttribute('data-id');
         document.getElementById('modal-finalizar').style.display = 'flex';
     }
 
-    function abrirModalCancelar(btn) {
-        document.getElementById('modal-cancelar-idPartido').value = btn.getAttribute('data-id');
+    function abrirModalCancelar(boton) {
+        document.getElementById('modal-cancelar-idPartido').value = boton.getAttribute('data-id');
         document.getElementById('modal-cancelar').style.display = 'flex';
     }
 
-    function cerrarModal(id) {
-        document.getElementById(id).style.display = 'none';
+    function cerrarModal(idModal) {
+        document.getElementById(idModal).style.display = 'none';
     }
 
-    window.addEventListener('click', function (e) {
-        if (e.target === document.getElementById('modal-reprogramar')) {
-            document.getElementById('modal-reprogramar').style.display = 'none';
-        }
-        if (e.target === document.getElementById('modal-finalizar')) {
-            document.getElementById('modal-finalizar').style.display = 'none';
-        }
-        if (e.target === document.getElementById('modal-cancelar')) {
-            document.getElementById('modal-cancelar').style.display = 'none';
-        }
+    window.addEventListener('click', function (evento) {
+        ['modal-reprogramar', 'modal-finalizar', 'modal-cancelar'].forEach(function (idModal) {
+            const modal = document.getElementById(idModal);
+            if (evento.target === modal) modal.style.display = 'none';
+        });
     });
 </script>
+
 </body>
 </html>

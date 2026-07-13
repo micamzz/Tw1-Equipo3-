@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8"/>
+    <title>Gestionar Fechas</title>
+
+    <link rel="stylesheet" th:href="@{/css/header.css}"/>
+    <link rel="stylesheet" th:href="@{/css/footer.css}"/>
+    <link rel="stylesheet" th:href="@{/css/admin-fechas.css}"/>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+</head>
+
+<body>
+
+<!-- HEADER ADMIN -->
+<div th:replace="layout/admin-header :: header-admin"></div>
+
+<main class="contenedor-fechas">
+
+    <section class="encabezado-fechas">
+
+        <div>
+            <h1 class="titulo-principal">Gestionar fechas</h1>
+
+            <p class="descripcion-encabezado">
+                Administrá el estado de las jornadas del torneo.
+                Al finalizar una fecha, la siguiente se crea automáticamente.
+            </p>
+        </div>
+
+        <!-- Solo permite crear manualmente la primera fecha -->
+        <a th:if="${#lists.isEmpty(fechas)}"
+           th:href="@{/admin/agregarFecha}"
+           class="btn btn-naranja">
+            Crear primera fecha
+        </a>
+
+    </section>
+
+    <!-- ERROR -->
+    <div th:if="${error}"
+         class="mensaje-error"
+         th:text="${error}">
+    </div>
+
+    <!-- SIN FECHAS -->
+    <section th:if="${#lists.isEmpty(fechas)}"
+             class="sin-fechas">
+
+        <h2 class="titulo-sin-fechas">Todavía no hay fechas creadas</h2>
+
+        <p class="texto-sin-fechas">
+            Creá la primera fecha para comenzar a organizar los partidos
+            y habilitar la selección de jugadores.
+        </p>
+
+    </section>
+
+    <!-- LISTADO DE FECHAS -->
+    <section th:if="${!#lists.isEmpty(fechas)}"
+             class="listado-fechas">
+
+        <article th:each="fecha : ${fechas}"
+                 class="tarjeta-fecha"
+                 th:classappend="${fecha.estadoFecha.name() == 'PROGRAMADA'}
+                        ? ' fecha-programada'
+                        : (${fecha.estadoFecha.name() == 'EN_CURSO'}
+                        ? ' fecha-en-curso'
+                        : ' fecha-finalizada')">
+
+            <div class="fecha-informacion">
+
+                <div class="fecha-numero">
+                    Fecha
+                    <span th:text="${fecha.numeroDeFecha}"></span>
+                </div>
+
+                <span class="fecha-estado"
+                      th:classappend="${fecha.estadoFecha.name() == 'PROGRAMADA'}
+                            ? ' estado-programada'
+                            : (${fecha.estadoFecha.name() == 'EN_CURSO'}
+                            ? ' estado-en-curso'
+                            : ' estado-finalizada')"
+                      th:text="${fecha.estadoFecha}">
+                </span>
+
+                <p class="fecha-torneo"
+                   th:if="${fecha.torneo != null}">
+                    Torneo:
+                    <strong class="nombre-torneo-destacado" th:text="${fecha.torneo.nombreTorneo}"></strong>
+                </p>
+
+            </div>
+
+            <div class="fecha-acciones">
+
+                <!-- IR A LOS PARTIDOS DE ESTA FECHA -->
+                <a th:href="@{/partidos(idFecha=${fecha.id})}"
+                   class="btn btn-naranja">
+
+        <span th:if="${fecha.estadoFecha.name() != 'FINALIZADA'}">
+            Gestionar partidos
+        </span>
+
+                    <span th:if="${fecha.estadoFecha.name() == 'FINALIZADA'}">
+            Ver partidos
+        </span>
+
+                </a>
+
+                <!-- FECHA PROGRAMADA -->
+                <form th:if="${fecha.estadoFecha.name() == 'PROGRAMADA'}"
+                      th:action="@{/admin/cambiarEstadoFecha}"
+                      method="post">
+
+                    <input type="hidden"
+                           name="idFecha"
+                           th:value="${fecha.id}"/>
+
+                    <input type="hidden"
+                           name="estado"
+                           value="EN_CURSO"/>
+
+                    <button type="submit" class="btn btn-verde">
+                        Iniciar fecha
+                    </button>
+
+                </form>
+
+                <!-- FECHA EN CURSO -->
+                <form th:if="${fecha.estadoFecha.name() == 'EN_CURSO'}"
+                      th:action="@{/admin/cambiarEstadoFecha}"
+                      method="post">
+
+                    <input type="hidden"
+                           name="idFecha"
+                           th:value="${fecha.id}"/>
+
+                    <input type="hidden"
+                           name="estado"
+                           value="FINALIZADA"/>
+
+                    <button type="submit" class="btn btn-rojo">
+                        Finalizar fecha
+                    </button>
+
+                </form>
+
+                <!-- FECHA FINALIZADA -->
+                <span th:if="${fecha.estadoFecha.name() == 'FINALIZADA'}"
+                      class="texto-finalizada">
+
+        Jornada finalizada
+
+    </span>
+
+            </div>
+
+
+        </article>
+
+    </section>
+
+    <div class="acciones-inferiores">
+
+        <a th:href="@{/admin/home}"
+           class="btn btn-secundario">
+            Volver al panel
+        </a>
+
+        <a th:href="@{/partidos}"
+           class="btn btn-naranja">
+            Ver partidos
+        </a>
+
+    </div>
+
+</main>
+
+<!-- FOOTER -->
+<div th:replace="layout/footer :: footer"></div>
+
+</body>
+</html>

@@ -29,4 +29,11 @@ public interface RepositorioPartidoNBA {
 
     boolean existePartidoEnFecha(LocalDateTime horaInicio);
 
+    List<PartidoNBA> buscarPorFechaId(Long idFecha);
+
+    List<PartidoNBA> buscarPartidosProgramadosPorFecha(Long idFecha);
+
+    List<PartidoNBA> buscarPartidosActivosPorFecha(Long idFecha);
+
+    List<PartidoNBA> buscarPartidosFinalizadosPorFecha(Long idFecha);
 }

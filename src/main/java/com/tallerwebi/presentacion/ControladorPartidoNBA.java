@@ -1,10 +1,12 @@
 package com.tallerwebi.presentacion;
 
-import com.tallerwebi.dominio.*;
-import com.tallerwebi.dominio.equipoNBA.EquipoNBA;
+import com.tallerwebi.dominio.CronologiaNBA;
+import com.tallerwebi.dominio.PartidoNBA;
+import com.tallerwebi.dominio.ServicioFecha;
+import com.tallerwebi.dominio.ServicioPartidoNBA;
 import com.tallerwebi.dominio.equipoNBA.ServicioEquipoNBA;
 import com.tallerwebi.dominio.equipoNBAJugador.ServicioEquipoNBAJugador;
-import com.tallerwebi.dominio.excepcion.*;
+import com.tallerwebi.dominio.excepcion.PartidoFinalizadoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -13,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -22,14 +23,17 @@ public class ControladorPartidoNBA {
     private final ServicioPartidoNBA servicioPartidoNBA;
     private final ServicioEquipoNBA servicioEquipoNBA;
     private final ServicioEquipoNBAJugador servicioEquipoNBAJugador;
+    private final ServicioFecha servicioFecha;
 
     @Autowired
     public ControladorPartidoNBA(ServicioPartidoNBA servicioPartidoNBA,
                                  ServicioEquipoNBA servicioEquipoNBA,
-                                 ServicioEquipoNBAJugador servicioEquipoNBAJugador) {
+                                 ServicioEquipoNBAJugador servicioEquipoNBAJugador,
+                                 ServicioFecha servicioFecha) {
         this.servicioPartidoNBA = servicioPartidoNBA;
         this.servicioEquipoNBA = servicioEquipoNBA;
         this.servicioEquipoNBAJugador = servicioEquipoNBAJugador;
+        this.servicioFecha = servicioFecha;
     }
 
     @RequestMapping("/temporada")
@@ -52,7 +56,6 @@ public class ControladorPartidoNBA {
         modelo.put("scoreVisitante", partido.getPuntosVisitante());
         return new ModelAndView("partido-cronologia", modelo);
     }
-
 
 
     @RequestMapping(value = "/admin/agregarCronologiaPuntaje", method = RequestMethod.POST)
