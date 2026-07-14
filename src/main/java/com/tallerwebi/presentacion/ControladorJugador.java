@@ -9,7 +9,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
-
+import com.tallerwebi.dominio.Usuario;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -22,15 +23,16 @@ public class ControladorJugador {
     }
 
     @GetMapping("/jugador/{id}")
-    public ModelAndView verDetalleJugador(@PathVariable Long id) {
+    public ModelAndView verDetalleJugador(@PathVariable Long id, HttpServletRequest request) {
         ModelMap modelo = new ModelMap();
+        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
 
         Jugador jugador = servicioMercado.buscarJugadorPorId(id);
         RendimientoJugador rendimiento = servicioMercado.obtenerRendimiento(id);
         double puntaje = servicioMercado.calcularPuntajeJugador(rendimiento);
         List<RendimientoJugador> rendimientosPorPartido = servicioMercado.obtenerRendimientosPorPartido(id);
 
-
+        modelo.put("usuario", usuario);
         modelo.put("jugador", jugador);
         modelo.put("rendimiento", rendimiento);
         modelo.put("puntaje", puntaje);

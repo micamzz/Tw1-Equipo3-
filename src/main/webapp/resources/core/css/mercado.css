@@ -239,3 +239,48 @@ a {
     box-shadow: inset 0 2px 0 #ff6b00,
     inset 0 -2px 0 #ff6b00;
 }
+/* Avatar dropdown */
+.avatar-wrapper {
+    position: relative;
+}
+.avatar-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background-color: #ff6b00;
+    color: #fff;
+    font-weight: 700;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.avatar-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: calc(100% + 8px);
+    background: #1c1d1f;
+    border: 1px solid #333;
+    border-radius: 8px;
+    min-width: 150px;
+    z-index: 999;
+    overflow: hidden;
+}
+.avatar-menu.open {
+    display: block;
+}
+.avatar-menu-item {
+    display: block;
+    padding: 10px 16px;
+    color: #ccc;
+    font-size: 0.9rem;
+    transition: background 0.15s;
+    text-decoration: none;
+}
+.avatar-menu-item:hover {
+    background: #2a2a2a;
+    color: #ff6b00;
+}

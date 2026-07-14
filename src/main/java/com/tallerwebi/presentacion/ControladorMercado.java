@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import com.tallerwebi.dominio.Usuario;
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class ControladorMercado {
@@ -21,7 +23,8 @@ public class ControladorMercado {
 
     @RequestMapping(path = "/mercado", method = RequestMethod.GET)
     public ModelAndView verMercado(@RequestParam(required = false) String posicion,
-                                   @RequestParam(required = false) String nombre) {
+                                   @RequestParam(required = false) String nombre,
+                                   HttpServletRequest request) {
         ModelMap modelo = new ModelMap();
         if (nombre != null && nombre.isEmpty()) {
             nombre = null;
@@ -36,6 +39,8 @@ public class ControladorMercado {
             posicionEnum = Posicion.valueOf(posicion);
         }
 
+        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+        modelo.put("usuario", usuario);
         modelo.put("jugadores", servicioMercado.obtenerJugadores(posicionEnum, nombre));
         modelo.put("posicion", posicion);
         modelo.put("nombre", nombre);
