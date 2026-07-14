@@ -40,6 +40,9 @@
         <span class="stats-valor" th:text="${rendimiento.asistencias}">0</span>
     </div>
 </div>
+<div class="stats-rapidas" th:if="${rendimiento == null}">
+    <p style="color:#888; text-align:center; width:100%;">Sin estadísticas de temporada pasada.</p>
+</div>
 <div class="info-personal">
     <h2 class="seccion-titulo">Información Personal</h2>
     <div class="info-grid">
@@ -88,7 +91,10 @@
                 <span th:text="${rendimiento.perdidas}">0</span>
             </div>
         </div>
-    </div>
+    </div><div class="stats-detalle" th:if="${rendimiento == null}">
+    <h2 class="seccion-titulo">Estadísticas de Temporada Pasada</h2>
+    <p style="color:#888;">No hay datos de temporada pasada para este jugador.</p>
+</div>
     <div class="stats-detalle" th:if="${rendimientosPorPartido != null and !rendimientosPorPartido.isEmpty()}">
         <h2 class="seccion-titulo">Estadísticas por Partido (Temporada Actual)</h2>
         <div class="stats-tabla">

@@ -7,6 +7,30 @@
         <a th:href="@{/home}" class="link">Home</a>
         <a th:href="@{/mercado}" class="link">Mercado</a>
         <a th:href="@{/reglas}" class="link">Reglas</a>
-        <a th:href="@{/salir}" class="link">Cerrar sesión</a>
+        <!-- NUEVO: Avatar con menú desplegable -->
+        <div class="usuario-menu" id="usuarioMenu">
+            <div class="avatar-btn" onclick="toggleMenu()">
+                <span th:text="${usuario != null ? usuario.nombre.substring(0,1).toUpperCase() : 'U'}">U</span>
+            </div>
+            <div class="dropdown" id="dropdown">
+                <a th:href="@{/perfil}" class="dropdown-item">Mi perfil</a>
+                <a th:href="@{/salir}" class="dropdown-item">Cerrar sesión</a>
+            </div>
+        </div>
     </nav>
+    <script>
+        function toggleMenu() {
+            var dropdown = document.getElementById('dropdown');
+            dropdown.classList.toggle('abierto');
+        }
+        document.addEventListener('click', function (e) {
+            var menu = document.getElementById('usuarioMenu');
+            if (menu && !menu.contains(e.target)) {
+                document.getElementById('dropdown').classList.remove('abierto');
+            }
+        });
+    </script>
+
 </header>
+
+

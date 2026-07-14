@@ -38,7 +38,15 @@
          <a th:href="@{/home}" class="link">Home</a>
          <a th:href="@{/mercado}" class="link">Mercado</a>
          <a th:href="@{/reglas}" class="link">Reglas</a>
-         <a th:href="@{/salir}" class="link">Cerrar sesión</a>
+          <div class="avatar-wrapper">
+            <button class="avatar-btn"
+                    th:text="${usuario != null ? usuario.nombre.substring(0,1).toUpperCase() : 'U'}"
+                    onclick="toggleDropdown(this)">U</button>
+            <div class="avatar-menu">
+              <a th:href="@{/perfil}" class="avatar-menu-item">Mi perfil</a>
+              <a th:href="@{/salir}" class="avatar-menu-item">Cerrar sesi&oacute;n</a>
+            </div>
+          </div>
        </nav>
    </nav>
  </header>
@@ -112,15 +120,22 @@
      </div>
 
      <script>
-       document
-         .querySelector(".form-busqueda")
-         .addEventListener("submit", function (e) {
-           const nombre = this.querySelector('input[name="nombre"]').value;
-           if (!nombre || nombre.trim() === "") {
-             e.preventDefault();
-             window.location.href = "/tallerwebi_base_war_exploded/mercado";
-           }
-         });
+       document.querySelector(".form-busqueda").addEventListener("submit", function(e) {
+         const nombre = this.querySelector('input[name="nombre"]').value;
+         if (!nombre || nombre.trim() === "") {
+           e.preventDefault();
+           window.location.href = "/tallerwebi_base_war_exploded/mercado";
+         }
+       });
+       function toggleDropdown(btn) {
+         const menu = btn.nextElementSibling;
+         menu.classList.toggle("open");
+       }
+       document.addEventListener("click", function(e) {
+         if (!e.target.closest(".avatar-wrapper")) {
+           document.querySelectorAll(".avatar-menu").forEach(d => d.classList.remove("open"));
+         }
+       });
      </script>
      <!-- Boostrap core js -->
       <script

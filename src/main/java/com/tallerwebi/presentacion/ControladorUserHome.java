@@ -186,6 +186,43 @@ public class ControladorUserHome {
         return new ModelAndView("estadisticas-jugadores-torneo", modelo);
     }
 
+    @GetMapping("/perfil")
+    public ModelAndView verPerfil(HttpServletRequest request) {
+        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+
+        if (usuario == null) return new ModelAndView("redirect:/login");
+
+        Equipo equipo = servicioEquipo.obtenerEquipoPorIdUsuario(usuario.getId());
+        ModelMap modelo = new ModelMap();
+        modelo.put("usuario", usuario);
+        modelo.put("equipo", equipo);
+        if (equipo != null) {
+            try {
+                List<EquipoJugador> jugadores = servicioEquipo.buscarJugadoresDelEquipo(equipo.getId());
+                modelo.put("jugadores", jugadores);
+
+                double puntaje = servicioEquipo.calcularPuntajeTotalDelEquipo(equipo.getId());
+                modelo.put("puntaje", puntaje);
+
+                //Ranking
+
+                Torneo torneoVirtual = servicioTorneo.obtenerTorneoActual(TipoTorneo.VIRTUAL);
+                if (torneoVirtual != null) {
+                    List<Equipo> todosLosEquipos = servicioEquipo.obtenerTopEquiposPorTorneo(torneoVirtual.getId(), 9999);
+                    int posicion = 1;
+                    for (Equipo e : todosLosEquipos) {
+                        if (e.getId().equals(equipo.getId())) break;
+                        posicion++;
+                    }
+                    modelo.put("rankingTemporada", posicion);
+                }
+            } catch (Exception e) {
+            }
+        }
+
+        return new ModelAndView("perfil-usuario", modelo);
+    }
+
     private List<PartidoNBA> obtenerProximosPartidosParaHome() {
         try {
             Fecha fechaActual = servicioFecha.obtenerFechaActual();
@@ -194,5 +231,4 @@ public class ControladorUserHome {
             return List.of();
         }
     }
-
 }

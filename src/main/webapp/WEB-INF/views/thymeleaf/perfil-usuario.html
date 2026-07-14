@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Mi Perfil</title>
+    <link rel="stylesheet" th:href="@{/css/header.css}"/>
+    <link rel="stylesheet" th:href="@{/css/footer.css}"/>
+    <link rel="stylesheet" th:href="@{/css/perfil-usuario.css}"/>
+</head>
+<body>
+    <div th:replace="layout/header :: header"></div>
+    <div class="perfil-page">
+        <!-- ── HERO SUPERIOR ── -->
+        <section class="perfil-hero">
+            <div class="hero-overlay"></div>
+            <div class="perfil-hero-contenido">
+                <!-- Avatar con inicial -->
+                <div class="perfil-foto-circulo">
+                    <span th:text="${usuario.nombre.substring(0,1).toUpperCase()}">U</span>
+                </div>
+                <!-- Nombre -->
+                <h2 class="perfil-nombre" th:text="${usuario.nombre}">Nombre de Usuario</h2>
+            </div>
+        </section>
+
+        <main class="perfil-contenedor">
+        <section class="perfil-info">
+
+                <!-- Mi equipo -->
+                <div class="perfil-columna">
+                    <h3 class="columna-titulo">Mi equipo</h3>
+                    <p th:if="${equipo == null}" class="sin-datos">
+                        Todavía no creaste tu equipo.
+                    </p>
+                    <p th:if="${equipo != null and (jugadores == null or jugadores.isEmpty())}" class="sin-datos">
+                        Todavía no seleccionaste jugadores.
+                    </p>
+                    <ul th:if="${jugadores != null and !jugadores.isEmpty()}" class="lista-jugadores">
+                        <li th:each="ej : ${jugadores}" class="jugador-item">
+                            <img th:src="${ej.jugador.foto}"
+                                 th:alt="${ej.jugador.nombre}"
+                                 class="jugador-miniatura"
+                                 onerror="this.style.display='none'"/>
+                            <div class="jugador-datos">
+                                <span class="jugador-nombre"
+                                      th:text="${ej.jugador.nombre + ' ' + ej.jugador.apellido}">
+                                </span>
+                                <span class="jugador-posicion"
+                                      th:text="${ej.posicionDelJugador}">
+                                </span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!--Puntaje -->
+            <div class="perfil-columna perfil-columna--centro">
+                <h3 class="columna-titulo">Puntaje</h3>
+                <div class="puntaje-total">
+                    <span class="puntaje-numero"
+                          th:text="${puntaje != null ? puntaje : 0}">
+                    0
+                </span>
+                    <span class="puntaje-label">puntos en la temporada</span>
+                </div>
+            </div>
+            <!-- Ranking -->
+            <div class="perfil-columna perfil-columna--derecha">
+                <h3 class="columna-titulo">Ranking</h3>
+                <!-- Si no tiene equipo no puede tener ranking -->
+                <p th:if="${equipo == null}" class="sin-datos">
+                    Creá tu equipo para aparecer en el ranking.
+                </p>
+                <!-- Ranking de la temporada -->
+                <div th:if="${equipo != null}" class="ranking-card">
+                    <span class="ranking-card-label">Temporada</span>
+                    <span class="ranking-card-numero"
+                          th:text="${rankingTemporada != null ? '#' + rankingTemporada : '-'}">
+                    #1
+                </span>
+                </div>
+                <!-- Ranking de la última fecha (por ahora mostramos guión hasta implementarlo) -->
+                <div th:if="${equipo != null}" class="ranking-card">
+                    <span class="ranking-card-label">Última fecha</span>
+                    <span class="ranking-card-numero">-</span>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- FOOTER -->
+    <div th:replace="layout/footer :: footer"></div>
+    </div>
+</body>
+</html>

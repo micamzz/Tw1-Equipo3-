@@ -52,6 +52,7 @@ public class ServicioMercadoImpl implements ServicioMercado {
 
     @Override
     public double calcularPuntajeJugador(RendimientoJugador rendimiento) {
+        if(rendimiento == null)return 0.0;
         return rendimiento.getPuntos()
                 + 1.2 * rendimiento.getRebotes()
                 + 1.5 * rendimiento.getAsistencias()
