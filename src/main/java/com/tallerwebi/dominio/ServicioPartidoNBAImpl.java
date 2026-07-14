@@ -232,9 +232,11 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
         return repositorioCronologiaNBA.buscarPorPartido(partidoId);
     }
 
-    @Override
-    public void iniciarPartido(Long partidoId) throws EquipoJugandoException {
+    public void iniciarPartido(Long partidoId) throws EquipoJugandoException, FechaNoEstaEnCursoException {
         PartidoNBA partido = repositorioPartidoNBA.buscarPorId(partidoId);
+        if (partido.getFecha() == null || partido.getFecha().getEstadoFecha() != EstadoFecha.EN_CURSO) {
+            throw new FechaNoEstaEnCursoException("No se puede iniciar el partido: la fecha todavía no está en curso");
+        }
         if (repositorioPartidoNBA.equipoTienePartidoActivo(partido.getEquipoLocal().getId())) {
             throw new EquipoJugandoException("El equipo local ya tiene un partido en vivo");
         }
@@ -290,6 +292,44 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
             }
         }
 
+    }
+
+    @Override
+    public List<PartidoNBA> obtenerPartidosPorFecha(Long idFecha) {
+        return repositorioPartidoNBA.buscarPorFechaId(idFecha);
+    }
+
+    @Override
+    public void crearPartidoEnFecha(Long idFecha, Long idEquipoLocal, Long idEquipoVisitante, LocalDateTime horaInicio) throws FechaNoEncontradaException {
+        Fecha fecha = repositorioFecha.buscarFechaPorId(idFecha);
+        if (fecha == null) throw new FechaNoEncontradaException("Fecha no encontrada");
+
+        EquipoNBA local = repositorioEquipoNBA.buscarEquipoPorId(idEquipoLocal);
+        EquipoNBA visitante = repositorioEquipoNBA.buscarEquipoPorId(idEquipoVisitante);
+
+        PartidoNBA partido = new PartidoNBA();
+        partido.setEquipoLocal(local);
+        partido.setEquipoVisitante(visitante);
+        partido.setHoraInicio(horaInicio);
+        partido.setFecha(fecha);
+        partido.setEstadoPartido(EstadoPartido.PROGRAMADO);
+
+        repositorioPartidoNBA.guardar(partido);
+    }
+
+    @Override
+    public List<PartidoNBA> obtenerPartidosActivosPorFecha(Long idFecha) {
+        return repositorioPartidoNBA.buscarPartidosActivosPorFecha(idFecha);
+    }
+
+    @Override
+    public List<PartidoNBA> obtenerPartidosProgramadosPorFecha(Long idFecha) {
+        return repositorioPartidoNBA.buscarPartidosProgramadosPorFecha(idFecha);
+    }
+
+    @Override
+    public List<PartidoNBA> obtenerPartidosFinalizadosPorFecha(Long idFecha) {
+        return repositorioPartidoNBA.buscarPartidosFinalizadosPorFecha(idFecha);
     }
 
 

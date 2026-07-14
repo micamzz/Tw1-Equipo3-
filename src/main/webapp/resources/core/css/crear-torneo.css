@@ -1,145 +1,239 @@
-* {
+:root {
+    --naranja: #ff6b00;
+    --naranja-hover: #e05a00;
+    --rojo: #ef4444;
+
+    --fondo: #0a0a0a;
+    --fondo-card: rgba(20, 20, 20, 0.92);
+    --fondo-input: #111111;
+
+    --borde: #2a2a2a;
+    --borde-input: #3a3a3a;
+
+    --texto: #ffffff;
+    --texto-muted: #a1a1aa;
+
+    --radio: 12px;
+    --transition: 0.15s;
+}
+
+*,
+*::before,
+*::after {
     box-sizing: border-box;
 }
 
+html,
 body {
-    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
 }
 
-.contenedor-form-torneo {
-
-    width: 90%;
-    max-width: 600px;
-
-    margin: 60px auto;
-
-    padding: 40px;
-
-    background-color: #0d0d0d;
-
-    border-radius: 16px;
-}
-
-.contenedor-form-torneo h1 {
-
-    text-align: center;
-
-    margin-bottom: 30px;
-}
-
-.campo-formulario {
-
+body {
+    background: var(--fondo);
+    color: var(--texto);
+    font-family: "Inter", Arial, sans-serif;
     display: flex;
     flex-direction: column;
+    min-height: 100vh;
+}
 
-    margin-bottom: 20px;
+main {
+    flex: 1;
+}
+
+/* CONTENEDOR PRINCIPAL */
+
+.contenedor-form-torneo {
+    width: 95%;
+    max-width: 650px;
+    margin: 0 auto;
+    padding: 2rem 0 3rem;
+}
+
+/* TARJETA DEL FORMULARIO */
+
+.contenedor-form-torneo form {
+    background: var(--fondo-card);
+    border: 1px solid var(--borde);
+    border-radius: var(--radio);
+    padding: 2rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.24);
+}
+
+/* TITULO */
+
+.contenedor-form-torneo h1 {
+    color: var(--texto);
+    text-align: left;
+    font-size: 1.75rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin: 1rem 0 2rem;
+}
+
+/* ENLACE VOLVER */
+
+.volver-link {
+    display: inline-flex;
+    align-items: center;
+    color: var(--texto-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: color var(--transition);
+}
+
+.volver-link:hover {
+    color: var(--naranja);
+}
+
+/* CAMPOS */
+
+.campo-formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
 }
 
 .campo-formulario label {
-
-    margin-bottom: 8px;
-
+    color: var(--texto);
+    font-size: 0.88rem;
     font-weight: 600;
 }
 
 .campo-formulario input,
-.campo-formulario select{
-
-    padding: 12px;
-
+.campo-formulario select {
+    width: 100%;
+    min-height: 46px;
+    padding: 0.75rem 1rem;
+    background: var(--fondo-input);
+    color: var(--texto);
+    border: 1px solid var(--borde-input);
     border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color var(--transition),
+    box-shadow var(--transition);
+}
 
-    border: 1px solid #444;
-
-    background-color: white;
-
-    font-family: 'Inter', sans-serif;
-
-    font-size: 1rem;
+.campo-formulario input::placeholder {
+    color: #6b6b73;
 }
 
 .campo-formulario input:focus,
 .campo-formulario select:focus {
-
-    outline: none;
-
-    border-color: #f97316;
+    border-color: var(--naranja);
+    box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.12);
 }
 
 .campo-formulario select {
-
-    display: block;
-    width: 100%;
-
-
-
-    cursor: pointer;
-
     appearance: none;
     -webkit-appearance: none;
-    -moz-appearance: none;
-
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23666'%3E%3Cpath d='M1 3l5 5 5-5'/%3E%3C/svg%3E");
+    cursor: pointer;
+    padding-right: 2.75rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23a1a1aa' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
-    background-position: right 12px center;
-
-    padding-right: 40px;
+    background-position: right 1rem center;
 }
 
+.campo-formulario select option {
+    background: #171717;
+    color: var(--texto);
+}
+
+.campo-formulario input[type="date"] {
+    color-scheme: dark;
+}
+
+/* BOTON GUARDAR */
+
 .boton-guardar {
-
     width: 100%;
-
-    padding: 14px;
-
+    min-height: 46px;
+    padding: 0.8rem 1.25rem;
+    background: var(--naranja);
+    color: var(--texto);
     border: none;
-
-    border-radius: 10px;
-
-    background-color: #f97316;
-
-    color: white;
-
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.88rem;
     font-weight: 700;
-
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
     cursor: pointer;
-
-    transition: 0.2s;
+    transition: background var(--transition),
+    transform var(--transition);
 }
 
 .boton-guardar:hover {
-
-    opacity: 0.9;
+    background: var(--naranja-hover);
+    transform: translateY(-1px);
 }
+
+.boton-guardar:active {
+    transform: scale(0.98);
+}
+
+.boton-guardar:focus-visible {
+    outline: 2px solid var(--naranja);
+    outline-offset: 3px;
+}
+
+/* MENSAJE DE ERROR */
 
 .mensaje-error {
-
-    color: #ef4444;
-
-    text-align: center;
-
-    margin-bottom: 20px;
+    margin-bottom: 1.5rem;
+    padding: 0.9rem 1rem;
+    color: #fecaca;
+    background: rgba(239, 68, 68, 0.12);
+    border: 1px solid rgba(239, 68, 68, 0.45);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
 }
 
- /* .volver-link {
-    display: block;
-    text-align: center;
-    margin-top: 20px;
-    color: #9ca3af;
-    text-decoration: none;
-    font-size: 0.95rem;
-    font-weight: 500;
-    transition: 0.2s;
-} */
-
-
-.volver-link {
-    display: inline-block;
-    color: #9ca3af;
-    text-decoration: none;
-    margin-bottom: 25px;
-}
-.volver-link:hover {
-    color: white;
+.mensaje-error p {
+    margin: 0;
 }
 
+/* RESPONSIVE */
+
+@media (max-width: 700px) {
+    .contenedor-form-torneo {
+        width: 92%;
+        padding: 1.5rem 0 2.5rem;
+    }
+
+    .contenedor-form-torneo form {
+        padding: 1.5rem;
+    }
+
+    .contenedor-form-torneo h1 {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .contenedor-form-torneo {
+        width: 90%;
+        padding: 1.25rem 0 2rem;
+    }
+
+    .contenedor-form-torneo form {
+        padding: 1.25rem;
+    }
+
+    .campo-formulario {
+        margin-bottom: 1rem;
+    }
+
+    .campo-formulario input,
+    .campo-formulario select {
+        font-size: 0.9rem;
+    }
+}

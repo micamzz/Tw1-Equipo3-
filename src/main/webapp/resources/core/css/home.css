@@ -2,7 +2,7 @@
     --naranja: #ff6b00;
     --naranja-hover: #f06829;
     --fondo: #0a0a0a;
-    --superficie: rgba(20, 20, 20, 0.92);
+    --superficie: rgba(20, 20, 20, .92);
     --borde: #2a2a2a;
     --texto: #ffffff;
     --texto-muted: #b5b5b5;
@@ -19,26 +19,20 @@ body {
     font-family: "Inter", sans-serif;
 }
 
-.hero-aviso {
-    margin: 1rem 0 1.5rem;
-    color: #c9c9c9;
-    font-size: 1rem;
-    line-height: 1.5;
-    max-width: 480px;
-}
-
-/* HOME */
+/* ── HERO ── */
 .hero {
     position: relative;
     min-height: calc(100vh - 72px);
-    padding: 4rem 3rem;
+    padding: 2rem 3rem; /* menos padding general */
+    padding-top: 2.5rem; /* controla desde dónde empieza el texto */
     display: grid;
     grid-template-columns: minmax(0, 1fr) 360px;
     gap: 2rem;
     overflow: hidden;
+    align-items: start; /* arranca desde arriba, no desde el centro */
 }
 
-/* IMAGEN */
+/* IMAGEN DE FONDO */
 .hero-imagen {
     position: absolute;
     inset: 0;
@@ -56,64 +50,97 @@ body {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(90deg, #0a0a0a 0%, rgba(10, 10, 10, .9) 35%, rgba(10, 10, 10, .45) 65%, rgba(10, 10, 10, .85) 100%),
-    linear-gradient(180deg, rgba(10, 10, 10, .2) 0%, #0a0a0a 100%);
+    background: linear-gradient(90deg,
+    #0a0a0a 0%,
+    rgba(10, 10, 10, .92) 35%,
+    rgba(10, 10, 10, .45) 65%,
+    rgba(10, 10, 10, .85) 100%),
+    linear-gradient(180deg,
+            rgba(10, 10, 10, .2) 0%,
+            #0a0a0a 100%);
 }
 
-/* TEXTO */
+/* ── COLUMNA IZQUIERDA ── */
 .hero-texto {
     position: relative;
     z-index: 2;
-    max-width: 560px;
-    align-self: center;
+    max-width: 700px;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 0.6rem;
+    padding-top: 1rem
 }
 
+/* PRIMARIO: título grande */
 .hero-titulo {
     font-size: clamp(3rem, 6vw, 5rem);
     font-weight: 900;
-    line-height: .95;
+    line-height: .92;
     letter-spacing: -3px;
-    margin-top: -4em;
+    margin: 0;
 }
 
-.color-naranja,
+.color-naranja {
+    color: var(--naranja);
+}
+
+/* SECUNDARIO: saludo */
+.hero-saludo {
+    font-size: 2rem;
+    color: #e5e5e5;
+    margin: 0;
+    line-height: 1.4;
+}
+
 .hero-saludo strong {
     color: var(--naranja);
 }
 
-.hero-saludo {
-    font-size: 1.15rem;
-    color: #e5e5e5;
-    margin-top: -5em;
-}
-
+/* TERCIARIO: descripción */
 .hero-descripcion {
-    max-width: 440px;
+    font-size: 1rem;
     color: var(--texto-muted);
     line-height: 1.6;
+    margin: 0;
+    max-width: 80%;
 }
 
-/* BOTONES */
+/* AVISO fecha cerrada */
+.hero-aviso {
+    font-size: 0.85rem;
+    color: #aaa;
+    background: rgba(255, 107, 0, 0.07);
+    border-left: 3px solid var(--naranja);
+    border-radius: 0 6px 6px 0;
+    padding: 0.5rem 0.75rem;
+    margin: 0;
+    max-width: 80%;
+}
+
+/* ── BOTONES ── */
 .hero-botones {
     display: flex;
-    gap: .9rem;
+    gap: 0.75rem;
     flex-wrap: wrap;
-    margin-top: .5rem;
+    margin-top: 0.25rem;
+    max-width: 80%;
 }
 
 .boton {
-    min-width: 170px;
-    padding: 1rem 1.4rem;
-    border-radius: 10px;
+    padding: 0.85rem 1.4rem;
+    border-radius: 8px;
     font-weight: 800;
-    font-size: .85rem;
+    font-size: 0.82rem;
     text-align: center;
     text-decoration: none;
     text-transform: uppercase;
-    transition: .2s ease;
+    letter-spacing: 0.04em;
+    transition: background 0.15s, border-color 0.15s, color 0.15s, transform 0.1s;
+    white-space: nowrap;
+}
+
+.boton:active {
+    transform: scale(0.97);
 }
 
 .boton-primario {
@@ -128,8 +155,8 @@ body {
 
 .boton-secundario {
     background: transparent;
-    border: 1px solid #444;
-    color: #fff;
+    border: 1px solid #3a3a3a;
+    color: #ccc;
 }
 
 .boton-secundario:hover {
@@ -137,79 +164,92 @@ body {
     color: var(--naranja);
 }
 
-/* STATS */
-.hero-stats-row {
+/* ── MINI CARDS PUNTOS + PRESUPUESTO ── */
+.mini-cards-puntaje-presupuesto {
     display: flex;
-    gap: 1rem;
-    margin-top: 1rem;
-    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 0.25rem;
+    max-width: 80%;
 }
 
 .card-mini {
     background: var(--superficie);
     border: 1px solid var(--borde);
-    border-radius: 14px;
-    padding: 1rem;
-    width: 40%;
+    border-radius: 12px;
+    padding: 0.85rem 1rem;
+    flex: 1;
+    min-width: 0;
 }
 
 .titulo-lateral {
-    margin-bottom: .6rem;
     color: var(--naranja);
-    font-size: .72rem;
+    font-size: 0.78rem;
     font-weight: 800;
-    letter-spacing: .14em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
+    margin: 0 0 0.75rem;
 }
 
 .valor-dato {
     font-size: 1.4rem;
     font-weight: 800;
+    margin: 0;
+    line-height: 1;
 }
 
-/* COLUMNA DERECHA */
+.valor-dato-mensaje {
+    font-size: 0.8rem;
+    color: var(--texto-muted);
+    line-height: 1.5;
+    margin: 0;
+}
+
+.valor-dato-mensaje strong {
+    color: #fff;
+}
+
+/* ── COLUMNA DERECHA ── */
 .hero-lateral {
     position: relative;
     z-index: 2;
     align-self: start;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 0.85rem;
+    margin-top: 0;
 }
 
 .card-lateral {
     background: var(--superficie);
     border: 1px solid var(--borde);
     border-radius: 14px;
-    padding: 1.35rem;
+    padding: 1.25rem 1.4rem;
     backdrop-filter: blur(6px);
+
 }
 
-.lista-partidos,
-.lista-ranking {
+/* PARTIDOS */
+.lista-partidos {
     list-style: none;
     padding: 0;
     margin: 0;
-}
-
-.lista-partidos {
     display: flex;
     flex-direction: column;
-    gap: .9rem;
+    gap: 0.75rem;
 }
 
 .item-partido {
     display: grid;
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
-    gap: .7rem;
-    font-size: .85rem;
+    gap: 0.5rem;
+    font-size: 0.9rem;
 }
 
 .equipo-partido {
     display: flex;
     align-items: center;
-    gap: .5rem;
+    gap: 0.4rem;
 }
 
 .equipo-partido:last-child {
@@ -218,79 +258,93 @@ body {
 }
 
 .escudo-chico {
-    width: 42px;
-    height: 42px;
+    width: 40px;
+    height: 40px;
     object-fit: contain;
 }
 
 .vs {
-    color: #777;
+    color: #666;
     font-weight: 800;
-    font-size: .75rem;
+    font-size: 0.75rem;
+    text-align: center;
 }
 
 .link-ver-todo {
     display: inline-block;
-    margin-top: 1rem;
+    margin-top: 0.75rem;
     color: var(--naranja);
-    font-size: .85rem;
-    font-weight: 800;
+    font-size: 0.88rem;
+    font-weight: 700;
     text-decoration: none;
+    transition: opacity 0.15s;
+}
+
+.link-ver-todo:hover {
+    opacity: 0.75;
 }
 
 /* RANKING */
 .lista-ranking {
+    list-style: none;
+    padding: 0;
+    margin: 0;
     display: flex;
     flex-direction: column;
-    gap: .65rem;
+    gap: 0.5rem;
 }
 
 .item-ranking {
     display: grid;
-    grid-template-columns: auto 1fr auto;
-    gap: .6rem;
+    grid-template-columns: 1fr auto;
+    gap: 0.5rem;
     align-items: center;
-    padding: .7rem;
-    background: rgba(255, 255, 255, .045);
-    border-radius: 8px;
+    padding: 0.6rem 0.75rem;
+    background: rgba(255, 255, 255, .04);
+    border-radius: 7px;
+    border: 1px solid rgba(255, 255, 255, 0.04);
 }
 
 .ranking-usuario {
     color: var(--naranja);
-    font-weight: 800;
+    font-weight: 700;
+    font-size: 0.82rem;
 }
 
 .ranking-nombre {
-    color: #eee;
+    color: #ddd;
     font-weight: 600;
+    font-size: 0.88rem;
 }
 
 .ranking-puntaje {
     color: var(--naranja);
     font-weight: 900;
+    font-size: 0.95rem;
 }
 
-/* RESPONSIVE */
+/* ── RESPONSIVE ── */
 @media (max-width: 1100px) {
     .hero {
         grid-template-columns: 1fr;
-        padding: 3rem 1.5rem;
+        padding: 2.5rem 1.5rem;
+        min-height: auto;
+        align-items: start;
     }
 
     .hero-texto {
-        align-self: start;
-        margin-top: 2rem;
+        max-width: 100%;
     }
 
     .hero-lateral {
         max-width: 100%;
+        margin-top: 0;
     }
 }
 
 @media (max-width: 600px) {
     .hero {
         padding: 2rem 1rem;
-        min-height: auto;
     }
 
     .hero-titulo {
@@ -306,22 +360,16 @@ body {
         width: 100%;
     }
 
-    .hero-stats-row {
+    .mini-cards-puntaje-presupuesto {
         flex-direction: column;
-    }
-
-    .card-mini {
-        width: 100%;
     }
 
     .item-partido {
         grid-template-columns: 1fr;
-        text-align: left;
     }
 
     .equipo-partido:last-child {
         justify-content: flex-start;
-        text-align: left;
     }
 
     .vs {

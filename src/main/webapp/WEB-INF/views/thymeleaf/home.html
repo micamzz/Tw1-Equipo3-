@@ -66,30 +66,33 @@
 
             </div>
 
-            <!-- PUNTOS  -->
-            <div class="card-mini">
-                <h3 class="titulo-lateral">PUNTOS</h3>
-                <p class="valor-dato highlight-number">
-                    <span th:text="${equipo != null ? equipo.puntaje : 0}">0</span>
-                </p>
 
-            </div>
+            <div CLASS="mini-cards-puntaje-presupuesto">
+                <!-- PUNTOS  -->
+                <div class="card-mini">
+                    <h3 class="titulo-lateral">TUS PUNTOS:</h3>
+                    <p class="valor-dato highlight-number">
+                        <span th:text="${equipo != null ? equipo.puntaje : 0}">0</span>
+                    </p>
 
-            <!-- PRESUPUESTO
-            SI YA TIENE EQUIPO LE MUESTRA EL VALOR QUE LE QUEDA.
-            SI NO LO CREO, LE MUESTRA EL VALOR INICIAL-->
+                </div>
 
-            <div class="card-mini">
-                <h3 class="titulo-lateral">PRESUPUESTO</h3>
-                <p class="valor-dato" th:if="${equipo != null}">
-                    $<span th:text="${#numbers.formatDecimal(equipo.presupuesto, 0, 'COMMA', 0, 'POINT')}"></span>
-                </p>
-                <p class="valor-dato-mensaje" th:if="${equipo == null}">
-                    Al crear tu equipo inicias con <strong>$<span th:text="${presupuestoInicial}"></span></strong>
-                    para fichar jugadores.
-                </p>
-            </div>
+                <!-- PRESUPUESTO
+                SI YA TIENE EQUIPO LE MUESTRA EL VALOR QUE LE QUEDA.
+                SI NO LO CREO, LE MUESTRA EL VALOR INICIAL-->
 
+                <div class="card-mini">
+                    <h3 class="titulo-lateral">PRESUPUESTO ACTUAL</h3>
+                    <p class="valor-dato" th:if="${equipo != null}">
+                        $<span th:text="${#numbers.formatDecimal(equipo.presupuesto, 0, 'COMMA', 0, 'POINT')}"></span>
+                    </p>
+                    <p class="valor-dato-mensaje" th:if="${equipo == null}">
+                        Al crear tu equipo inicias con <strong>$<span th:text="${presupuestoInicial}"></span></strong>
+                        para fichar jugadores.
+                    </p>
+                </div>
+
+            </div> <!--FIN CARD PUNTOS + PRESUPUESTO-->
 
         </div>
 

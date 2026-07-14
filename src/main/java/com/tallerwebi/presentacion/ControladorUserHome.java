@@ -26,12 +26,14 @@ public class ControladorUserHome {
     private final ServicioTorneo servicioTorneo;
     private final ServicioEquipo servicioEquipo;
     private final ServicioMercado servicioMercado;
+    private final ServicioFecha servicioFecha;
 
-    public ControladorUserHome(ServicioPartidoNBA servicioPartidoNBA, ServicioTorneo servicioTorneo, ServicioEquipo servicioEquipo, ServicioMercado servicioMercado) {
+    public ControladorUserHome(ServicioPartidoNBA servicioPartidoNBA, ServicioTorneo servicioTorneo, ServicioEquipo servicioEquipo, ServicioMercado servicioMercado, ServicioFecha servicioFecha) {
         this.servicioPartidoNBA = servicioPartidoNBA;
         this.servicioTorneo = servicioTorneo;
         this.servicioEquipo = servicioEquipo;
         this.servicioMercado = servicioMercado;
+        this.servicioFecha = servicioFecha;
     }
 
     @RequestMapping(path = "/home", method = RequestMethod.GET)
@@ -45,6 +47,10 @@ public class ControladorUserHome {
 
         Equipo equipo = servicioEquipo.obtenerEquipoPorIdUsuario(usuario.getId());
 
+        if (equipo != null) {
+            equipo.setPuntaje(servicioEquipo.calcularPuntajeTotalDelEquipo(equipo.getId()));
+        }
+
         Torneo torneoActual = servicioTorneo.obtenerTorneoActual(TipoTorneo.REAL);
 
         ModelMap modelo = new ModelMap();
@@ -53,7 +59,7 @@ public class ControladorUserHome {
         modelo.put("equipo", equipo);
         modelo.put("presupuestoInicial", servicioEquipo.obtenerPresupuestoInicial());
         modelo.put("torneoActual", torneoActual);
-        modelo.put("proximosPartidos", servicioPartidoNBA.obtenerPartidosProgramados());
+        modelo.put("proximosPartidos", obtenerProximosPartidosParaHome());
         modelo.put("servicioMercado", servicioMercado);
 
         /*
@@ -186,7 +192,6 @@ public class ControladorUserHome {
         if(usuario == null) return new ModelAndView("redirect:/login");
 
         Equipo equipo = servicioEquipo.obtenerEquipoPorIdUsuario(usuario.getId());
-
         ModelMap modelo = new ModelMap();
         modelo.put("usuario", usuario);
         modelo.put("equipo", equipo);
@@ -215,4 +220,15 @@ public class ControladorUserHome {
         }
         return new ModelAndView("perfil-usuario",modelo);
     }
+}
+
+    private List<PartidoNBA> obtenerProximosPartidosParaHome() {
+        try {
+            Fecha fechaActual = servicioFecha.obtenerFechaActual();
+            return servicioPartidoNBA.obtenerPartidosProgramadosPorFecha(fechaActual.getId());
+        } catch (FechaNoEncontradaException e) {
+            return List.of();
+        }
+    }
+
 }

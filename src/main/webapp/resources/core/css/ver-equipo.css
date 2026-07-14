@@ -9,8 +9,8 @@
 :root {
     --naranja: #ff6b00;
     --naranja-suave: #fd8c61;
-    --fondo: #111;
-    --panel: #141414;
+    --fondo: #0a0a0a;
+    --panel: rgba(20, 20, 20, 0.92);
     --panel-hover: #1a1a1a;
     --borde: #2a2a2a;
     --texto: #fff;

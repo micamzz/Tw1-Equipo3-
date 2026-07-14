@@ -1,9 +1,7 @@
 package com.tallerwebi.dominio;
 
 import com.tallerwebi.dominio.equipoNBA.EquipoNBA;
-import com.tallerwebi.dominio.excepcion.EquipoJugandoException;
-import com.tallerwebi.dominio.excepcion.FechaAnteriorInvalidaException;
-import com.tallerwebi.dominio.excepcion.FechaDuplicadaException;
+import com.tallerwebi.dominio.excepcion.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -29,7 +27,7 @@ public interface ServicioPartidoNBA {
 
     List<CronologiaNBA> obtenerCronologiaDePartido(Long partidoId);
 
-    void iniciarPartido(Long partidoId) throws EquipoJugandoException;
+    void iniciarPartido(Long partidoId) throws EquipoJugandoException, FechaNoEstaEnCursoException;
 
     void reprogramarPartido(Long partidoId, LocalDateTime nuevaHoraInicio)
             throws FechaAnteriorInvalidaException, FechaDuplicadaException;
@@ -38,4 +36,13 @@ public interface ServicioPartidoNBA {
 
     void calcularPuntaje(PartidoNBA partido);
 
+    List<PartidoNBA> obtenerPartidosPorFecha(Long idFecha);
+
+    void crearPartidoEnFecha(Long idFecha, Long idEquipoLocal, Long idEquipoVisitante, LocalDateTime horaInicio) throws FechaNoEncontradaException;
+
+    List<PartidoNBA> obtenerPartidosActivosPorFecha(Long idFecha);
+
+    List<PartidoNBA> obtenerPartidosProgramadosPorFecha(Long idFecha);
+
+    List<PartidoNBA> obtenerPartidosFinalizadosPorFecha(Long idFecha);
 }

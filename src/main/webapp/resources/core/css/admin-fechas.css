@@ -1,0 +1,329 @@
+/* ===================================================
+   VARIABLES DE DISEÑO - UNLaM Basket (Consistencia)
+   =================================================== */
+:root {
+    --color-fondo: #0a0a0a;
+    --color-secundario: rgba(20, 20, 20, 0.92);
+    --color-borde: #2a2a2a;
+    --color-texto: #ffffff;
+    --color-terciario: #b5b5b5;
+    --color-activo: #ff6b00;
+
+    --color-rojo: #c0392b;
+    --color-verde: #27ae60;
+}
+
+/* ===================================================
+   RESET Y CONFIGURACIÓN GLOBAL
+   =================================================== */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html, body {
+    background-color: var(--color-fondo) !important;
+    color: var(--color-texto);
+    font-family: "Inter", Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.contenedor-fechas {
+    width: 95%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 0 3rem;
+    flex: 1;
+}
+
+/* ===================================================
+   ENCABEZADO
+   =================================================== */
+.encabezado-fechas {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.titulo-principal {
+    font-size: 2.2rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    margin: 0 0 0.6rem;
+    color: var(--color-texto);
+}
+
+.descripcion-encabezado {
+    color: var(--color-terciario);
+    font-size: 0.95rem;
+    max-width: 520px;
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* ===================================================
+   MENSAJE DE ERROR
+   =================================================== */
+.mensaje-error {
+    width: 100%;
+    margin: 0 0 1.5rem;
+    padding: 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    text-align: center;
+    background: rgba(192, 57, 43, 0.15);
+    color: #ff6b6b;
+    border: 1px solid rgba(192, 57, 43, 0.3);
+}
+
+/* ===================================================
+   ESTADO SIN FECHAS
+   =================================================== */
+.sin-fechas {
+    background: var(--color-secundario);
+    border: 1px solid var(--color-borde);
+    border-radius: 12px;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.titulo-sin-fechas {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin: 0 0 0.75rem;
+    color: var(--color-texto);
+}
+
+.texto-sin-fechas {
+    color: var(--color-terciario);
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+/* ===================================================
+   LISTADO DE FECHAS
+   =================================================== */
+.listado-fechas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.25rem;
+}
+
+.tarjeta-fecha {
+    background: var(--color-secundario);
+    border: 1px solid var(--color-borde);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    border-left: 4px solid var(--color-terciario);
+    transition: box-shadow 0.2s ease, transform 0.15s ease;
+}
+
+.tarjeta-fecha:hover {
+    transform: translateY(-2px);
+}
+
+.tarjeta-fecha.fecha-programada {
+    border-left-color: var(--color-terciario);
+}
+
+.tarjeta-fecha.fecha-en-curso {
+    border-left-color: var(--color-activo);
+}
+
+.tarjeta-fecha.fecha-finalizada {
+    border-left-color: var(--color-verde);
+}
+
+.fecha-informacion {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.fecha-numero {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--color-texto);
+    letter-spacing: -0.3px;
+}
+
+.fecha-numero span {
+    color: var(--color-activo);
+}
+
+.fecha-estado {
+    display: inline-block;
+    width: fit-content;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 3px 10px;
+    border-radius: 20px;
+}
+
+.fecha-estado.estado-programada {
+    background: rgba(154, 154, 165, 0.15);
+    color: var(--color-terciario);
+}
+
+.fecha-estado.estado-en-curso {
+    background: rgba(255, 107, 0, 0.12);
+    color: var(--color-activo);
+}
+
+.fecha-estado.estado-finalizada {
+    background: rgba(39, 174, 96, 0.15);
+    color: var(--color-verde);
+}
+
+.fecha-torneo {
+    color: var(--color-terciario);
+    font-size: 0.85rem;
+    margin: 0;
+}
+
+.nombre-torneo-destacado {
+    color: var(--color-texto);
+    font-weight: 700;
+}
+
+/* ===================================================
+   ACCIONES DE CADA TARJETA
+   =================================================== */
+.fecha-acciones {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.fecha-acciones form {
+    margin: 0;
+}
+
+.texto-finalizada {
+    display: block;
+    text-align: center;
+    color: var(--color-terciario);
+    font-size: 0.85rem;
+    font-style: italic;
+    padding: 0.5rem 0 0;
+}
+
+/* ===================================================
+   BOTONES
+   =================================================== */
+.btn {
+    border: none;
+    border-radius: 8px;
+    padding: 0.7rem 1.2rem;
+    font-weight: 700;
+    font-family: "Inter", sans-serif;
+    cursor: pointer;
+    font-size: 0.9rem;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    width: 100%;
+    transition: background 0.15s, transform 0.1s, opacity 0.15s;
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+.btn-naranja {
+    background: var(--color-activo);
+    color: #fff;
+}
+
+.btn-naranja:hover {
+    background: #f06829;
+}
+
+.btn-verde {
+    background: var(--color-verde);
+    color: #fff;
+}
+
+.btn-verde:hover {
+    background: #1f8b4f;
+}
+
+.btn-rojo {
+    background: var(--color-rojo);
+    color: #fff;
+}
+
+.btn-rojo:hover {
+    background: #a0281c;
+}
+
+.btn-secundario {
+    background: var(--color-secundario);
+    color: var(--color-texto);
+    border: 1px solid var(--color-borde);
+    width: auto;
+}
+
+.btn-secundario:hover {
+    background: #2a2a35;
+}
+
+/* ===================================================
+   ACCIONES INFERIORES
+   =================================================== */
+.acciones-inferiores {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 2.5rem;
+    flex-wrap: wrap;
+}
+
+.acciones-inferiores .btn {
+    width: auto;
+    padding: 0.7rem 1.5rem;
+}
+
+/* ===================================================
+   RESPONSIVE
+   =================================================== */
+@media (max-width: 640px) {
+    .contenedor-fechas {
+        padding: 1.5rem 0 2rem;
+    }
+
+    .titulo-principal {
+        font-size: 1.6rem;
+    }
+
+    .encabezado-fechas {
+        flex-direction: column;
+    }
+
+    .listado-fechas {
+        grid-template-columns: 1fr;
+    }
+
+    .acciones-inferiores {
+        flex-direction: column;
+    }
+
+    .acciones-inferiores .btn {
+        width: 100%;
+    }
+}

@@ -1,0 +1,199 @@
+/* ===================================================
+   MEJORAS VISUALES — SOLO VISTA "PARTIDOS"
+   Este archivo se suma a partidos.css (no lo reemplaza)
+   para no afectar admin-partido, admin-cronologia,
+   admin-agregarPartido, agregar-fecha, admin-finalizarTemporada
+   y partido-cronologia, que también usan partidos.css.
+   =================================================== */
+
+/* ---------- Encabezado ---------- */
+.pf-subtitulo {
+    color: var(--color-terciario);
+    font-size: 0.95rem;
+    margin: 0.35rem 0 0;
+}
+
+.pf-icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    vertical-align: -3px;
+}
+
+.acciones-superiores .btn-naranja {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+}
+
+/* ---------- Tarjeta resumen de la fecha ---------- */
+
+
+.resumen-fecha-encabezado h2 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.badge-estado {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.pf-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: currentColor;
+    display: inline-block;
+}
+
+.estado-en-curso .pf-dot {
+    animation: pf-latido 1.4s ease-in-out infinite;
+}
+
+@keyframes pf-latido {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.5;
+        transform: scale(0.75);
+    }
+}
+
+.resumen-fecha p {
+    color: var(--color-terciario);
+    line-height: 1.55;
+    margin-bottom: 0;
+}
+
+/* ---------- Encabezados de sección con contador ---------- */
+.pf-titulo-seccion {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1.1rem;
+}
+
+.pf-contador {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--color-terciario);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.15rem 0.6rem;
+    border-radius: 20px;
+}
+
+/* ---------- Tarjetas de partido: acento lateral por estado ---------- */
+.card-partido-programado,
+.card-partido-vivo,
+.card-partido-finalizado {
+    border-left: 3px solid var(--color-borde);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.card-partido-programado:hover,
+.card-partido-vivo:hover,
+.card-partido-finalizado:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.card-partido-programado {
+    border-left-color: var(--color-terciario);
+}
+
+.card-partido-vivo {
+    border-left-color: var(--color-activo);
+}
+
+.card-partido-finalizado {
+    border-left-color: var(--color-verde);
+}
+
+/* ---------- Enfrentamiento: VS entre escudos ---------- */
+.pf-vs {
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: var(--color-terciario);
+    letter-spacing: 0.1em;
+    margin-bottom: 0.35rem;
+}
+
+/* ---------- Botones con ícono ---------- */
+.programado-acciones .btn,
+.vivo-acciones .btn,
+.finalizado-acciones .btn,
+.programado-acciones-secundarias .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+}
+
+/* ---------- Estados vacíos, más amigables ---------- */
+.sin-partidos {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 0.6rem;
+    padding: 2.5rem 1.5rem !important;
+}
+
+.sin-partidos .pf-icon-vacio {
+    width: 40px;
+    height: 40px;
+    color: var(--color-terciario);
+    opacity: 0.6;
+}
+
+.sin-partidos .pf-vacio-titulo {
+    color: var(--color-texto);
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.sin-partidos .pf-vacio-texto {
+    color: var(--color-terciario);
+    font-size: 0.85rem;
+    max-width: 320px;
+}
+
+/* ---------- Modales: título con ícono ---------- */
+.modal-contenido h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+
+.fecha-destacada {
+    color: var(--color-activo);
+    font-weight: 700;
+}
+
+.link-fechas {
+    color: var(--color-activo);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.link-fechas:hover {
+    text-decoration: underline;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 700px) {
+    .resumen-fecha {
+        padding: 1.25rem;
+    }
+
+    .pf-titulo-seccion {
+        flex-wrap: wrap;
+    }
+}
