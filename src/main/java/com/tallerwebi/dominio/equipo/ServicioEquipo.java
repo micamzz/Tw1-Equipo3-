@@ -37,6 +37,8 @@ public interface ServicioEquipo {
 
     List<Equipo> obtenerTopEquiposPorTorneo(Long torneoId, int limite);
 
+    List<Equipo> obtenerTopEquiposPorFecha(Long fechaId, int limite);
+
     void validarQueSePuedaModificarEquipo() throws NoSePuedeModificarEquipoSiLaFechaEstaEnCursoException, FechaNoEncontradaException;
 
     Boolean puedeModificarEquipo();

@@ -23,4 +23,8 @@ public interface ServicioMercado {
     List<RendimientoJugador> obtenerRendimientosPorTorneo(Long torneoId);
 
     List<RendimientoJugador> obtenerTopJugadoresPorTorneo(Long torneoId, int limite);
+
+    List<EventoPartido> buscarEventosPorJugadorYFecha(Long jugadorId, Long fechaId);
+
+    List<EventoPartido> buscarEventosPorJugadorTorneo(Long jugadorId, Long torneoId);
 }

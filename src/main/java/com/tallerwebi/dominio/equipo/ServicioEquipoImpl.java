@@ -23,17 +23,21 @@ public class ServicioEquipoImpl implements ServicioEquipo {
     private static final Double PRESUPUESTO_INICIAL = 2000000D;
     private static final Integer CANTIDAD_JUGADORES_EQUIPO_COMPLETO = 10;
     private final ServicioFecha servicioFecha;
+    private final RepositorioEventoPartido repositorioEventoPartido;
 
 
     @Autowired
     public ServicioEquipoImpl(RepositorioEquipo repositorioEquipo, RepositorioJugador repositorioJugador,
-                              RepositorioEquipoJugador repositorioEquipoJugador, RepositorioTorneo repositorioTorneo, ServicioPartidoNBA servicioPartidoNBA, ServicioFecha servicioFecha) {
+                              RepositorioEquipoJugador repositorioEquipoJugador, RepositorioTorneo repositorioTorneo,
+                              ServicioPartidoNBA servicioPartidoNBA, ServicioFecha servicioFecha,
+                              RepositorioEventoPartido repositorioEventoPartido) {
         this.repositorioEquipo = repositorioEquipo;
         this.repositorioJugador = repositorioJugador;
         this.repositorioEquipoJugador = repositorioEquipoJugador;
         this.repositorioTorneo = repositorioTorneo;
         this.servicioPartidoNBA = servicioPartidoNBA;
         this.servicioFecha = servicioFecha;
+        this.repositorioEventoPartido = repositorioEventoPartido;
     }
 
 
@@ -346,6 +350,79 @@ public class ServicioEquipoImpl implements ServicioEquipo {
         return top;
     }
 
+    @Override
+    public List<Equipo> obtenerTopEquiposPorFecha(Long fechaId, int limite) {
+        Fecha fecha;
+        try {
+            fecha = servicioFecha.obtenerFechaPorId(fechaId);
+        } catch (FechaNoEncontradaException e) {
+            return List.of();
+        }
+
+        Torneo torneoReal = fecha.getTorneo();
+        Torneo torneoVirtual = null;
+        List<Torneo> mismos = repositorioTorneo.obtenerTorneosPorTemporada(torneoReal.getTemporada().getId());
+        for (Torneo t : mismos) {
+            if (t.getTipoTorneo() == TipoTorneo.VIRTUAL) {
+                torneoVirtual = t;
+                break;
+            }
+        }
+        if (torneoVirtual == null) return List.of();
+
+        List<Equipo> equipos = repositorioEquipo.buscarEquiposPorTorneo(torneoVirtual.getId());
+        if (equipos == null || equipos.isEmpty()) return List.of();
+
+        for (Equipo equipo : equipos) {
+            List<EquipoJugador> jugadoresEnFecha = repositorioEquipoJugador.buscarPorEquipoIdYFechaId(equipo.getId(), fechaId);
+            if (jugadoresEnFecha == null || jugadoresEnFecha.isEmpty()) {
+                equipo.setPuntaje(0.0);
+                continue;
+            }
+
+            double total = 0.0;
+            for (EquipoJugador eqj : jugadoresEnFecha) {
+                Long jugadorId = eqj.getJugador().getId();
+                List<EventoPartido> eventos = repositorioEventoPartido.buscarEventosPorJugadorYFecha(jugadorId, fechaId);
+                if (eventos == null || eventos.isEmpty()) continue;
+
+                int puntos = 0, rebotes = 0, asistencias = 0;
+                int robos = 0, bloqueos = 0, perdidas = 0;
+
+                for (EventoPartido e : eventos) {
+                    switch (e.getTipoEstadistica()) {
+                        case TIRO_LIBRE: puntos += 1; break;
+                        case DOBLE:      puntos += 2; break;
+                        case TRIPLE:     puntos += 3; break;
+                        case REBOTE:     rebotes++;   break;
+                        case ASISTENCIA: asistencias++; break;
+                        case ROBO:       robos++;     break;
+                        case TAPA:       bloqueos++;  break;
+                        case PERDIDA:
+                        case FALTA_PERSONAL: perdidas++; break;
+                    }
+                }
+
+                double base = puntos + 1.2 * rebotes + 1.5 * asistencias
+                        + 3.0 * robos + 3.0 * bloqueos - 2.0 * perdidas;
+
+                double multiplicador;
+                switch (eqj.getPosicionDelJugador()) {
+                    case CAPITAN:      multiplicador = 2.0; break;
+                    case SEXTO_HOMBRE: multiplicador = 0.8; break;
+                    case SUPLENTE:     multiplicador = 0.5; break;
+                    default:           multiplicador = 1.0; break;
+                }
+
+                total += base * multiplicador;
+            }
+
+            equipo.setPuntaje(total);
+        }
+
+        equipos.sort((a, b) -> Double.compare(b.getPuntaje(), a.getPuntaje()));
+        return equipos.subList(0, Math.min(limite, equipos.size()));
+    }
 
 }
 

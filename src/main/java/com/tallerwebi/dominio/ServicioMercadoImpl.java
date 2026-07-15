@@ -13,11 +13,13 @@ import java.util.List;
 public class ServicioMercadoImpl implements ServicioMercado {
 
     private final RepositorioJugador repositorioJugador;
+    private final RepositorioEventoPartido repositorioEventoPartido;
 
     @Autowired
-    public ServicioMercadoImpl(RepositorioJugador repositorioJugador) {
-
+    public ServicioMercadoImpl(RepositorioJugador repositorioJugador,
+                               RepositorioEventoPartido repositorioEventoPartido) {
         this.repositorioJugador = repositorioJugador;
+        this.repositorioEventoPartido = repositorioEventoPartido;
     }
 
     @Override
@@ -81,5 +83,15 @@ public class ServicioMercadoImpl implements ServicioMercado {
         if (todos == null || todos.isEmpty()) return List.of();
         todos.sort((a, b) -> Double.compare(calcularPuntajeJugador(b), calcularPuntajeJugador(a)));
         return todos.subList(0, Math.min(limite, todos.size()));
+    }
+
+    @Override
+    public List<EventoPartido> buscarEventosPorJugadorYFecha(Long jugadorId, Long fechaId) {
+        return repositorioEventoPartido.buscarEventosPorJugadorYFecha(jugadorId, fechaId);
+    }
+
+    @Override
+    public List<EventoPartido> buscarEventosPorJugadorTorneo(Long jugadorId, Long torneoId) {
+        return repositorioEventoPartido.buscarEventosPorJugadorTorneo(jugadorId, torneoId);
     }
 }
