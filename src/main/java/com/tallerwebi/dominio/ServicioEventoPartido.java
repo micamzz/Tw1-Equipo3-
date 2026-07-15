@@ -16,4 +16,5 @@ public interface ServicioEventoPartido {
     List<EventoPartido> buscarEventosPorPartido(Long idPartido);
 
 
+    void eliminarEventoPorId(Long idEvento) throws EventoNoEncontradoException;
 }

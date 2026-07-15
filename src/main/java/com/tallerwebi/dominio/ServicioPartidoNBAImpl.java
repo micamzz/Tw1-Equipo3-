@@ -319,7 +319,11 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
 
     @Override
     public List<PartidoNBA> obtenerPartidosActivosPorFecha(Long idFecha) {
-        return repositorioPartidoNBA.buscarPartidosActivosPorFecha(idFecha);
+       List<PartidoNBA> partidos = repositorioPartidoNBA.buscarPartidosActivosPorFecha(idFecha);
+       for (PartidoNBA partido : partidos) {
+           calcularPuntaje(partido);
+       }
+       return partidos;
     }
 
     @Override
@@ -329,7 +333,11 @@ public class ServicioPartidoNBAImpl implements ServicioPartidoNBA {
 
     @Override
     public List<PartidoNBA> obtenerPartidosFinalizadosPorFecha(Long idFecha) {
-        return repositorioPartidoNBA.buscarPartidosFinalizadosPorFecha(idFecha);
+       List <PartidoNBA> partidos = repositorioPartidoNBA.buscarPartidosFinalizadosPorFecha(idFecha);
+       for (PartidoNBA partido : partidos) {
+           calcularPuntaje(partido);
+       }
+       return partidos;
     }
 
 
