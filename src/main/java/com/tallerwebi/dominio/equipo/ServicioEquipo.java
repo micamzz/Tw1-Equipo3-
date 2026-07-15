@@ -19,6 +19,8 @@ public interface ServicioEquipo {
      */
     List<EquipoJugador> buscarJugadoresDelEquipo(Long idEquipo) throws FechaNoEncontradaException;
 
+    List<EquipoJugador> buscarTodosLosJugadoresDelEquipo(Long idEquipo);
+
     Equipo buscarEquipoPorId(Long id) throws EquipoNoEncontradoException;
 
     Equipo buscarEquipoPorNombre(String nombre) throws EquipoNoEncontradoException;
