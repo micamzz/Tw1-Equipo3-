@@ -103,5 +103,26 @@ public class ControladorEventoPartido {
         return new ModelAndView("ver-estadisticas", modelo);
     }
 
+    @PostMapping("/admin/partido/{idPartido}/eliminar-evento/{idEvento}")
+    public ModelAndView eliminarEvento(
+            @PathVariable("idPartido") Long idPartido,
+            @PathVariable("idEvento") Long idEvento) {
 
+        try {
+            servicioEventoPartido.eliminarEventoPorId(idEvento);
+
+            return new ModelAndView("redirect:/admin/partido/" + idPartido + "/eventos");
+
+        } catch (EventoNoEncontradoException e) {
+
+            ModelMap modelo = new ModelMap();
+            modelo.put("error", e.getMessage());
+
+            modelo.put("partido", servicioPartidoNBA.obtenerPorId(idPartido));
+            modelo.put("eventos", servicioEventoPartido.buscarEventosPorPartido(idPartido));
+
+            return new ModelAndView("ver-estadisticas", modelo);
+        }
+
+    }
 }

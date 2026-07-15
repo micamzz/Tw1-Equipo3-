@@ -350,6 +350,34 @@ h1 {
     color: #4ade80;
 }
 
+
+
+/* ===================================================
+   ALINEACIÓN DINÁMICA DE LA 'X' DE BORRADO
+   =================================================== */
+
+/* Local: Mantiene el flujo natural (Info a la izquierda, X a la derecha) */
+.evento-local {
+    flex-direction: row;
+}
+
+/* Visitante: Invierte el flujo (X a la izquierda, Info a la derecha) */
+.evento-visitante {
+    flex-direction: row-reverse;
+}
+
+/* Opcional: Como invertimos el flujo del visitante, nos aseguramos de que
+   el texto dentro de su contenido se mantenga alineado hacia la derecha */
+.evento-visitante .evento-contenido {
+    text-align: right;
+    align-items: flex-end; /* Asegura que las etiquetas internas se peguen a la derecha */
+}
+
+
+
+
+
+
 /* Tipografías internas de la cronología */
 .evento-tiempo {
     font-weight: 800;
@@ -472,6 +500,42 @@ h1 {
     background: var(--color-rojo);
     color: white;
 }
+
+/* Asegura que el contenedor alinee la información y la X en los extremos */
+.evento {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+    /* Mantené tus paddings y bordes actuales aquí */
+}
+
+/* Estilo para el botón de la X */
+.btn-eliminar-evento {
+    background: none;
+    border: none;
+    color: var(--color-terciario); /* Gris por defecto */
+    font-size: 1.6rem;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 0.2rem 0.6rem;
+    line-height: 1;
+    transition: color 0.15s ease, transform 0.1s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Efecto Hover: se ilumina de color rojo UNLaM / peligro */
+.btn-eliminar-evento:hover {
+    color: var(--color-rojo);
+    transform: scale(1.2); /* Sutil zoom interactivo */
+}
+
+.btn-eliminar-evento:active {
+    transform: scale(0.9);
+}
+
 
 /* ===================================================
    RESPONSIVE DESIGNS

@@ -211,6 +211,15 @@
                         </span>
                     </div>
 
+                    <form th:action="@{/admin/partido/{idPartido}/eliminar-evento/{idEvento}(idPartido=${partido.id}, idEvento=${evento.id})}"
+                          method="post"
+                          style="margin: 0;">
+                        <button type="submit" class="btn-eliminar-evento"
+                                title="Eliminar evento y corregir estadística">
+                            &times;
+                        </button>
+                    </form>
+
                 </div>
 
             </div>

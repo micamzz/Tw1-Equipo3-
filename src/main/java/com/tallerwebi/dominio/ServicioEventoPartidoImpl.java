@@ -94,7 +94,15 @@ public class ServicioEventoPartidoImpl implements ServicioEventoPartido {
         return repositorioEventoPartido.buscarEventosPorPartido(idPartido);
     }
 
-
+    @Override
+    public void eliminarEventoPorId(Long idEvento) throws EventoNoEncontradoException {
+        EventoPartido evento = repositorioEventoPartido.buscarEventoPorId(idEvento);
+        if (evento != null) {
+            repositorioEventoPartido.eliminarEvento(evento);
+        } else {
+            throw new EventoNoEncontradoException ("No se encontro el evento con id: " + idEvento);
+        }
+    }
 
 
 }

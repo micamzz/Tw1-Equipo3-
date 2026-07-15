@@ -73,6 +73,17 @@ public class RepositorioEventoPartidoImpl implements RepositorioEventoPartido {
                 .list();
     }
 
+    @Override
+    public void eliminarEvento(EventoPartido evento) {
+        sessionFactory.getCurrentSession().delete(evento);
+    }
+
+    @Override
+    public EventoPartido buscarEventoPorId(Long idEvento) {
+        return sessionFactory.getCurrentSession().get(EventoPartido.class, idEvento);
+
+    }
+
 }
 
 
