@@ -64,6 +64,23 @@
         .tabla-historial tr:hover {
             background: rgba(255, 107, 0, 0.06);
         }
+        .card-pasada {
+            background: rgba(20, 20, 20, 0.92);
+            border: 1px solid #2a2a2a;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .card-pasada h3 {
+            color: #ff6b00;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            margin: 0 0 1rem;
+        }
+        .card-pasada .tabla-historial {
+            margin-bottom: 0;
+        }
         .sin-datos-msg {
             color: #666;
             text-align: center;
@@ -87,36 +104,37 @@
     <h1>Historial de <span class="color-naranja" th:text="${torneoActual.nombreTorneo}">Torneo</span></h1>
     <p class="subtitulo">Rendimiento de tus jugadores en cada fecha de la temporada</p>
 
-    <div th:if="${historial == null or historial.isEmpty()}" class="sin-datos-msg">
+    <div th:if="${secciones == null or secciones.isEmpty()}" class="sin-datos-msg">
         No hay datos de fechas anteriores.
     </div>
 
-    <table class="tabla-historial" th:if="${historial != null and !historial.isEmpty()}">
-        <thead>
-        <tr>
-            <th>Fecha</th>
-            <th>Jugador</th>
-            <th>PTS</th>
-            <th>REB</th>
-            <th>AST</th>
-            <th>ROB</th>
-            <th>BLO</th>
-            <th>PER</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="h : ${historial}">
-            <td>Fecha <span th:text="${h.fecha.numeroDeFecha}">1</span></td>
-            <td th:text="${h.jugador.nombre + ' ' + h.jugador.apellido}">Jugador</td>
-            <td th:text="${h.puntos}">0</td>
-            <td th:text="${h.rebotes}">0</td>
-            <td th:text="${h.asistencias}">0</td>
-            <td th:text="${h.robos}">0</td>
-            <td th:text="${h.bloqueos}">0</td>
-            <td th:text="${h.perdidas}">0</td>
-        </tr>
-        </tbody>
-    </table>
+    <div th:each="sec : ${secciones}" class="card-pasada">
+        <h3>Fecha <span th:text="${sec.fecha.numeroDeFecha}">1</span></h3>
+        <table class="tabla-historial">
+            <thead>
+            <tr>
+                <th>Jugador</th>
+                <th>PTS</th>
+                <th>REB</th>
+                <th>AST</th>
+                <th>ROB</th>
+                <th>BLO</th>
+                <th>PER</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="fila : ${sec.filas}">
+                <td th:text="${fila.jugador.nombre + ' ' + fila.jugador.apellido}">Jugador</td>
+                <td th:text="${fila.puntos}">0</td>
+                <td th:text="${fila.rebotes}">0</td>
+                <td th:text="${fila.asistencias}">0</td>
+                <td th:text="${fila.robos}">0</td>
+                <td th:text="${fila.bloqueos}">0</td>
+                <td th:text="${fila.perdidas}">0</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </main>
 
 <div th:replace="layout/footer :: footer"></div>

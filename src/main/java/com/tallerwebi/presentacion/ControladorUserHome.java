@@ -221,13 +221,14 @@ public class ControladorUserHome {
         Torneo torneoActual = servicioTorneo.obtenerTorneoActual(TipoTorneo.REAL);
         Equipo equipo = servicioEquipo.obtenerEquipoPorIdUsuario(usuario.getId());
 
-        List<HashMap<String, Object>> historial = new ArrayList<>();
+        List<HashMap<String, Object>> secciones = new ArrayList<>();
 
         if (equipo != null && torneoActual != null) {
             List<Fecha> todasLasFechas = servicioFecha.obtenerTodasLasFechas();
             List<Fecha> fechasTorneo = new ArrayList<>();
             for (Fecha f : todasLasFechas) {
-                if (f.getTorneo().getId().equals(torneoActual.getId())) {
+                if (f.getTorneo().getId().equals(torneoActual.getId())
+                        && !f.getEstadoFecha().equals(EstadoFecha.PROGRAMADA)) {
                     fechasTorneo.add(f);
                 }
             }
@@ -235,6 +236,8 @@ public class ControladorUserHome {
             List<EquipoJugador> equipoJugadores = servicioEquipo.buscarTodosLosJugadoresDelEquipo(equipo.getId());
 
             for (Fecha fecha : fechasTorneo) {
+                List<HashMap<String, Object>> filas = new ArrayList<>();
+
                 for (EquipoJugador ej : equipoJugadores) {
                     Long jugadorId = ej.getJugador().getId();
                     List<EventoPartido> eventos = servicioMercado.buscarEventosPorJugadorYFecha(jugadorId, fecha.getId());
@@ -254,33 +257,35 @@ public class ControladorUserHome {
                         }
                     }
 
-                    HashMap<String, Object> item = new HashMap<>();
-                    item.put("fecha", fecha);
-                    item.put("jugador", ej.getJugador());
-                    item.put("puntos", p);
-                    item.put("rebotes", r);
-                    item.put("asistencias", a);
-                    item.put("robos", ro);
-                    item.put("bloqueos", bl);
-                    item.put("perdidas", pe);
-                    historial.add(item);
+                    HashMap<String, Object> fila = new HashMap<>();
+                    fila.put("jugador", ej.getJugador());
+                    fila.put("puntos", p);
+                    fila.put("rebotes", r);
+                    fila.put("asistencias", a);
+                    fila.put("robos", ro);
+                    fila.put("bloqueos", bl);
+                    fila.put("perdidas", pe);
+                    filas.add(fila);
                 }
+
+                filas.sort((a, b) -> Integer.compare((int) b.get("puntos"), (int) a.get("puntos")));
+
+                HashMap<String, Object> seccion = new HashMap<>();
+                seccion.put("fecha", fecha);
+                seccion.put("filas", filas);
+                secciones.add(seccion);
             }
 
-            historial.sort((a, b) -> {
-                int cmp = Integer.compare(((Fecha) a.get("fecha")).getNumeroDeFecha(), ((Fecha) b.get("fecha")).getNumeroDeFecha());
-                if (cmp == 0) {
-                    cmp = ((Jugador) a.get("jugador")).getApellido().compareTo(((Jugador) b.get("jugador")).getApellido());
-                }
-                return cmp;
-            });
+            secciones.sort((a, b) -> Integer.compare(
+                    ((Fecha) a.get("fecha")).getNumeroDeFecha(),
+                    ((Fecha) b.get("fecha")).getNumeroDeFecha()));
         }
 
         ModelMap modelo = new ModelMap();
         modelo.put("usuario", usuario);
         modelo.put("equipo", equipo);
         modelo.put("torneoActual", torneoActual);
-        modelo.put("historial", historial);
+        modelo.put("secciones", secciones);
         return new ModelAndView("historial-fechas", modelo);
     }
 
