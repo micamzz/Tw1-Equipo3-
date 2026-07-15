@@ -29,6 +29,17 @@ public class ControladorJugador {
 
         Jugador jugador = servicioMercado.buscarJugadorPorId(id);
         RendimientoJugador rendimiento = servicioMercado.obtenerRendimiento(id);
+
+        if (rendimiento == null) {
+            rendimiento = new RendimientoJugador();
+            rendimiento.setPuntos(0);
+            rendimiento.setRebotes(0);
+            rendimiento.setAsistencias(0);
+            rendimiento.setRobos(0);
+            rendimiento.setBloqueos(0);
+            rendimiento.setPerdidas(0);
+        }
+
         double puntaje = servicioMercado.calcularPuntajeJugador(rendimiento);
         List<RendimientoJugador> rendimientosPorPartido = servicioMercado.obtenerRendimientosPorPartido(id);
 

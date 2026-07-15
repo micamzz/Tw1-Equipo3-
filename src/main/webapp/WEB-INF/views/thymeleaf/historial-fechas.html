@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Historial de fechas</title>
+    <link rel="stylesheet" th:href="@{/css/header.css}"/>
+    <link rel="stylesheet" th:href="@{/css/footer.css}"/>
+    <link rel="stylesheet" th:href="@{/css/home.css}"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet"/>
+    <style>
+        html, body { height: 100%; margin: 0; }
+        body { display: flex; flex-direction: column; background: #0a0a0a; color: #fff; font-family: "Inter", sans-serif; }
+        main { flex: 1; }
+        .historial-page {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        .historial-page h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin: 0 0 0.25rem;
+        }
+        .historial-page .subtitulo {
+            color: #999;
+            margin-bottom: 2rem;
+        }
+        .tabla-historial {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(20, 20, 20, 0.92);
+            border: 1px solid #2a2a2a;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+        .tabla-historial th {
+            background: #1a1a1a;
+            color: #ff6b00;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            padding: 12px 10px;
+            text-align: center;
+            border-bottom: 1px solid #2a2a2a;
+        }
+        .tabla-historial th:first-child {
+            text-align: left;
+            padding-left: 16px;
+        }
+        .tabla-historial td {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid #1a1a1a;
+            font-size: 0.85rem;
+            vertical-align: middle;
+        }
+        .tabla-historial td:first-child {
+            text-align: left;
+            padding-left: 16px;
+            font-weight: 600;
+        }
+        .tabla-historial tr:hover {
+            background: rgba(255, 107, 0, 0.06);
+        }
+        .sin-datos-msg {
+            color: #666;
+            text-align: center;
+            padding: 2rem;
+        }
+        .volver-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #ff6b00;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="layout/header :: header"></div>
+
+<main class="historial-page">
+    <a th:href="@{/home}" class="volver-link"> Volver al inicio</a>
+    <h1>Historial de <span class="color-naranja" th:text="${torneoActual.nombreTorneo}">Torneo</span></h1>
+    <p class="subtitulo">Rendimiento de tus jugadores en cada fecha de la temporada</p>
+
+    <div th:if="${historial == null or historial.isEmpty()}" class="sin-datos-msg">
+        No hay datos de fechas anteriores.
+    </div>
+
+    <table class="tabla-historial" th:if="${historial != null and !historial.isEmpty()}">
+        <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>Jugador</th>
+            <th>PTS</th>
+            <th>REB</th>
+            <th>AST</th>
+            <th>ROB</th>
+            <th>BLO</th>
+            <th>PER</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="h : ${historial}">
+            <td>Fecha <span th:text="${h.fecha.numeroDeFecha}">1</span></td>
+            <td th:text="${h.jugador.nombre + ' ' + h.jugador.apellido}">Jugador</td>
+            <td th:text="${h.puntos}">0</td>
+            <td th:text="${h.rebotes}">0</td>
+            <td th:text="${h.asistencias}">0</td>
+            <td th:text="${h.robos}">0</td>
+            <td th:text="${h.bloqueos}">0</td>
+            <td th:text="${h.perdidas}">0</td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+
+<div th:replace="layout/footer :: footer"></div>
+</body>
+</html>

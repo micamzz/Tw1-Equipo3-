@@ -58,6 +58,21 @@ public class RepositorioEventoPartidoImpl implements RepositorioEventoPartido {
 
     }
 
+    @Override
+    public List<EventoPartido> buscarEventosPorJugadorYFecha(Long jugadorId, Long fechaId) {
+        String hql =
+                "FROM EventoPartido e " +
+                        "WHERE e.jugador.id = :jugadorId " +
+                        "AND e.partido.fecha.id = :fechaId " +
+                        "ORDER BY e.momentoPartido";
+        return sessionFactory
+                .getCurrentSession()
+                .createQuery(hql, EventoPartido.class)
+                .setParameter("jugadorId", jugadorId)
+                .setParameter("fechaId", fechaId)
+                .list();
+    }
+
 }
 
 

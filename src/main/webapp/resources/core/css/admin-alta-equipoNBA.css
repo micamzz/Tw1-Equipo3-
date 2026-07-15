@@ -1,0 +1,235 @@
+:root {
+    --naranja: #ff6b00;
+    --naranja-hover: #e05a00;
+    --fondo: #0a0a0a;
+    --fondo-card: rgba(20, 20, 20, 0.92);
+    --borde: #2a2a2a;
+    --borde-input: #333333;
+    --texto: #ffffff;
+    --texto-muted: #a1a1aa;
+    --radio: 12px;
+    --transition: 0.15s;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+}
+
+body {
+    background: var(--fondo);
+    color: var(--texto);
+    font-family: "Inter", Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main.contenedor-principal {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem 3rem;
+}
+
+.contenedor-form-equipo {
+    width: 100%;
+    max-width: 540px;
+    background: var(--fondo-card);
+    border: 1px solid var(--borde);
+    border-radius: var(--radio);
+    padding: 2.5rem 2rem;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.22);
+}
+
+.encabezado-formulario {
+    margin-bottom: 2rem;
+}
+
+.etiqueta-seccion {
+    color: var(--naranja);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin: 0 0 0.5rem;
+}
+
+.encabezado-formulario h1 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin: 0 0 0.75rem;
+}
+
+.descripcion-formulario {
+    color: var(--texto-muted);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.informacion-torneo {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem 1.25rem;
+    background: rgba(255,255,255,0.03);
+    border-radius: 8px;
+}
+
+.dato-torneo {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.dato-etiqueta {
+    font-size: 0.62rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--texto-muted);
+}
+
+.dato-torneo strong {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--texto);
+}
+
+form {
+    width: 100%;
+}
+
+.campo-formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 1.25rem;
+}
+
+.campo-formulario label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--texto-muted);
+}
+
+.campo-formulario input,
+.campo-formulario select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: #111111;
+    border: 1px solid var(--borde-input);
+    border-radius: 8px;
+    color: var(--texto);
+    font-family: inherit;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color var(--transition);
+}
+
+.campo-formulario input:focus,
+.campo-formulario select:focus {
+    border-color: var(--naranja);
+}
+
+.campo-formulario input::placeholder {
+    color: #6b6b73;
+}
+
+.mensaje-error {
+    color: #fecaca;
+    background: rgba(239,68,68,0.12);
+    border: 1px solid rgba(239,68,68,0.45);
+    margin-bottom: 1.25rem;
+    padding: 0.9rem 1rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.acciones-formulario {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+.boton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.7rem 1.35rem;
+    border: none;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background var(--transition), transform var(--transition);
+}
+
+.boton:hover {
+    transform: translateY(-1px);
+}
+
+.boton:active {
+    transform: scale(0.97);
+}
+
+.boton-primario {
+    background: var(--naranja);
+    color: var(--texto);
+}
+
+.boton-primario:hover {
+    background: var(--naranja-hover);
+}
+
+.boton-secundario {
+    background: transparent;
+    color: var(--texto-muted);
+    border: 1px solid var(--borde);
+}
+
+.boton-secundario:hover {
+    background: rgba(255,255,255,0.04);
+    color: var(--texto);
+}
+
+@media (max-width: 640px) {
+    .contenedor-form-equipo {
+        padding: 1.5rem 1.25rem;
+    }
+
+    .encabezado-formulario h1 {
+        font-size: 1.4rem;
+    }
+
+    .informacion-torneo {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .acciones-formulario {
+        flex-direction: column-reverse;
+    }
+
+    .boton {
+        width: 100%;
+    }
+}
