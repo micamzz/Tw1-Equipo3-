@@ -165,6 +165,10 @@ public class ServicioEquipoImpl implements ServicioEquipo {
         );
     }
 
+    @Override
+    public List<EquipoJugador> buscarTodosLosJugadoresDelEquipo(Long idEquipo) {
+        return repositorioEquipoJugador.buscarPorEquipoId(idEquipo);
+    }
 
     /*  GUARDA AL EQUIPO Y AL JUGADOR EN EQUIPOJUGADOR LLAMANDO AL REPOSITORIO */
     private void guardarRelacionEntreEquipoYJugador(Equipo equipo, Jugador jugador, Integer numeroDeOrden, Fecha fechaActual) {
