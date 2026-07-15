@@ -51,7 +51,7 @@ INSERT INTO Fecha (id, numero_fecha, estado, torneo_id)
 VALUES (1, 1, 'FINALIZADA', 1);
 
 INSERT INTO Fecha (id, numero_fecha, estado, torneo_id)
-VALUES (2, 2, 'EN_CURSO', 1);
+VALUES (2, 2, 'PROGRAMADA', 1);
 
 INSERT INTO Fecha (id, numero_fecha, estado, torneo_id)
 VALUES (3, 3, 'PROGRAMADA', 1);
@@ -341,8 +341,8 @@ VALUES (1, 1, 1),
        (7, 50, 1),
        (7, 56, 1),
        (7, 47, 1),
+       (7, 51, 1),
 -- Dallas Mavericks (equipoNBA_id = 8)
-       (8, 51, 1),
        (8, 52, 1),
        (8, 53, 1),
        (8, 54, 1),
@@ -385,12 +385,16 @@ VALUES (5, 33, 3),
        (8, 55, 3),
        (8, 56, 3);
 
+/* PARTIDOS FECHA 1 (FINALIZADA) */
+INSERT INTO PartidoNBA (id, equipoLocal_id, equipoVisitante_id, horaInicio, minutoFin, torneo_id, estadoPartido, fecha_id)
+VALUES (48, 1, 2, '2026-07-09 19:00:00', 48, 1, 'FINALIZADO', 1),
+       (49, 3, 4, '2026-07-09 21:00:00', 48, 1, 'FINALIZADO', 1);
 
 /*  PROXIMOS PARTIDOS  SABADO  18 DE JULIO -- FECHA 2  */
 INSERT INTO PartidoNBA (id, equipoLocal_id, equipoVisitante_id, horaInicio, minutoFin, torneo_id, estadoPartido,
                         fecha_id)
-VALUES (50, 3, 7, '2026-07-18 19:00:00', NULL, 1, 'PROGRAMADO', 2),
-       (51, 4, 2, '2026-07-18 21:00:00', NULL, 1, 'PROGRAMADO', 2);
+VALUES (50, 3, 7, '2026-07-16 19:00:00', NULL, 1, 'PROGRAMADO', 2),
+       (51, 4, 2, '2026-07-16 21:00:00', NULL, 1, 'PROGRAMADO', 2);
 
 /* PARTIDOS DOMINGO 19 DE JULIO */
 INSERT INTO PartidoNBA (id, equipoLocal_id, equipoVisitante_id, horaInicio, minutoFin, torneo_id, estadoPartido,
