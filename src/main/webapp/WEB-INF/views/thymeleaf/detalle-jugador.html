@@ -98,11 +98,11 @@
     <div class="stats-detalle" th:if="${rendimientosPorPartido != null and !rendimientosPorPartido.isEmpty()}">
         <h2 class="seccion-titulo">Estadísticas por Partido (Temporada Actual)</h2>
         <div class="stats-tabla">
-            <div class="stats-fila header">
+            <div class="stats-fila-partido header">
                 <span>FECHA</span><span>RIVAL</span><span>PTS</span><span>REB</span>
                 <span>AST</span><span>ROB</span><span>BLO</span><span>PER</span>
             </div>
-           <div class="stats-fila" th:each="rp : ${rendimientosPorPartido}">
+           <div class="stats-fila-partido" th:each="rp : ${rendimientosPorPartido}">
                <span th:text="${rp.partidoNBA.fechaFormateada}"> - </span>
                <span th:text="${rp.partidoNBA.equipoVisitante.nombre}">-</span>
                <span th:text="${rp.puntos}">0</span>
