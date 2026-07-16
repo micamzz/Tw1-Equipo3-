@@ -135,7 +135,7 @@
             </div>
 
             <div class="card-lateral" th:if="${not #lists.isEmpty(topEquipos)}">
-                <h3 class="titulo-lateral">TOP EQUIPOS</h3>
+                <h3 class="titulo-lateral">TOP EQUIPOS DEL TORNEO</h3>
                 <ol class="lista-ranking">
                     <li th:each="equipo : ${topEquipos}" class="item-ranking">
                         <span class="ranking-usuario" th:text="${equipo.usuario.nombre}">Usuario</span>
@@ -144,6 +144,19 @@
                               th:text="${#numbers.formatDecimal(equipo.puntaje, 1, 1)}">0.0</span>
                     </li>
                 </ol>
+            </div>
+
+            <div class="card-lateral" th:if="${not #lists.isEmpty(topEquiposFecha)}">
+                <h3 class="titulo-lateral">TOP EQUIPOS DE LA FECHA</h3>
+                <ol class="lista-ranking">
+                    <li th:each="equipo : ${topEquiposFecha}" class="item-ranking">
+                        <span class="ranking-usuario" th:text="${equipo.usuario.nombre}">Usuario</span>
+                        <span class="ranking-nombre" th:text="${equipo.nombreEquipo}">Equipo</span>
+                        <span class="ranking-puntaje"
+                              th:text="${#numbers.formatDecimal(equipo.puntaje, 1, 1)}">0.0</span>
+                    </li>
+                </ol>
+                <a th:href="@{/historial-fechas}" class="link-ver-todo">Ver historial del torneo</a>
             </div>
         </aside>
     </section>

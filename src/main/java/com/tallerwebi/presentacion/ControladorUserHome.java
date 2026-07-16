@@ -106,6 +106,14 @@ public class ControladorUserHome {
 
         modelo.put("topEquipos", topEquipos);
 
+        List<Equipo> topEquiposFecha = List.of();
+        try {
+            Fecha fechaActual = servicioFecha.obtenerFechaActual();
+            topEquiposFecha = servicioEquipo.obtenerTopEquiposPorFecha(fechaActual.getId(), 5);
+        } catch (Exception ignored) {
+        }
+        modelo.put("topEquiposFecha", topEquiposFecha);
+
         return new ModelAndView("home", modelo);
     }
 
@@ -117,20 +125,43 @@ public class ControladorUserHome {
         Torneo torneoActual = servicioTorneo.obtenerTorneoActual(TipoTorneo.REAL);
         if (torneoActual == null) return new ModelAndView("redirect:/home");
 
+        Fecha fechaActual = servicioFecha.obtenerFechaActual();
+
         Equipo equipo = servicioEquipo.obtenerEquipoPorIdUsuario(usuario.getId());
 
         List<HashMap<String, Object>> jugadoresConStats = new ArrayList<>();
 
-        if (equipo != null) {
+        if (equipo != null && fechaActual != null) {
             List<EquipoJugador> equipoJugadores = servicioEquipo.buscarJugadoresDelEquipo(equipo.getId());
 
             for (EquipoJugador ej : equipoJugadores) {
-                RendimientoJugador rend = servicioMercado.obtenerRendimientoPorJugadorYTorneo(ej.getJugador().getId(), torneoActual.getId());
-                if (rend == null) continue;
+                Long jugadorId = ej.getJugador().getId();
+                List<EventoPartido> eventos = servicioMercado.buscarEventosPorJugadorYFecha(jugadorId, fechaActual.getId());
+
+                int p = 0, r = 0, a = 0, ro = 0, bl = 0, pe = 0;
+                for (EventoPartido ev : eventos) {
+                    switch (ev.getTipoEstadistica()) {
+                        case TIRO_LIBRE: p += 1; break;
+                        case DOBLE:      p += 2; break;
+                        case TRIPLE:     p += 3; break;
+                        case REBOTE:     r++;     break;
+                        case ASISTENCIA: a++;     break;
+                        case ROBO:       ro++;    break;
+                        case TAPA:       bl++;    break;
+                        case PERDIDA:
+                        case FALTA_PERSONAL: pe++; break;
+                    }
+                }
 
                 HashMap<String, Object> item = new HashMap<>();
                 item.put("jugador", ej.getJugador());
-                item.put("rend", rend);
+                item.put("puntos", p);
+                item.put("rebotes", r);
+                item.put("asistencias", a);
+                item.put("robos", ro);
+                item.put("bloqueos", bl);
+                item.put("perdidas", pe);
+
                 PosicionJugadorEquipo rolEnum = ej.getPosicionDelJugador();
                 String mostrarNombre;
                 switch (rolEnum) {
@@ -148,7 +179,8 @@ public class ControladorUserHome {
                         break;
                 }
                 item.put("rol", mostrarNombre);
-                double base = servicioMercado.calcularPuntajeJugador(rend);
+
+                double base = p + 1.2 * r + 1.5 * a + 3.0 * ro + 3.0 * bl - 2.0 * pe;
                 double multiplicador;
                 switch (rolEnum) {
                     case CAPITAN:
@@ -172,18 +204,89 @@ public class ControladorUserHome {
             jugadoresConStats.sort((a, b) -> Double.compare((Double) b.get("puntaje"), (Double) a.get("puntaje")));
         }
 
-        List<Torneo> torneosReales = servicioTorneo.obtenerTodosLosTorneos().stream()
-                .filter(t -> t.getTipoTorneo() == TipoTorneo.REAL && !t.getId().equals(torneoActual.getId()))
-                .collect(Collectors.toList());
+        ModelMap modelo = new ModelMap();
+        modelo.put("usuario", usuario);
+        modelo.put("equipo", equipo);
+        modelo.put("torneoActual", torneoActual);
+        modelo.put("fechaActual", fechaActual);
+        modelo.put("jugadoresConStats", jugadoresConStats);
+        return new ModelAndView("estadisticas-jugadores-torneo", modelo);
+    }
+
+    @GetMapping("/historial-fechas")
+    public ModelAndView verHistorialFechas(HttpServletRequest request) throws FechaNoEncontradaException {
+        Usuario usuario = (Usuario) request.getSession().getAttribute("usuario");
+        if (usuario == null) return new ModelAndView("redirect:/login");
+
+        Torneo torneoActual = servicioTorneo.obtenerTorneoActual(TipoTorneo.REAL);
+        Equipo equipo = servicioEquipo.obtenerEquipoPorIdUsuario(usuario.getId());
+
+        List<HashMap<String, Object>> secciones = new ArrayList<>();
+
+        if (equipo != null && torneoActual != null) {
+            List<Fecha> todasLasFechas = servicioFecha.obtenerTodasLasFechas();
+            List<Fecha> fechasTorneo = new ArrayList<>();
+            for (Fecha f : todasLasFechas) {
+                if (f.getTorneo().getId().equals(torneoActual.getId())
+                        && !f.getEstadoFecha().equals(EstadoFecha.PROGRAMADA)) {
+                    fechasTorneo.add(f);
+                }
+            }
+
+            List<EquipoJugador> equipoJugadores = servicioEquipo.buscarTodosLosJugadoresDelEquipo(equipo.getId());
+
+            for (Fecha fecha : fechasTorneo) {
+                List<HashMap<String, Object>> filas = new ArrayList<>();
+
+                for (EquipoJugador ej : equipoJugadores) {
+                    Long jugadorId = ej.getJugador().getId();
+                    List<EventoPartido> eventos = servicioMercado.buscarEventosPorJugadorYFecha(jugadorId, fecha.getId());
+
+                    int p = 0, r = 0, a = 0, ro = 0, bl = 0, pe = 0;
+                    for (EventoPartido ev : eventos) {
+                        switch (ev.getTipoEstadistica()) {
+                            case TIRO_LIBRE: p += 1; break;
+                            case DOBLE:      p += 2; break;
+                            case TRIPLE:     p += 3; break;
+                            case REBOTE:     r++;     break;
+                            case ASISTENCIA: a++;     break;
+                            case ROBO:       ro++;    break;
+                            case TAPA:       bl++;    break;
+                            case PERDIDA:
+                            case FALTA_PERSONAL: pe++; break;
+                        }
+                    }
+
+                    HashMap<String, Object> fila = new HashMap<>();
+                    fila.put("jugador", ej.getJugador());
+                    fila.put("puntos", p);
+                    fila.put("rebotes", r);
+                    fila.put("asistencias", a);
+                    fila.put("robos", ro);
+                    fila.put("bloqueos", bl);
+                    fila.put("perdidas", pe);
+                    filas.add(fila);
+                }
+
+                filas.sort((a, b) -> Integer.compare((int) b.get("puntos"), (int) a.get("puntos")));
+
+                HashMap<String, Object> seccion = new HashMap<>();
+                seccion.put("fecha", fecha);
+                seccion.put("filas", filas);
+                secciones.add(seccion);
+            }
+
+            secciones.sort((a, b) -> Integer.compare(
+                    ((Fecha) a.get("fecha")).getNumeroDeFecha(),
+                    ((Fecha) b.get("fecha")).getNumeroDeFecha()));
+        }
 
         ModelMap modelo = new ModelMap();
         modelo.put("usuario", usuario);
         modelo.put("equipo", equipo);
         modelo.put("torneoActual", torneoActual);
-        modelo.put("jugadoresConStats", jugadoresConStats);
-        modelo.put("torneosPasados", torneosReales);
-        modelo.put("servicioMercado", servicioMercado);
-        return new ModelAndView("estadisticas-jugadores-torneo", modelo);
+        modelo.put("secciones", secciones);
+        return new ModelAndView("historial-fechas", modelo);
     }
 
     @GetMapping("/perfil")

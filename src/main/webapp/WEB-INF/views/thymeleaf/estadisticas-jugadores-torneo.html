@@ -148,9 +148,8 @@
 
 <main class="estadisticas-page">
     <a th:href="@{/home}" class="volver-link"> Volver al inicio</a>
-    <h1>Mis jugadores en <span class="color-naranja" th:text="${torneoActual.nombreTorneo}">Torneo</span></h1>
-    <p class="subtitulo">Rendimiento de tus jugadores en <strong th:text="${torneoActual.nombreTorneo}">Torneo</strong>
-    </p>
+    <h1>Mis jugadores en la <span class="color-naranja">Fecha <span th:text="${fechaActual.numeroDeFecha}">1</span></span></h1>
+    <p class="subtitulo">Rendimiento de tus jugadores en la fecha actual</p>
 
     <table class="tabla-estadisticas" th:if="${jugadoresConStats != null and !jugadoresConStats.isEmpty()}">
         <thead>
@@ -171,31 +170,30 @@
             <td>
                 <span class="jugador-nombre">
                     <img th:if="${item.jugador.foto}" th:src="${item.jugador.foto}" alt="" class="jugador-foto"/>
-                    <span th:text="${item.rend.nombreCompleto != null ? item.rend.nombreCompleto : (item.jugador.nombre + ' ' + item.jugador.apellido)}">Jugador</span>
+                    <span th:text="${item.jugador.nombre + ' ' + item.jugador.apellido}">Jugador</span>
                 </span>
             </td>
             <td class="rol-col" th:text="${item.rol}">TITULAR</td>
-            <td th:text="${item.rend.puntos}">0</td>
-            <td th:text="${item.rend.rebotes}">0</td>
-            <td th:text="${item.rend.asistencias}">0</td>
-            <td th:text="${item.rend.robos}">0</td>
-            <td th:text="${item.rend.bloqueos}">0</td>
-            <td th:text="${item.rend.perdidas}">0</td>
+            <td th:text="${item.puntos}">0</td>
+            <td th:text="${item.rebotes}">0</td>
+            <td th:text="${item.asistencias}">0</td>
+            <td th:text="${item.robos}">0</td>
+            <td th:text="${item.bloqueos}">0</td>
+            <td th:text="${item.perdidas}">0</td>
             <td class="puntaje-col" th:text="${#numbers.formatDecimal(item.puntaje, 1, 1)}">0.0</td>
         </tr>
         </tbody>
     </table>
 
     <div class="sin-datos-msg" th:if="${jugadoresConStats == null or jugadoresConStats.isEmpty()}">
-        No tienes jugadores en tu equipo. <a th:href="@{/mercado}" class="link-ver-todo">Ir al mercado</a>
+        No tienes jugadores en tu equipo o no hay partidos en la fecha actual. <a th:href="@{/mercado}" class="link-ver-todo">Ir al mercado</a>
     </div>
 
-    <div class="seccion-pasada" th:if="${torneosPasados != null and !torneosPasados.isEmpty()}">
-        <h2>Temporadas pasadas</h2>
-        <div class="card-pasada" th:each="pasado : ${torneosPasados}">
-            <h3 th:text="${pasado.nombreTorneo}">Torneo pasado</h3>
-            <p class="sin-datos-msg">Datos de temporadas anteriores próximamente.</p>
-        </div>
+    <div style="margin-top: 2rem; text-align: center;">
+        <a th:href="@{/historial-fechas}" class="boton boton-secundario"
+           style="display: inline-block; padding: 10px 24px; border-radius: 8px; background: #ff6b00; color: #fff; font-weight: 700; text-decoration: none;">
+            Ver historial completo de fechas
+        </a>
     </div>
 </main>
 

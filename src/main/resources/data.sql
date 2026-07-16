@@ -6,6 +6,7 @@ TRUNCATE TABLE RendimientoJugador;
 TRUNCATE TABLE EquipoJugador;
 TRUNCATE TABLE EquipoNBAJugador;
 TRUNCATE TABLE CronologiaNBA;
+TRUNCATE TABLE EventoPartido;
 TRUNCATE TABLE PartidoNBA;
 TRUNCATE TABLE Equipo;
 TRUNCATE TABLE EquipoNBA;
@@ -51,7 +52,7 @@ INSERT INTO Fecha (id, numero_fecha, estado, torneo_id)
 VALUES (1, 1, 'FINALIZADA', 1);
 
 INSERT INTO Fecha (id, numero_fecha, estado, torneo_id)
-VALUES (2, 2, 'EN_CURSO', 1);
+VALUES (2, 2, 'PROGRAMADA', 1);
 
 INSERT INTO Fecha (id, numero_fecha, estado, torneo_id)
 VALUES (3, 3, 'PROGRAMADA', 1);
@@ -303,6 +304,8 @@ VALUES (1, 1, 1),
        (2, 11, 1),
        (2, 12, 1),
        (2, 13, 1),
+       (2, 14, 1),
+       (2, 15, 1),
        (2, 16, 1),
        (2, 38, 1),
        (2, 39, 1),
@@ -341,8 +344,8 @@ VALUES (1, 1, 1),
        (7, 50, 1),
        (7, 56, 1),
        (7, 47, 1),
+       (7, 51, 1),
 -- Dallas Mavericks (equipoNBA_id = 8)
-       (8, 51, 1),
        (8, 52, 1),
        (8, 53, 1),
        (8, 54, 1),
@@ -385,12 +388,16 @@ VALUES (5, 33, 3),
        (8, 55, 3),
        (8, 56, 3);
 
+/* PARTIDOS FECHA 1 (FINALIZADA) */
+INSERT INTO PartidoNBA (id, equipoLocal_id, equipoVisitante_id, horaInicio, minutoFin, torneo_id, estadoPartido, fecha_id)
+VALUES (48, 1, 2, '2026-07-09 19:00:00', 48, 1, 'FINALIZADO', 1),
+       (49, 3, 4, '2026-07-09 21:00:00', 48, 1, 'FINALIZADO', 1);
 
 /*  PROXIMOS PARTIDOS  SABADO  18 DE JULIO -- FECHA 2  */
 INSERT INTO PartidoNBA (id, equipoLocal_id, equipoVisitante_id, horaInicio, minutoFin, torneo_id, estadoPartido,
                         fecha_id)
-VALUES (50, 3, 7, '2026-07-18 19:00:00', NULL, 1, 'PROGRAMADO', 2),
-       (51, 4, 2, '2026-07-18 21:00:00', NULL, 1, 'PROGRAMADO', 2);
+VALUES (50, 3, 7, '2026-07-16 19:00:00', NULL, 1, 'PROGRAMADO', 2),
+       (51, 4, 2, '2026-07-16 21:00:00', NULL, 1, 'PROGRAMADO', 2);
 
 /* PARTIDOS DOMINGO 19 DE JULIO */
 INSERT INTO PartidoNBA (id, equipoLocal_id, equipoVisitante_id, horaInicio, minutoFin, torneo_id, estadoPartido,
@@ -465,6 +472,224 @@ VALUES
     (48, 8, 'SUPLENTE', 5, 48, 2),
     (49, 9, 'SUPLENTE', 5, 49, 2),
     (50, 10, 'SUPLENTE', 5, 50, 2);
+
+/* PARTIDOS FECHA 1 (FINALIZADA) */
+INSERT INTO PartidoNBA (id, equipoLocal_id, equipoVisitante_id, horaInicio, minutoFin, torneo_id, estadoPartido, fecha_id)
+VALUES (1, 3, 2, '2026-07-11 20:00:00', 48, 1, 'FINALIZADO', 1),
+       (2, 1, 4, '2026-07-11 22:00:00', 48, 1, 'FINALIZADO', 1);
+
+/* EVENTOS PARTIDO 1: Lakers (3) vs Celtics (2) */
+-- LeBron James (17, Lakers, local)
+INSERT INTO EventoPartido (id, partido_id, momentoPartido, jugador_id, tipoEstadistica, esLocal)
+VALUES (1, 1, '12:00:00', 17, 'DOBLE', true),
+       (2, 1, '12:00:00', 17, 'REBOTE', true),
+       (3, 1, '12:00:00', 17, 'ASISTENCIA', true),
+       (4, 1, '12:00:00', 17, 'TRIPLE', true),
+       (5, 1, '12:00:00', 17, 'DOBLE', true),
+       (6, 1, '12:00:00', 17, 'REBOTE', true),
+       (7, 1, '12:00:00', 17, 'DOBLE', true),
+       (8, 1, '12:00:00', 17, 'ASISTENCIA', true),
+       (9, 1, '12:00:00', 17, 'DOBLE', true),
+       (10, 1, '12:00:00', 17, 'REBOTE', true),
+       (11, 1, '12:00:00', 17, 'TRIPLE', true),
+       (12, 1, '12:00:00', 17, 'ROBO', true),
+       (13, 1, '12:00:00', 17, 'TAPA', true),
+       (14, 1, '12:00:00', 17, 'PERDIDA', true),
+       (15, 1, '12:00:00', 17, 'DOBLE', true),
+       (16, 1, '12:00:00', 17, 'ASISTENCIA', true),
+       (17, 1, '12:00:00', 17, 'REBOTE', true),
+       (18, 1, '12:00:00', 17, 'REBOTE', true),
+       (19, 1, '12:00:00', 17, 'DOBLE', true),
+       (20, 1, '12:00:00', 17, 'PERDIDA', true),
+       (21, 1, '12:00:00', 17, 'TRIPLE', true),
+       (22, 1, '12:00:00', 17, 'DOBLE', true),
+       (23, 1, '12:00:00', 17, 'PERDIDA', true),
+       (24, 1, '12:00:00', 17, 'TIRO_LIBRE', true),
+       (25, 1, '12:00:00', 17, 'TIRO_LIBRE', true);
+-- Luka Doncic (18, Lakers, local)
+INSERT INTO EventoPartido (id, partido_id, momentoPartido, jugador_id, tipoEstadistica, esLocal)
+VALUES (26, 1, '12:00:00', 18, 'TRIPLE', true),
+       (27, 1, '12:00:00', 18, 'DOBLE', true),
+       (28, 1, '12:00:00', 18, 'REBOTE', true),
+       (29, 1, '12:00:00', 18, 'ASISTENCIA', true),
+       (30, 1, '12:00:00', 18, 'TRIPLE', true),
+       (31, 1, '12:00:00', 18, 'DOBLE', true),
+       (32, 1, '12:00:00', 18, 'REBOTE', true),
+       (33, 1, '12:00:00', 18, 'DOBLE', true),
+       (34, 1, '12:00:00', 18, 'ASISTENCIA', true),
+       (35, 1, '12:00:00', 18, 'TRIPLE', true),
+       (36, 1, '12:00:00', 18, 'DOBLE', true),
+       (37, 1, '12:00:00', 18, 'ASISTENCIA', true),
+       (38, 1, '12:00:00', 18, 'REBOTE', true),
+       (39, 1, '12:00:00', 18, 'DOBLE', true),
+       (40, 1, '12:00:00', 18, 'PERDIDA', true),
+       (41, 1, '12:00:00', 18, 'REBOTE', true),
+       (42, 1, '12:00:00', 18, 'DOBLE', true),
+       (43, 1, '12:00:00', 18, 'ASISTENCIA', true),
+       (44, 1, '12:00:00', 18, 'REBOTE', true),
+       (45, 1, '12:00:00', 18, 'PERDIDA', true),
+       (46, 1, '12:00:00', 18, 'ROBO', true),
+       (47, 1, '12:00:00', 18, 'DOBLE', true),
+       (48, 1, '12:00:00', 18, 'PERDIDA', true),
+       (49, 1, '12:00:00', 18, 'TIRO_LIBRE', true),
+       (50, 1, '12:00:00', 18, 'TIRO_LIBRE', true),
+       (51, 1, '12:00:00', 18, 'TIRO_LIBRE', true);
+-- Austin Reaves (19, Lakers, local)
+INSERT INTO EventoPartido (id, partido_id, momentoPartido, jugador_id, tipoEstadistica, esLocal)
+VALUES (52, 1, '12:00:00', 19, 'DOBLE', true),
+       (53, 1, '12:00:00', 19, 'TRIPLE', true),
+       (54, 1, '12:00:00', 19, 'ASISTENCIA', true),
+       (55, 1, '12:00:00', 19, 'REBOTE', true),
+       (56, 1, '12:00:00', 19, 'DOBLE', true),
+       (57, 1, '12:00:00', 19, 'DOBLE', true),
+       (58, 1, '12:00:00', 19, 'TRIPLE', true),
+       (59, 1, '12:00:00', 19, 'ASISTENCIA', true),
+       (60, 1, '12:00:00', 19, 'REBOTE', true),
+       (61, 1, '12:00:00', 19, 'DOBLE', true),
+       (62, 1, '12:00:00', 19, 'ROBO', true),
+       (63, 1, '12:00:00', 19, 'PERDIDA', true),
+       (64, 1, '12:00:00', 19, 'DOBLE', true),
+       (65, 1, '12:00:00', 19, 'REBOTE', true),
+       (66, 1, '12:00:00', 19, 'TIRO_LIBRE', true),
+       (67, 1, '12:00:00', 19, 'TIRO_LIBRE', true);
+-- Jayson Tatum (10, Celtics, visitor)
+INSERT INTO EventoPartido (id, partido_id, momentoPartido, jugador_id, tipoEstadistica, esLocal)
+VALUES (68, 1, '12:00:00', 10, 'DOBLE', false),
+       (69, 1, '12:00:00', 10, 'TRIPLE', false),
+       (70, 1, '12:00:00', 10, 'REBOTE', false),
+       (71, 1, '12:00:00', 10, 'ASISTENCIA', false),
+       (72, 1, '12:00:00', 10, 'DOBLE', false),
+       (73, 1, '12:00:00', 10, 'DOBLE', false),
+       (74, 1, '12:00:00', 10, 'REBOTE', false),
+       (75, 1, '12:00:00', 10, 'TRIPLE', false),
+       (76, 1, '12:00:00', 10, 'ASISTENCIA', false),
+       (77, 1, '12:00:00', 10, 'TAPA', false),
+       (78, 1, '12:00:00', 10, 'PERDIDA', false),
+       (79, 1, '12:00:00', 10, 'DOBLE', false),
+       (80, 1, '12:00:00', 10, 'REBOTE', false),
+       (81, 1, '12:00:00', 10, 'TIRO_LIBRE', false),
+       (82, 1, '12:00:00', 10, 'TIRO_LIBRE', false);
+-- Payton Pritchard (11, Celtics, visitor)
+INSERT INTO EventoPartido (id, partido_id, momentoPartido, jugador_id, tipoEstadistica, esLocal)
+VALUES (83, 1, '12:00:00', 11, 'DOBLE', false),
+       (84, 1, '12:00:00', 11, 'TRIPLE', false),
+       (85, 1, '12:00:00', 11, 'REBOTE', false),
+       (86, 1, '12:00:00', 11, 'ASISTENCIA', false),
+       (87, 1, '12:00:00', 11, 'DOBLE', false),
+       (88, 1, '12:00:00', 11, 'DOBLE', false),
+       (89, 1, '12:00:00', 11, 'REBOTE', false),
+       (90, 1, '12:00:00', 11, 'TRIPLE', false),
+       (91, 1, '12:00:00', 11, 'ASISTENCIA', false),
+       (92, 1, '12:00:00', 11, 'PERDIDA', false),
+       (93, 1, '12:00:00', 11, 'ROBO', false),
+       (94, 1, '12:00:00', 11, 'TIRO_LIBRE', false);
+-- Jrue Holiday (16, Celtics, visitor)
+INSERT INTO EventoPartido (id, partido_id, momentoPartido, jugador_id, tipoEstadistica, esLocal)
+VALUES (95, 1, '12:00:00', 16, 'DOBLE', false),
+       (96, 1, '12:00:00', 16, 'DOBLE', false),
+       (97, 1, '12:00:00', 16, 'REBOTE', false),
+       (98, 1, '12:00:00', 16, 'ASISTENCIA', false),
+       (99, 1, '12:00:00', 16, 'DOBLE', false),
+       (100, 1, '12:00:00', 16, 'TRIPLE', false);
+
+-- Derrick White (12, Celtics, visitor)
+INSERT INTO EventoPartido (id, partido_id, momentoPartido, jugador_id, tipoEstadistica, esLocal)
+VALUES (146, 1, '12:00:00', 12, 'DOBLE', false),
+       (147, 1, '12:00:00', 12, 'TRIPLE', false),
+       (148, 1, '12:00:00', 12, 'REBOTE', false),
+       (149, 1, '12:00:00', 12, 'ASISTENCIA', false),
+       (150, 1, '12:00:00', 12, 'DOBLE', false),
+       (151, 1, '12:00:00', 12, 'ROBO', false),
+       (152, 1, '12:00:00', 12, 'TIRO_LIBRE', false);
+-- Al Horford (13, Celtics, visitor)
+INSERT INTO EventoPartido (id, partido_id, momentoPartido, jugador_id, tipoEstadistica, esLocal)
+VALUES (153, 1, '12:00:00', 13, 'DOBLE', false),
+       (154, 1, '12:00:00', 13, 'REBOTE', false),
+       (155, 1, '12:00:00', 13, 'REBOTE', false),
+       (156, 1, '12:00:00', 13, 'ASISTENCIA', false),
+       (157, 1, '12:00:00', 13, 'TRIPLE', false),
+       (158, 1, '12:00:00', 13, 'TAPA', false),
+       (159, 1, '12:00:00', 13, 'PERDIDA', false);
+-- Neemias Queta (14, Celtics, visitor)
+INSERT INTO EventoPartido (id, partido_id, momentoPartido, jugador_id, tipoEstadistica, esLocal)
+VALUES (160, 1, '12:00:00', 14, 'DOBLE', false),
+       (161, 1, '12:00:00', 14, 'REBOTE', false),
+       (162, 1, '12:00:00', 14, 'TAPA', false),
+       (163, 1, '12:00:00', 14, 'DOBLE', false),
+       (164, 1, '12:00:00', 14, 'REBOTE', false),
+       (165, 1, '12:00:00', 14, 'PERDIDA', false);
+-- Sam Hauser (15, Celtics, visitor)
+INSERT INTO EventoPartido (id, partido_id, momentoPartido, jugador_id, tipoEstadistica, esLocal)
+VALUES (166, 1, '12:00:00', 15, 'TRIPLE', false),
+       (167, 1, '12:00:00', 15, 'REBOTE', false),
+       (168, 1, '12:00:00', 15, 'DOBLE', false),
+       (169, 1, '12:00:00', 15, 'ASISTENCIA', false),
+       (170, 1, '12:00:00', 15, 'TIRO_LIBRE', false);
+-- Rui Hachimura (20, Lakers, local)
+INSERT INTO EventoPartido (id, partido_id, momentoPartido, jugador_id, tipoEstadistica, esLocal)
+VALUES (171, 1, '12:00:00', 20, 'DOBLE', true),
+       (172, 1, '12:00:00', 20, 'REBOTE', true),
+       (173, 1, '12:00:00', 20, 'DOBLE', true),
+       (174, 1, '12:00:00', 20, 'TRIPLE', true),
+       (175, 1, '12:00:00', 20, 'REBOTE', true),
+       (176, 1, '12:00:00', 20, 'ASISTENCIA', true),
+       (177, 1, '12:00:00', 20, 'TIRO_LIBRE', true),
+       (178, 1, '12:00:00', 20, 'TIRO_LIBRE', true);
+
+/* EVENTOS PARTIDO 2: Warriors (1) vs Heat (4) */
+-- Stephen Curry (1, Warriors, local)
+INSERT INTO EventoPartido (id, partido_id, momentoPartido, jugador_id, tipoEstadistica, esLocal)
+VALUES (101, 2, '12:00:00', 1, 'TRIPLE', true),
+       (102, 2, '12:00:00', 1, 'DOBLE', true),
+       (103, 2, '12:00:00', 1, 'ASISTENCIA', true),
+       (104, 2, '12:00:00', 1, 'TRIPLE', true),
+       (105, 2, '12:00:00', 1, 'REBOTE', true),
+       (106, 2, '12:00:00', 1, 'DOBLE', true),
+       (107, 2, '12:00:00', 1, 'TRIPLE', true),
+       (108, 2, '12:00:00', 1, 'DOBLE', true),
+       (109, 2, '12:00:00', 1, 'ASISTENCIA', true),
+       (110, 2, '12:00:00', 1, 'ROBO', true),
+       (111, 2, '12:00:00', 1, 'PERDIDA', true),
+       (112, 2, '12:00:00', 1, 'DOBLE', true),
+       (113, 2, '12:00:00', 1, 'TIRO_LIBRE', true);
+-- Kevin Durant (34, Warriors, local)
+INSERT INTO EventoPartido (id, partido_id, momentoPartido, jugador_id, tipoEstadistica, esLocal)
+VALUES (114, 2, '12:00:00', 34, 'DOBLE', true),
+       (115, 2, '12:00:00', 34, 'TRIPLE', true),
+       (116, 2, '12:00:00', 34, 'REBOTE', true),
+       (117, 2, '12:00:00', 34, 'ASISTENCIA', true),
+       (118, 2, '12:00:00', 34, 'DOBLE', true),
+       (119, 2, '12:00:00', 34, 'REBOTE', true),
+       (120, 2, '12:00:00', 34, 'DOBLE', true),
+       (121, 2, '12:00:00', 34, 'TAPA', true),
+       (122, 2, '12:00:00', 34, 'DOBLE', true),
+       (123, 2, '12:00:00', 34, 'PERDIDA', true),
+       (124, 2, '12:00:00', 34, 'TIRO_LIBRE', true),
+       (125, 2, '12:00:00', 34, 'TIRO_LIBRE', true);
+-- Bam Adebayo (25, Heat, visitor)
+INSERT INTO EventoPartido (id, partido_id, momentoPartido, jugador_id, tipoEstadistica, esLocal)
+VALUES (126, 2, '12:00:00', 25, 'DOBLE', false),
+       (127, 2, '12:00:00', 25, 'REBOTE', false),
+       (128, 2, '12:00:00', 25, 'ASISTENCIA', false),
+       (129, 2, '12:00:00', 25, 'DOBLE', false),
+       (130, 2, '12:00:00', 25, 'REBOTE', false),
+       (131, 2, '12:00:00', 25, 'DOBLE', false),
+       (132, 2, '12:00:00', 25, 'TAPA', false),
+       (133, 2, '12:00:00', 25, 'ROBO', false),
+       (134, 2, '12:00:00', 25, 'PERDIDA', false),
+       (135, 2, '12:00:00', 25, 'TIRO_LIBRE', false);
+-- Tyler Herro (26, Heat, visitor)
+INSERT INTO EventoPartido (id, partido_id, momentoPartido, jugador_id, tipoEstadistica, esLocal)
+VALUES (136, 2, '12:00:00', 26, 'DOBLE', false),
+       (137, 2, '12:00:00', 26, 'TRIPLE', false),
+       (138, 2, '12:00:00', 26, 'REBOTE', false),
+       (139, 2, '12:00:00', 26, 'ASISTENCIA', false),
+       (140, 2, '12:00:00', 26, 'DOBLE', false),
+       (141, 2, '12:00:00', 26, 'DOBLE', false),
+       (142, 2, '12:00:00', 26, 'REBOTE', false),
+       (143, 2, '12:00:00', 26, 'TRIPLE', false),
+       (144, 2, '12:00:00', 26, 'PERDIDA', false),
+       (145, 2, '12:00:00', 26, 'ROBO', false);
 
 -- NO BORRAR POR AHORA - ES PARA QUE CALCULE EL PRESUPUESTO Y NO SE MUESTRE EN CERO
 UPDATE equipo e

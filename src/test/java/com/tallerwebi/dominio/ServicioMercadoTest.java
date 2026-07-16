@@ -19,7 +19,7 @@ public class ServicioMercadoTest {
         jugador.setApellido("Curry");
         when(repositorioMock.buscarJugadores(null, "Stephen")).thenReturn(List.of(jugador));
 
-        ServicioMercado servicio = new ServicioMercadoImpl(repositorioMock);
+        ServicioMercado servicio = new ServicioMercadoImpl(repositorioMock, mock(RepositorioEventoPartido.class));
 
         List<Jugador> resultado = servicio.obtenerJugadores(null, "Stephen");
         assertThat(resultado, not(empty()));
@@ -36,7 +36,7 @@ public class ServicioMercadoTest {
         jugador.setPosicion(Posicion.ALERO);
         when(repositorioMock.buscarJugadores(Posicion.ALERO, null)).thenReturn(List.of(jugador));
 
-        ServicioMercado servicio = new ServicioMercadoImpl(repositorioMock);
+        ServicioMercado servicio = new ServicioMercadoImpl(repositorioMock, mock(RepositorioEventoPartido.class));
 
         List<Jugador> resultado = servicio.buscarAlero();
         assertThat(resultado, not(empty()));
@@ -52,7 +52,7 @@ public class ServicioMercadoTest {
         jugador.setPosicion(Posicion.PIVOT);
         when(repositorioMock.buscarJugadores(Posicion.PIVOT, null)).thenReturn(List.of(jugador));
 
-        ServicioMercado servicio = new ServicioMercadoImpl(repositorioMock);
+        ServicioMercado servicio = new ServicioMercadoImpl(repositorioMock, mock(RepositorioEventoPartido.class));
 
         List<Jugador> resultado = servicio.buscarPivot();
         assertThat(resultado, not(empty()));
@@ -68,7 +68,7 @@ public class ServicioMercadoTest {
         jugador.setPosicion(Posicion.BASE);
         when(repositorioMock.buscarJugadores(Posicion.BASE, null)).thenReturn(List.of(jugador));
 
-        ServicioMercado servicio = new ServicioMercadoImpl(repositorioMock);
+        ServicioMercado servicio = new ServicioMercadoImpl(repositorioMock, mock(RepositorioEventoPartido.class));
 
         List<Jugador> resultado = servicio.buscarBase();
         assertThat(resultado, not(empty()));
@@ -85,7 +85,7 @@ public class ServicioMercadoTest {
         rendimiento.setBloqueos(0);
         rendimiento.setPerdidas(4);
 
-        ServicioMercado servicio = new ServicioMercadoImpl(mock(RepositorioJugador.class));
+        ServicioMercado servicio = new ServicioMercadoImpl(mock(RepositorioJugador.class), mock(RepositorioEventoPartido.class));
         double puntaje = servicio.calcularPuntajeJugador(rendimiento);
 
         assertThat(puntaje, equalTo(46.1));
@@ -99,7 +99,7 @@ public class ServicioMercadoTest {
         jugador.setApellido("Doncic");
         when(repositorioMock.buscarJugadorPorId(1L)).thenReturn(jugador);
 
-        ServicioMercado servicio = new ServicioMercadoImpl(repositorioMock);
+        ServicioMercado servicio = new ServicioMercadoImpl(repositorioMock, mock(RepositorioEventoPartido.class));
         Jugador resultado = servicio.buscarJugadorPorId(1L);
 
         assertThat(resultado.getNombre(), equalTo("Luka"));

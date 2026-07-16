@@ -19,6 +19,8 @@ public interface ServicioEquipo {
      */
     List<EquipoJugador> buscarJugadoresDelEquipo(Long idEquipo) throws FechaNoEncontradaException;
 
+    List<EquipoJugador> buscarTodosLosJugadoresDelEquipo(Long idEquipo);
+
     Equipo buscarEquipoPorId(Long id) throws EquipoNoEncontradoException;
 
     Equipo buscarEquipoPorNombre(String nombre) throws EquipoNoEncontradoException;
@@ -36,6 +38,8 @@ public interface ServicioEquipo {
     void asignarRolEspecial(Long idEquipo, Long idJugador, PosicionJugadorEquipo rol) throws EquipoNoEncontradoException, NoSePuedeModificarEquipoSiLaFechaEstaEnCursoException, FechaNoEncontradaException;
 
     List<Equipo> obtenerTopEquiposPorTorneo(Long torneoId, int limite);
+
+    List<Equipo> obtenerTopEquiposPorFecha(Long fechaId, int limite);
 
     void validarQueSePuedaModificarEquipo() throws NoSePuedeModificarEquipoSiLaFechaEstaEnCursoException, FechaNoEncontradaException;
 
