@@ -1,14 +1,10 @@
 :root {
-    --naranja: #ff6b00;
-    --naranja-hover: #e05a00;
     --fondo: #0a0a0a;
     --fondo-card: rgba(20, 20, 20, 0.92);
     --borde: #2a2a2a;
-    --borde-input: #333333;
     --texto: #ffffff;
-    --texto-muted: #a1a1aa;
-    --radio: 12px;
-    --transition: 0.15s;
+    --texto-muted: #b5b5b5;
+    --c1: #ff6b00;
 }
 
 *,
@@ -17,212 +13,207 @@
     box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
     margin: 0;
     padding: 0;
     min-height: 100%;
-}
-
-body {
     background: var(--fondo);
     color: var(--texto);
     font-family: "Inter", Arial, sans-serif;
+}
+
+body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 
-main.contenedor-principal {
+/* CONTENEDOR PRINCIPAL */
+
+.contenedor-principal {
     flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem 1rem 3rem;
+    width: 95%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2.5rem 0 3rem;
 }
 
+/* TARJETA */
+
 .contenedor-form-equipo {
-    width: 100%;
-    max-width: 540px;
     background: var(--fondo-card);
     border: 1px solid var(--borde);
-    border-radius: var(--radio);
-    padding: 2.5rem 2rem;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.22);
+    border-left: 4px solid var(--c1);
+    border-radius: 14px;
+    padding: 2rem;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, .25);
 }
+
+/* ENCABEZADO */
 
 .encabezado-formulario {
     margin-bottom: 2rem;
 }
 
 .etiqueta-seccion {
-    color: var(--naranja);
-    font-size: 0.7rem;
+    margin: 0 0 .5rem;
+    color: var(--texto-muted);
+    font-size: .8rem;
     font-weight: 700;
-    letter-spacing: 0.1em;
+    letter-spacing: .1em;
     text-transform: uppercase;
-    margin: 0 0 0.5rem;
 }
 
 .encabezado-formulario h1 {
-    font-size: 1.75rem;
+    margin: 0 0 .8rem;
+    font-size: 2rem;
     font-weight: 800;
-    letter-spacing: -0.02em;
-    margin: 0 0 0.75rem;
+    line-height: 1.2;
 }
 
 .descripcion-formulario {
-    color: var(--texto-muted);
-    font-size: 0.9rem;
-    line-height: 1.5;
     margin: 0;
+    color: var(--texto-muted);
+    line-height: 1.6;
+    max-width: 600px;
 }
 
+/* INFORMACIÓN DEL TORNEO */
+
 .informacion-torneo {
-    display: flex;
-    gap: 1.5rem;
-    margin-bottom: 1.5rem;
-    padding: 1rem 1.25rem;
-    background: rgba(255,255,255,0.03);
-    border-radius: 8px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
 }
 
 .dato-torneo {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+    background: rgba(255,255,255,.03);
+    border: 1px solid var(--borde);
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
 }
 
 .dato-etiqueta {
-    font-size: 0.62rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
+    display: block;
     color: var(--texto-muted);
+    font-size: .8rem;
+    font-weight: 600;
+    margin-bottom: .4rem;
+    text-transform: uppercase;
+    letter-spacing: .05em;
 }
 
 .dato-torneo strong {
-    font-size: 0.9rem;
-    font-weight: 700;
     color: var(--texto);
+    font-size: 1rem;
+    font-weight: 700;
 }
 
-form {
-    width: 100%;
-}
+/* CAMPOS */
 
 .campo-formulario {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    margin-bottom: 1.25rem;
+    gap: .6rem;
+    margin-bottom: 1.5rem;
 }
 
 .campo-formulario label {
-    font-size: 0.72rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--texto-muted);
-}
-
-.campo-formulario input,
-.campo-formulario select {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    background: #111111;
-    border: 1px solid var(--borde-input);
-    border-radius: 8px;
+    font-weight: 600;
     color: var(--texto);
-    font-family: inherit;
-    font-size: 0.95rem;
-    outline: none;
-    transition: border-color var(--transition);
 }
 
-.campo-formulario input:focus,
-.campo-formulario select:focus {
-    border-color: var(--naranja);
+.campo-formulario input {
+    width: 100%;
+    padding: .95rem 1rem;
+    background: #151515;
+    border: 1px solid var(--borde);
+    border-radius: 10px;
+    color: var(--texto);
+    font-size: .95rem;
+    transition: .2s;
 }
 
 .campo-formulario input::placeholder {
-    color: #6b6b73;
+    color: #777;
 }
 
-.mensaje-error {
-    color: #fecaca;
-    background: rgba(239,68,68,0.12);
-    border: 1px solid rgba(239,68,68,0.45);
-    margin-bottom: 1.25rem;
-    padding: 0.9rem 1rem;
-    border-radius: 8px;
-    font-size: 0.9rem;
-    font-weight: 600;
+.campo-formulario input:focus {
+    outline: none;
+    border-color: var(--c1);
+    box-shadow: 0 0 0 3px rgba(255,107,0,.15);
 }
+
+/* ERROR */
+
+.mensaje-error {
+    margin-bottom: 1.5rem;
+    color: #ff6b6b;
+    font-size: .9rem;
+    font-weight: 500;
+}
+
+/* BOTONES */
 
 .acciones-formulario {
     display: flex;
     justify-content: flex-end;
-    gap: 0.75rem;
-    margin-top: 1.5rem;
+    gap: 1rem;
+    margin-top: 2rem;
 }
 
 .boton {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 0.7rem 1.35rem;
-    border: none;
-    border-radius: 8px;
-    font-family: inherit;
-    font-size: 0.8rem;
+    padding: .9rem 1.5rem;
+    border-radius: 10px;
     font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
     text-decoration: none;
     cursor: pointer;
-    transition: background var(--transition), transform var(--transition);
-}
-
-.boton:hover {
-    transform: translateY(-1px);
-}
-
-.boton:active {
-    transform: scale(0.97);
-}
-
-.boton-primario {
-    background: var(--naranja);
-    color: var(--texto);
-}
-
-.boton-primario:hover {
-    background: var(--naranja-hover);
+    transition: .2s ease;
+    border: 1px solid transparent;
 }
 
 .boton-secundario {
     background: transparent;
-    color: var(--texto-muted);
-    border: 1px solid var(--borde);
-}
-
-.boton-secundario:hover {
-    background: rgba(255,255,255,0.04);
+    border-color: var(--borde);
     color: var(--texto);
 }
 
-@media (max-width: 640px) {
+.boton-secundario:hover {
+    border-color: var(--c1);
+    color: var(--c1);
+}
+
+.boton-primario {
+    background: var(--c1);
+    color: white;
+    border: none;
+}
+
+.boton-primario:hover {
+    background: #ff7d1f;
+    transform: translateY(-1px);
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 768px) {
+
+    .contenedor-principal {
+        width: 92%;
+        padding: 2rem 0;
+    }
+
     .contenedor-form-equipo {
-        padding: 1.5rem 1.25rem;
+        padding: 1.5rem;
     }
 
     .encabezado-formulario h1 {
-        font-size: 1.4rem;
-    }
-
-    .informacion-torneo {
-        flex-direction: column;
-        gap: 0.75rem;
+        font-size: 1.7rem;
     }
 
     .acciones-formulario {
@@ -231,5 +222,20 @@ form {
 
     .boton {
         width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .contenedor-principal {
+        width: 90%;
+    }
+
+    .encabezado-formulario h1 {
+        font-size: 1.5rem;
+    }
+
+    .informacion-torneo {
+        grid-template-columns: 1fr;
     }
 }
