@@ -1,199 +1,88 @@
-# 🏀 Basket UNLAM
+# Basket UNLAM
 
-Aplicación web desarrollada como **Trabajo Práctico Grupal** para la materia **Taller Web I** de la **Universidad
-Nacional de La Matanza (UNLaM)**.
+![Java](https://img.shields.io/badge/Java-11-orange?style=for-the-badge\&logo=openjdk)
+![Spring MVC](https://img.shields.io/badge/Spring%20MVC-Framework-6DB33F?style=for-the-badge\&logo=spring)
+![Spring](https://img.shields.io/badge/Spring-Core-6DB33F?style=for-the-badge\&logo=spring)
+![Hibernate](https://img.shields.io/badge/Hibernate-ORM-59666C?style=for-the-badge\&logo=hibernate)
+![JPA](https://img.shields.io/badge/JPA-Persistence-59666C?style=for-the-badge)
+![MySQL](https://img.shields.io/badge/MySQL-Database-4479A1?style=for-the-badge\&logo=mysql\&logoColor=white)
+![JUnit 5](https://img.shields.io/badge/JUnit-5-25A162?style=for-the-badge\&logo=junit5)
+![Mockito](https://img.shields.io/badge/Mockito-Testing-78A641?style=for-the-badge)
+![Maven](https://img.shields.io/badge/Maven-Build-C71A36?style=for-the-badge\&logo=apachemaven)
+![Git](https://img.shields.io/badge/Git-Version%20Control-F05032?style=for-the-badge\&logo=git\&logoColor=white)
+![GitHub](https://img.shields.io/badge/GitHub-Repository-181717?style=for-the-badge\&logo=github)
+![Bootstrap](https://img.shields.io/badge/Bootstrap-5-7952B3?style=for-the-badge\&logo=bootstrap)
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge\&logo=html5\&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge\&logo=css3)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge\&logo=javascript\&logoColor=black)
 
-El proyecto simula una plataforma de **Fantasy NBA**, donde cada usuario puede crear y administrar su propio equipo,
-respetando un presupuesto determinado, seleccionando jugadores reales de la NBA y compitiendo en un torneo mediante un
-sistema de puntajes basado en estadísticas reales.
+**Basket UNLAM** es una aplicación web desarrollada como **Trabajo Práctico Grupal** para la materia **Taller Web I** de
+la **Universidad Nacional de La Matanza (UNLaM)**.
 
-El objetivo principal fue aplicar los conocimientos adquiridos durante la cursada utilizando **Java**, **Spring MVC**,
-**Hibernate**, **JPA**, **Maven** y buenas prácticas de desarrollo de software.
+El proyecto recrea una plataforma de tipo **Fantasy NBA**, donde cada usuario administra su propio equipo utilizando
+jugadores reales de la NBA, respetando un presupuesto determinado y compitiendo en un torneo mediante un sistema de
+puntajes basado en estadísticas reales.
 
-## Características
+El objetivo principal fue aplicar los conocimientos adquiridos durante la cursada utilizando **Java**, **Spring MVC**, *
+*Hibernate**, **JPA** y una arquitectura en capas, implementando buenas prácticas de desarrollo, persistencia de datos,
+testing y trabajo colaborativo.
 
-|                                              |
-|----------------------------------------------|
-| Arquitectura MVC                             |
-| Arquitectura en capas                        |
-| Persistencia con Hibernate/JPA               |
-| Gestión de usuarios                          |
-| Creación y administración de equipos Fantasy |
-| Sistema de presupuesto                       |
-| Gestión de jugadores                         |
-| Asignación de Capitán y Sexto Hombre         |
-| Sistema automático de puntajes               |
-| Testing con JUnit y Mockito                  |
 
-# Objetivos del proyecto
-
-- Aplicar el patrón MVC.
-- Implementar una arquitectura en capas.
-- Utilizar Hibernate para la persistencia de datos.
-- Gestionar relaciones entre entidades mediante JPA.
-- Implementar reglas de negocio desacopladas.
-- Trabajar colaborativamente utilizando Git y GitHub.
-- Realizar pruebas unitarias utilizando JUnit y Mockito.
-
-# Funcionalidades
-
-## 👨‍💼 Administrador
-
-El administrador dispone de herramientas para gestionar completamente la plataforma.
-
-Puede:
-
-- Iniciar sesión como administrador.
-- Crear equipos oficiales de la NBA.
-- Modificar equipos NBA.
-- Asignar jugadores a cada equipo NBA.
-- Administrar la plantilla de jugadores.
-- Crear nuevas temporadas.
-- Crear torneos.
-- Asociar equipos al torneo correspondiente.
-- Administrar la información general del sistema.
-- Asignar nuevos administradores.
-
-## 👤 Usuarios
-
-- Registrarse e iniciar sesión.
-- Crear su propio equipo Fantasy.
-- Seleccionar jugadores para conformar su plantilla.
-- Administrar el presupuesto disponible.
-- Incorporar y eliminar jugadores del equipo.
-- Asignar los roles de **Capitán** y **Sexto Hombre**.
-- Visualizar las estadísticas individuales de los jugadores.
-- Consultar el valor de mercado de cada jugador.
-- Ver el puntaje acumulado de su equipo.
-- Consultar la información completa de su plantilla.
-- Participar automáticamente del torneo vigente.
-- Visualizar la tabla de posiciones.
-- Modificar su equipo respetando las reglas de negocio.
-
-## Roles Especiales
-
-Cada equipo puede asignar dos roles especiales:
-
-- Capitán
-- Sexto Hombre
-
-Estos modifican el puntaje obtenido por cada jugador durante la competencia.
-
-## Torneos
-
-- Asociación automática al torneo vigente.
-- Administración de equipos participantes.
-- Cálculo automático de puntajes.
-
-# Sistema de Puntajes
-
-El puntaje de cada jugador se calcula utilizando estadísticas reales como:
-
-- Puntos
-- Rebotes
-- Asistencias
-- Robos
-- Bloqueos
-- Pérdidas
-
-Posteriormente se aplica un multiplicador dependiendo del rol asignado.
-
-| Rol          | Multiplicador |
-|--------------|:-------------:|
-| Capitán      |    **x2**     |
-| Titular      |    **x1**     |
-| Sexto Hombre |   **x0.8**    |
-| Suplente     |   **x0.5**    |
-
-# Sistema de Presupuesto
-
-Cada equipo dispone de un presupuesto inicial.
-
-Cada jugador posee un valor de mercado.
-
-Durante la creación del equipo:
-
-- El presupuesto disminuye automáticamente.
-- No es posible superar el presupuesto disponible.
-- Al eliminar un jugador se reintegra automáticamente su valor.
-- Todas las validaciones se realizan desde la capa de negocio.
-
-# Arquitectura MVC
-
-El proyecto fue desarrollado siguiendo una arquitectura en capas, separando claramente las responsabilidades de cada
-componente.
-
-## Estructura del proyecto
-
-```text
-src
-│
-├── main
-│   ├── java
-│   │   └── com.tallerwebi
-│   │       ├── config
-│   │       ├── dominio
-│   │       ├── infraestructura
-│   │       ├── presentacion
-│   │       └── MyServletInitializer
-│   │
-│   ├── resources
-│   │
-│   └── webapp
-│
-└── test
-    └── java
-        └── com.tallerwebi
-            ├── dominio
-            ├── infraestructura
-            ├── integracion
-            ├── presentacion
-            └── punta_a_punta
-```
-
-## Responsabilidad de cada paquete
-
-### 📂 config
-
-Contiene la configuración general de la aplicación.
-
-- Spring MVC
-- Hibernate
-- Beans
-- Contexto de la aplicación
-
-### 📂 dominio
-
-Implementa toda la lógica de negocio del sistema.
-
-Aquí se encuentran:
-
-- Entidades
-- Servicios
-- Interfaces de repositorio
-- Reglas de negocio
-
+### Objetivos
 ---
 
-### 📂 infraestructura :
+* Aplicar el patrón MVC.
+* Implementar una arquitectura en capas.
+* Utilizar Hibernate como framework de persistencia.
+* Modelar relaciones entre entidades mediante JPA.
+* Implementar reglas de negocio desacopladas.
+* Desarrollar una aplicación siguiendo principios de orientación a objetos.
+* Gestionar el proyecto utilizando Git y GitHub.
+* Realizar pruebas unitarias mediante JUnit y Mockito.
 
-Implementaciones encargadas del acceso a datos utilizando Hibernate y JPA.
+### Funcionalidades
+---
 
-### 📂 presentacion
+#### Administrador
 
-Controladores MVC responsables de recibir las solicitudes HTTP y comunicarse con la capa de servicios.
+El administrador posee control total sobre la plataforma.
 
-### 📂 webapp
+Entre sus funcionalidades se encuentran:
 
-Recursos de la aplicación.
+* Inicio de sesión.
+* Administración de usuarios administradores.
+* Creación de equipos oficiales de la NBA.
+* Modificación de equipos NBA.
+* Administración de jugadores.
+* Asignación de jugadores a los equipos oficiales.
+* Creación de temporadas.
+* Creación de torneos.
+* Asociación de equipos a un torneo.
+* Administración general del sistema.
 
-- JSP
-- CSS
-- JavaScript
-- Bootstrap
-- Imágenes
+#### Usuario
 
-# Flujo de una petición
+Cada usuario registrado puede:
+
+* Registrarse e iniciar sesión.
+* Crear un equipo Fantasy.
+* Participar automáticamente del torneo vigente.
+* Seleccionar jugadores para su plantilla.
+* Comprar y vender jugadores.
+* Administrar el presupuesto disponible.
+* Asignar un Capitán.
+* Asignar un Sexto Hombre.
+* Consultar estadísticas individuales.
+* Visualizar el valor de mercado de cada jugador.
+* Consultar el puntaje total del equipo.
+* Visualizar la tabla de posiciones.
+* Modificar su equipo respetando todas las reglas de negocio.
+
+## Arquitectura
+
+El proyecto fue desarrollado siguiendo una arquitectura MVC con separación en capas.
+
+Cada componente posee una única responsabilidad.
 
 ```text
 Usuario
@@ -211,40 +100,67 @@ Repository
 Base de Datos
 ```
 
-Cada capa posee una única responsabilidad, favoreciendo un código mantenible, reutilizable y desacoplado.
+# Estructura del Proyecto
+
+```text
+src
+│
+├── main
+│   ├── java
+│   │
+│   └── com.tallerwebi
+│       ├── config
+│       ├── dominio
+│       ├── infraestructura
+│       ├── presentacion
+│       └── MyServletInitializer
+│
+│   ├── resources
+│   └── webapp
+│
+└── test
+    └── java
+        └── com.tallerwebi
+            ├── dominio
+            ├── infraestructura
+            ├── integracion
+            ├── presentacion
+            └── punta_a_punta
+```
+
+---
 
 # Testing
 
-El proyecto cuenta con diferentes niveles de pruebas automatizadas.
+El proyecto incorpora distintos niveles de pruebas automatizadas.
 
-```text
-test
-│
-├── dominio
-│      Pruebas unitarias de reglas de negocio
-│
-├── infraestructura
-│      Persistencia y repositorios
-│
-├── presentacion
-│      Controladores MVC
-│
-├── integracion
-      Integración entre capas
+#### Pruebas Unitarias
 
-```
+* Reglas de negocio.
+* Servicios.
+* Validaciones.
+* Cálculo de puntajes.
+* Gestión de presupuesto.
 
-# Tecnologías utilizadas
+#### Pruebas de Persistencia
 
-| Backend    | Frontend   | Persistencia | Testing | Herramientas  |
-|------------|------------|--------------|---------|---------------|
-| Java 11    | HTML5      | Hibernate    | JUnit 5 | Maven         |
-| Spring MVC | CSS3       | JPA          | Mockito | Git           |
-| Spring     | JavaScript | MySQL        |         | GitHub        |
-|            | Bootstrap  |              |         | IntelliJ IDEA |
+* Repositorios.
+* Consultas.
+* Relaciones entre entidades.
 
-Trabajo Práctico Grupal desarrollado para la materia **Taller Web I** de la **Universidad Nacional de La Matanza (
-UNLaM).
+##### Pruebas de Presentación
 
+* Controladores MVC.
+* Flujo entre vistas y servicios.
 
+## Capturas de Pantalla
 
+<p align="center">
+  <img src="docs/landing.png" alt="Landing Page" width="48%">
+  <img src="docs/home-admin.png" alt="Panel de Administración" width="48%">
+</p>
+
+<p align="center">
+  <img src="docs/admin-fecha.png" alt="Gestión de Fechas" width="48%">
+  <img src="docs/user-equipo.png" alt="Equipo Fantasy" width="48%">
+</p>

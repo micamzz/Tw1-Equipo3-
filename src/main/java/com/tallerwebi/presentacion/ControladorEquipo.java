@@ -56,10 +56,7 @@ public class ControladorEquipo {
         ModelMap modelo = new ModelMap();
 
         modelo.put("equipo", new Equipo());
-        modelo.put(
-                "torneoActual",
-                servicioTorneo.obtenerTorneoActual(TipoTorneo.VIRTUAL)
-        );
+        modelo.put("torneoActual", servicioTorneo.obtenerTorneoActual(TipoTorneo.VIRTUAL));
 
         return new ModelAndView("crear-equipo", modelo);
     }
