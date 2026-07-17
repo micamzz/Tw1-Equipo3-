@@ -1,8 +1,8 @@
 package com.tallerwebi.infraestructura;
 
-import com.tallerwebi.dominio.Jugador;
-import com.tallerwebi.dominio.Posicion;
-import com.tallerwebi.dominio.RepositorioJugador;
+import com.tallerwebi.dominio.jugador.Jugador;
+import com.tallerwebi.dominio.enums.Posicion;
+import com.tallerwebi.dominio.jugador.RepositorioJugador;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

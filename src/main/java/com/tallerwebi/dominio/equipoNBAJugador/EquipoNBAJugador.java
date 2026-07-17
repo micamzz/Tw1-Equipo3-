@@ -1,7 +1,7 @@
 package com.tallerwebi.dominio.equipoNBAJugador;
 
-import com.tallerwebi.dominio.Jugador;
-import com.tallerwebi.dominio.Torneo;
+import com.tallerwebi.dominio.jugador.Jugador;
+import com.tallerwebi.dominio.torneo.Torneo;
 import com.tallerwebi.dominio.equipoNBA.EquipoNBA;
 
 import javax.persistence.*;

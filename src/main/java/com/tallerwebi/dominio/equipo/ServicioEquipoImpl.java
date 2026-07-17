@@ -1,10 +1,21 @@
 package com.tallerwebi.dominio.equipo;
 
-import com.tallerwebi.dominio.*;
+import com.tallerwebi.dominio.enums.EstadoFecha;
 import com.tallerwebi.dominio.enums.PosicionJugadorEquipo;
+import com.tallerwebi.dominio.enums.TipoTorneo;
 import com.tallerwebi.dominio.equipoJugador.EquipoJugador;
 import com.tallerwebi.dominio.equipoJugador.RepositorioEquipoJugador;
+import com.tallerwebi.dominio.eventoPartido.EventoPartido;
+import com.tallerwebi.dominio.eventoPartido.RepositorioEventoPartido;
 import com.tallerwebi.dominio.excepcion.*;
+import com.tallerwebi.dominio.fecha.Fecha;
+import com.tallerwebi.dominio.fecha.ServicioFecha;
+import com.tallerwebi.dominio.jugador.Jugador;
+import com.tallerwebi.dominio.jugador.RendimientoJugador;
+import com.tallerwebi.dominio.jugador.RepositorioJugador;
+import com.tallerwebi.dominio.partidoNBA.ServicioPartidoNBA;
+import com.tallerwebi.dominio.torneo.RepositorioTorneo;
+import com.tallerwebi.dominio.torneo.Torneo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -395,15 +406,31 @@ public class ServicioEquipoImpl implements ServicioEquipo {
 
                 for (EventoPartido e : eventos) {
                     switch (e.getTipoEstadistica()) {
-                        case TIRO_LIBRE: puntos += 1; break;
-                        case DOBLE:      puntos += 2; break;
-                        case TRIPLE:     puntos += 3; break;
-                        case REBOTE:     rebotes++;   break;
-                        case ASISTENCIA: asistencias++; break;
-                        case ROBO:       robos++;     break;
-                        case TAPA:       bloqueos++;  break;
+                        case TIRO_LIBRE:
+                            puntos += 1;
+                            break;
+                        case DOBLE:
+                            puntos += 2;
+                            break;
+                        case TRIPLE:
+                            puntos += 3;
+                            break;
+                        case REBOTE:
+                            rebotes++;
+                            break;
+                        case ASISTENCIA:
+                            asistencias++;
+                            break;
+                        case ROBO:
+                            robos++;
+                            break;
+                        case TAPA:
+                            bloqueos++;
+                            break;
                         case PERDIDA:
-                        case FALTA_PERSONAL: perdidas++; break;
+                        case FALTA_PERSONAL:
+                            perdidas++;
+                            break;
                     }
                 }
 
@@ -412,10 +439,18 @@ public class ServicioEquipoImpl implements ServicioEquipo {
 
                 double multiplicador;
                 switch (eqj.getPosicionDelJugador()) {
-                    case CAPITAN:      multiplicador = 2.0; break;
-                    case SEXTO_HOMBRE: multiplicador = 0.8; break;
-                    case SUPLENTE:     multiplicador = 0.5; break;
-                    default:           multiplicador = 1.0; break;
+                    case CAPITAN:
+                        multiplicador = 2.0;
+                        break;
+                    case SEXTO_HOMBRE:
+                        multiplicador = 0.8;
+                        break;
+                    case SUPLENTE:
+                        multiplicador = 0.5;
+                        break;
+                    default:
+                        multiplicador = 1.0;
+                        break;
                 }
 
                 total += base * multiplicador;

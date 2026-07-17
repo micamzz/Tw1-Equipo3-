@@ -1,8 +1,16 @@
 package com.tallerwebi.dominio;
 
-import com.tallerwebi.dominio.equipo.RepositorioEquipo;
+import com.tallerwebi.dominio.enums.EquipoRol;
 import com.tallerwebi.dominio.equipoNBA.EquipoNBA;
 import com.tallerwebi.dominio.equipoNBA.RepositorioEquipoNBA;
+import com.tallerwebi.dominio.formacion.FormacionPartido;
+import com.tallerwebi.dominio.formacion.RepositorioFormacion;
+import com.tallerwebi.dominio.formacion.ServicioFormacion;
+import com.tallerwebi.dominio.formacion.ServicioFormacionImpl;
+import com.tallerwebi.dominio.jugador.Jugador;
+import com.tallerwebi.dominio.jugador.RepositorioJugador;
+import com.tallerwebi.dominio.partidoNBA.PartidoNBA;
+import com.tallerwebi.dominio.partidoNBA.RepositorioPartidoNBA;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -45,6 +53,7 @@ public class ServicioFormacionTest {
         EquipoRol resultado = servicio.obtenerRolJugadorEnFormacion(1L, 10L);
         assertThat(resultado, equalTo(EquipoRol.LOCAL));
     }
+
     @Test
     public void queObtenerRolJugadorEnFormacionDevuelvaVisitante() {
         RepositorioFormacion repositorioFormacion = mock(RepositorioFormacion.class);
@@ -124,7 +133,7 @@ public class ServicioFormacionTest {
     }
 
     //partidoTieneJugadoresEnFormacion
-    private PartidoNBA unPartidoConEquipos(){
+    private PartidoNBA unPartidoConEquipos() {
         EquipoNBA local = new EquipoNBA();
         local.setId(1L);
         EquipoNBA visitante = new EquipoNBA();
@@ -136,11 +145,12 @@ public class ServicioFormacionTest {
         return p;
     }
 
-    private List<FormacionPartido> unaFormacionDe(int cantidad){
-        List<FormacionPartido> lista= new ArrayList<>();
-        for(int i=0;i<cantidad;i++){
+    private List<FormacionPartido> unaFormacionDe(int cantidad) {
+        List<FormacionPartido> lista = new ArrayList<>();
+        for (int i = 0; i < cantidad; i++) {
             lista.add(unaFormacion());
-        }return lista;
+        }
+        return lista;
     }
 
     private FormacionPartido unaFormacion() {
@@ -150,8 +160,9 @@ public class ServicioFormacionTest {
         f.setPartido(new PartidoNBA());
         return f;
     }
+
     @Test
-    public void dadoQueAmbosEquiposTienen5JugadoresElPartidoPuedeIniciar(){
+    public void dadoQueAmbosEquiposTienen5JugadoresElPartidoPuedeIniciar() {
         RepositorioFormacion repositorioFormacion = mock(RepositorioFormacion.class);
         RepositorioJugador repositorioJugador = mock(RepositorioJugador.class);
         RepositorioEquipoNBA repositorioEquipo = mock(RepositorioEquipoNBA.class);
@@ -172,8 +183,9 @@ public class ServicioFormacionTest {
 
         assertThat(resultado, is(true));
     }
+
     @Test
-    public void dadoQueAmbosEquiposTienenMenosDe5JugadoresElPartidoNOPuedeIniciar(){
+    public void dadoQueAmbosEquiposTienenMenosDe5JugadoresElPartidoNOPuedeIniciar() {
         RepositorioFormacion repositorioFormacion = mock(RepositorioFormacion.class);
         RepositorioJugador repositorioJugador = mock(RepositorioJugador.class);
         RepositorioEquipoNBA repositorioEquipo = mock(RepositorioEquipoNBA.class);
@@ -196,7 +208,7 @@ public class ServicioFormacionTest {
     }
 
     @Test
-    public void dadoQueNingunoDeLosEquiposTienenAlMenos5JugadoresElPartidoNOPuedeIniciar(){
+    public void dadoQueNingunoDeLosEquiposTienenAlMenos5JugadoresElPartidoNOPuedeIniciar() {
         RepositorioFormacion repositorioFormacion = mock(RepositorioFormacion.class);
         RepositorioJugador repositorioJugador = mock(RepositorioJugador.class);
         RepositorioEquipoNBA repositorioEquipo = mock(RepositorioEquipoNBA.class);

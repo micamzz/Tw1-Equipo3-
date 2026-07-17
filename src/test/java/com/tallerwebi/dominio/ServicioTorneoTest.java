@@ -1,10 +1,15 @@
 package com.tallerwebi.dominio;
 
 
+import com.tallerwebi.dominio.enums.TipoTorneo;
 import com.tallerwebi.dominio.equipo.RepositorioEquipo;
 import com.tallerwebi.dominio.equipoNBAJugador.RepositorioEquipoNBAJugador;
 import com.tallerwebi.dominio.excepcion.*;
 
+import com.tallerwebi.dominio.torneo.RepositorioTorneo;
+import com.tallerwebi.dominio.torneo.ServicioTorneo;
+import com.tallerwebi.dominio.torneo.ServicioTorneoImpl;
+import com.tallerwebi.dominio.torneo.Torneo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

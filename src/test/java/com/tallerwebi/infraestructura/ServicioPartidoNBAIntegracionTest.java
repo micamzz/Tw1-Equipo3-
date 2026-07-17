@@ -1,9 +1,18 @@
 package com.tallerwebi.infraestructura;
 
-import com.tallerwebi.dominio.*;
+import com.tallerwebi.dominio.enums.TipoEstadistica;
+import com.tallerwebi.dominio.enums.TipoTorneo;
 import com.tallerwebi.dominio.equipoNBA.EquipoNBA;
 import com.tallerwebi.dominio.equipoNBA.EstadoPartido;
+import com.tallerwebi.dominio.eventoPartido.EventoPartido;
+import com.tallerwebi.dominio.eventoPartido.RepositorioEventoPartido;
+import com.tallerwebi.dominio.jugador.Jugador;
+import com.tallerwebi.dominio.jugador.RendimientoJugador;
+import com.tallerwebi.dominio.jugador.RepositorioJugador;
+import com.tallerwebi.dominio.partidoNBA.PartidoNBA;
+import com.tallerwebi.dominio.partidoNBA.ServicioPartidoNBA;
 import com.tallerwebi.dominio.temporada.Temporada;
+import com.tallerwebi.dominio.torneo.Torneo;
 import com.tallerwebi.integracion.config.HibernateTestConfig;
 import com.tallerwebi.integracion.config.SpringWebTestConfig;
 import org.hibernate.SessionFactory;
@@ -19,7 +28,6 @@ import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;

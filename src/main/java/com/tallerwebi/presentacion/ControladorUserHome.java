@@ -1,11 +1,22 @@
 package com.tallerwebi.presentacion;
 
-import com.tallerwebi.dominio.*;
+import com.tallerwebi.dominio.enums.EstadoFecha;
 import com.tallerwebi.dominio.enums.PosicionJugadorEquipo;
+import com.tallerwebi.dominio.enums.TipoTorneo;
 import com.tallerwebi.dominio.equipo.Equipo;
 import com.tallerwebi.dominio.equipo.ServicioEquipo;
 import com.tallerwebi.dominio.equipoJugador.EquipoJugador;
+import com.tallerwebi.dominio.eventoPartido.EventoPartido;
 import com.tallerwebi.dominio.excepcion.FechaNoEncontradaException;
+import com.tallerwebi.dominio.fecha.Fecha;
+import com.tallerwebi.dominio.fecha.ServicioFecha;
+import com.tallerwebi.dominio.jugador.RendimientoJugador;
+import com.tallerwebi.dominio.mercado.ServicioMercado;
+import com.tallerwebi.dominio.partidoNBA.PartidoNBA;
+import com.tallerwebi.dominio.partidoNBA.ServicioPartidoNBA;
+import com.tallerwebi.dominio.torneo.ServicioTorneo;
+import com.tallerwebi.dominio.torneo.Torneo;
+import com.tallerwebi.dominio.usuario.Usuario;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +28,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 public class ControladorUserHome {
@@ -141,15 +151,31 @@ public class ControladorUserHome {
                 int p = 0, r = 0, a = 0, ro = 0, bl = 0, pe = 0;
                 for (EventoPartido ev : eventos) {
                     switch (ev.getTipoEstadistica()) {
-                        case TIRO_LIBRE: p += 1; break;
-                        case DOBLE:      p += 2; break;
-                        case TRIPLE:     p += 3; break;
-                        case REBOTE:     r++;     break;
-                        case ASISTENCIA: a++;     break;
-                        case ROBO:       ro++;    break;
-                        case TAPA:       bl++;    break;
+                        case TIRO_LIBRE:
+                            p += 1;
+                            break;
+                        case DOBLE:
+                            p += 2;
+                            break;
+                        case TRIPLE:
+                            p += 3;
+                            break;
+                        case REBOTE:
+                            r++;
+                            break;
+                        case ASISTENCIA:
+                            a++;
+                            break;
+                        case ROBO:
+                            ro++;
+                            break;
+                        case TAPA:
+                            bl++;
+                            break;
                         case PERDIDA:
-                        case FALTA_PERSONAL: pe++; break;
+                        case FALTA_PERSONAL:
+                            pe++;
+                            break;
                     }
                 }
 
@@ -245,15 +271,31 @@ public class ControladorUserHome {
                     int p = 0, r = 0, a = 0, ro = 0, bl = 0, pe = 0;
                     for (EventoPartido ev : eventos) {
                         switch (ev.getTipoEstadistica()) {
-                            case TIRO_LIBRE: p += 1; break;
-                            case DOBLE:      p += 2; break;
-                            case TRIPLE:     p += 3; break;
-                            case REBOTE:     r++;     break;
-                            case ASISTENCIA: a++;     break;
-                            case ROBO:       ro++;    break;
-                            case TAPA:       bl++;    break;
+                            case TIRO_LIBRE:
+                                p += 1;
+                                break;
+                            case DOBLE:
+                                p += 2;
+                                break;
+                            case TRIPLE:
+                                p += 3;
+                                break;
+                            case REBOTE:
+                                r++;
+                                break;
+                            case ASISTENCIA:
+                                a++;
+                                break;
+                            case ROBO:
+                                ro++;
+                                break;
+                            case TAPA:
+                                bl++;
+                                break;
                             case PERDIDA:
-                            case FALTA_PERSONAL: pe++; break;
+                            case FALTA_PERSONAL:
+                                pe++;
+                                break;
                         }
                     }
 

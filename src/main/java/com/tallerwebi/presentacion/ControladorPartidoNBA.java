@@ -1,12 +1,12 @@
 package com.tallerwebi.presentacion;
 
-import com.tallerwebi.dominio.CronologiaNBA;
-import com.tallerwebi.dominio.PartidoNBA;
-import com.tallerwebi.dominio.ServicioFecha;
-import com.tallerwebi.dominio.ServicioPartidoNBA;
+import com.tallerwebi.dominio.cronologiaNBA.CronologiaNBA;
 import com.tallerwebi.dominio.equipoNBA.ServicioEquipoNBA;
 import com.tallerwebi.dominio.equipoNBAJugador.ServicioEquipoNBAJugador;
 import com.tallerwebi.dominio.excepcion.PartidoFinalizadoException;
+import com.tallerwebi.dominio.fecha.ServicioFecha;
+import com.tallerwebi.dominio.partidoNBA.PartidoNBA;
+import com.tallerwebi.dominio.partidoNBA.ServicioPartidoNBA;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+
+;
 
 @Controller
 public class ControladorPartidoNBA {

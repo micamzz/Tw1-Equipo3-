@@ -1,7 +1,7 @@
 package com.tallerwebi.dominio.equipoNBAJugador;
 
-import com.tallerwebi.dominio.Jugador;
-import com.tallerwebi.dominio.Posicion;
+import com.tallerwebi.dominio.jugador.Jugador;
+import com.tallerwebi.dominio.enums.Posicion;
 import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
 import com.tallerwebi.dominio.excepcion.elJugadorYaExisteEnElEquipoException;
 

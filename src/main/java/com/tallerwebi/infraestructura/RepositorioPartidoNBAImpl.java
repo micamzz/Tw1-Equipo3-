@@ -1,7 +1,7 @@
 package com.tallerwebi.infraestructura;
 
-import com.tallerwebi.dominio.PartidoNBA;
-import com.tallerwebi.dominio.RepositorioPartidoNBA;
+import com.tallerwebi.dominio.partidoNBA.PartidoNBA;
+import com.tallerwebi.dominio.partidoNBA.RepositorioPartidoNBA;
 import com.tallerwebi.dominio.equipoNBA.EstadoPartido;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;

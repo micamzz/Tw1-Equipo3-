@@ -1,8 +1,8 @@
 package com.tallerwebi.infraestructura;
 
-import com.tallerwebi.dominio.EstadoFecha;
-import com.tallerwebi.dominio.Fecha;
-import com.tallerwebi.dominio.RepositorioFecha;
+import com.tallerwebi.dominio.enums.EstadoFecha;
+import com.tallerwebi.dominio.fecha.Fecha;
+import com.tallerwebi.dominio.fecha.RepositorioFecha;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;

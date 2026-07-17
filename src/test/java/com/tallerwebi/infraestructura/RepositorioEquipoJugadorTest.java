@@ -1,6 +1,6 @@
 //package com.tallerwebi.infraestructura;
 //
-//import com.tallerwebi.dominio.Jugador;
+//import com.tallerwebi.dominio.jugador.Jugador;
 //import com.tallerwebi.dominio.equipo.Equipo;
 //import com.tallerwebi.dominio.equipoJugador.EquipoJugador;
 //import com.tallerwebi.dominio.equipoJugador.RepositorioEquipoJugador;

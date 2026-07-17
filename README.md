@@ -234,60 +234,17 @@ test
 
 ```
 
-Tecnologías utilizadas:
-
-- JUnit 5
-- Mockito
-
 # Tecnologías utilizadas
 
 | Backend    | Frontend   | Persistencia | Testing | Herramientas  |
 |------------|------------|--------------|---------|---------------|
-| Java 17    | HTML5      | Hibernate    | JUnit 5 | Maven         |
+| Java 11    | HTML5      | Hibernate    | JUnit 5 | Maven         |
 | Spring MVC | CSS3       | JPA          | Mockito | Git           |
 | Spring     | JavaScript | MySQL        |         | GitHub        |
 |            | Bootstrap  |              |         | IntelliJ IDEA |
 
-# ▶ Instalación
-
-### 1. Clonar el repositorio
-
-```bash
-git clone https://github.com/usuario/nba-fantasy-manager.git
-```
-
-### 2. Ingresar al proyecto
-
-```bash
-cd nba-fantasy-manager
-```
-
-### 3. Compilar
-
-```bash
-mvn clean install
-```
-
-### 4. Ejecutar
-
-```bash
-mvn tomcat7:run
-```
-
-# Capturas
-
-### Login
-
-### Home
-
-### Crear Equipo
-
-### Administración de Jugadores
-
-# Equipo de desarrollo
-
-Trabajo Práctico Grupal desarrollado para la materia **Taller Web I** de la **Universidad Nacional de La Matanza (UNLaM)
-**.
+Trabajo Práctico Grupal desarrollado para la materia **Taller Web I** de la **Universidad Nacional de La Matanza (
+UNLaM).
 
 
 

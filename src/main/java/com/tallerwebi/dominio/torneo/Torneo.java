@@ -1,0 +1,108 @@
+package com.tallerwebi.dominio.torneo;
+
+
+import com.tallerwebi.dominio.enums.TipoTorneo;
+import com.tallerwebi.dominio.enums.EstadoTorneo;
+import com.tallerwebi.dominio.temporada.Temporada;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.persistence.*;
+import java.time.LocalDate;
+
+@Entity
+public class Torneo {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "nombreTorneo", unique = true, nullable = false)
+    private String nombreTorneo;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipoTorneo", nullable = false)
+    private TipoTorneo tipoTorneo;
+
+    @Column(name = "fechaInicio", nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate fechaInicio;
+
+    @Column(name = "fechaFin", nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    protected LocalDate fechaFin;
+
+    @ManyToOne
+    private Temporada temporada;
+
+    public Torneo() {
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getNombreTorneo() {
+        return nombreTorneo;
+    }
+
+    public void setNombreTorneo(String nombreTorneo) {
+        this.nombreTorneo = nombreTorneo;
+    }
+
+    public LocalDate getFechaInicio() {
+        return fechaInicio;
+    }
+
+    public void setFechaInicio(LocalDate fechaInicio) {
+        this.fechaInicio = fechaInicio;
+    }
+
+    public LocalDate getFechaFin() {
+        return fechaFin;
+    }
+
+    public void setFechaFin(LocalDate fechaFin) {
+        this.fechaFin = fechaFin;
+    }
+
+
+    public TipoTorneo getTipoTorneo() {
+        return tipoTorneo;
+    }
+
+    public void setTipoTorneo(TipoTorneo tipoTorneo) {
+        this.tipoTorneo = tipoTorneo;
+    }
+
+    @Transient //parametro calculado, no se guarda en la BBDD
+    public EstadoTorneo getEstadoTorneo() {
+
+        LocalDate hoy = LocalDate.now();
+
+        if (hoy.isBefore(fechaInicio)) {
+            return EstadoTorneo.POR_INICIAR;
+        }
+
+        if (hoy.isAfter(fechaFin)) {
+            return EstadoTorneo.FINALIZADO;
+        }
+
+        return EstadoTorneo.EN_CURSO;
+
+    }
+
+    public Temporada getTemporada() {
+        return temporada;
+    }
+
+    public void setTemporada(Temporada temporada) {
+        this.temporada = temporada;
+    }
+
+    {
+
+    }
+}

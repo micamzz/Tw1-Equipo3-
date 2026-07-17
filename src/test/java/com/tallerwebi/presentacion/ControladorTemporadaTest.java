@@ -1,8 +1,8 @@
 package com.tallerwebi.presentacion;
 
-import com.tallerwebi.dominio.Jugador;
-import com.tallerwebi.dominio.ServicioTorneo;
-import com.tallerwebi.dominio.Torneo;
+import com.tallerwebi.dominio.jugador.Jugador;
+import com.tallerwebi.dominio.torneo.ServicioTorneo;
+import com.tallerwebi.dominio.torneo.Torneo;
 import com.tallerwebi.dominio.equipoNBA.EquipoNBA;
 import com.tallerwebi.dominio.equipoNBA.ServicioEquipoNBA;
 import com.tallerwebi.dominio.equipoNBAJugador.ServicioEquipoNBAJugador;
