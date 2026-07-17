@@ -1,15 +1,14 @@
 package com.tallerwebi.presentacion;
 
-import com.tallerwebi.dominio.PartidoNBA;
-import com.tallerwebi.dominio.ServicioFormacion;
-import com.tallerwebi.dominio.ServicioPartidoNBA;
+import com.tallerwebi.dominio.partidoNBA.PartidoNBA;
+import com.tallerwebi.dominio.formacion.ServicioFormacion;
+import com.tallerwebi.dominio.partidoNBA.ServicioPartidoNBA;
 import com.tallerwebi.dominio.equipoNBAJugador.ServicioEquipoNBAJugador;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -78,11 +77,11 @@ public class ControladorFormacion {
                 "redirect:/admin/formacion?idPartido=" + idPartido);
     }
 
-    @PostMapping ("/admin/formacion/eliminar")
+    @PostMapping("/admin/formacion/eliminar")
     public ModelAndView eliminarJugador(
             @RequestParam Long idFormacion,
             @RequestParam Long idPartido
-            ) {
+    ) {
         servicioFormacion.quitarJugador(idFormacion);
         return new ModelAndView(
                 "redirect:/admin/formacion?idPartido=" + idPartido);

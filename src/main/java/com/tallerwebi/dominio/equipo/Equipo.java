@@ -1,7 +1,7 @@
 package com.tallerwebi.dominio.equipo;
 
-import com.tallerwebi.dominio.Torneo;
-import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.torneo.Torneo;
+import com.tallerwebi.dominio.usuario.Usuario;
 
 import javax.persistence.*;
 

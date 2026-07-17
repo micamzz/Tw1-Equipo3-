@@ -1,6 +1,6 @@
 package com.tallerwebi.dominio.equipo;
 
-import com.tallerwebi.dominio.Fecha;
+import com.tallerwebi.dominio.fecha.Fecha;
 import com.tallerwebi.dominio.enums.PosicionJugadorEquipo;
 import com.tallerwebi.dominio.equipoJugador.EquipoJugador;
 import com.tallerwebi.dominio.excepcion.*;

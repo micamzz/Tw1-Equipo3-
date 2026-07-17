@@ -1,10 +1,15 @@
 package com.tallerwebi.dominio.equipoNBAJugador;
 
-import com.tallerwebi.dominio.*;
+import com.tallerwebi.dominio.enums.Posicion;
+import com.tallerwebi.dominio.enums.TipoTorneo;
 import com.tallerwebi.dominio.equipoNBA.EquipoNBA;
 import com.tallerwebi.dominio.equipoNBA.RepositorioEquipoNBA;
 import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
 import com.tallerwebi.dominio.excepcion.elJugadorYaExisteEnElEquipoException;
+import com.tallerwebi.dominio.jugador.Jugador;
+import com.tallerwebi.dominio.jugador.RepositorioJugador;
+import com.tallerwebi.dominio.torneo.ServicioTorneo;
+import com.tallerwebi.dominio.torneo.Torneo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

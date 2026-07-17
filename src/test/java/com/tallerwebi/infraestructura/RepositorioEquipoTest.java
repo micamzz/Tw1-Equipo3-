@@ -1,7 +1,7 @@
 package com.tallerwebi.infraestructura;
 
-import com.tallerwebi.dominio.TipoTorneo;
-import com.tallerwebi.dominio.Torneo;
+import com.tallerwebi.dominio.enums.TipoTorneo;
+import com.tallerwebi.dominio.torneo.Torneo;
 import com.tallerwebi.dominio.equipo.Equipo;
 import com.tallerwebi.dominio.equipo.RepositorioEquipo;
 import com.tallerwebi.integracion.config.HibernateTestConfig;

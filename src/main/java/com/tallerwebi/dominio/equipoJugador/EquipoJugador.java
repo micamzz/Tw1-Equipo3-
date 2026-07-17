@@ -1,7 +1,7 @@
 package com.tallerwebi.dominio.equipoJugador;
 
-import com.tallerwebi.dominio.Fecha;
-import com.tallerwebi.dominio.Jugador;
+import com.tallerwebi.dominio.fecha.Fecha;
+import com.tallerwebi.dominio.jugador.Jugador;
 import com.tallerwebi.dominio.enums.PosicionJugadorEquipo;
 import com.tallerwebi.dominio.equipo.Equipo;
 
@@ -32,7 +32,7 @@ public class EquipoJugador {
     public EquipoJugador() {
 
     }
-    
+
     public Long getId() {
         return id;
     }

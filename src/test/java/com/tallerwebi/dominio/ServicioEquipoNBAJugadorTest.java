@@ -1,5 +1,7 @@
 package com.tallerwebi.dominio;
 
+import com.tallerwebi.dominio.enums.Posicion;
+import com.tallerwebi.dominio.enums.TipoTorneo;
 import com.tallerwebi.dominio.equipoNBA.EquipoNBA;
 import com.tallerwebi.dominio.equipoNBA.RepositorioEquipoNBA;
 import com.tallerwebi.dominio.equipoNBAJugador.EquipoNBAJugador;
@@ -8,6 +10,10 @@ import com.tallerwebi.dominio.equipoNBAJugador.ServicioEquipoNBAJugadorImpl;
 import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
 import com.tallerwebi.dominio.excepcion.TemporadaActualNoEncontradaException;
 import com.tallerwebi.dominio.excepcion.elJugadorYaExisteEnElEquipoException;
+import com.tallerwebi.dominio.jugador.Jugador;
+import com.tallerwebi.dominio.jugador.RepositorioJugador;
+import com.tallerwebi.dominio.torneo.ServicioTorneo;
+import com.tallerwebi.dominio.torneo.Torneo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -98,7 +104,7 @@ public class ServicioEquipoNBAJugadorTest {
         when(servicioTorneoMock.obtenerTorneoActual(TipoTorneo.REAL)).thenReturn(torneo);
 
         when(repositorioEquipoNBAJugadorMock.jugadorPerteneceAUnEquipoEnElTorneo(idJugador, idTorneo)).thenReturn(true);
-     
+
         assertThrows(elJugadorYaExisteEnElEquipoException.class, () -> servicio.agregarJugadorAlEquipo(idEquipo, idJugador)
         );
     }

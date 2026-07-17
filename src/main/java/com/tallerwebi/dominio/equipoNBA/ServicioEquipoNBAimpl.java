@@ -1,7 +1,7 @@
 package com.tallerwebi.dominio.equipoNBA;
 
-import com.tallerwebi.dominio.RepositorioJugador;
-import com.tallerwebi.dominio.ServicioTorneo;
+import com.tallerwebi.dominio.jugador.RepositorioJugador;
+import com.tallerwebi.dominio.torneo.ServicioTorneo;
 import com.tallerwebi.dominio.equipoNBAJugador.RepositorioEquipoNBAJugador;
 import com.tallerwebi.dominio.excepcion.EquipoNoEncontradoException;
 import org.springframework.beans.factory.annotation.Autowired;

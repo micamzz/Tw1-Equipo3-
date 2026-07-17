@@ -1,10 +1,8 @@
 package com.tallerwebi.infraestructura;
 
-import com.tallerwebi.dominio.EventoPartido;
-import com.tallerwebi.dominio.FormacionPartido;
-import com.tallerwebi.dominio.RepositorioEventoPartido;
+import com.tallerwebi.dominio.eventoPartido.EventoPartido;
+import com.tallerwebi.dominio.eventoPartido.RepositorioEventoPartido;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 

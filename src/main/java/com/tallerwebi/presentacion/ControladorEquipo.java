@@ -1,12 +1,17 @@
 package com.tallerwebi.presentacion;
 
-import com.tallerwebi.dominio.*;
+import com.tallerwebi.dominio.enums.Posicion;
 import com.tallerwebi.dominio.enums.PosicionJugadorEquipo;
+import com.tallerwebi.dominio.enums.TipoTorneo;
 import com.tallerwebi.dominio.equipo.Equipo;
 import com.tallerwebi.dominio.equipo.ServicioEquipo;
 import com.tallerwebi.dominio.equipoJugador.EquipoJugador;
 import com.tallerwebi.dominio.equipoJugador.ServicioEquipoJugador;
 import com.tallerwebi.dominio.excepcion.*;
+import com.tallerwebi.dominio.fecha.Fecha;
+import com.tallerwebi.dominio.fecha.ServicioFecha;
+import com.tallerwebi.dominio.torneo.ServicioTorneo;
+import com.tallerwebi.dominio.usuario.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

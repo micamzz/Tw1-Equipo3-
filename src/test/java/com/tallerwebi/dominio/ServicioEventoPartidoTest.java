@@ -1,9 +1,20 @@
 package com.tallerwebi.dominio;
 
+import com.tallerwebi.dominio.enums.TipoEstadistica;
 import com.tallerwebi.dominio.equipoNBA.EstadoPartido;
+import com.tallerwebi.dominio.eventoPartido.EventoPartido;
+import com.tallerwebi.dominio.eventoPartido.RepositorioEventoPartido;
+import com.tallerwebi.dominio.eventoPartido.ServicioEventoPartido;
+import com.tallerwebi.dominio.eventoPartido.ServicioEventoPartidoImpl;
 import com.tallerwebi.dominio.excepcion.*;
+import com.tallerwebi.dominio.formacion.RepositorioFormacion;
+import com.tallerwebi.dominio.jugador.Jugador;
+import com.tallerwebi.dominio.jugador.RepositorioJugador;
+import com.tallerwebi.dominio.partidoNBA.PartidoNBA;
+import com.tallerwebi.dominio.partidoNBA.RepositorioPartidoNBA;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,30 +47,31 @@ public class ServicioEventoPartidoTest {
                 repositorioFormacionMock
         );
     }
-/*
-    @Test
-    public void queSePuedaRegistrarUnEventoExitosamente() throws Exception {
-        // Preparación
-        Long idPartido = 1L;
-        Long idJugador = 10L;
-        LocalTime momento = LocalTime.of(0, 10, 0);
 
-        PartidoNBA partido = new PartidoNBA();
-        partido.setEstadoPartido(EstadoPartido.EN_VIVO);
+    /*
+        @Test
+        public void queSePuedaRegistrarUnEventoExitosamente() throws Exception {
+            // Preparación
+            Long idPartido = 1L;
+            Long idJugador = 10L;
+            LocalTime momento = LocalTime.of(0, 10, 0);
 
-        Jugador jugador = new Jugador();
+            PartidoNBA partido = new PartidoNBA();
+            partido.setEstadoPartido(EstadoPartido.EN_VIVO);
 
-        when(repositorioPartidoNBAMock.buscarPorId(idPartido)).thenReturn(partido);
-        when(repositorioJugadorMock.buscarJugadorPorId(idJugador)).thenReturn(jugador);
-        when(repositorioFormacionMock.jugadorYaEstaEnFormacion(idPartido, idJugador)).thenReturn(true);
+            Jugador jugador = new Jugador();
 
-        // Ejecución
-        servicioEventoPartido.registrarEvento(idPartido, idJugador, momento, TipoEstadistica.TRIPLE, true);
+            when(repositorioPartidoNBAMock.buscarPorId(idPartido)).thenReturn(partido);
+            when(repositorioJugadorMock.buscarJugadorPorId(idJugador)).thenReturn(jugador);
+            when(repositorioFormacionMock.jugadorYaEstaEnFormacion(idPartido, idJugador)).thenReturn(true);
 
-        // Verificación
-        verify(repositorioEventoPartidoMock, times(1)).guardarEventoPartido(any(EventoPartido.class));
-    }
-^*/
+            // Ejecución
+            servicioEventoPartido.registrarEvento(idPartido, idJugador, momento, TipoEstadistica.TRIPLE, true);
+
+            // Verificación
+            verify(repositorioEventoPartidoMock, times(1)).guardarEventoPartido(any(EventoPartido.class));
+        }
+    ^*/
     @Test
     public void queLanceExcepcionSiElPartidoNoExiste() {
         when(repositorioPartidoNBAMock.buscarPorId(1L)).thenReturn(null);

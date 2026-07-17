@@ -1,7 +1,7 @@
 package com.tallerwebi.infraestructura;
 
-import com.tallerwebi.dominio.CronologiaNBA;
-import com.tallerwebi.dominio.RepositorioCronologiaNBA;
+import com.tallerwebi.dominio.cronologiaNBA.CronologiaNBA;
+import com.tallerwebi.dominio.cronologiaNBA.RepositorioCronologiaNBA;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;

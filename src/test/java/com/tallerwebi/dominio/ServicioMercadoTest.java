@@ -1,5 +1,12 @@
 package com.tallerwebi.dominio;
 
+import com.tallerwebi.dominio.enums.Posicion;
+import com.tallerwebi.dominio.eventoPartido.RepositorioEventoPartido;
+import com.tallerwebi.dominio.jugador.Jugador;
+import com.tallerwebi.dominio.jugador.RendimientoJugador;
+import com.tallerwebi.dominio.jugador.RepositorioJugador;
+import com.tallerwebi.dominio.mercado.ServicioMercado;
+import com.tallerwebi.dominio.mercado.ServicioMercadoImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

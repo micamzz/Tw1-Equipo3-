@@ -1,8 +1,8 @@
 package com.tallerwebi.presentacion;
 
-import com.tallerwebi.dominio.ServicioTorneo;
-import com.tallerwebi.dominio.TipoTorneo;
-import com.tallerwebi.dominio.Torneo;
+import com.tallerwebi.dominio.torneo.ServicioTorneo;
+import com.tallerwebi.dominio.enums.TipoTorneo;
+import com.tallerwebi.dominio.torneo.Torneo;
 import com.tallerwebi.dominio.excepcion.NoSePuedeEliminarUnTorneoSiTieneEquiposAsociadosException;
 import com.tallerwebi.dominio.excepcion.NombreDeTorneoEnBlancoException;
 import org.junit.jupiter.api.BeforeEach;

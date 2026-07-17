@@ -1,6 +1,6 @@
 package com.tallerwebi.config;
 
-import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.usuario.Usuario;
 import com.tallerwebi.dominio.enums.RolUsuario;
 import org.springframework.web.servlet.HandlerInterceptor;
 

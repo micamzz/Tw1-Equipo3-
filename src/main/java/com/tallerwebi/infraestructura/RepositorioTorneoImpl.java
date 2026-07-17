@@ -1,8 +1,8 @@
 package com.tallerwebi.infraestructura;
 
-import com.tallerwebi.dominio.RepositorioTorneo;
-import com.tallerwebi.dominio.TipoTorneo;
-import com.tallerwebi.dominio.Torneo;
+import com.tallerwebi.dominio.torneo.RepositorioTorneo;
+import com.tallerwebi.dominio.enums.TipoTorneo;
+import com.tallerwebi.dominio.torneo.Torneo;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;

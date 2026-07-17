@@ -1,9 +1,9 @@
 package com.tallerwebi.infraestructura;
 
-import com.tallerwebi.dominio.Jugador;
-import com.tallerwebi.dominio.Posicion;
-import com.tallerwebi.dominio.RendimientoJugador;
-import com.tallerwebi.dominio.RepositorioJugador;
+import com.tallerwebi.dominio.jugador.Jugador;
+import com.tallerwebi.dominio.enums.Posicion;
+import com.tallerwebi.dominio.jugador.RendimientoJugador;
+import com.tallerwebi.dominio.jugador.RepositorioJugador;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,7 +91,7 @@ public class RepositorioJugadorImpl implements RepositorioJugador {
         criteria.add(Restrictions.eq("jugador.id", jugadorId));
         criteria.add(Restrictions.isNotNull("partidoNBA"));
         return criteria.list();
-        }
+    }
 
     @Override
     public void guardarRendimiento(RendimientoJugador rendimiento) {

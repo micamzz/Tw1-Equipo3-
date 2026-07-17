@@ -1,5 +1,9 @@
 package com.tallerwebi.dominio;
 
+import com.tallerwebi.dominio.enums.TipoEstadistica;
+import com.tallerwebi.dominio.jugador.Jugador;
+import com.tallerwebi.dominio.partidoNBA.PartidoNBA;
+
 import javax.persistence.*;
 
 @Entity
@@ -16,8 +20,6 @@ public class Estadistica {
 
     @ManyToOne
     private Jugador jugador;
-
-
 
 
     public Estadistica() {

@@ -1,8 +1,8 @@
 //package com.tallerwebi.presentacion;
 //
-//import com.tallerwebi.dominio.Posicion;
-//import com.tallerwebi.dominio.ServicioTorneo;
-//import com.tallerwebi.dominio.Usuario;
+//import com.tallerwebi.dominio.enums.Posicion;
+//import com.tallerwebi.dominio.torneo.ServicioTorneo;
+//import com.tallerwebi.dominio.usuario.Usuario;
 //import com.tallerwebi.dominio.equipo.Equipo;
 //import com.tallerwebi.dominio.equipo.ServicioEquipo;
 //import com.tallerwebi.dominio.equipoJugador.ServicioEquipoJugador;

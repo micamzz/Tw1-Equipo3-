@@ -1,7 +1,7 @@
 package com.tallerwebi.integracion.config;
 
 import com.tallerwebi.config.AdminInterceptor;
-import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.usuario.Usuario;
 import com.tallerwebi.dominio.enums.RolUsuario;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
