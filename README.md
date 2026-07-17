@@ -156,11 +156,17 @@ El proyecto incorpora distintos niveles de pruebas automatizadas.
 ## Capturas de Pantalla
 
 <p align="center">
-  <img src="docs/landing.png" alt="Landing Page" width="48%">
-  <img src="docs/home-admin.png" alt="Panel de Administración" width="48%">
+  <img src="docs/landing.png" alt="Landing Page" width="95%">
 </p>
 
 <p align="center">
-  <img src="docs/admin-fecha.png" alt="Gestión de Fechas" width="48%">
-  <img src="docs/user-equipo.png" alt="Equipo Fantasy" width="48%">
+  <img src="docs/home-admin.png" alt="Panel de Administración" width="95%">
+</p>
+
+<p align="center">
+  <img src="docs/admin-fecha.png" alt="Gestión de Fechas" width="95%">
+</p>
+
+<p align="center">
+  <img src="docs/user-equipo.png" alt="Equipo Fantasy" width="95%">
 </p>
