@@ -14,19 +14,6 @@ import java.util.Properties;
 @EnableTransactionManagement
 public class HibernateConfig {
 
-  /*
-  @Bean
-  public DataSource dataSource2() {
-    DriverManagerDataSource dataSource = new DriverManagerDataSource();
-    dataSource.setDriverClassName("org.hsqldb.jdbcDriver");
-    dataSource.setUrl("jdbc:hsqldb:mem:db_");
-    dataSource.setUsername("sa");
-    dataSource.setPassword("");
-    return dataSource;
-  }
-
-   */
-
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -56,7 +43,7 @@ public class HibernateConfig {
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MariaDBDialect");
         properties.setProperty("hibernate.show_sql", "true");
         properties.setProperty("hibernate.format_sql", "true");
-        properties.setProperty("hibernate.hbm2ddl.auto", "create");
+        properties.setProperty("hibernate.hbm2ddl.auto", "update");
         return properties;
     }
 }
